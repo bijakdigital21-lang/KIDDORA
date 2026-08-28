@@ -81,12 +81,13 @@
             // URL platform tujuan dengan auto-fill parameter lengkap untuk Reseller & Customer
             const targetBaseUrl = "https://bijakbelajar.bcl.my/form/customer-registration";
             const params = new URLSearchParams({
-
-                  // Ambil data reseller untuk dibawa ke page BCL nanti
-            const resellerNama = document.getElementById('reseller_nama').value;
-            const resellerEmail = document.getElementById('reseller_email').value;
-            const resellerNofon = document.getElementById('reseller_nofon').value;
-            
+                // Parameter untuk Reseller (Diselaraskan pelbagai variasi nama parameter BCL)
+                nama: resellerNama,
+                email: resellerEmail,
+                no_telefon: resellerNofon,
+                reseller_nama: resellerNama,
+                reseller_email: resellerEmail,
+                reseller_nofon: resellerNofon,
                 
                 // Parameter untuk Customer
                 cust_nama: custNama,
@@ -97,11 +98,6 @@
             const redirectUrl = `${targetBaseUrl}?${params.toString()}`;
 
             alert("Pendaftaran berjaya dihantar! Anda akan dibawa ke platform seterusnya.");
-
-        // 4. Bina URL target menggunakan data reseller untuk dibawa ke BCL
-            const baseUrl = "https://bijakbelajar.bcl.my/form/customer-registration";
-            const targetUrl = `${baseUrl}?name=${encodeURIComponent(resellerNama)}&email=${encodeURIComponent(resellerEmail)}&phone=${encodeURIComponent(resellerNofon)}`;
-
             
             // Redirect automatik
             window.location.href = redirectUrl;
