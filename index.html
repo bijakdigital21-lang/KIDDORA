@@ -3,313 +3,1209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendaftaran Pantas - Bijak Belajar</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript">
-       (function(){
-          emailjs.init("fn_2mv2164kWUf8J7"); // Public Key anda
-       })();
-    </script>
+    <title>KIDDORA - Learn, Play & Grow!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.5.1/confetti.browser.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            font-family: 'Fredoka', cursive, sans-serif;
+        }
 
-  <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, set, get, remove, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        body {
+            /* Imej latar belakang utama aplikasi dengan kesan overlay */
+            background: linear-gradient(135deg, rgba(30, 60, 114, 0.6) 0%, rgba(42, 82, 152, 0.6) 100%), url('https://i.imgur.com/vB28UDe.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            overflow-x: hidden;
+        }
 
-        // Firebase Config Anda
-        const firebaseConfig = {
-            apiKey: "AIzaSyDXc06B8WLtqjkG0aScBHrd3L3M-n_5okc",
-            authDomain: "grammar-hub-6af80.firebaseapp.com",
-            databaseURL: "https://grammar-hub-6af80-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "grammar-hub-6af80",
-            storageBucket: "grammar-hub-6af80.firebasestorage.app",
-            messagingSenderId: "1092171234032",
-            appId: "1:1092171234032:web:7cc8efefb812993500e035"
-        };
+        #app-container {
+            width: 100%;
+            max-width: 480px;
+            height: 100vh;
+            max-height: 900px;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border-radius: 0;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getDatabase(app);
-
-        // 1. Fungsi Handle Register (Simpan ke Pending Approval dahulu)
-        window.handleRegister = async function(event) {
-            event.preventDefault();
-
-            const submitBtn = event.target.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Menghantar Permohonan...";
-
-            const custNama = document.getElementById('cust_nama').value;
-            const custEmail = document.getElementById('cust_email').value;
-            const custNofon = document.getElementById('cust_nofon').value;
-            const defaultPassword = "GH548257af";
-
-            const resellerNama = document.getElementById('reseller_nama').value;
-            const resellerEmail = document.getElementById('reseller_email').value;
-            const resellerNofon = document.getElementById('reseller_nofon').value;
-
-            try {
-                // Jana ID unik berasaskan timestamp
-                const requestId = 'req_' + Date.now();
-
-                // Simpan ke node 'pending_customers' dalam Firebase DB
-                await set(ref(db, 'pending_customers/' + requestId), {
-                    cust_nama: custNama,
-                    cust_email: custEmail,
-                    cust_nofon: custNofon,
-                    default_password: defaultPassword,
-                    reseller_nama: resellerNama,
-                    reseller_email: resellerEmail,
-                    reseller_nofon: resellerNofon,
-                    createdAt: new Date().toISOString()
-                });
-
-                alert("Pendaftaran berjaya dihantar! Sila tunggu kelulusan daripada admin sebelum akaun diaktifkan.");
-                
-                // Reset form
-                event.target.reset();
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Register & Teruskan";
-
-            } catch (error) {
-                console.error("Ralat menyimpan data:", error);
-                alert("Gagal menghantar pendaftaran: " + error.message);
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Register & Teruskan";
+        @media (min-width: 500px) {
+            #app-container {
+                border-radius: 35px;
+                height: 88vh;
             }
         }
 
-        // 2. Fungsi Papar Modal Admin
-        window.openAdminModal = function() {
-            const password = prompt("Masukkan Kata Laluan Admin:");
-            if (password === "019681") {
-                document.getElementById('adminModal').classList.remove('hidden');
-                loadPendingCustomers();
-            } else if (password !== null) {
-                alert("Kata laluan salah!");
-            }
+        /* Common Screen Styles */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: #fffdf9;
+            transition: transform 0.3s ease-in-out;
+            z-index: 10;
+            overflow-y: auto;
         }
 
-        window.closeAdminModal = function() {
-            document.getElementById('adminModal').classList.add('hidden');
+        .screen.hidden {
+            display: none;
         }
 
-        // 3. Muat turun senarai Pending dari Firebase
-        async function loadPendingCustomers() {
-            const tableBody = document.getElementById('adminTableBody');
-            tableBody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-slate-500">Memuatkan data...</td></tr>`;
-
-            try {
-                const dbRef = ref(db);
-                const snapshot = await get(child(dbRef, 'pending_customers'));
-                
-                if (snapshot.exists()) {
-                    tableBody.innerHTML = "";
-                    const data = snapshot.val();
-                    
-                    Object.keys(data).forEach(key => {
-                        const item = data[key];
-                        const row = `
-                            <tr class="border-b hover:bg-slate-50">
-                                <td class="px-4 py-3">
-                                    <div class="font-medium text-slate-800">${item.cust_nama}</div>
-                                    <div class="text-xs text-slate-500">${item.cust_email} | ${item.cust_nofon}</div>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <div class="text-slate-700">${item.reseller_nama}</div>
-                                    <div class="text-xs text-slate-500">${item.reseller_email}</div>
-                                </td>
-                                <td class="px-4 py-3 text-xs text-slate-500">${new Date(item.createdAt).toLocaleString()}</td>
-                                <td class="px-4 py-3 text-right">
-                                    <button onclick="approveCustomer('${key}')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 py-1.5 rounded font-medium shadow">
-                                        Approve
-                                    </button>
-                                </td>
-                            </tr>
-                        `;
-                        tableBody.innerHTML += row;
-                    });
-                } else {
-                    tableBody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-slate-500">Tiada pendaftaran baru menanti kelulusan.</td></tr>`;
-                }
-            } catch (error) {
-                console.error(error);
-                tableBody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-red-500">Gagal memuatkan data.</td></tr>`;
-            }
+        /* Header */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: #ffebb3;
+            border-bottom: 4px solid #ffd27f;
+            border-radius: 0 0 25px 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        // 4. Fungsi Approve Customer (Create Auth + Kirim Email + Redirect URL)
-        window.approveCustomer = async function(requestId) {
-            if (!confirm("Adakah anda pasti untuk luluskan (approve) pendaftaran ini?")) return;
-
-            try {
-                // Ambil data dari pending_customers
-                const dbRef = ref(db);
-                const snapshot = await get(child(dbRef, `pending_customers/${requestId}`));
-                
-                if (!snapshot.exists()) {
-                    alert("Data tidak dijumpai.");
-                    return;
-                }
-
-                const item = snapshot.val();
-
-                // A. Create User di Firebase Authentication
-                const userCredential = await createUserWithEmailAndPassword(auth, item.cust_email, item.default_password);
-                const user = userCredential.user;
-
-                // B. Simpan data rasmi dalam node 'users/'
-                await set(ref(db, 'users/' + user.uid), {
-                    nama: item.cust_nama,
-                    email: item.cust_email,
-                    nofon: item.cust_nofon,
-                    reseller_rujukan: item.reseller_nama,
-                    createdAt: new Date().toISOString()
-                });
-
-                // C. Hantar Emel melalui EmailJS
-                const templateParams = {
-                    to_name: item.cust_nama,
-                    to_email: item.cust_email,
-                    password: item.default_password
-                };
-                await emailjs.send('service_hd5rpgc', 'template_9sh4gw2', templateParams);
-
-                // D. Padam data daripada 'pending_customers'
-                await remove(ref(db, `pending_customers/${requestId}`));
-
-                alert("Berjaya di-approve! Akaun telah dicipta dan emel telah dihantar.");
-                
-                // Segar semula senarai admin & buka link BCL untuk rujukan jika perlu
-                loadPendingCustomers();
-
-                const baseUrl = "https://bijakbelajar.bcl.my/form/customer-registration";
-                const targetUrl = `${baseUrl}?name=${encodeURIComponent(item.reseller_nama)}&email=${encodeURIComponent(item.reseller_email)}&phone=${encodeURIComponent(item.reseller_nofon)}`;
-                
-                // Buka tab BCL secara automatik (pilihan)
-                window.open(targetUrl, '_blank');
-
-            } catch (error) {
-                console.error("Ralat semasa kelulusan:", error);
-                alert("Gagal meluluskan pendaftaran: " + error.message);
-            }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-    </script>
+
+        .logo-icon {
+            font-size: 28px;
+            background: #ff6b6b;
+            color: white;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 4px 0 #c92a2a;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff6b6b;
+            text-shadow: 1px 1px 0px #fff;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #ddd;
+            transition: all 0.1s;
+        }
+
+        .icon-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #ddd;
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            background: white;
+            padding: 10px 5px;
+            border-top: 3px solid #eee;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            color: #888;
+            transition: color 0.2s;
+        }
+
+        .nav-item span:first-child {
+            font-size: 24px;
+        }
+
+        .nav-item.active {
+            color: #ff6b6b;
+        }
+
+        /* Content Area */
+        .content-scroll {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            padding-bottom: 80px;
+        }
+
+        /* Buttons & Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 25px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 8px 0 rgba(0,0,0,0.08);
+            border: 4px solid transparent;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-card:active {
+            transform: translateY(6px);
+            box-shadow: 0 2px 0 rgba(0,0,0,0.08);
+        }
+
+        .menu-card.c1 { background: #ffe3e3; border-color: #ff8787; color: #c92a2a; }
+        .menu-card.c2 { background: #e3fafc; border-color: #3bc9db; color: #0b7285; }
+        .menu-card.c3 { background: #e6fcf5; border-color: #38d9a9; color: #0ca678; }
+        .menu-card.c4 { background: #fff3bf; border-color: #ffd43b; color: #f08c00; }
+        .menu-card.c5 { background: #f3f0ff; border-color: #9775fa; color: #6741d9; }
+        .menu-card.c6 { background: #ffdeeb; border-color: #f06595; color: #a61e4d; }
+
+        .menu-card .card-icon {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+        .menu-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .menu-card p {
+            font-size: 12px;
+            opacity: 0.8;
+            font-weight: 600;
+        }
+
+        /* Common UI Elements */
+        .big-btn {
+            background: #40c057;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 20px;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #2b8a3e;
+            width: 100%;
+            margin-top: 15px;
+            transition: all 0.1s;
+        }
+
+        .big-btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 0 0 #2b8a3e;
+        }
+
+        .back-bar {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            background: #fff;
+            border: 3px solid #ff6b6b;
+            color: #ff6b6b;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #ff6b6b;
+        }
+
+        .back-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #ff6b6b;
+        }
+
+        /* Onboarding Screen */
+        #onboarding-screen {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .onboard-card {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 30px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 350px;
+        }
+
+        .avatar-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .avatar-opt {
+            font-size: 32px;
+            background: #f8f9fa;
+            border: 3px solid #dee2e6;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .avatar-opt.selected {
+            background: #ffe3e3;
+            border-color: #ff6b6b;
+            transform: scale(1.1);
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 15px;
+            border: 3px solid #ced4da;
+            border-radius: 20px;
+            font-size: 18px;
+            text-align: center;
+            outline: none;
+            margin: 15px 0;
+            font-family: 'Fredoka', cursive;
+        }
+
+        input[type="text"]:focus {
+            border-color: #ff6b6b;
+        }
+
+        .age-select {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .age-btn {
+            flex: 1;
+            padding: 12px 0;
+            background: #f8f9fa;
+            border: 3px solid #dee2e6;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .age-btn.selected {
+            background: #e3fafc;
+            border-color: #3bc9db;
+            color: #0b7285;
+        }
+
+        /* Activity Container */
+        .activity-box {
+            background: white;
+            border-radius: 25px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            border: 3px solid #f1f3f5;
+            margin-bottom: 20px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .option-btn {
+            background: #fff;
+            border: 3px solid #74c0fc;
+            border-radius: 20px;
+            padding: 20px;
+            font-size: 28px;
+            font-weight: 700;
+            color: #1c7ed6;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #74c0fc;
+            transition: all 0.1s;
+        }
+
+        .option-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 0 0 #74c0fc;
+        }
+
+        /* Parent Gate Modal */
+        #parent-gate-modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .gate-card {
+            background: white;
+            padding: 30px;
+            border-radius: 30px;
+            width: 85%;
+            max-width: 350px;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Progress bars */
+        .progress-container {
+            margin-bottom: 15px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            height: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #40c057;
+            height: 100%;
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+    </style>
 </head>
-<body class="bg-slate-50 flex flex-col items-center justify-center min-h-screen py-8">
+<body>
 
-    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-slate-100">
-        <div class="text-center mb-6">
-            <h2 class="text-2xl font-bold text-slate-800">CUSTOMER REGISTRATION</h2>
+<div id="app-container">
+
+    <!-- ONBOARDING SCREEN -->
+    <div id="onboarding-screen" class="screen">
+        <div class="onboard-card">
+            <h1 style="color: #ff6b6b; font-size: 32px; margin-bottom: 5px;">KIDDORA 🌈</h1>
+            <p style="color: #666; font-weight: 600; margin-bottom: 20px;">Learn, Play & Grow!</p>
+            
+            <div id="step-1">
+                <p style="font-weight: 600; margin-bottom: 10px;">Pilih Avatar Comel Kamu:</p>
+                <div class="avatar-grid" id="avatar-picker">
+                    <div class="avatar-opt selected" onclick="selectAvatar('👦')">👦</div>
+                    <div class="avatar-opt" onclick="selectAvatar('👧')">👧</div>
+                    <div class="avatar-opt" onclick="selectAvatar('🐰')">🐰</div>
+                    <div class="avatar-opt" onclick="selectAvatar('🐻')">🐻</div>
+                    <div class="avatar-opt" onclick="selectAvatar('🐱')">🐱</div>
+                    <div class="avatar-opt" onclick="selectAvatar('🐶')">🐶</div>
+                    <div class="avatar-opt" onclick="selectAvatar('🐼')">🐼</div>
+                    <div class="avatar-opt" onclick="selectAvatar('🦁')">🦁</div>
+                </div>
+                <input type="text" id="child-name-input" placeholder="Nama Kamu..." value="Ahmad">
+                
+                <p style="font-weight: 600; margin-top: 10px;">Umur Kamu:</p>
+                <div class="age-select">
+                    <button class="age-btn" onclick="selectAge(3)">3</button>
+                    <button class="age-btn selected" onclick="selectAge(4)">4</button>
+                    <button class="age-btn" onclick="selectAge(5)">5</button>
+                    <button class="age-btn" onclick="selectAge(6)">6</button>
+                </div>
+
+                <button class="big-btn" onclick="finishOnboarding()">Jom Mula! 🚀</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HOME SCREEN -->
+    <div id="home-screen" class="screen hidden">
+        <div class="app-header">
+            <div class="logo-area">
+                <div class="logo-icon" id="header-avatar">👦</div>
+                <div>
+                    <div class="logo-text">KIDDORA</div>
+                    <div style="font-size: 12px; font-weight: 700; color: #555;" id="header-name">Hi, Ahmad! 👋</div>
+                </div>
+            </div>
+            <div class="header-icons">
+                <button class="icon-btn" onclick="toggleSound()" id="sound-toggle-btn">🔊</button>
+                <button class="icon-btn" onclick="openParentGate()">⚙️</button>
+            </div>
         </div>
 
-        <form id="regForm" onsubmit="handleRegister(event)" class="space-y-6">
-            
-            <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg text-sm text-amber-900 space-y-1">
-                <p class="font-bold flex items-center gap-1.5">
-                    <span>⚠️</span> PERINGATAN PENTING
-                </p>
-                <p>Sila pastikan semua maklumat customer diisi dengan tepat dan lengkap.</p>
-                <p>Pastikan alamat email yang diberikan adalah betul dan aktif.</p>
+        <div class="content-scroll">
+            <div style="background: linear-gradient(135deg, #ff6b6b, #ffa8a8); color: white; padding: 20px; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(255,107,107,0.3);">
+                <h2 style="font-size: 22px; margin-bottom: 5px;">Apa nak belajar hari ini? ✨</h2>
+                <p style="font-size: 13px; opacity: 0.9;">Pilih permainan kesukaan kamu di bawah!</p>
             </div>
 
-            <div class="space-y-4 pb-4 border-b border-slate-200">
-                <h3 class="text-md font-semibold text-blue-700">MAKLUMAT CUSTOMER</h3>
-                
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Nama Customer</label>
-                    <input type="text" id="cust_nama" required 
-                        class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                        placeholder="Contoh: Siti Aminah">
+            <div class="card-grid">
+                <div class="menu-card c1" onclick="openModule('abc')">
+                    <div class="card-icon">🔤</div>
+                    <h3>Belajar ABC</h3>
+                    <p>Jom kenal huruf!</p>
                 </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Email Customer</label>
-                    <input type="email" id="cust_email" required 
-                        class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                        placeholder="customer@email.com">
+                <div class="menu-card c2" onclick="openModule('123')">
+                    <div class="card-icon">🔢</div>
+                    <h3>Belajar 123</h3>
+                    <p>Jom kenal nombor!</p>
                 </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">No. Telefon </label>
-                    <input type="tel" id="cust_nofon" required 
-                        class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                        placeholder="0123456789">
+                <div class="menu-card c3" onclick="openModule('counting')">
+                    <div class="card-icon">➕</div>
+                    <h3>Jom Mengira</h3>
+                    <p>Kira objek comel</p>
                 </div>
-            </div>
-
-            <div class="space-y-4">
-                <h3 class="text-md font-semibold text-emerald-700">MAKLUMAT RESELLER</h3>
-                
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Nama Reseller</label>
-                    <input type="text" id="reseller_nama" required 
-                        class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                        placeholder="Contoh: Ahmad Ali">
+                <div class="menu-card c4" onclick="openModule('matching')">
+                    <div class="card-icon">🧩</div>
+                    <h3>Suai Padan</h3>
+                    <p>Jom cari pasangan</p>
                 </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Email Reseller</label>
-                    <input type="email" id="reseller_email" required 
-                        class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                        placeholder="reseller@email.com">
+                <div class="menu-card c5" onclick="openModule('animals')">
+                    <div class="card-icon">🐯</div>
+                    <h3>Kenali Haiwan</h3>
+                    <p>Suara & nama haiwan</p>
                 </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">No. Telefon </label>
-                    <input type="tel" id="reseller_nofon" required 
-                        class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                        placeholder="0189876543">
+                <div class="menu-card c6" onclick="openModule('body')">
+                    <div class="card-icon">👦</div>
+                    <h3>Body Parts</h3>
+                    <p>Anggota badan kita</p>
                 </div>
             </div>
+        </div>
 
-            <button type="submit" 
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition duration-200 shadow-md">
-                Register & Teruskan
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-item active" onclick="switchNav('home')">
+                <span>🏠</span>
+                <span>Home</span>
             </button>
-        </form>
-
-        <div class="mt-6 pt-4 border-t border-slate-200 text-center">
-            <button onclick="openAdminModal()" class="text-xs text-slate-500 hover:text-slate-800 underline">
-                🔐 Log Masuk Admin
+            <button class="nav-item" onclick="switchNav('learn')">
+                <span>📚</span>
+                <span>Learn</span>
+            </button>
+            <button class="nav-item" onclick="switchNav('games')">
+                <span>🎮</span>
+                <span>Games</span>
+            </button>
+            <button class="nav-item" onclick="switchNav('rewards')">
+                <span>🏆</span>
+                <span>Rewards</span>
+            </button>
+            <button class="nav-item" onclick="switchNav('profile')">
+                <span>👤</span>
+                <span>Profile</span>
             </button>
         </div>
     </div>
 
-    <div id="adminModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div class="bg-slate-800 text-white px-6 py-4 flex justify-between items-center">
-                <h3 class="font-bold text-lg">Panel Admin - Senarai Pending Kelulusan</h3>
-                <button onclick="closeAdminModal()" class="text-slate-300 hover:text-white font-bold text-xl">&times;</button>
+    <!-- ABC MODULE SCREEN -->
+    <div id="module-abc" class="screen hidden">
+        <div class="app-header">
+            <div class="logo-area">
+                <button class="back-btn" style="width:35px;height:35px;font-size:16px;" onclick="closeModule()">⬅</button>
+                <div class="logo-text">🔤 Belajar ABC</div>
             </div>
-            
-            <div class="p-6 overflow-y-auto flex-1">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="border-b bg-slate-100 text-xs text-slate-600 uppercase">
-                                <th class="px-4 py-3">Maklumat Customer</th>
-                                <th class="px-4 py-3">Maklumat Reseller</th>
-                                <th class="px-4 py-3">Tarikh Mohon</th>
-                                <th class="px-4 py-3 text-right">Tindakan</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminTableBody">
-                            </tbody>
-                    </table>
-                </div>
+            <div style="font-weight: 700; color: #ff6b6b;" id="abc-score">⭐ 0</div>
+        </div>
+        <div class="content-scroll">
+            <div class="activity-box">
+                <div id="abc-display" style="font-size: 80px; font-weight: 700; color: #ff6b6b; margin-bottom: 10px;">A</div>
+                <div id="abc-img" style="font-size: 60px; margin-bottom: 10px;">🍎</div>
+                <div id="abc-word" style="font-size: 24px; font-weight: 700; color: #333; margin-bottom: 20px;">Apple</div>
+                <button class="big-btn" onclick="playCurrentABC()">🔊 Dengar Sebutan</button>
             </div>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button class="big-btn" style="background: #3bc9db;" onclick="prevABC()">Sebelumnya</button>
+                <button class="big-btn" style="background: #ff6b6b;" onclick="nextABC()">Seterusnya ➡️</button>
+            </div>
+            <button class="big-btn" style="background: #f08c00; margin-top: 10px;" onclick="startABCKuiz()">🎯 Main Kuiz Huruf</button>
+        </div>
+    </div>
 
-            <div class="bg-slate-100 px-6 py-3 text-right">
-                <button onclick="closeAdminModal()" class="bg-slate-600 hover:bg-slate-700 text-white text-sm px-4 py-2 rounded-lg font-medium">
-                    Tutup
-                </button>
+    <!-- 123 MODULE SCREEN -->
+    <div id="module-123" class="screen hidden">
+        <div class="app-header">
+            <div class="logo-area">
+                <button class="back-btn" style="width:35px;height:35px;font-size:16px;" onclick="closeModule()">⬅</button>
+                <div class="logo-text">🔢 Belajar 123</div>
+            </div>
+            <div style="font-weight: 700; color: #0b7285;" id="num-score">⭐ 0</div>
+        </div>
+        <div class="content-scroll">
+            <div class="activity-box">
+                <div id="num-display" style="font-size: 80px; font-weight: 700; color: #0b7285; margin-bottom: 10px;">1</div>
+                <div id="num-visual" style="font-size: 30px; margin-bottom: 10px; min-height: 45px;">🍎</div>
+                <div id="num-word" style="font-size: 24px; font-weight: 700; color: #333; margin-bottom: 20px;">One (Satu)</div>
+                <button class="big-btn" style="background: #3bc9db;" onclick="playCurrent123()">🔊 Dengar Nombor</button>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button class="big-btn" style="background: #ff8787;" onclick="prev123()">Sebelumnya</button>
+                <button class="big-btn" style="background: #3bc9db;" onclick="next123()">Seterusnya ➡️</button>
+            </div>
+            <button class="big-btn" style="background: #f08c00; margin-top: 10px;" onclick="start123Quiz()">🎯 Main Kuiz Nombor</button>
+        </div>
+    </div>
+
+    <!-- COUNTING MODULE SCREEN -->
+    <div id="module-counting" class="screen hidden">
+        <div class="app-header">
+            <div class="logo-area">
+                <button class="back-btn" style="width:35px;height:35px;font-size:16px;" onclick="closeModule()">⬅</button>
+                <div class="logo-text">➕ Jom Mengira</div>
+            </div>
+            <div style="font-weight: 700; color: #0ca678;">⭐ <span id="count-stars">0</span></div>
+        </div>
+        <div class="content-scroll">
+            <div class="activity-box">
+                <h3 style="margin-bottom: 15px; color: #0ca678;" id="count-question">Berapakah bilangan objek ini?</h3>
+                <div id="count-objects" style="font-size: 40px; margin: 20px 0; min-height: 80px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;"></div>
+                <div class="options-grid" id="count-options"></div>
             </div>
         </div>
     </div>
+
+    <!-- MATCHING MODULE SCREEN -->
+    <div id="module-matching" class="screen hidden">
+        <div class="app-header">
+            <div class="logo-area">
+                <button class="back-btn" style="width:35px;height:35px;font-size:16px;" onclick="closeModule()">⬅</button>
+                <div class="logo-text">🧩 Suai Padan</div>
+            </div>
+            <div style="font-weight: 700; color: #f08c00;">⭐ <span id="match-stars">0</span></div>
+        </div>
+        <div class="content-scroll">
+            <div class="activity-box">
+                <h3 style="margin-bottom: 10px; color: #f08c00;">Padankan pasangan yang betul!</h3>
+                <p style="font-size: 13px; color: #666; margin-bottom: 15px;" id="match-instruction">Tekan pasangan objek yang sepadan.</p>
+                <div id="match-game-area" style="display: flex; flex-direction: column; gap: 15px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ANIMALS MODULE SCREEN -->
+    <div id="module-animals" class="screen hidden">
+        <div class="app-header">
+            <div class="logo-area">
+                <button class="back-btn" style="width:35px;height:35px;font-size:16px;" onclick="closeModule()">⬅</button>
+                <div class="logo-text">🐯 Kenali Haiwan</div>
+            </div>
+            <div style="font-weight: 700; color: #6741d9;" id="animal-score">⭐ 0</div>
+        </div>
+        <div class="content-scroll">
+            <div class="activity-box">
+                <div id="animal-img" style="font-size: 90px; margin-bottom: 10px;">🐶</div>
+                <div id="animal-name" style="font-size: 26px; font-weight: 700; color: #6741d9; margin-bottom: 5px;">DOG (Anjing)</div>
+                <div id="animal-fact" style="font-size: 14px; color: #555; margin-bottom: 20px; font-weight: 600;">"Woof! Woof! Saya sahabat baik manusia!"</div>
+                <button class="big-btn" style="background: #9775fa;" onclick="playAnimalSound()">🔊 Bunyi Haiwan</button>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button class="big-btn" style="background: #ff8787;" onclick="prevAnimal()">Sebelumnya</button>
+                <button class="big-btn" style="background: #9775fa;" onclick="nextAnimal()">Seterusnya ➡️</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BODY PARTS MODULE SCREEN -->
+    <div id="module-body" class="screen hidden">
+        <div class="app-header">
+            <div class="logo-area">
+                <button class="back-btn" style="width:35px;height:35px;font-size:16px;" onclick="closeModule()">⬅</button>
+                <div class="logo-text">👦 Anggota Badan</div>
+            </div>
+            <div style="font-weight: 700; color: #a61e4d;" id="body-score">⭐ 0</div>
+        </div>
+        <div class="content-scroll">
+            <div class="activity-box">
+                <div id="body-img" style="font-size: 90px; margin-bottom: 10px;">👀</div>
+                <div id="body-name" style="font-size: 26px; font-weight: 700; color: #a61e4d; margin-bottom: 5px;">EYES (Mata)</div>
+                <div id="body-desc" style="font-size: 14px; color: #555; margin-bottom: 20px; font-weight: 600;">"Gunakan mata untuk melihat pemandangan indah!"</div>
+                <button class="big-btn" style="background: #f06595;" onclick="playBodySound()">🔊 Dengar Sebutan</button>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button class="big-btn" style="background: #ff8787;" onclick="prevBody()">Sebelumnya</button>
+                <button class="big-btn" style="background: #f06595;" onclick="nextBody()">Seterusnya ➡️</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- REWARDS SCREEN -->
+    <div id="screen-rewards" class="screen hidden">
+        <div class="app-header">
+            <div class="logo-area">
+                <div class="logo-icon">🏆</div>
+                <div class="logo-text">Pencapaian</div>
+            </div>
+        </div>
+        <div class="content-scroll">
+            <div style="background: #fff3bf; padding: 20px; border-radius: 20px; text-align: center; margin-bottom: 20px; border: 3px solid #ffd43b;">
+                <h2 style="color: #f08c00; font-size: 28px;" id="total-stars-display">⭐ 0 Bintang</h2>
+                <p style="font-weight: 600; color: #666; margin-top: 5px;">Teruskan belajar untuk kumpul lebih banyak bintang & badge!</p>
+            </div>
+            <h3 style="margin-bottom: 15px; color: #333;">Badge Kamu:</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;" id="badges-grid">
+                <div style="background: #f8f9fa; border: 3px solid #dee2e6; padding: 15px; border-radius: 20px; text-align: center;" id="badge-abc">
+                    <div style="font-size: 40px;">🌟</div>
+                    <h4 style="font-size: 14px; margin-top: 5px;">ABC Star</h4>
+                </div>
+                <div style="background: #f8f9fa; border: 3px solid #dee2e6; padding: 15px; border-radius: 20px; text-align: center;" id="badge-123">
+                    <div style="font-size: 40px;">🌟</div>
+                    <h4 style="font-size: 14px; margin-top: 5px;">Number Star</h4>
+                </div>
+                <div style="background: #f8f9fa; border: 3px solid #dee2e6; padding: 15px; border-radius: 20px; text-align: center;" id="badge-count">
+                    <div style="font-size: 40px;">🏆</div>
+                    <h4 style="font-size: 14px; margin-top: 5px;">Counting Master</h4>
+                </div>
+                <div style="background: #f8f9fa; border: 3px solid #dee2e6; padding: 15px; border-radius: 20px; text-align: center;" id="badge-animal">
+                    <div style="font-size: 40px;">🐯</div>
+                    <h4 style="font-size: 14px; margin-top: 5px;">Animal Expert</h4>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="switchNav('home')"><span>🏠</span><span>Home</span></button>
+            <button class="nav-item" onclick="switchNav('learn')"><span>📚</span><span>Learn</span></button>
+            <button class="nav-item" onclick="switchNav('games')"><span>🎮</span><span>Games</span></button>
+            <button class="nav-item active" onclick="switchNav('rewards')"><span>🏆</span><span>Rewards</span></button>
+            <button class="nav-item" onclick="switchNav('profile')"><span>👤</span><span>Profile</span></button>
+        </div>
+    </div>
+
+    <!-- PROFILE SCREEN -->
+    <div id="screen-profile" class="screen hidden">
+        <div class="app-header">
+            <div class="logo-area">
+                <div class="logo-icon">👤</div>
+                <div class="logo-text">Profil Anak</div>
+            </div>
+        </div>
+        <div class="content-scroll">
+            <div style="background: white; padding: 20px; border-radius: 20px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 3px solid #f1f3f5;">
+                <div id="profile-avatar-display" style="font-size: 60px; margin-bottom: 10px;">👦</div>
+                <h2 id="profile-name-display" style="font-size: 24px; color: #ff6b6b;">Ahmad</h2>
+                <p id="profile-age-display" style="font-weight: 600; color: #666;">Umur: 4 tahun</p>
+            </div>
+            
+            <h3 style="margin-bottom: 15px; color: #333;">My Progress:</h3>
+            
+            <div class="progress-container">
+                <div class="progress-label"><span>ABC Learning</span><span id="prog-abc-val">80%</span></div>
+                <div class="progress-bar"><div class="progress-fill" id="prog-abc" style="width: 80%;"></div></div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-label"><span>123 Numbers</span><span id="prog-123-val">60%</span></div>
+                <div class="progress-bar"><div class="progress-fill" id="prog-123" style="width: 60%;"></div></div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-label"><span>Counting</span><span id="prog-count-val">70%</span></div>
+                <div class="progress-bar"><div class="progress-fill" id="prog-count" style="width: 70%;"></div></div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-label"><span>Animals</span><span id="prog-animal-val">90%</span></div>
+                <div class="progress-bar"><div class="progress-fill" id="prog-animal" style="width: 90%;"></div></div>
+            </div>
+        </div>
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="switchNav('home')"><span>🏠</span><span>Home</span></button>
+            <button class="nav-item" onclick="switchNav('learn')"><span>📚</span><span>Learn</span></button>
+            <button class="nav-item" onclick="switchNav('games')"><span>🎮</span><span>Games</span></button>
+            <button class="nav-item" onclick="switchNav('rewards')"><span>🏆</span><span>Rewards</span></button>
+            <button class="nav-item active" onclick="switchNav('profile')"><span>👤</span><span>Profile</span></button>
+        </div>
+    </div>
+
+    <!-- PARENT GATE MODAL -->
+    <div id="parent-gate-modal" style="display: none;">
+        <div class="gate-card">
+            <h3 style="color: #ff6b6b; margin-bottom: 10px;">🔒 Parent Section</h3>
+            <p style="font-weight: 600; margin-bottom: 15px; font-size: 14px;" id="parent-gate-question">Sila selesaikan soalan ini untuk teruskan:<br><b>5 + 3 = ?</b></p>
+            <input type="text" id="parent-gate-answer" placeholder="Jawapan...">
+            <button class="big-btn" onclick="verifyParentGate()">Masuk</button>
+            <button class="big-btn" style="background: #868e96; margin-top: 10px;" onclick="closeParentGate()">Batal</button>
+        </div>
+    </div>
+
+    <!-- PARENT DASHBOARD SCREEN -->
+    <div id="screen-parent-dash" class="screen hidden">
+        <div class="app-header">
+            <div class="logo-area">
+                <div class="logo-icon">⚙️</div>
+                <div class="logo-text">Parent Dashboard</div>
+            </div>
+            <button class="icon-btn" onclick="closeParentDash()">❌</button>
+        </div>
+        <div class="content-scroll">
+            <div style="background: #e3fafc; padding: 20px; border-radius: 20px; border: 3px solid #3bc9db; margin-bottom: 20px;">
+                <h3 style="color: #0b7285; margin-bottom: 5px;">Statistik Pembelajaran</h3>
+                <p style="font-weight: 600; color: #555;" id="parent-summary-text">Ahmad (Umur 4) sedang menunjukkan prestasi yang sangat cemerlang!</p>
+            </div>
+            <div style="background: white; padding: 15px; border-radius: 15px; border: 3px solid #f1f3f5; margin-bottom: 15px;">
+                <h4 style="color: #333; margin-bottom: 5px;">⭐ Jumlah Bintang: <span id="parent-stars-val">0</span></h4>
+                <h4 style="color: #333; margin-bottom: 5px;">🎯 Aktiviti Selesai: <span id="parent-act-val">12</span></h4>
+                <h4 style="color: #333;">🏆 Kemahiran Terbaik: ABC & Animals</h4>
+            </div>
+            <button class="big-btn" style="background: #ff6b6b;" onclick="resetProgressData()">Reset Data Progress</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // App State
+    let state = {
+        name: "Ahmad",
+        avatar: "👦",
+        age: 4,
+        soundEnabled: true,
+        stars: 15,
+        activitiesCompleted: 12,
+        abcIndex: 0,
+        numIndex: 0,
+        animalIndex: 0,
+        bodyIndex: 0
+    };
+
+    // Data Arrays
+    const abcData = [
+        {letter: "A", img: "🍎", word: "Apple"},
+        {letter: "B", img: "⚽", word: "Ball"},
+        {letter: "C", img: "🐱", word: "Cat"},
+        {letter: "D", img: "🐶", word: "Dog"},
+        {letter: "E", img: "🐘", word: "Elephant"},
+        {letter: "F", img: "🐟", word: "Fish"},
+        {letter: "G", img: "🍇", word: "Grape"},
+        {letter: "H", img: "🏠", word: "House"},
+        {letter: "I", img: "🍦", word: "Ice Cream"},
+        {letter: "J", img: "🧃", Juice: "Juice"},
+        {letter: "K", img: "🔑", word: "Key"},
+        {letter: "L", img: "🦁", word: "Lion"},
+        {letter: "M", img: "🐒", word: "Monkey"},
+        {letter: "N", img: "🥜", word: "Nut"},
+        {letter: "O", img: "🍊", word: "Orange"},
+        {letter: "P", img: "🐧", word: "Penguin"},
+        {letter: "Q", img: "👑", word: "Queen"},
+        {letter: "R", img: "🐰", word: "Rabbit"},
+        {letter: "S", img: "⭐", word: "Star"},
+        {letter: "T", img: "🐯", word: "Tiger"},
+        {letter: "U", img: "☂️", word: "Umbrella"},
+        {letter: "V", img: "🎻", word: "Violin"},
+        {letter: "W", img: "🍉", word: "Watermelon"},
+        {letter: "X", img: "📦", word: "Xylophone"},
+        {letter: "Y", img: "🪀", word: "Yo-yo"},
+        {letter: "Z", img: "🦓", word: "Zebra"}
+    ];
+
+    const numData = [
+        {num: 1, visual: "🍎", word: "One (Satu)"},
+        {num: 2, visual: "🍎 🍎", word: "Two (Dua)"},
+        {num: 3, visual: "🍎 🍎 🍎", word: "Three (Tiga)"},
+        {num: 4, visual: "🍎 🍎 🍎 🍎", word: "Four (Empat)"},
+        {num: 5, visual: "🍎 🍎 🍎 🍎 🍎", word: "Five (Lima)"},
+        {num: 6, visual: "⭐ ⭐ ⭐ ⭐ ⭐ ⭐", word: "Six (Enam)"},
+        {num: 7, visual: "⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐", word: "Seven (Tujuh)"},
+        {num: 8, visual: "⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐", word: "Eight (Lapan)"},
+        {num: 9, visual: "⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐", word: "Nine (Sembilan)"},
+        {num: 10, visual: "⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐", word: "Ten (Sepuluh)"}
+    ];
+
+    const animalData = [
+        {img: "🐶", name: "DOG (Anjing)", fact: "Woof! Woof! Saya sahabat baik manusia!"},
+        {img: "🐱", name: "CAT (Kucing)", fact: "Meow! Meow! Saya suka tidur dan main benang!"},
+        {img: "🦁", name: "LION (Singa)", fact: "Roar! Saya adalah raja rimba!"},
+        {img: "🐘", name: "ELEPHANT (Gajah)", fact: "Saya mempunyai belalai yang panjang!"},
+        {img: "🐵", name: "MONKEY (Monyet)", fact: "Saya suka makan pisang dan memanjat pokok!"},
+        {img: "🐰", name: "RABBIT (Arnab)", fact: "Saya suka lompat-lompat dan makan lobak merah!"},
+        {img: "🐼", name: "PANDA", fact: "Saya suka makan daun buluh dan berwarna hitam putih!"},
+        {img: "🐮", name: "COW (Lembu)", family: "Moo! Saya menghasilkan susu yang sedap!"},
+        {img: " duck", name: "DUCK (Itik)", fact: "Quack! Quack! Saya suka berenang di dalam air!"},
+        {img: "🐧", name: "PENGUIN", fact: "Saya tinggal di kawasan ais dan tidak boleh terbang!"}
+    ];
+
+    const bodyData = [
+        {img: "👀", name: "EYES (Mata)", desc: "Gunakan mata untuk melihat pemandangan indah!"},
+        {img: "👂", name: "EARS (Telinga)", desc: "Gunakan telinga untuk mendengar bunyi yang merdu!"},
+        {img: "👃", name: "NOSE (Hidung)", desc: "Gunakan hidung untuk mencium bau wangi!"},
+        {img: "👄", name: "MOUTH (Mulut)", desc: "Gunakan mulut untuk bercakap dan makan!"},
+        {img: "🖐️", name: "HANDS (Tangan)", desc: "Gunakan tangan untuk memegang barang!"},
+        {img: "🦵", name: "LEGS (Kaki)", desc: "Gunakan kaki untuk berjalan dan berlari!"}
+    ];
+
+    // Onboarding Functions
+    function selectAvatar(avatar) {
+        document.querySelectorAll('.avatar-opt').forEach(el => el.classList.remove('selected'));
+        event.currentTarget.classList.add('selected');
+        state.avatar = avatar;
+    }
+
+    function selectAge(age) {
+        document.querySelectorAll('.age-btn').forEach(el => el.classList.remove('selected'));
+        event.currentTarget.classList.add('selected');
+        state.age = age;
+    }
+
+    function finishOnboarding() {
+        const nameInput = document.getElementById('child-name-input').value.trim();
+        if(nameInput) state.name = nameInput;
+        
+        document.getElementById('header-avatar').innerText = state.avatar;
+        document.getElementById('header-name').innerText = "Hi, " + state.name + "! 👋";
+        document.getElementById('profile-avatar-display').innerText = state.avatar;
+        document.getElementById('profile-name-display').innerText = state.name;
+        document.getElementById('profile-age-display').innerText = "Umur: " + state.age + " tahun";
+
+        document.getElementById('onboarding-screen').classList.add('hidden');
+        document.getElementById('home-screen').classList.remove('hidden');
+        triggerConfetti();
+    }
+
+    // Navigation
+    function switchNav(screenName) {
+        document.querySelectorAll('.screen').forEach(s => {
+            if(s.id !== 'onboarding-screen' && s.id !== 'parent-gate-modal' && s.id !== 'screen-parent-dash') {
+                s.classList.add('hidden');
+            }
+        });
+
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+
+        if(screenName === 'home') document.getElementById('home-screen').classList.remove('hidden');
+        if(screenName === 'rewards') {
+            document.getElementById('screen-rewards').classList.remove('hidden');
+            document.getElementById('total-stars-display').innerText = `⭐ ${state.stars} Bintang`;
+        }
+        if(screenName === 'profile') document.getElementById('screen-profile').classList.remove('hidden');
+        if(screenName === 'learn' || screenName === 'games') {
+            document.getElementById('home-screen').classList.remove('hidden');
+        }
+    }
+
+    function openModule(mod) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+        if(mod === 'abc') {
+            document.getElementById('module-abc').classList.remove('hidden');
+            updateABCDisplay();
+        } else if(mod === '123') {
+            document.getElementById('module-123').classList.remove('hidden');
+            update123Display();
+        } else if(mod === 'counting') {
+            document.getElementById('module-counting').classList.remove('hidden');
+            initCountingGame();
+        } else if(mod === 'matching') {
+            document.getElementById('module-matching').classList.remove('hidden');
+            initMatchingGame();
+        } else if(mod === 'animals') {
+            document.getElementById('module-animals').classList.remove('hidden');
+            updateAnimalDisplay();
+        } else if(mod === 'body') {
+            document.getElementById('module-body').classList.remove('hidden');
+            updateBodyDisplay();
+        }
+    }
+
+    function closeModule() {
+        document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+        document.getElementById('home-screen').classList.remove('hidden');
+    }
+
+    // Audio helper
+    function speak(text) {
+        if(!state.soundEnabled) return;
+        if('speechSynthesis' in window) {
+            let utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    function toggleSound() {
+        state.soundEnabled = !state.soundEnabled;
+        document.getElementById('sound-toggle-btn').innerText = state.soundEnabled ? '🔊' : '🔇';
+    }
+
+    // ABC Logic
+    function updateABCDisplay() {
+        let item = abcData[state.abcIndex];
+        document.getElementById('abc-display').innerText = item.letter;
+        document.getElementById('abc-img').innerText = item.img;
+        document.getElementById('abc-word').innerText = item.word;
+        speak(item.letter + "... " + item.word);
+    }
+    function nextABC() {
+        state.abcIndex = (state.abcIndex + 1) % abcData.length;
+        updateABCDisplay();
+    }
+    function prevABC() {
+        state.abcIndex = (state.abcIndex - 1 + abcData.length) % abcData.length;
+        updateABCDisplay();
+    }
+    function playCurrentABC() {
+        let item = abcData[state.abcIndex];
+        speak(item.letter + "... " + item.word);
+    }
+    function startABCKuiz() {
+        state.stars += 2;
+        state.activitiesCompleted++;
+        triggerConfetti();
+        alert("🎉 Hebat! Kuiz ABC selesai! Anda mendapat 2 bintang!");
+    }
+
+    // 123 Logic
+    function update123Display() {
+        let item = numData[state.numIndex];
+        document.getElementById('num-display').innerText = item.num;
+        document.getElementById('num-visual').innerText = item.visual;
+        document.getElementById('num-word').innerText = item.word;
+        speak(item.num.toString());
+    }
+    function next123() {
+        state.numIndex = (state.numIndex + 1) % numData.length;
+        update123Display();
+    }
+    function prev123() {
+        state.numIndex = (state.numIndex - 1 + numData.length) % numData.length;
+        update123Display();
+    }
+    function playCurrent123() {
+        let item = numData[state.numIndex];
+        speak(item.num.toString());
+    }
+    function start123Quiz() {
+        state.stars += 2;
+        state.activitiesCompleted++;
+        triggerConfetti();
+        alert("🎉 Syabas! Kuiz Nombor selesai! Anda mendapat 2 bintang!");
+    }
+
+    // Counting Game Logic
+    let currentCountAns = 0;
+    function initCountingGame() {
+        let count = Math.floor(Math.random() * 5) + 3; // 3 to 7
+        currentCountAns = count;
+        let emojis = ["🍎", "⭐", "🐟", "🐶", "🐱", "🍌"];
+        let chosenEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+        
+        let objContainer = document.getElementById('count-objects');
+        objContainer.innerHTML = chosenEmoji.repeat(count);
+        speak("Berapakah bilangan objek ini?");
+
+        let optionsContainer = document.getElementById('count-options');
+        optionsContainer.innerHTML = "";
+        
+        let options = [count];
+        while(options.length < 4) {
+            let r = Math.floor(Math.random() * 8) + 1;
+            if(!options.includes(r)) options.push(r);
+        }
+        options.sort(() => Math.random() - 0.5);
+
+        options.forEach(opt => {
+            let btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => checkCountingAnswer(opt);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function checkCountingAnswer(ans) {
+        if(ans === currentCountAns) {
+            triggerConfetti();
+            state.stars += 3;
+            state.activitiesCompleted++;
+            document.getElementById('count-stars').innerText = state.stars;
+            alert("🎉 Great Job! Betul sekali!");
+            initCountingGame();
+        } else {
+            alert("😊 Cuba lagi! Hampir betul.");
+        }
+    }
+
+    // Matching Game Logic
+    function initMatchingGame() {
+        let area = document.getElementById('match-game-area');
+        area.innerHTML = `
+            <div style="font-size: 18px; font-weight:700; color:#333;">Padankan Huruf dengan Huruf yang Sesuai:</div>
+            <div style="display:flex; justify-content:space-around; margin-top:15px;">
+                <button class="option-btn" onclick="checkMatch('A', 'A', this)">A</button>
+                <button class="option-btn" onclick="checkMatch('B', 'B', this)">B</button>
+                <button class="option-btn" onclick="checkMatch('C', 'C', this)">C</button>
+            </div>
+            <div style="display:flex; justify-content:space-around; margin-top:15px;">
+                <button class="option-btn" onclick="checkMatch('B', 'B', this)">B</button>
+                <button class="option-btn" onclick="checkMatch('C', 'C', this)">C</button>
+                <button class="option-btn" onclick="checkMatch('A', 'A', this)">A</button>
+            </div>
+        `;
+    }
+
+    let selectedMatchItem = null;
+    function checkMatch(val, target, btn) {
+        triggerConfetti();
+        state.stars += 2;
+        state.activitiesCompleted++;
+        document.getElementById('match-stars').innerText = state.stars;
+        btn.style.background = "#d3f9d8";
+        btn.style.borderColor = "#40c057";
+        alert("🎉 Awesome! Padanan tepat!");
+        initMatchingGame();
+    }
+
+    // Animals Logic
+    function updateAnimalDisplay() {
+        let item = animalData[state.animalIndex];
+        document.getElementById('animal-img').innerText = item.img;
+        document.getElementById('animal-name').innerText = item.name;
+        document.getElementById('animal-fact').innerText = `"${item.fact}"`;
+        speak(item.name);
+    }
+    function nextAnimal() {
+        state.animalIndex = (state.animalIndex + 1) % animalData.length;
+        updateAnimalDisplay();
+    }
+    function prevAnimal() {
+        state.animalIndex = (state.animalIndex - 1 + animalData.length) % animalData.length;
+        updateAnimalDisplay();
+    }
+    function playAnimalSound() {
+        let item = animalData[state.animalIndex];
+        speak(item.name + ". " + item.fact);
+    }
+
+    // Body Parts Logic
+    function updateBodyDisplay() {
+        let item = bodyData[state.bodyIndex];
+        document.getElementById('body-img').innerText = item.img;
+        document.getElementById('body-name').innerText = item.name;
+        document.getElementById('body-desc').innerText = `"${item.desc}"`;
+        speak(item.name);
+    }
+    function nextBody() {
+        state.bodyIndex = (state.bodyIndex + 1) % bodyData.length;
+        updateBodyDisplay();
+    }
+    function prevBody() {
+        state.bodyIndex = (state.bodyIndex - 1 + bodyData.length) % bodyData.length;
+        updateBodyDisplay();
+    }
+    function playBodySound() {
+        let item = bodyData[state.bodyIndex];
+        speak(item.name + ". " + item.desc);
+    }
+
+    // Parent Gate Logic
+    function openParentGate() {
+        document.getElementById('parent-gate-modal').style.display = 'flex';
+        document.getElementById('parent-gate-answer').value = '';
+    }
+    function closeParentGate() {
+        document.getElementById('parent-gate-modal').style.display = 'none';
+    }
+    function verifyParentGate() {
+        let val = document.getElementById('parent-gate-answer').value.trim();
+        if(val === '8') {
+            closeParentGate();
+            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+            document.getElementById('screen-parent-dash').classList.remove('hidden');
+            document.getElementById('parent-stars-val').innerText = state.stars;
+            document.getElementById('parent-act-val').innerText = state.activitiesCompleted;
+            document.getElementById('parent-summary-text').innerText = `${state.name} (Umur ${state.age}) sedang menunjukkan prestasi yang sangat cemerlang!`;
+        } else {
+            alert("Jawapan salah! Sila cuba lagi.");
+        }
+    }
+    function closeParentDash() {
+        document.getElementById('screen-parent-dash').classList.add('hidden');
+        document.getElementById('home-screen').classList.remove('hidden');
+    }
+    function resetProgressData() {
+        if(confirm("Adakah anda pasti mahu set semula data progress?")) {
+            state.stars = 0;
+            state.activitiesCompleted = 0;
+            alert("Data berjaya di-reset.");
+            closeParentDash();
+        }
+    }
+
+    // Confetti effect helper
+    function triggerConfetti() {
+        if(typeof confetti === 'function') {
+            confetti({
+                particleCount: 50,
+                spread: 60,
+                origin: { y: 0.6 }
+            });
+        }
+    }
+</script>
 
 </body>
 </html>
