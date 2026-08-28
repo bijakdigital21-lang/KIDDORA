@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pendaftaran Pantas - Bijak Belajar</title>
-    <!-- Menggunakan Tailwind CSS untuk rekaan moden -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Inter untuk fon yang lebih jelas dan bersih -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -14,7 +12,6 @@
         }
     </style>
     
-    <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
        (function(){
@@ -22,8 +19,7 @@
        })();
     </script>
 
-  <!-- Firebase SDK (Modular v10) -->
-    <script type="module">
+  <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -44,7 +40,7 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        // 1. Handle Pendaftaran & Redirect Auto-Fill ke BCL Page
+        // 1. Handle Pendaftaran & Redirect Auto-Fill ke BCL Page (Mengikut format Grammar Hub)
         window.handleRegister = function(event) {
             event.preventDefault();
 
@@ -82,8 +78,9 @@
 
             alert("Pendaftaran berjaya! Anda akan dibawa ke halaman seterusnya.");
             
-            // Redirect ke page BCL dengan auto-fill parameter URL
-            const targetUrl = `https://bijakbelajar.bcl.my/form/customer-registration?reseller_nama=${encodeURIComponent(resNama)}&reseller_email=${encodeURIComponent(resEmail)}&reseller_nofon=${encodeURIComponent(resNofon)}&cust_nama=${encodeURIComponent(custNama)}&cust_email=${encodeURIComponent(custEmail)}&cust_nofon=${encodeURIComponent(custNofon)}`;
+            // Redirect ke page BCL dengan auto-fill parameter URL mengikut rujukan Grammar Hub (name, email, phone)
+            const baseUrl = "https://bijakbelajar.bcl.my/form/customer-registration";
+            const targetUrl = `${baseUrl}?name=${encodeURIComponent(resNama)}&email=${encodeURIComponent(resEmail)}&phone=${encodeURIComponent(resNofon)}`;
             
             window.location.href = targetUrl;
         }
@@ -287,10 +284,8 @@ Semoga Grammar Hub membantu anda.`;
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center py-8 relative bg-cover bg-center bg-no-repeat" style="background-image: url('https://i.imgur.com/H46KuIJ.jpeg');">
 
-    <!-- Lapisan Gelap (Overlay) -->
     <div class="absolute inset-0 bg-black/40 z-0"></div>
 
-    <!-- Button Admin di penjuru atas kanan -->
     <div class="absolute top-4 right-4 z-10">
         <button onclick="openAdminModal()" class="bg-slate-900/90 hover:bg-slate-900 text-white text-xs font-semibold px-4 py-2 rounded-lg shadow-lg transition backdrop-blur-sm">
             🔐 Admin Panel
@@ -305,7 +300,6 @@ Semoga Grammar Hub membantu anda.`;
 
         <form id="regForm" onsubmit="handleRegister(event)" class="space-y-6">
             
-            <!-- PERINGATAN PENTING -->
             <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg text-sm text-amber-900 space-y-1 shadow-sm">
                 <p class="font-bold flex items-center gap-1.5">
                     <span>⚠️</span> PERINGATAN PENTING
@@ -314,7 +308,6 @@ Semoga Grammar Hub membantu anda.`;
                 <p>Pastikan alamat email yang didaftarkan adalah betul dan aktif.</p>
             </div>
 
-            <!-- MAKLUMAT CUSTOMER -->
             <div class="space-y-4 pb-2">
                 <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider border-b pb-1">Maklumat Customer</h3>
                 
@@ -340,7 +333,6 @@ Semoga Grammar Hub membantu anda.`;
                 </div>
             </div>
 
-            <!-- MAKLUMAT RESELLER -->
             <div class="space-y-4 pb-2">
                 <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider border-b pb-1">Maklumat Reseller</h3>
                 
@@ -373,18 +365,15 @@ Semoga Grammar Hub membantu anda.`;
         </form>
     </div>
 
-    <!-- ADMIN MODAL / PANEL -->
     <div id="admin_modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden border border-slate-200">
             
-            <!-- Header Modal -->
             <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
                 <h3 class="font-bold text-lg">Admin Control Panel</h3>
                 <button onclick="closeAdmin()" class="text-slate-400 hover:text-white text-xl font-bold">&times;</button>
             </div>
 
             <div class="p-6">
-                <!-- Seksyen Login Password -->
                 <div id="login_section" class="space-y-4 max-w-sm mx-auto py-8 text-center">
                     <h4 class="text-slate-700 font-medium">Masukkan Password Admin</h4>
                     <input type="password" id="admin_pass" placeholder="••••••" 
@@ -394,9 +383,7 @@ Semoga Grammar Hub membantu anda.`;
                     </button>
                 </div>
 
-                <!-- Seksyen Dashboard -->
                 <div id="admin_dashboard" class="hidden space-y-4">
-                    <!-- Tab Navigation -->
                     <div class="flex gap-2 border-b pb-3">
                         <button id="tab_pending_btn" onclick="switchTab('pending')" class="px-4 py-2 text-xs font-bold rounded-lg bg-blue-600 text-white shadow">
                             Menunggu Kelulusan (Pending)
@@ -406,7 +393,6 @@ Semoga Grammar Hub membantu anda.`;
                         </button>
                     </div>
 
-                    <!-- Bahagian Pending -->
                     <div id="section_pending" class="space-y-3">
                         <h4 class="font-semibold text-slate-800 text-sm">Senarai Pendaftaran Baru (Customer & Reseller)</h4>
                         <div class="overflow-x-auto max-h-80">
@@ -420,13 +406,11 @@ Semoga Grammar Hub membantu anda.`;
                                     </tr>
                                 </thead>
                                 <tbody id="pending_table_body">
-                                    <!-- Data Pending -->
-                                </tbody>
+                                    </tbody>
                             </table>
                         </div>
                     </div>
 
-                    <!-- Bahagian Approved -->
                     <div id="section_approved" class="space-y-3 hidden">
                         <h4 class="font-semibold text-slate-800 text-sm">Rekod Pelanggan & Reseller Diluluskan</h4>
                         <div class="overflow-x-auto max-h-80">
@@ -440,8 +424,7 @@ Semoga Grammar Hub membantu anda.`;
                                     </tr>
                                 </thead>
                                 <tbody id="approved_table_body">
-                                    <!-- Data Approved -->
-                                </tbody>
+                                    </tbody>
                             </table>
                         </div>
                     </div>
