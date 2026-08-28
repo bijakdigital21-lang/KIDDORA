@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pendaftaran Pantas - Bijak Belajar</title>
-    <!-- Menggunakan Tailwind CSS untuk rekaan moden -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Inter untuk fon yang lebih jelas dan bersih -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -14,7 +12,6 @@
         }
     </style>
     
-    <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
        (function(){
@@ -22,8 +19,7 @@
        })();
     </script>
 
-  <!-- Firebase SDK (Modular v10) -->
-    <script type="module">
+  <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -44,7 +40,7 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        // 1. Handle Pendaftaran (Simpan dalam LocalStorage / Pending Admin)
+        // 1. Handle Pendaftaran & Auto Redirect ke Platform Reseller
         window.handleRegister = function(event) {
             event.preventDefault();
 
@@ -55,6 +51,12 @@
             const custNama = document.getElementById('cust_nama').value;
             const custEmail = document.getElementById('cust_email').value;
             const custNofon = document.getElementById('cust_nofon').value;
+            
+            // Maklumat Reseller
+            const resellerNama = document.getElementById('reseller_nama').value;
+            const resellerEmail = document.getElementById('reseller_email').value;
+            const resellerNofon = document.getElementById('reseller_nofon').value;
+
             const defaultPassword = "GH548257af";
 
             // Simpan dalam senarai pending di localStorage
@@ -64,6 +66,11 @@
                 email: custEmail,
                 nofon: custNofon,
                 password: defaultPassword,
+                reseller: {
+                    nama: resellerNama,
+                    email: resellerEmail,
+                    nofon: resellerNofon
+                },
                 date: new Date().toLocaleString()
             };
 
@@ -71,10 +78,22 @@
             pendingList.push(newRequest);
             localStorage.setItem('pending_users', JSON.stringify(pendingList));
 
-            alert("Pendaftaran berjaya dihantar! Sila tunggu kelulusan daripada Admin.");
-            document.getElementById('regForm').reset();
-            submitBtn.disabled = false;
-            submitBtn.innerText = "Register & Teruskan";
+            // URL platform tujuan dengan auto-fill parameter (ubah nama parameter mengikut keperluan sistem platform anda)
+            const targetBaseUrl = "https://bijakbelajar.bcl.my/form/customer-registration";
+            const params = new URLSearchParams({
+                nama: resellerNama,
+                email: resellerEmail,
+                no_telefon: resellerNofon,
+                cust_nama: custNama,
+                cust_email: custEmail
+            });
+
+            const redirectUrl = `${targetBaseUrl}?${params.toString()}`;
+
+            alert("Pendaftaran berjaya dihantar! Anda akan dibawa ke platform seterusnya.");
+            
+            // Redirect automatik
+            window.location.href = redirectUrl;
         }
 
         // 2. Fungsi Admin Login
@@ -136,7 +155,9 @@
                 const tr = document.createElement('tr');
                 tr.className = "border-b border-slate-100";
                 tr.innerHTML = `
-                    <td class="py-3 px-4">${user.nama}<br><span class="text-xs text-slate-400">${user.email}</span></td>
+                    <td class="py-3 px-4">${user.nama}<br><span class="text-xs text-slate-400">Cust: ${user.email}</span>
+                        ${user.reseller ? `<br><span class="text-xs text-blue-500">Reseller: ${user.reseller.nama}</span>` : ''}
+                    </td>
                     <td class="py-3 px-4">${user.nofon}</td>
                     <td class="py-3 px-4 text-xs text-slate-500">${user.date}</td>
                     <td class="py-3 px-4 text-right">
@@ -159,7 +180,6 @@
             }
 
             approvedList.forEach((user) => {
-                // Format mesej WhatsApp dengan email berdaftar
                 const rawMsg = `🎉 TERIMA KASIH ATAS PEMBELIAN ANDA!
 
 Terima kasih kerana memilih Grammar Hub! 💙
@@ -195,7 +215,6 @@ Hubungi kami melalui WhatsApp dan kami sedia membantu.
 💙 Selamat belajar!
 Semoga Grammar Hub membantu anda.`;
 
-                // Sanitasi nombor telefon untuk pautan WhatsApp (tukar 01x kepada 601x jika perlu, atau guna terus)
                 let cleanPhone = user.nofon.replace(/\D/g,'');
                 if(cleanPhone.startsWith('0')) {
                     cleanPhone = '6' + cleanPhone;
@@ -227,19 +246,17 @@ Semoga Grammar Hub membantu anda.`;
             if (!confirm(`Adakah anda pasti untuk approve ${user.nama}?`)) return;
 
             try {
-                // Create User di Firebase Auth
                 const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
                 const firebaseUser = userCredential.user;
 
-                // Simpan Realtime Database
                 await set(ref(db, 'users/' + firebaseUser.uid), {
                     nama: user.nama,
                     email: user.email,
                     nofon: user.nofon,
+                    reseller: user.reseller || null,
                     createdAt: new Date().toISOString()
                 });
 
-                // Hantar Emel melalui EmailJS
                 const templateParams = {
                     to_name: user.nama,
                     to_email: user.email,
@@ -247,12 +264,11 @@ Semoga Grammar Hub membantu anda.`;
                 };
                 await emailjs.send('service_hd5rpgc', 'template_9sh4gw2', templateParams);
 
-                // Buang dari pending dan masukkan ke approved_users supaya data tidak hilang
                 pendingList.splice(index, 1);
                 localStorage.setItem('pending_users', JSON.stringify(pendingList));
 
                 let approvedList = JSON.parse(localStorage.getItem('approved_users') || '[]');
-                approvedList.unshift(user); // Masukkan di senarai teratas
+                approvedList.unshift(user);
                 localStorage.setItem('approved_users', JSON.stringify(approvedList));
 
                 alert(`Berjaya approve ${user.nama}! Akaun dicipta dan emel telah dihantar.`);
@@ -268,17 +284,15 @@ Semoga Grammar Hub membantu anda.`;
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center py-8 relative bg-cover bg-center bg-no-repeat" style="background-image: url('https://i.imgur.com/H46KuIJ.jpeg');">
 
-    <!-- Lapisan Gelap (Overlay) supaya borang lebih jelas di atas background gambar -->
     <div class="absolute inset-0 bg-black/40 z-0"></div>
 
-    <!-- Button Admin di penjuru atas kanan -->
     <div class="absolute top-4 right-4 z-10">
         <button onclick="openAdminModal()" class="bg-slate-900/90 hover:bg-slate-900 text-white text-xs font-semibold px-4 py-2 rounded-lg shadow-lg transition backdrop-blur-sm">
             🔐 Admin Panel
         </button>
     </div>
 
-    <div class="relative z-10 bg-white/95 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md border border-white/20">
+    <div class="relative z-10 bg-white/95 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md border border-white/20 my-6">
         <div class="text-center mb-6">
             <h2 class="text-2xl font-bold text-slate-900 tracking-tight">GRAMMAR HUB</h2>
              <h2 class="text-xl font-semibold text-blue-600 tracking-wide mt-1">CUSTOMER REGISTRATION</h2>
@@ -286,18 +300,16 @@ Semoga Grammar Hub membantu anda.`;
 
         <form id="regForm" onsubmit="handleRegister(event)" class="space-y-6">
             
-            <!-- PERINGATAN PENTING -->
             <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg text-sm text-amber-900 space-y-1 shadow-sm">
                 <p class="font-bold flex items-center gap-1.5">
                     <span>⚠️</span> PERINGATAN PENTING
                 </p>
                 <p>Sila pastikan semua maklumat anda di isi dengan tepat dan lengkap.</p>
                 <p>Pastikan alamat email yang didaftarkan adalah betul dan aktif.</p>
-                <p>Link akses ke aplikasi Grammar Hub akan di hantar melalui email dan nomber whatsapp yang berdaftar.</p>
+                <p>Link akses ke aplikasi Grammar Hub akan di hantar melalui email dan nombor whatsapp yang berdaftar.</p>
             </div>
 
-            <!-- MAKLUMAT CUSTOMER -->
-            <div class="space-y-4 pb-2">
+            <div class="space-y-4 pb-2 border-b border-slate-200">
                 <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Maklumat Customer</h3>
                 
                 <div>
@@ -322,6 +334,31 @@ Semoga Grammar Hub membantu anda.`;
                 </div>
             </div>
 
+            <div class="space-y-4 pb-2">
+                <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Maklumat Reseller</h3>
+                
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Nama Reseller</label>
+                    <input type="text" id="reseller_nama" required 
+                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white text-slate-900 font-medium"
+                        placeholder="Nama Penuh Reseller">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Email Reseller</label>
+                    <input type="email" id="reseller_email" required 
+                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white text-slate-900 font-medium"
+                        placeholder="reseller@email.com">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">No. Telefon Reseller</label>
+                    <input type="tel" id="reseller_nofon" required 
+                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white text-slate-900 font-medium"
+                        placeholder="0123456789">
+                </div>
+            </div>
+
             <button type="submit" 
                 class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-200 shadow-md">
                 Register & Hantar
@@ -329,18 +366,15 @@ Semoga Grammar Hub membantu anda.`;
         </form>
     </div>
 
-    <!-- ADMIN MODAL / PANEL -->
     <div id="admin_modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden border border-slate-200">
             
-            <!-- Header Modal -->
             <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
                 <h3 class="font-bold text-lg">Admin Control Panel</h3>
                 <button onclick="closeAdmin()" class="text-slate-400 hover:text-white text-xl font-bold">&times;</button>
             </div>
 
             <div class="p-6">
-                <!-- Seksyen Login Password -->
                 <div id="login_section" class="space-y-4 max-w-sm mx-auto py-8 text-center">
                     <h4 class="text-slate-700 font-medium">Masukkan Password Admin</h4>
                     <input type="password" id="admin_pass" placeholder="••••••" 
@@ -350,9 +384,7 @@ Semoga Grammar Hub membantu anda.`;
                     </button>
                 </div>
 
-                <!-- Seksyen Dashboard (Selepas Login Betul) -->
                 <div id="admin_dashboard" class="hidden space-y-4">
-                    <!-- Tab Navigation -->
                     <div class="flex gap-2 border-b pb-3">
                         <button id="tab_pending_btn" onclick="switchTab('pending')" class="px-4 py-2 text-xs font-bold rounded-lg bg-blue-600 text-white shadow">
                             Menunggu Kelulusan (Pending)
@@ -362,7 +394,6 @@ Semoga Grammar Hub membantu anda.`;
                         </button>
                     </div>
 
-                    <!-- Bahagian Pending -->
                     <div id="section_pending" class="space-y-3">
                         <h4 class="font-semibold text-slate-800 text-sm">Senarai Pendaftaran Baru</h4>
                         <div class="overflow-x-auto max-h-80">
@@ -376,13 +407,11 @@ Semoga Grammar Hub membantu anda.`;
                                     </tr>
                                 </thead>
                                 <tbody id="pending_table_body">
-                                    <!-- Data Pending -->
-                                </tbody>
+                                    </tbody>
                             </table>
                         </div>
                     </div>
 
-                    <!-- Bahagian Approved (Kekal Tersimpan) -->
                     <div id="section_approved" class="space-y-3 hidden">
                         <h4 class="font-semibold text-slate-800 text-sm">Rekod Pelanggan Diluluskan (Klik No. Telefon untuk WhatsApp)</h4>
                         <div class="overflow-x-auto max-h-80">
@@ -395,8 +424,7 @@ Semoga Grammar Hub membantu anda.`;
                                     </tr>
                                 </thead>
                                 <tbody id="approved_table_body">
-                                    <!-- Data Approved -->
-                                </tbody>
+                                    </tbody>
                             </table>
                         </div>
                     </div>
