@@ -75,8 +75,6 @@
             let pendingList = JSON.parse(localStorage.getItem('pending_users') || '[]');
             pendingList.push(newRequest);
             localStorage.setItem('pending_users', JSON.stringify(pendingList));
-
-            alert("Pendaftaran berjaya! ");
             
             // Redirect ke page BCL dengan auto-fill parameter URL mengikut rujukan Grammar Hub (name, email, phone)
             const baseUrl = "https://bijakbelajar.bcl.my/form/customer-registration";
