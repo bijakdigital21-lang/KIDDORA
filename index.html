@@ -44,19 +44,7 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        // Autofill maklumat reseller dari URL jika ada
-        window.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const resellerNama = urlParams.get('reseller_nama');
-            const resellerEmail = urlParams.get('reseller_email');
-            const resellerNofon = urlParams.get('reseller_nofon');
-
-            if (resellerNama) document.getElementById('reseller_nama').value = resellerNama;
-            if (resellerEmail) document.getElementById('reseller_email').value = resellerEmail;
-            if (resellerNofon) document.getElementById('reseller_nofon').value = resellerNofon;
-        });
-
-        // 1. Handle Pendaftaran & Redirect ke URL baru dengan auto-fill
+        // 1. Handle Pendaftaran (Simpan dalam LocalStorage / Pending Admin)
         window.handleRegister = function(event) {
             event.preventDefault();
 
@@ -67,11 +55,6 @@
             const custNama = document.getElementById('cust_nama').value;
             const custEmail = document.getElementById('cust_email').value;
             const custNofon = document.getElementById('cust_nofon').value;
-            
-            const resellerNama = document.getElementById('reseller_nama').value;
-            const resellerEmail = document.getElementById('reseller_email').value;
-            const resellerNofon = document.getElementById('reseller_nofon').value;
-
             const defaultPassword = "GH548257af";
 
             // Simpan dalam senarai pending di localStorage
@@ -80,9 +63,6 @@
                 nama: custNama,
                 email: custEmail,
                 nofon: custNofon,
-                reseller_nama: resellerNama,
-                reseller_email: resellerEmail,
-                reseller_nofon: resellerNofon,
                 password: defaultPassword,
                 date: new Date().toLocaleString()
             };
@@ -92,14 +72,9 @@
             localStorage.setItem('pending_users', JSON.stringify(pendingList));
 
             alert("Pendaftaran berjaya dihantar! Sila tunggu kelulusan daripada Admin.");
-            
-            // Redirect ke page customer-registration dengan auto-fill maklumat reseller
-            const targetUrl = new URL("https://bijakbelajar.bcl.my/form/customer-registration");
-            targetUrl.searchParams.append('reseller_nama', resellerNama);
-            targetUrl.searchParams.append('reseller_email', resellerEmail);
-            targetUrl.searchParams.append('reseller_nofon', resellerNofon);
-
-            window.location.href = targetUrl.toString();
+            document.getElementById('regForm').reset();
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Register & Teruskan";
         }
 
         // 2. Fungsi Admin Login
@@ -161,7 +136,7 @@
                 const tr = document.createElement('tr');
                 tr.className = "border-b border-slate-100";
                 tr.innerHTML = `
-                    <td class="py-3 px-4">${user.nama}<br><span class="text-xs text-slate-400">${user.email}</span><br><span class="text-xs text-blue-600 font-semibold">Reseller: ${user.reseller_nama || '-'}</span></td>
+                    <td class="py-3 px-4">${user.nama}<br><span class="text-xs text-slate-400">${user.email}</span></td>
                     <td class="py-3 px-4">${user.nofon}</td>
                     <td class="py-3 px-4 text-xs text-slate-500">${user.date}</td>
                     <td class="py-3 px-4 text-right">
@@ -184,6 +159,7 @@
             }
 
             approvedList.forEach((user) => {
+                // Format mesej WhatsApp dengan email berdaftar
                 const rawMsg = `🎉 TERIMA KASIH ATAS PEMBELIAN ANDA!
 
 Terima kasih kerana memilih Grammar Hub! 💙
@@ -219,6 +195,7 @@ Hubungi kami melalui WhatsApp dan kami sedia membantu.
 💙 Selamat belajar!
 Semoga Grammar Hub membantu anda.`;
 
+                // Sanitasi nombor telefon untuk pautan WhatsApp (tukar 01x kepada 601x jika perlu, atau guna terus)
                 let cleanPhone = user.nofon.replace(/\D/g,'');
                 if(cleanPhone.startsWith('0')) {
                     cleanPhone = '6' + cleanPhone;
@@ -230,7 +207,7 @@ Semoga Grammar Hub membantu anda.`;
                 const tr = document.createElement('tr');
                 tr.className = "border-b border-slate-100";
                 tr.innerHTML = `
-                    <td class="py-3 px-4 font-medium text-slate-800">${user.nama}<br><span class="text-xs text-slate-400">${user.email}</span><br><span class="text-xs text-blue-600 font-semibold">Reseller: ${user.reseller_nama || '-'}</span></td>
+                    <td class="py-3 px-4 font-medium text-slate-800">${user.nama}<br><span class="text-xs text-slate-400">${user.email}</span></td>
                     <td class="py-3 px-4">
                         <a href="${waLink}" target="_blank" class="inline-flex items-center gap-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-emerald-200 transition" title="Klik untuk hantar WhatsApp">
                             📱 ${user.nofon} ↗
@@ -250,19 +227,19 @@ Semoga Grammar Hub membantu anda.`;
             if (!confirm(`Adakah anda pasti untuk approve ${user.nama}?`)) return;
 
             try {
+                // Create User di Firebase Auth
                 const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
                 const firebaseUser = userCredential.user;
 
+                // Simpan Realtime Database
                 await set(ref(db, 'users/' + firebaseUser.uid), {
                     nama: user.nama,
                     email: user.email,
                     nofon: user.nofon,
-                    reseller_nama: user.reseller_nama,
-                    reseller_email: user.reseller_email,
-                    reseller_nofon: user.reseller_nofon,
                     createdAt: new Date().toISOString()
                 });
 
+                // Hantar Emel melalui EmailJS
                 const templateParams = {
                     to_name: user.nama,
                     to_email: user.email,
@@ -270,11 +247,12 @@ Semoga Grammar Hub membantu anda.`;
                 };
                 await emailjs.send('service_hd5rpgc', 'template_9sh4gw2', templateParams);
 
+                // Buang dari pending dan masukkan ke approved_users supaya data tidak hilang
                 pendingList.splice(index, 1);
                 localStorage.setItem('pending_users', JSON.stringify(pendingList));
 
                 let approvedList = JSON.parse(localStorage.getItem('approved_users') || '[]');
-                approvedList.unshift(user);
+                approvedList.unshift(user); // Masukkan di senarai teratas
                 localStorage.setItem('approved_users', JSON.stringify(approvedList));
 
                 alert(`Berjaya approve ${user.nama}! Akaun dicipta dan emel telah dihantar.`);
@@ -300,7 +278,7 @@ Semoga Grammar Hub membantu anda.`;
         </button>
     </div>
 
-    <div class="relative z-10 bg-white/95 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md border border-white/20 my-8">
+    <div class="relative z-10 bg-white/95 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md border border-white/20">
         <div class="text-center mb-6">
             <h2 class="text-2xl font-bold text-slate-900 tracking-tight">GRAMMAR HUB</h2>
              <h2 class="text-xl font-semibold text-blue-600 tracking-wide mt-1">CUSTOMER REGISTRATION</h2>
@@ -316,32 +294,6 @@ Semoga Grammar Hub membantu anda.`;
                 <p>Sila pastikan semua maklumat anda di isi dengan tepat dan lengkap.</p>
                 <p>Pastikan alamat email yang didaftarkan adalah betul dan aktif.</p>
                 <p>Link akses ke aplikasi Grammar Hub akan di hantar melalui email dan nomber whatsapp yang berdaftar.</p>
-            </div>
-
-            <!-- MAKLUMAT RESELLER -->
-            <div class="space-y-4 pb-2 border-b border-slate-200">
-                <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Maklumat Reseller</h3>
-                
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Nama Reseller</label>
-                    <input type="text" id="reseller_nama" required 
-                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white text-slate-900 font-medium"
-                        placeholder="Nama Reseller">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Email Reseller</label>
-                    <input type="email" id="reseller_email" required 
-                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white text-slate-900 font-medium"
-                        placeholder="reseller@email.com">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">No. Telefon Reseller</label>
-                    <input type="tel" id="reseller_nofon" required 
-                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white text-slate-900 font-medium"
-                        placeholder="0123456789">
-                </div>
             </div>
 
             <!-- MAKLUMAT CUSTOMER -->
