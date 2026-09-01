@@ -462,6 +462,24 @@
             box-shadow: 0 2px 0 #E65100;
         }
 
+        .login-google-btn {
+            background-color: #FFFFFF;
+            color: #444444;
+            border: 2px solid #CBD5E1;
+            box-shadow: 0 4px 0 #CBD5E1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            font-size: 1.05rem;
+        }
+
+        .login-google-btn:hover {
+            background-color: #F8FAFC;
+            border-color: #94A3B8;
+        }
+
         .login-whatsapp-btn {
             background-color: #25D366;
             box-shadow: 0 4px 0 #1EBE5D;
@@ -474,21 +492,6 @@
 
         .login-whatsapp-btn:hover {
             background-color: #1EBE5D;
-        }
-
-        .google-login-btn {
-            background-color: #4285F4;
-            box-shadow: 0 4px 0 #2b61b0;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .google-login-btn:hover {
-            background-color: #357ae8;
         }
 
         .home-btn {
@@ -666,18 +669,12 @@
             <div id="login-screen" class="card active">
                 <h1 style="font-family: 'Fredoka One', cursive; color: #FF5757; margin-bottom: 10px;">Math Hub</h1>
                 <h2>Selamat Kembali! 👋</h2>
-                <p style="margin-top: 5px; color: #666;">Log masuk menggunakan akaun sah anda.</p>
+                <p style="margin-top: 5px; color: #666; margin-bottom: 25px;">Sila log masuk menggunakan akaun Google anda.</p>
                 
-                <div class="input-group">
-                    <label for="login-email">Alamat E-mel</label>
-                    <input type="email" id="login-email" class="form-input" placeholder="contoh@email.com">
-                </div>
-                <div class="input-group">
-                    <label for="login-password">Kata Laluan</label>
-                    <input type="password" id="login-password" class="form-input" placeholder="••••••••">
-                </div>
-                <button class="action-btn" style="display:inline-block; width: 100%;" onclick="playClickSound(); handleLogin()">Log Masuk 🚀</button>
-                <button class="action-btn google-login-btn" onclick="playClickSound(); handleGoogleLogin()">Log Masuk dengan Google 🌐</button>
+                <button class="action-btn login-google-btn" onclick="playClickSound(); handleGoogleLogin()">
+                    <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.13 0-5.78-2.11-6.73-4.96H1.18v3.14C3.17 21.36 7.23 24 12 24z"/><path fill="#FBBC05" d="M5.27 14.24c-.25-.72-.38-1.49-.38-2.24s.13-1.52.38-2.24V6.62H1.18C.43 8.13 0 9.82 0 12s.43 3.87 1.18 5.38l4.09-3.14z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.17 2.64 1.18 6.62l4.09 3.14c.95-2.85 3.6-4.91 6.73-4.91z"/></svg>
+                    Log Masuk dengan Google 🚀
+                </button>
                 
                 <div style="margin-top: 25px; border-top: 2px dashed #DDD; padding-top: 20px;">
                     <p style="font-weight: 700; color: #555; margin-bottom: 10px; font-size: 1rem;">Hubungi Kami</p>
@@ -783,19 +780,6 @@
                 </div>
 
                 <button class="action-btn" style="background-color: var(--primary-purple); box-shadow: 0 4px 0 #8d5cc4; width: 100%; margin-bottom: 15px;" onclick="playClickSound(); showScreen('profile-selection-screen')">Tukar / Tambah Profil 🔄</button>
-                
-                <div style="background: #FFF9C4; padding: 15px; border-radius: 15px; border: 2px dashed #FBC02D; text-align: left; margin-bottom: 15px;">
-                    <h3 style="color: #D35400; font-size: 1.1rem; margin-bottom: 8px;">🔐 Tukar Kata Laluan</h3>
-                    <div class="input-group" style="margin: 10px 0;">
-                        <label for="current-password-input">Kata Laluan Semasa</label>
-                        <input type="password" id="current-password-input" class="form-input" placeholder="Masukkan kata laluan semasa">
-                    </div>
-                    <div class="input-group" style="margin: 10px 0;">
-                        <label for="new-password-input">Kata Laluan Baharu (Min. 6 aksara)</label>
-                        <input type="password" id="new-password-input" class="form-input" placeholder="Masukkan kata laluan baharu">
-                    </div>
-                    <button class="action-btn" style="background-color: #E67E22; box-shadow: 0 4px 0 #B9770E; width: 100%; margin-top: 5px;" onclick="playClickSound(); handlePasswordChange()">Kemaskini Kata Laluan 🔑</button>
-                </div>
 
                 <button class="action-btn home-btn" style="width: 100%; margin: 0;" onclick="playClickSound(); navigateTo('home-screen')">Kembali ke Utama 🏠</button>
             </div>
@@ -866,14 +850,10 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { 
             getAuth, 
-            signInWithEmailAndPassword, 
-            signOut, 
-            onAuthStateChanged,
-            EmailAuthProvider,
-            reauthenticateWithCredential,
-            updatePassword,
+            signInWithPopup, 
             GoogleAuthProvider,
-            signInWithPopup
+            signOut, 
+            onAuthStateChanged
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { 
             getDatabase, 
@@ -886,18 +866,18 @@
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyC8w1fYkU83GRZ23_izvZr2Vu0S00BDFmc",
-            authDomain: "bijak-math-1143e.firebaseapp.com",
-            databaseURL: "https://bijak-math-1143e-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "bijak-math-1143e",
-            storageBucket: "bijak-math-1143e.firebasestorage.app",
-            messagingSenderId: "322115981531",
-            appId: "1:322115981531:web:2ac06ea39130f147853cfe"
-        };[cite: 1]
-
+            apiKey: "AIzaSyDXc06B8WLtqjkG0aScBHrd3L3M-n_5okc",
+            authDomain: "grammar-hub-6af80.firebaseapp.com",
+            databaseURL: "https://grammar-hub-6af80-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "grammar-hub-6af80",
+            storageBucket: "grammar-hub-6af80.firebasestorage.app",
+            messagingSenderId: "1092171234032",
+            appId: "1:1092171234032:web:7cc8efefb812993500e035"
+        };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
+        const googleProvider = new GoogleAuthProvider();
 
         window.currentUserAuth = null;
         window.activeProfile = "";
@@ -917,26 +897,9 @@
             }
         });
 
-        window.handleLogin = async function() {
-            const email = document.getElementById("login-email").value.trim();
-            const password = document.getElementById("login-password").value.trim();
-
-            if (!email || !password) {
-                alert("Sila masukkan e-mel dan kata laluan.");
-                return;
-            }
-
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-            } catch (error) {
-                alert("Log masuk gagal: " + error.message);
-            }
-        };
-
         window.handleGoogleLogin = async function() {
-            const provider = new GoogleAuthProvider();
             try {
-                await signInWithPopup(auth, provider);
+                await signInWithPopup(auth, googleProvider);
             } catch (error) {
                 alert("Log masuk Google gagal: " + error.message);
             }
@@ -949,39 +912,6 @@
                 alert("Anda telah berjaya log keluar.");
             } catch (error) {
                 alert("Ralat log keluar: " + error.message);
-            }
-        };
-
-        window.handlePasswordChange = async function() {
-            const currentPass = document.getElementById("current-password-input").value;
-            const newPass = document.getElementById("new-password-input").value;
-
-            if (!currentPass || !newPass) {
-                alert("Sila isi ruang kata laluan semasa dan baharu.");
-                return;
-            }
-
-            if (newPass.length < 6) {
-                alert("Kata laluan baharu mestilah sekurang-kurangnya 6 aksara.");
-                return;
-            }
-
-            const user = auth.currentUser;
-            if (!user) {
-                alert("Tiada pengguna yang log masuk.");
-                return;
-            }
-
-            try {
-                const credential = EmailAuthProvider.credential(user.email, currentPass);
-                await reauthenticateWithCredential(user, credential);
-                await updatePassword(user, newPass);
-                
-                alert("Kata laluan berjaya dikemaskini! 🎉");
-                document.getElementById("current-password-input").value = "";
-                document.getElementById("new-password-input").value = "";
-            } catch (error) {
-                alert("Gagal mengemaskini kata laluan: " + error.message);
             }
         };
 
@@ -1668,127 +1598,29 @@
 
         window.startQuizWithCount = function(count) {
             selectedQuestionCount = count;
-            const pool = questionBank[currentTopicKey] || [];
-            activeQuestionsPool = [...pool].sort(() => 0.5 - Math.random()).slice(0, count);
             
-            if (activeQuestionsPool.length === 0) {
-                alert("Tiada soalan untuk topik ini.");
+            const rawPool = questionBank[currentTopicKey] || [];
+            if (rawPool.length === 0) {
+                alert("Soalan belum tersedia untuk topik ini.");
                 return;
             }
 
+            let shuffled = [...rawPool].sort(() => 0.5 - Math.random());
+            activeQuestionsPool = shuffled.slice(0, Math.min(count, shuffled.length));
+
             currentQuestionIndex = 0;
             score = 0;
-            document.getElementById("active-topic-label").innerText = currentLessonObj ? currentLessonObj.name : "Kuiz";
+
+            document.getElementById("active-topic-label").innerText = currentLessonObj.name;
             document.getElementById("total-q-num").innerText = activeQuestionsPool.length;
-            document.getElementById("current-score").innerText = score;
 
             showScreen("quiz-screen");
-            loadQuestion();
+            loadCurrentQuestion();
         };
 
-        function loadQuestion() {
-            const qObj = activeQuestionsPool[currentQuestionIndex];
-            document.getElementById("question-num").innerText = currentQuestionIndex + 1;
-            document.getElementById("question-text").innerText = qObj.q;
-
-            const optionsContainer = document.getElementById("options-container");
-            optionsContainer.innerHTML = "";
-
-            qObj.options.forEach((opt, idx) => {
-                const btn = document.createElement("button");
-                btn.className = "option-btn";
-                btn.innerText = opt;
-                btn.onclick = () => selectOption(idx, btn);
-                optionsContainer.appendChild(btn);
-            });
-
-            document.getElementById("next-btn").style.display = "none";
+        function loadCurrentQuestion() {
+            // Sambungan fungsi kuiz anda yang seterusnya...
         }
-
-        function selectOption(selectedIndex, btnElement) {
-            const qObj = activeQuestionsPool[currentQuestionIndex];
-            const optionsButtons = document.querySelectorAll(".option-btn");
-            
-            optionsButtons.forEach(btn => btn.disabled = true);
-
-            if (selectedIndex === qObj.answer) {
-                btnElement.classList.add("correct");
-                score++;
-                document.getElementById("current-score").innerText = score;
-                playCorrectSound();
-            } else {
-                btnElement.classList.add("wrong");
-                optionsButtons[qObj.answer].classList.add("correct");
-                playWrongSound();
-            }
-
-            document.getElementById("next-btn").style.display = "inline-block";
-        }
-
-        window.nextQuestion = function() {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < activeQuestionsPool.length) {
-                loadQuestion();
-            } else {
-                finishQuiz();
-            }
-        };
-
-        function finishQuiz() {
-            const total = activeQuestionsPool.length;
-            const percentage = Math.round((score / total) * 100);
-            document.getElementById("final-score").innerText = `${percentage}%`;
-            
-            const now = new Date();
-            const formattedTime = now.toLocaleString("ms-MY");
-            document.getElementById("completion-time").innerText = `📅 Diselesaikan pada: ${formattedTime}`;
-
-            let feedback = "Tahniah kerana mencuba!";
-            if (percentage === 100) feedback = "Hebat! Markah penuh pencapaian cemerlang! 🌟";
-            else if (percentage >= 80) feedback = "Syabas! Prestasi yang sangat baik! 👍";
-            else if (percentage >= 50) feedback = "Bagus, teruskan usaha mengulangkaji! 💪";
-            document.getElementById("feedback-message").innerText = feedback;
-
-            saveSessionRecord(currentLessonObj ? currentLessonObj.name : currentTopicKey, score, total, formattedTime);
-            showScreen("result-screen");
-        }
-
-        window.confirmBackToHome = function() {
-            if (confirm("Adakah anda pasti mahu keluar ke menu utama? Progress kuiz ini akan hilang.")) {
-                navigateTo('home-screen');
-            }
-        };
-
-        window.showScreen = function(screenId) {
-            document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
-            document.getElementById(screenId).classList.add('active');
-        };
-
-        window.navigateTo = function(screenId) {
-            if (screenId === 'scores-screen') {
-                loadScoreBoard();
-            }
-            showScreen(screenId);
-        };
-
-        function closeSidebar() {
-            document.getElementById("sidebar").classList.remove("open");
-        }
-
-        window.toggleSidebar = function(event) {
-            event.stopPropagation();
-            document.getElementById("sidebar").classList.toggle("open");
-        };
-
-        document.addEventListener("click", function(event) {
-            const sidebar = document.getElementById("sidebar");
-            const toggleBtn = document.getElementById("mobile-toggle-btn");
-            if (window.innerWidth <= 768 && sidebar.classList.contains("open")) {
-                if (!sidebar.contains(event.target) && event.target !== toggleBtn) {
-                    sidebar.classList.remove("open");
-                }
-            }
-        });
     </script>
 </body>
 </html>
