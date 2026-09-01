@@ -1273,67 +1273,168 @@
         const questionBank = {
             t1_nombor_bulat: [
                { qMs: "Apakah nombor selepas 27?", qEn: "What is the number after 27?", optionsMs: ["28", "26", "30", "29"], optionsEn: ["28", "26", "30", "29"], answer: 0 },
-{ qMs: "Apakah nombor sebelum 45?", qEn: "What is the number before 45?", optionsMs: ["46", "43", "44", "47"], optionsEn: ["46", "43", "44", "47"], answer: 2 },
-{ qMs: "Yang manakah nombor terbesar?", qEn: "Which number is the largest?", optionsMs: ["58", "68", "78", "85"], optionsEn: ["58", "68", "78", "85"], answer: 3 },
-{ qMs: "Yang manakah nombor terkecil?", qEn: "Which number is the smallest?", optionsMs: ["31", "13", "32", "23"], optionsEn: ["31", "13", "32", "23"], answer: 1 },
-{ qMs: "Apakah digit puluh bagi nombor 64?", qEn: "What is the tens value for 64?", optionsMs: ["4", "10", "64", "6"], optionsEn: ["4", "10", "64", "6"], answer: 3 },
-{ qMs: "Apakah nilai digit sa bagi nombor 92?", qEn: "What is the ones digit value for 92?", optionsMs: ["9", "2", "90", "20"], optionsEn: ["9", "2", "90", "20"], answer: 1 }
-
-
+               { qMs: "Apakah nombor sebelum 45?", qEn: "What is the number before 45?", optionsMs: ["46", "43", "44", "47"], optionsEn: ["46", "43", "44", "47"], answer: 2 },
+               { qMs: "Yang manakah nombor terbesar?", qEn: "Which number is the largest?", optionsMs: ["58", "68", "78", "85"], optionsEn: ["58", "68", "78", "85"], answer: 3 },
+               { qMs: "Yang manakah nombor terkecil?", qEn: "Which number is the smallest?", optionsMs: ["31", "13", "32", "23"], optionsEn: ["31", "13", "32", "23"], answer: 1 },
+               { qMs: "Apakah digit puluh bagi nombor 64?", qEn: "What is the tens value for 64?", optionsMs: ["4", "10", "64", "6"], optionsEn: ["4", "10", "64", "6"], answer: 3 },
+               { qMs: "Apakah nilai digit sa bagi nombor 92?", qEn: "What is the ones digit value for 92?", optionsMs: ["9", "2", "90", "20"], optionsEn: ["9", "2", "90", "20"], answer: 1 },
+               { qMs: "Nombor manakah yang terletak di antara 12 dan 14?", qEn: "Which number is between 12 and 14?", optionsMs: ["11", "13", "15", "10"], optionsEn: ["11", "13", "15", "10"], answer: 1 },
+               { qMs: "Cerakinkan nombor 38 mengikut nilai digit.", qEn: "Partition the number 38 by digit value.", optionsMs: ["30 + 8", "3 + 8", "80 + 3", "38 + 0"], optionsEn: ["30 + 8", "3 + 8", "80 + 3", "38 + 0"], answer: 0 },
+               { qMs: "Apakah nombor dalam perkataan bagi 54?", qEn: "What is the number in words for 54?", optionsMs: ["Empat puluh lima", "Lima puluh empat", "Tiga puluh empat", "Lima puluh lima"], optionsEn: ["Forty-five", "Fifty-four", "Thirty-four", "Fifty-five"], answer: 1 },
+               { qMs: "Susun nombor berikut secara menaik: 12, 9, 15, 11", qEn: "Arrange the following numbers in ascending order: 12, 9, 15, 11", optionsMs: ["9, 11, 12, 15", "15, 12, 11, 9", "9, 12, 11, 15", "11, 9, 12, 15"], optionsEn: ["9, 11, 12, 15", "15, 12, 11, 9", "9, 12, 11, 15", "11, 9, 12, 15"], answer: 0 },
+               { qMs: "Susun nombor berikut secara menurun: 21, 25, 19, 23", qEn: "Arrange the following numbers in descending order: 21, 25, 19, 23", optionsMs: ["19, 21, 23, 25", "25, 23, 21, 19", "23, 25, 21, 19", "25, 21, 23, 19"], optionsEn: ["19, 21, 23, 25", "25, 23, 21, 19", "23, 25, 21, 19", "25, 21, 23, 19"], answer: 1 },
+               { qMs: "Apakah nilai tempat bagi digit 7 dalam nombor 72?", qEn: "What is the place value of digit 7 in 72?", optionsMs: ["Sa", "Puluh", "Ratus", "Ribu"], optionsEn: ["Ones", "Tens", "Hundreds", "Thousands"], answer: 1 },
+               { qMs: "Apakah nombor yang sepuluh lebih daripada 40?", qEn: "What number is ten more than 40?", optionsMs: ["30", "50", "41", "49"], optionsEn: ["30", "50", "41", "49"], answer: 1 },
+               { qMs: "Apakah nombor yang sepuluh kurang daripada 80?", qEn: "What number is ten less than 80?", optionsMs: ["90", "70", "81", "79"], optionsEn: ["90", "70", "81", "79"], answer: 1 },
+               { qMs: "Lengkapkan urutan nombor ini: 10, 12, 14, __, 18", qEn: "Complete this number sequence: 10, 12, 14, __, 18", optionsMs: ["15", "16", "17", "19"], optionsEn: ["15", "16", "17", "19"], answer: 1 },
+               { qMs: "Lengkapkan urutan nombor ini: 25, 30, 35, __, 45", qEn: "Complete this number sequence: 25, 30, 35, __, 45", optionsMs: ["38", "40", "42", "44"], optionsEn: ["38", "40", "42", "44"], answer: 1 },
+               { qMs: "Berapakah bilangan objek jika ada 3 berkas sepuluh dan 4 sa?", qEn: "What is the number of objects if there are 3 bundles of tens and 4 ones?", optionsMs: ["43", "34", "304", "7"], optionsEn: ["43", "34", "304", "7"], answer: 1 },
+               { qMs: "Nombor manakah yang lebih besar daripada 60 tetapi kurang daripada 65?", qEn: "Which number is greater than 60 but less than 65?", optionsMs: ["59", "62", "66", "58"], optionsEn: ["59", "62", "66", "58"], answer: 1 },
+               { qMs: "Apakah angka bagi 'tiga puluh sembilan'?", qEn: "What is the digit for 'thirty-nine'?", optionsMs: ["39", "93", "309", "903"], optionsEn: ["39", "93", "309", "903"], answer: 0 },
+               { qMs: "Pilih perbandingan yang betul.", qEn: "Choose the correct comparison.", optionsMs: ["15 lebih kecil daripada 12", "40 lebih besar daripada 38", "25 sama dengan 52", "10 lebih besar daripada 20"], optionsEn: ["15 is smaller than 12", "40 is greater than 38", "25 is equal to 52", "10 is greater than 20"], answer: 1 }
             ],
             t1_tambah: [
                 { qMs: "Berapakah 3 + 5?", qEn: "What is 3 + 5?", optionsMs: ["7", "8", "9", "10"], optionsEn: ["7", "8", "9", "10"], answer: 1 },
-{ qMs: "Berapakah 6 + 2?", qEn: "What is 6 + 2?", optionsMs: ["6", "7", "8", "9"], optionsEn: ["6", "7", "8", "9"], answer: 2 },
-{ qMs: "Berapakah 9 + 4?", qEn: "What is 9 + 4?", optionsMs: ["11", "12", "13", "14"], optionsEn: ["11", "12", "13", "14"], answer: 2 },
-{ qMs: "Berapakah 7 + 8?", qEn: "What is 7 + 8?", optionsMs: ["14", "15", "16", "17"], optionsEn: ["14", "15", "16", "17"], answer: 1 }
-
+                { qMs: "Berapakah 6 + 2?", qEn: "What is 6 + 2?", optionsMs: ["6", "7", "8", "9"], optionsEn: ["6", "7", "8", "9"], answer: 2 },
+                { qMs: "Berapakah 9 + 4?", qEn: "What is 9 + 4?", optionsMs: ["11", "12", "13", "14"], optionsEn: ["11", "12", "13", "14"], answer: 2 },
+                { qMs: "Berapakah 7 + 8?", qEn: "What is 7 + 8?", optionsMs: ["14", "15", "16", "17"], optionsEn: ["14", "15", "16", "17"], answer: 1 },
+                { qMs: "Berapakah 12 + 5?", qEn: "What is 12 + 5?", optionsMs: ["16", "17", "18", "19"], optionsEn: ["16", "17", "18", "19"], answer: 1 },
+                { qMs: "Berapakah 14 + 6?", qEn: "What is 14 + 6?", optionsMs: ["18", "19", "20", "21"], optionsEn: ["18", "19", "20", "21"], answer: 2 },
+                { qMs: "Berapakah 11 + 9?", qEn: "What is 11 + 9?", optionsMs: ["19", "20", "21", "22"], optionsEn: ["19", "20", "21", "22"], answer: 1 },
+                { qMs: "Berapakah 20 + 15?", qEn: "What is 20 + 15?", optionsMs: ["35", "30", "25", "40"], optionsEn: ["35", "30", "25", "40"], answer: 0 },
+                { qMs: "Berapakah 24 + 13?", qEn: "What is 24 + 13?", optionsMs: ["36", "37", "38", "39"], optionsEn: ["36", "37", "38", "39"], answer: 1 },
+                { qMs: "Berapakah 32 + 16?", qEn: "What is 32 + 16?", optionsMs: ["46", "47", "48", "49"], optionsEn: ["46", "47", "48", "49"], answer: 2 },
+                { qMs: "Ali ada 5 biji guli. Abu beri lagi 4 biji. Berapa jumlah guli Ali?", qEn: "Ali has 5 marbles. Abu gives him 4 more. What is the total?", optionsMs: ["8", "9", "10", "11"], optionsEn: ["8", "9", "10", "11"], answer: 1 },
+                { qMs: "Ibu beli 10 oren dan 5 epal. Berapa jumlah buah semuanya?", qEn: "Mother buys 10 oranges and 5 apples. What is the total?", optionsMs: ["14", "15", "16", "17"], optionsEn: ["14", "15", "16", "17"], answer: 1 },
+                { qMs: "Berapakah hasil tambah bagi 43 dan 12?", qEn: "What is the sum of 43 and 12?", optionsMs: ["53", "54", "55", "56"], optionsEn: ["53", "54", "55", "56"], answer: 2 },
+                { qMs: "Berapakah 50 + 25?", qEn: "What is 50 + 25?", optionsMs: ["75", "70", "80", "65"], optionsEn: ["75", "70", "80", "65"], answer: 0 },
+                { qMs: "Lengkapkan ayat matematik: 15 + __ = 20", qEn: "Complete the number sentence: 15 + __ = 20", optionsMs: ["4", "5", "6", "10"], optionsEn: ["4", "5", "6", "10"], answer: 1 },
+                { qMs: "Lengkapkan ayat matematik: __ + 7 = 16", qEn: "Complete the number sentence: __ + 7 = 16", optionsMs: ["8", "9", "10", "11"], optionsEn: ["8", "9", "10", "11"], answer: 1 },
+                { qMs: "Berapakah 8 + 8 + 2?", qEn: "What is 8 + 8 + 2?", optionsMs: ["16", "17", "18", "19"], optionsEn: ["16", "17", "18", "19"], answer: 2 },
+                { qMs: "Berapakah 10 + 10 + 10?", qEn: "What is 10 + 10 + 10?", optionsMs: ["20", "30", "40", "50"], optionsEn: ["20", "30", "40", "50"], answer: 1 },
+                { qMs: "Rina ada 13 buah buku. Dia beli lagi 6 buku. Berapa jumlah buku Rina?", qEn: "Rina has 13 books. She buys 6 more. Total books?", optionsMs: ["18", "19", "20", "21"], optionsEn: ["18", "19", "20", "21"], answer: 1 },
+                { qMs: "Hasil tambah dua nombor ialah 18. Jika satu nombor ialah 10, apakah nombor satu lagi?", qEn: "The sum of two numbers is 18. If one is 10, what is the other?", optionsMs: ["7", "8", "9", "10"], optionsEn: ["7", "8", "9", "10"], answer: 1 }
             ],
             t1_tolak: [
                 { qMs: "Berapakah 8 − 3?", qEn: "What is 8 − 3?", optionsMs: ["4", "5", "6", "7"], optionsEn: ["4", "5", "6", "7"], answer: 1 },
-{ qMs: "Berapakah 10 − 4?", qEn: "What is 10 − 4?", optionsMs: ["5", "6", "7", "8"], optionsEn: ["5", "6", "7", "8"], answer: 1 },
-{ qMs: "Berapakah 15 − 7?", qEn: "What is 15 − 7?", optionsMs: ["7", "8", "9", "10"], optionsEn: ["7", "8", "9", "10"], answer: 1 }
-
+                { qMs: "Berapakah 10 − 4?", qEn: "What is 10 − 4?", optionsMs: ["5", "6", "7", "8"], optionsEn: ["5", "6", "7", "8"], answer: 1 },
+                { qMs: "Berapakah 15 − 7?", qEn: "What is 15 − 7?", optionsMs: ["7", "8", "9", "10"], optionsEn: ["7", "8", "9", "10"], answer: 1 },
+                { qMs: "Berapakah 12 − 5?", qEn: "What is 12 − 5?", optionsMs: ["6", "7", "8", "9"], optionsEn: ["6", "7", "8", "9"], answer: 1 },
+                { qMs: "Berapakah 20 − 8?", qEn: "What is 20 − 8?", optionsMs: ["10", "11", "12", "13"], optionsEn: ["10", "11", "12", "13"], answer: 2 },
+                { qMs: "Berapakah 18 − 9?", qEn: "What is 18 − 9?", optionsMs: ["8", "9", "10", "11"], optionsEn: ["8", "9", "10", "11"], answer: 1 },
+                { qMs: "Berapakah 25 − 10?", qEn: "What is 25 − 10?", optionsMs: ["12", "13", "14", "15"], optionsEn: ["12", "13", "14", "15"], answer: 3 },
+                { qMs: "Berapakah 30 − 12?", qEn: "What is 30 − 12?", optionsMs: ["16", "17", "18", "19"], optionsEn: ["16", "17", "18", "19"], answer: 2 },
+                { qMs: "Berapakah 45 − 20?", qEn: "What is 45 − 20?", optionsMs: ["20", "25", "30", "35"], optionsEn: ["20", "25", "30", "35"], answer: 1 },
+                { qMs: "Berapakah 50 − 15?", qEn: "What is 50 − 15?", optionsMs: ["35", "40", "30", "45"], optionsEn: ["35", "40", "30", "45"], answer: 0 },
+                { qMs: "Ahmad ada 10 pensel. Dia beri 3 kepada adiknya. Berbaki berapa pensel Ahmad?", qEn: "Ahmad has 10 pencils. He gives 3 to his sibling. How many are left?", optionsMs: ["6", "7", "8", "9"], optionsEn: ["6", "7", "8", "9"], answer: 1 },
+                { qMs: "Di dalam bakul ada 14 biji epal. 5 daripadanya busuk. Berapa epal yang elok?", qEn: "There are 14 apples in a basket. 5 are rotten. How many are good?", optionsMs: ["8", "9", "10", "11"], optionsEn: ["8", "9", "10", "11"], answer: 1 },
+                { qMs: "Lengkapkan ayat matematik: 19 − __ = 11", qEn: "Complete the number sentence: 19 − __ = 11", optionsMs: ["7", "8", "9", "10"], optionsEn: ["7", "8", "9", "10"], answer: 1 },
+                { qMs: "Lengkapkan ayat matematik: __ − 6 = 10", qEn: "Complete the number sentence: __ − 6 = 10", optionsMs: ["14", "15", "16", "17"], optionsEn: ["14", "15", "16", "17"], answer: 2 },
+                { qMs: "Berapakah baki apabila 36 ditolak dengan 14?", qEn: "What is the remainder when 36 is subtracted by 14?", optionsMs: ["20", "21", "22", "23"], optionsEn: ["20", "21", "22", "23"], answer: 2 },
+                { qMs: "Ibu ada 22 ringgit. Dia belanja 10 ringgit. Berapa baki wang ibu?", qEn: "Mother has 22 ringgit. She spends 10 ringgit. What is her balance?", optionsMs: ["10", "11", "12", "13"], optionsEn: ["10", "11", "12", "13"], answer: 2 },
+                { qMs: "Apakah hasil tolak bagi 40 dan 25?", qEn: "What is the difference between 40 and 25?", optionsMs: ["15", "25", "10", "20"], optionsEn: ["15", "25", "10", "20"], answer: 0 },
+                { qMs: "Kurangkan 8 daripada 17.", qEn: "Subtract 8 from 17.", optionsMs: ["7", "8", "9", "10"], optionsEn: ["7", "8", "9", "10"], answer: 2 },
+                { qMs: "Berapakah 16 − 4 − 2?", qEn: "What is 16 − 4 − 2?", optionsMs: ["8", "9", "10", "11"], optionsEn: ["8", "9", "10", "11"], answer: 2 },
+                { qMs: "Sebuah bas membawa 25 penumpang. 7 orang turun di stesen. Berapa penumpang masih dalam bas?", qEn: "A bus carries 25 passengers. 7 get off at a station. How many remain?", optionsMs: ["16", "17", "18", "19"], optionsEn: ["16", "17", "18", "19"], answer: 2 }
             ],
             t1_pecahan: [
-                { qMs: "Apakah nama pecahan ½?", qEn: "What is the fraction name of ½?", optionsMs: ["Satu per empat / One quarter", "Satu per dua / One half", "Tiga per empat / Three quarters", "Dua per dua / Two halves"], optionsEn: ["Satu per empat / One quarter", "Satu per dua / One half", "Tiga per empat / Three quarters", "Dua per dua / Two halves"], answer: 1 },
-{ qMs: "Apakah nama pecahan ¼?", qEn: "What is the fraction name of ¼?", optionsMs: ["Satu per dua / One half", "Dua per empat / Two quarters", "Satu per empat / One quarter", "Tiga per empat / Three quarters"], optionsEn: ["Satu per dua / One half", "Dua per empat / Two quarters", "Satu per empat / One quarter", "Tiga per empat / Three quarters"], answer: 2 },
-{ qMs: "Apakah nama pecahan ¾?", qEn: "What is the fraction name of ¾?", optionsMs: ["Tiga per dua / Three halves", "Tiga per empat / Three quarters", "Empat per tiga / Four thirds", "Satu per empat / One quarter"], optionsEn: ["Tiga per dua / Three halves", "Tiga per empat / Three quarters", "Empat per tiga / Four thirds", "Satu per empat / One quarter"], answer: 1 },
-{ qMs: "Jika epal dibahagi 2 sama besar, satu bahagian ialah…", qEn: "If an apple is divided into 2 equal parts, one part is...", optionsMs: ["¼", "½", "¾", "2"], optionsEn: ["¼", "½", "¾", "2"], answer: 1 },
-{ qMs: "Jika roti dibahagi 4 sama besar, satu bahagian ialah…", qEn: "If a bread is divided into 4 equal parts, one part is...", optionsMs: ["½", "¼", "¾", "4"], optionsEn: ["½", "¼", "¾", "4"], answer: 1 }
-
+                { qMs: "Apakah nama pecahan ½?", qEn: "What is the fraction name of ½?", optionsMs: ["Satu per empat / One quarter", "Satu per dua / One half", "Tiga per empat / Three quarters", "Dua per dua / Two halves"], optionsEn: ["One quarter", "One half", "Three quarters", "Two halves"], answer: 1 },
+                { qMs: "Apakah nama pecahan ¼?", qEn: "What is the fraction name of ¼?", optionsMs: ["Satu per dua / One half", "Dua per empat / Two quarters", "Satu per empat / One quarter", "Tiga per empat / Three quarters"], optionsEn: ["One half", "Two quarters", "One quarter", "Three quarters"], answer: 2 },
+                { qMs: "Apakah nama pecahan ¾?", qEn: "What is the fraction name of ¾?", optionsMs: ["Tiga per dua / Three halves", "Tiga per empat / Three quarters", "Empat per tiga / Four thirds", "Satu per empat / One quarter"], optionsEn: ["Three halves", "Three quarters", "Four thirds", "One quarter"], answer: 1 },
+                { qMs: "Jika sebiji epal dibahagi 2 sama besar, satu bahagian ialah…", qEn: "If an apple is divided into 2 equal parts, one part is...", optionsMs: ["¼", "½", "¾", "2"], optionsEn: ["¼", "½", "¾", "2"], answer: 1 },
+                { qMs: "Jika sebuku roti dibahagi 4 sama besar, satu bahagian ialah…", qEn: "If a loaf of bread is divided into 4 equal parts, one part is...", optionsMs: ["½", "¼", "¾", "4"], optionsEn: ["½", "¼", "¾", "4"], answer: 1 },
+                { qMs: "Pecahan manakah yang mewakili separuh?", qEn: "Which fraction represents a half?", optionsMs: ["¼", "½", "¾", "1/3"], optionsEn: ["¼", "½", "¾", "1/3"], answer: 1 },
+                { qMs: "Berapakah bahagian yang lorek jika 2 daripada 4 bahagian dilorek?", qEn: "What is the shaded fraction if 2 out of 4 parts are shaded?", optionsMs: ["¼", "½", "¾", "4/4"], optionsEn: ["¼", "½", "¾", "4/4"], answer: 1 },
+                { qMs: "Antara berikut, yang manakah menunjukkan pecahan per empat (suku)?", qEn: "Which of the following shows a quarter?", optionsMs: ["½", "¼", "¾", "1"], optionsEn: ["½", "¼", "¾", "1"], answer: 1 },
+                { qMs: "Jika 3 daripada 4 bahagian pizza dimakan, pecahan yang tersisa ialah...", qEn: "If 3 out of 4 parts of a pizza are eaten, the remaining fraction is...", optionsMs: ["¼", "½", "¾", "1"], optionsEn: ["¼", "½", "¾", "1"], answer: 0 },
+                { qMs: "Berapakah pecahan keseluruhan apabila 2 bahagian daripada 2 bahagian diambil?", qEn: "What is the whole fraction when 2 out of 2 parts are taken?", optionsMs: ["½", "1", "¼", "0"], optionsEn: ["½", "1", "¼", "0"], answer: 1 }
             ],
             t1_wang: [
                 { qMs: "Berapakah nilai syiling 50 sen?", qEn: "What is the value of a 50 sen coin?", optionsMs: ["RM0.20", "RM0.50", "RM1.00", "RM0.05"], optionsEn: ["RM0.20", "RM0.50", "RM1.00", "RM0.05"], answer: 1 },
-{ qMs: "Berapakah nilai syiling 20 sen?", qEn: "What is the value of a 20 sen coin?", optionsMs: ["RM0.10", "RM0.20", "RM0.50", "RM2.00"], optionsEn: ["RM0.10", "RM0.20", "RM0.50", "RM2.00"], answer: 1 },
-{ qMs: "Berapakah nilai wang kertas RM5?", qEn: "What is the value of a RM5 note?", optionsMs: ["Lima ringgit / Five ringgit", "Dua ringgit / Two ringgit", "Sepuluh ringgit / Ten ringgit", "Satu ringgit / One ringgit"], optionsEn: ["Lima ringgit / Five ringgit", "Dua ringgit / Two ringgit", "Sepuluh ringgit / Ten ringgit", "Satu ringgit / One ringgit"], answer: 0 },
-{ qMs: "Antara nilai wang berikut, yang manakah paling besar?", qEn: "Which of the following money values is the largest?", optionsMs: ["50 sen", "RM1", "RM5", "20 sen"], optionsEn: ["50 sen", "RM1", "RM5", "20 sen"], answer: 2 }
+                { qMs: "Berapakah nilai syiling 20 sen?", qEn: "What is the value of a 20 sen coin?", optionsMs: ["RM0.10", "RM0.20", "RM0.50", "RM2.00"], optionsEn: ["RM0.10", "RM0.20", "RM0.50", "RM2.00"], answer: 1 },
+                { qMs: "Berapakah nilai wang kertas RM5?", qEn: "What is the value of a RM5 note?", optionsMs: ["Lima ringgit / Five ringgit", "Dua ringgit / Two ringgit", "Sepuluh ringgit / Ten ringgit", "Satu ringgit / One ringgit"], optionsEn: ["Five ringgit", "Two ringgit", "Ten ringgit", "One ringgit"], answer: 0 },
+                { qMs: "Antara nilai wang berikut, yang manakah paling besar?", qEn: "Which of the following money values is the largest?", optionsMs: ["50 sen", "RM1", "RM5", "20 sen"], optionsEn: ["50 sen", "RM1", "RM5", "20 sen"], answer: 2 },
+                { qMs: "Berapakah nilai syiling 10 sen?", qEn: "What is the value of a 10 sen coin?", optionsMs: ["RM0.05", "RM0.10", "RM0.20", "RM0.50"], optionsEn: ["RM0.05", "RM0.10", "RM0.20", "RM0.50"], answer: 1 },
+                { qMs: "Berapakah nilai wang kertas RM10?", qEn: "What is the value of a RM10 note?", optionsMs: ["Lima ringgit", "Sepuluh ringgit", "Ringgit Malaysia", "Dua puluh ringgit"], optionsEn: ["Five ringgit", "Ten ringgit", "Ringgit Malaysia", "Twenty ringgit"], answer: 1 },
+                { qMs: "Dua keping syiling 20 sen bernilai...", qEn: "Two pieces of 20 sen coins are worth...", optionsMs: ["30 sen", "40 sen", "50 sen", "60 sen"], optionsEn: ["30 sen", "40 sen", "50 sen", "60 sen"], answer: 1 },
+                { qMs: "Syiling manakah yang paling kecil nilainya?", qEn: "Which coin has the smallest value?", optionsMs: ["5 sen", "10 sen", "20 sen", "50 sen"], optionsEn: ["5 sen", "10 sen", "20 sen", "50 sen"], answer: 0 },
+                { qMs: "Ali ada RM1. Dia beli pemadam harga 50 sen. Berapa baki wang Ali?", qEn: "Ali has RM1. He buys an eraser for 50 sen. What is his balance?", optionsMs: ["20 sen", "30 sen", "50 sen", "10 sen"], optionsEn: ["20 sen", "30 sen", "50 sen", "10 sen"], answer: 2 },
+                { qMs: "Wang kertas manakah yang berwarna hijau?", qEn: "Which note is green in color (Malaysian currency)?", optionsMs: ["RM1", "RM5", "RM10", "RM20"], optionsEn: ["RM1", "RM5", "RM10", "RM20"], answer: 1 }
             ],
             t1_masa_waktu: [
                 { qMs: "Terdapat berapa hari dalam seminggu?", qEn: "How many days are there in a week?", optionsMs: ["5", "6", "7", "8"], optionsEn: ["5", "6", "7", "8"], answer: 2 },
-{ qMs: "Apakah hari selepas hari Isnin?", qEn: "What day comes after Monday?", optionsMs: ["Ahad / Sunday", "Selasa / Tuesday", "Rabu / Wednesday", "Khamis / Thursday"], optionsEn: ["Ahad / Sunday", "Selasa / Tuesday", "Rabu / Wednesday", "Khamis / Thursday"], answer: 1 },
-{ qMs: "Apakah hari sebelum hari Jumaat?", qEn: "What day comes before Friday?", optionsMs: ["Selasa / Tuesday", "Rabu / Wednesday", "Khamis / Thursday", "Sabtu / Saturday"], optionsEn: ["Selasa / Tuesday", "Rabu / Wednesday", "Khamis / Thursday", "Sabtu / Saturday"], answer: 2 },
-{ qMs: "Terdapat berapa bulan dalam setahun?", qEn: "How many months are there in a year?", optionsMs: ["10", "11", "12", "13"], optionsEn: ["10", "11", "12", "13"], answer: 2 },
-{ qMs: "Dua hari sebelum hari Rabu ialah hari…", qEn: "Two days before Wednesday is...", optionsMs: ["Isnin / Monday", "Selasa / Tuesday", "Ahad / Sunday", "Sabtu / Saturday"], optionsEn: ["Isnin / Monday", "Selasa / Tuesday", "Ahad / Sunday", "Sabtu / Saturday"], answer: 0 },
-{ qMs: "Jika jarum panjang menunjuk tepat ke nombor 12, ia menunjukkan waktu…", qEn: "If the long hand points directly at 12, it shows an...", optionsMs: ["Setengah jam / Half hour", "Jam tepat / Exact hour", "Satu minit / One minute", "Satu hari / One day"], optionsEn: ["Setengah jam / Half hour", "Jam tepat / Exact hour", "Satu minit / One minute", "Satu hari / One day"], answer: 1 }
-                ]
-                };
+                { qMs: "Apakah hari selepas hari Isnin?", qEn: "What day comes after Monday?", optionsMs: ["Ahad / Sunday", "Selasa / Tuesday", "Rabu / Wednesday", "Khamis / Thursday"], optionsEn: ["Sunday", "Tuesday", "Wednesday", "Thursday"], answer: 1 },
+                { qMs: "Apakah hari sebelum hari Jumaat?", qEn: "What day comes before Friday?", optionsMs: ["Selasa / Tuesday", "Rabu / Wednesday", "Khamis / Thursday", "Sabtu / Saturday"], optionsEn: ["Tuesday", "Wednesday", "Thursday", "Saturday"], answer: 2 },
+                { qMs: "Terdapat berapa bulan dalam setahun?", qEn: "How many months are there in a year?", optionsMs: ["10", "11", "12", "13"], optionsEn: ["10", "11", "12", "13"], answer: 2 },
+                { qMs: "Dua hari sebelum hari Rabu ialah hari…", qEn: "Two days before Wednesday is...", optionsMs: ["Isnin / Monday", "Selasa / Tuesday", "Ahad / Sunday", "Sabtu / Saturday"], optionsEn: ["Monday", "Tuesday", "Sunday", "Saturday"], answer: 0 },
+                { qMs: "Jika jarum panjang menunjuk tepat ke nombor 12, ia menunjukkan waktu…", qEn: "If the long hand points directly at 12, it shows an...", optionsMs: ["Setengah jam / Half hour", "Jam tepat / Exact hour", "Satu minit / One minute", "Satu hari / One day"], optionsEn: ["Half hour", "Exact hour", "One minute", "One day"], answer: 1 },
+                { qMs: "Bulan apakah bulan pertama dalam setahun?", qEn: "Which month is the first month of the year?", optionsMs: ["Februari", "Januari", "Disember", "Mac"], optionsEn: ["February", "January", "December", "March"], answer: 1 },
+                { qMs: "Bulan apakah bulan terakhir dalam setahun?", qEn: "Which month is the last month of the year?", optionsMs: ["November", "Oktober", "Disember", "Januari"], optionsEn: ["November", "October", "December", "January"], answer: 2 },
+                { qMs: "Hari apakah selepas hari Sabtu?", qEn: "What day comes after Saturday?", optionsMs: ["Jumaat", "Ahad", "Isnin", "Selasa"], optionsEn: ["Friday", "Sunday", "Monday", "Tuesday"], answer: 1 },
+                { qMs: "Apakah waktu yang lazimnya kita pergi ke sekolah?", qEn: "What time do we usually go to school?", optionsMs: ["Malam", "Pagi", "Tengah malam", "Petang buta"], optionsEn: ["Night", "Morning", "Midnight", "Late evening"], answer: 1 }
+            ],
+            t1_bentuk: [
+                { qMs: "Apakah nama bentuk yang mempunyai 4 sisi yang sama panjang?", qEn: "What is the name of the shape with 4 equal sides?", optionsMs: ["Segi Tiga", "Segi Empat Sama", "Bulatan", "Segi Empat Tepat"], optionsEn: ["Triangle", "Square", "Circle", "Rectangle"], answer: 1 },
+                { qMs: "Bentuk manakah yang tiada bucu dan tiada sisi lurus?", qEn: "Which shape has no corners and no straight sides?", optionsMs: ["Segi Empat Sama", "Segi Tiga", "Bulatan", "Segi Empat Tepat"], optionsEn: ["Square", "Triangle", "Circle", "Rectangle"], answer: 2 },
+                { qMs: "Berapakah bilangan bucu bagi sebuah Segi Tiga?", qEn: "How many corners does a Triangle have?", optionsMs: ["2", "3", "4", "5"], optionsEn: ["2", "3", "4", "5"], answer: 1 },
+                { qMs: "Segi Empat Tepat mempunyai berapa sisi lurus?", qEn: "How many straight sides does a Rectangle have?", optionsMs: ["3", "4", "5", "6"], optionsEn: ["3", "4", "5", "6"], answer: 1 },
+                { qMs: "Apakah bentuk bagi sebuah bola?", qEn: "What is the shape of a ball?", optionsMs: ["Kuboid", "Silinder", "Sfera", "Kon"], optionsEn: ["Cuboid", "Cylinder", "Sphere", "Cone"], answer: 2 },
+                { qMs: "Kotak kasut berbentuk...", qEn: "A shoebox is shaped like a...", optionsMs: ["Kubus", "Kuboid", "Sfera", "Piramid"], optionsEn: ["Cube", "Cuboid", "Sphere", "Pyramid"], answer: 1 },
+                { qMs: "Bentuk manakah yang mempunyai 6 permukaan rata yang sama besar?", qEn: "Which shape has 6 equal flat surfaces?", optionsMs: ["Kubus", "Kuboid", "Silinder", "Kon"], optionsEn: ["Cube", "Cuboid", "Cylinder", "Cone"], answer: 0 },
+                { qMs: "Tin minuman biasanya berbentuk...", qEn: "A drink can is usually shaped like a...", optionsMs: ["Sfera", "Silinder", "Kon", "Kubus"], optionsEn: ["Sphere", "Cylinder", "Cone", "Cube"], answer: 1 },
+                { qMs: "Topi hari jadi berbentuk...", qEn: "A birthday hat is shaped like a...", optionsMs: ["Kon", "Silinder", "Sfera", "Kuboid"], optionsEn: ["Cone", "Cylinder", "Sphere", "Cuboid"], answer: 0 },
+                { qMs: "Berapakah bilangan permukaan rata bagi sebuah silinder?", qEn: "How many flat surfaces does a cylinder have?", optionsMs: ["1", "2", "3", "0"], optionsEn: ["1", "2", "3", "0"], answer: 1 }
+            ]
+        };
 
-        // Default soalan fallback untuk topik lain jika belum disenaraikan terperinci di atas
-        function getQuestionForTopic(topicId, index) {
-            if (questionBank[topicId] && questionBank[topicId][index]) {
-                const item = questionBank[topicId][index];
-                return {
+        // Fungsi pembantu untuk mengacak tatasusunan (Fisher-Yates Shuffle)
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        // Fungsi untuk mengambil soalan tanpa berulang dalam satu sesi dan diacak
+        function getQuestionsForTopicSession(topicId, requestedCount) {
+            let pool = [];
+            if (questionBank[topicId] && questionBank[topicId].length > 0) {
+                // Salin bank soalan asal supaya data asal tidak terjejas
+                pool = questionBank[topicId].map(item => ({
                     q: currentLang === 'ms' ? item.qMs : item.qEn,
                     options: currentLang === 'ms' ? item.optionsMs : item.optionsEn,
                     answer: item.answer
-                };
+                }));
+            } else {
+                // Fallback jika topik belum mempunyai senarai penuh
+                for (let i = 0; i < 20; i++) {
+                    pool.push({
+                        q: currentLang === 'ms' ? `Soalan ${i + 1} untuk topik ini:` : `Question ${i + 1} for this topic:`,
+                        options: ["10", "20", "30", "40"],
+                        answer: 0
+                    });
+                }
             }
-            // Fallback automatik
-            return {
-                q: currentLang === 'ms' ? `Soalan ${index + 1} untuk topik ini:` : `Question ${index + 1} for this topic:`,
-                options: ["10", "20", "30", "40"],
-                answer: 0
-            };
+
+            // Kocok senarai soalan (pastikan susunan soalan sentiasa rawak/berubah)
+            shuffleArray(pool);
+
+            // Ambil sebanyak requestedCount atau maksimum soalan yang ada
+            let finalSelection = pool.slice(0, Math.min(requestedCount, pool.length));
+
+            // Untuk setiap soalan yang dipilih, kita juga boleh mengacak pilihan jawapan (options) 
+            // sambil memastikan indeks jawapan betul (answer) dikemas kini dengan tepat.
+            finalSelection.forEach(item => {
+                let optionsWithIndex = item.options.map((opt, idx) => ({ text: opt, isCorrect: idx === item.answer }));
+                shuffleArray(optionsWithIndex);
+                item.options = optionsWithIndex.map(o => o.text);
+                item.answer = optionsWithIndex.findIndex(o => o.isCorrect);
+            });
+
+            return finalSelection;
         }
 
         let selectedTopicId = "";
@@ -1409,13 +1510,11 @@
             score = 0;
             startTime = Date.now();
 
-            currentQuestionsList = [];
-            for (let i = 0; i < totalQuestionsCount; i++) {
-                currentQuestionsList.push(getQuestionForTopic(selectedTopicId, i % 10));
-            }
+            // Mendapatkan senarai soalan yang dikocok dan dijamin tiada soalan berulang dalam sesi ini[cite: 1]
+            currentQuestionsList = getQuestionsForTopicSession(selectedTopicId, totalQuestionsCount);
 
             document.getElementById("topic-title").innerText = selectedTopicName;
-            document.getElementById("total-q-num").innerText = totalQuestionsCount;
+            document.getElementById("total-q-num").innerText = currentQuestionsList.length;
             document.getElementById("current-score").innerText = score;
 
             showScreen('quiz-screen');
@@ -1463,7 +1562,7 @@
 
         window.nextQuestion = function() {
             currentQuestionIdx++;
-            if (currentQuestionIdx < totalQuestionsCount) {
+            if (currentQuestionIdx < currentQuestionsList.length) {
                 loadQuestion();
             } else {
                 finishQuiz();
@@ -1471,7 +1570,8 @@
         };
 
         async function finishQuiz() {
-            const percentage = Math.round((score / totalQuestionsCount) * 100);
+            const actualTotal = currentQuestionsList.length;
+            const percentage = Math.round((score / actualTotal) * 100);
             document.getElementById("final-score").innerText = percentage + "%";
 
             const now = new Date();
@@ -1490,7 +1590,7 @@
             }
             document.getElementById("feedback-message").innerText = feedback;
 
-            await saveSessionRecord(selectedTopicName, score, totalQuestionsCount, timeStr);
+            await saveSessionRecord(selectedTopicName, score, actualTotal, timeStr);
             showScreen('result-screen');
         }
 
