@@ -3,40 +3,871 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendaftaran Pantas - Bijak Belajar</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Bijak Math - Primary School Mathematics</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-yellow: #FFDE59;
+            --primary-pink: #FF66C4;
+            --primary-blue: #5CE1E6;
+            --primary-green: #7ED957;
+            --primary-purple: #C38FFF;
+            --sidebar-bg: rgba(44, 62, 80, 0.9);
+            --sidebar-text: #FFFFFF;
+            --text-dark: #2C3E50;
+            --white: rgba(255, 255, 255, 0.95);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://i.imgur.com/H46KuIJ.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            backdrop-filter: blur(8px);
+            color: var(--sidebar-text);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 15px;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 100;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar-logo {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 10px auto;
+            background: #E0F7FA;
+            border-radius: 50%;
+            padding: 4px;
+            border: 3px dashed var(--primary-green);
+            overflow: hidden;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        .sidebar-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .sidebar-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.5rem;
+            color: var(--primary-yellow);
+            text-align: center;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.85rem;
+            text-align: center;
+            color: #BDC3C7;
+            margin-bottom: 25px;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        .nav-item {
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s ease;
+            color: #ECF0F1;
+            text-decoration: none;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: var(--primary-pink);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-item.whatsapp-btn {
+            background-color: #25D366;
+            color: white;
+            margin-top: auto;
+        }
+
+        .nav-item.whatsapp-btn:hover {
+            background-color: #1EBE5D;
+        }
+
+        .nav-item.logout-btn {
+            background-color: #E74C3C;
+            margin-top: 5px;
+        }
+
+        .nav-item.logout-btn:hover {
+            background-color: #C0392B;
+        }
+
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: var(--sidebar-bg);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            margin-left: 250px;
+            padding: 40px 30px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--white);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 650px;
+            padding: 30px;
+            text-align: center;
+            border: 5px solid var(--primary-yellow);
+            position: relative;
+        }
+
+        .card {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .card.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .input-group {
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 1rem;
+            border: 2px solid var(--primary-blue);
+            border-radius: 12px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            outline: none;
+            background: #fff;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary-pink);
+        }
+
+        .home-header {
+            margin-bottom: 15px;
+        }
+
+        .home-app-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 8px auto;
+            border-radius: 50%;
+            border: 4px solid var(--primary-yellow);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .home-intro-title {
+            font-family: 'Fredoka One', cursive;
+            color: #5E17EB;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+        }
+
+        .home-intro-subtitle {
+            font-size: 0.95rem;
+            color: #555;
+            font-weight: 700;
+        }
+
+        .active-profile-badge {
+            background: #E0F7FA;
+            border: 2px dashed var(--primary-blue);
+            padding: 8px 15px;
+            border-radius: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .switch-profile-btn {
+            background: var(--primary-purple);
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 2px 0 #8d5cc4;
+        }
+
+        .switch-profile-btn:active {
+            transform: translateY(1px);
+            box-shadow: none;
+        }
+
+        /* TAHUN GRID SELECTION */
+        .year-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .year-btn {
+            background-color: var(--primary-blue);
+            color: var(--text-dark);
+            border: none;
+            padding: 18px 12px;
+            border-radius: 18px;
+            font-size: 1.1rem;
+            font-family: 'Fredoka One', cursive;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 5px 0 #3bafb3;
+        }
+
+        .year-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 0 #3bafb3;
+        }
+
+        .year-btn:nth-child(6n-5) { background-color: var(--primary-blue); box-shadow: 0 5px 0 #3bafb3; }
+        .year-btn:nth-child(6n-4) { background-color: var(--primary-pink); box-shadow: 0 5px 0 #c74597; color: white;}
+        .year-btn:nth-child(6n-3) { background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d; }
+        .year-btn:nth-child(6n-2) { background-color: var(--primary-purple); box-shadow: 0 5px 0 #8d5cc4; color: white;}
+        .year-btn:nth-child(6n-1) { background-color: var(--primary-yellow); box-shadow: 0 5px 0 #c2a332; }
+        .year-btn:nth-child(6n) { background-color: #FF7043; box-shadow: 0 5px 0 #D84315; color: white; }
+
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .topic-btn {
+            background-color: var(--primary-blue);
+            color: var(--text-dark);
+            border: none;
+            padding: 15px 12px;
+            border-radius: 18px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 5px 0 #3bafb3;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .topic-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 0 #3bafb3;
+        }
+
+        .topic-btn:nth-child(6n-5) { background-color: var(--primary-blue); box-shadow: 0 5px 0 #3bafb3; }
+        .topic-btn:nth-child(6n-4) { background-color: var(--primary-pink); box-shadow: 0 5px 0 #c74597; color: white;}
+        .topic-btn:nth-child(6n-3) { background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d; }
+        .topic-btn:nth-child(6n-2) { background-color: var(--primary-purple); box-shadow: 0 5px 0 #8d5cc4; color: white;}
+        .topic-btn:nth-child(6n-1) { background-color: var(--primary-yellow); box-shadow: 0 5px 0 #c2a332; }
+        .topic-btn:nth-child(6n) { background-color: #FF7043; box-shadow: 0 5px 0 #D84315; color: white; }
+
+        .lesson-box {
+            background: #F0F4F8;
+            border-radius: 18px;
+            padding: 20px;
+            text-align: left;
+            margin: 20px 0;
+            border-left: 6px solid var(--primary-purple);
+        }
+
+        .lesson-title {
+            font-family: 'Fredoka One', cursive;
+            color: #5E17EB;
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        .lesson-desc {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .lesson-example {
+            background: #FFFFFF;
+            padding: 12px 15px;
+            border-radius: 12px;
+            border: 2px dashed var(--primary-blue);
+            margin-top: 10px;
+        }
+
+        .lesson-example ul {
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-weight: 700;
+            background: #FFF9C4;
+            padding: 10px 20px;
+            border-radius: 15px;
+        }
+
+        .question-box {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 25px 0;
+            padding: 20px;
+            background-color: #F0F4F8;
+            border-radius: 15px;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background-color: #FFFFFF;
+            border: 3px solid #CBD5E1;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary-blue);
+            background-color: #E0F7FA;
+        }
+
+        .option-btn.correct {
+            background-color: var(--primary-green) !important;
+            border-color: #4CAF50 !important;
+            color: white;
+        }
+
+        .option-btn.wrong {
+            background-color: #FF6B6B !important;
+            border-color: #E53935 !important;
+            color: white;
+        }
+
+        .quiz-action-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-btn {
+            background-color: #FF9800;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #E65100;
+            margin: 5px;
+            text-decoration: none;
+        }
+
+        .action-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #E65100;
+        }
+
+        .login-whatsapp-btn {
+            background-color: #25D366;
+            box-shadow: 0 4px 0 #1EBE5D;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .login-whatsapp-btn:hover {
+            background-color: #1EBE5D;
+        }
+
+        .home-btn {
+            background-color: #3498DB;
+            box-shadow: 0 4px 0 #1F618D;
+        }
+
+        .home-btn:active {
+            box-shadow: 0 2px 0 #1F618D;
+        }
+
+        .clear-btn {
+            background-color: #E74C3C;
+            box-shadow: 0 4px 0 #922B21;
+        }
+
+        .result-score {
+            font-size: 3rem;
+            font-family: 'Fredoka One', cursive;
+            color: #5E17EB;
+            margin: 15px 0;
+        }
+
+        .completion-time {
+            font-size: 0.95rem;
+            color: #555;
+            background: #E0F7FA;
+            padding: 8px 15px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .table-container {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 15px;
+            border-radius: 12px;
+            border: 2px solid #FFE082;
+        }
+
+        .record-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #FFFDE7;
+        }
+
+        .record-table th, .record-table td {
+            padding: 10px;
+            border: 1px solid #FFE082;
+            font-size: 0.9rem;
+        }
+
+        .record-table th {
+            background-color: var(--primary-yellow);
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .profile-card-details {
+            background: #F0F4F8;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+            text-align: left;
+            font-size: 1rem;
+        }
+
+        .profile-card-details p {
+            margin-bottom: 8px;
+        }
+
+        .profile-list-box {
+            background: #FFFFFF;
+            border: 2px solid var(--primary-blue);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .question-count-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .count-btn {
+            background-color: var(--primary-purple);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #8d5cc4;
+            transition: all 0.2s;
+        }
+
+        .count-btn:hover {
+            transform: translateY(-2px);
+            background-color: #b179ff;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .sidebar {
+                left: -260px;
+                height: 100vh;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 70px 15px 20px 15px;
+            }
+
+            .record-table th, .record-table td {
+                font-size: 0.8rem;
+                padding: 6px;
+            }
         }
     </style>
-    
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript">
-       (function(){
-          emailjs.init("fn_2mv2164kWUf8J7"); // Public Key anda
-       })();
-    </script>
+</head>
+<body>
 
-  <script type="module">
+    <!-- MOBILE TOGGLE BUTTON -->
+    <button class="mobile-toggle" id="mobile-toggle-btn" onclick="toggleSidebar(event)">☰</button>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <img src="https://i.imgur.com/vPd4cjj.jpeg" alt="Math Hub Logo">
+        </div>
+        <div class="sidebar-title">Math Hub</div>
+        <div class="sidebar-subtitle">Matematik Sekolah Rendah</div>
+
+        <ul class="nav-menu" id="nav-menu" style="display: none;">
+            <li class="nav-item active" onclick="playClickSound(); navigateTo('home-screen', this)">
+                📚 Laman Utama
+            </li>
+            <li class="nav-item" onclick="playClickSound(); navigateTo('profile-view-screen', this)">
+                👤 Profil Pelajar
+            </li>
+            <li class="nav-item" onclick="playClickSound(); navigateTo('scores-screen', this)">
+                🏆 Rekod Skor
+            </li>
+            <a href="https://wa.me/60196818139" target="_blank" class="nav-item whatsapp-btn" onclick="playClickSound(); closeSidebar();">
+                💬 WhatsApp
+            </a>
+            <li class="nav-item logout-btn" onclick="playClickSound(); logout()">
+                🚪 Log Keluar
+            </li>
+        </ul>
+    </div>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="main-content">
+        <div class="container">
+
+            <!-- 1. LOGIN SCREEN -->
+            <div id="login-screen" class="card active">
+                <h1 style="font-family: 'Fredoka One', cursive; color: #FF5757; margin-bottom: 10px;">Math Hub</h1>
+                <h2>Selamat Kembali! 👋</h2>
+                <p style="margin-top: 5px; color: #666;">Log masuk menggunakan akaun sah anda.</p>
+                
+                <div class="input-group">
+                    <label for="login-email">Alamat E-mel</label>
+                    <input type="email" id="login-email" class="form-input" placeholder="contoh@email.com">
+                </div>
+                <div class="input-group">
+                    <label for="login-password">Kata Laluan</label>
+                    <input type="password" id="login-password" class="form-input" placeholder="••••••••">
+                </div>
+                <button class="action-btn" style="display:inline-block; width: 100%;" onclick="playClickSound(); handleLogin()">Log Masuk 🚀</button>
+                
+                <div style="margin-top: 25px; border-top: 2px dashed #DDD; padding-top: 20px;">
+                    <p style="font-weight: 700; color: #555; margin-bottom: 10px; font-size: 1rem;">Hubungi Kami</p>
+                    <a href="https://wa.me/60196818139" target="_blank" class="action-btn login-whatsapp-btn" onclick="playClickSound()">
+                        💬 WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2. PROFILE SELECTION / ADD SCREEN -->
+            <div id="profile-selection-screen" class="card">
+                <h2>Siapa yang Sedang Belajar? 🧒👧</h2>
+                <p style="color: #666; margin-top: 5px;">Pilih profil pelajar atau tambah profil baharu.</p>
+                
+                <div class="profile-list-box" id="profile-selection-list">
+                    <!-- Profile buttons populated dynamically -->
+                </div>
+
+                <div style="margin-top: 20px; border-top: 2px dashed #DDD; padding-top: 15px;">
+                    <h3>Tambah Profil Baharu</h3>
+                    <div class="input-group">
+                        <input type="text" id="new-profile-name" class="form-input" placeholder="Masukkan nama pelajar..." maxlength="20">
+                    </div>
+                    <button class="action-btn" style="display:inline-block;" onclick="playClickSound(); addNewProfile()">Tambah Profil ➕</button>
+                </div>
+            </div>
+
+            <!-- 3. HOME SCREEN (PILIH TAHUN 1 HINGGA 6) -->
+            <div id="home-screen" class="card">
+                <div class="home-header">
+                    <img src="https://i.imgur.com/vPd4cjj.jpeg" alt="Math Hub Logo" class="home-app-logo">
+                    <h2 class="home-intro-title" id="home-greeting">Hi Pelajar! 👋</h2>
+                    
+                    <div class="active-profile-badge">
+                        <span>Profil: <strong id="current-badge-name" style="color: #5E17EB;">-</strong></span>
+                        <button class="switch-profile-btn" onclick="playClickSound(); showScreen('profile-selection-screen')">Tukar 🔄</button>
+                    </div>
+
+                    <p class="home-intro-subtitle">Sila pilih tahun persekolahan di bawah.</p>
+                </div>
+
+                <div class="year-grid">
+                    <button class="year-btn" onclick="playClickSound(); selectYear(1)">Tahun 1 🧮</button>
+                    <button class="year-btn" onclick="playClickSound(); selectYear(2)">Tahun 2 ➕</button>
+                    <button class="year-btn" onclick="playClickSound(); selectYear(3)">Tahun 3 ✖️</button>
+                    <button class="year-btn" onclick="playClickSound(); selectYear(4)">Tahun 4 ➗</button>
+                    <button class="year-btn" onclick="playClickSound(); selectYear(5)">Tahun 5 📊</button>
+                    <button class="year-btn" onclick="playClickSound(); selectYear(6)">Tahun 6 📐</button>
+                </div>
+            </div>
+
+            <!-- 3B. TOPIC SELECTION SCREEN (BERDASARKAN TAHUN) -->
+            <div id="topic-screen" class="card">
+                <div class="home-header">
+                    <h2 class="home-intro-title" id="topic-screen-title">Pilih Topik</h2>
+                    <p class="home-intro-subtitle">Pilih tajuk matematik untuk mula mengulangkaji.</p>
+                </div>
+                <div class="topic-grid" id="topic-grid-container">
+                    <!-- Diisi secara dinamik melalui JS -->
+                </div>
+                <br>
+                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Kembali ke Pilihan Tahun 🏠</button>
+            </div>
+
+            <!-- 4. LESSON SCREEN -->
+            <div id="lesson-screen" class="card">
+                <h2 style="color: #333;">Nota Pembelajaran! 📖</h2>
+                <div class="lesson-box">
+                    <div class="lesson-title" id="lesson-title">Tajuk Topik</div>
+                    <div class="lesson-desc" id="lesson-desc">Penerangan nota di sini...</div>
+                    <div class="lesson-example">
+                        <strong>Contoh:</strong>
+                        <div id="lesson-examples">Contoh di sini...</div>
+                    </div>
+                </div>
+                <button class="action-btn" style="display:inline-block; background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); proceedToQuestionCount()">Pilih Bilangan Soalan 🚀</button>
+                <br>
+                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('topic-screen')">Kembali 🔙</button>
+            </div>
+
+            <!-- SCREEN PILIH BILANGAN SOALAN -->
+            <div id="count-selection-screen" class="card">
+                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">Pilih Bilangan Soalan 📝</h2>
+                <p style="color: #666; margin-top: 5px;">Berapa banyak soalan yang anda ingin jawab?</p>
+                
+                <div class="question-count-grid">
+                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(5)">5 Soalan</button>
+                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(10)">10 Soalan</button>
+                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(15)">15 Soalan</button>
+                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(20)">20 Soalan</button>
+                </div>
+                <br>
+                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Menu Utama 🏠</button>
+            </div>
+
+            <!-- 5. PROFILES & ACCOUNT MANAGEMENT VIEW -->
+            <div id="profile-view-screen" class="card">
+                <h2>Akaun & Profil 👤</h2>
+                <div class="profile-card-details">
+                    <p><strong>E-mel Akaun:</strong> <span id="acc-email-val" style="color: #5E17EB;">-</span></p>
+                    <p><strong>Profil Pelajar Aktif:</strong> <span id="active-profile-val" style="color: #FF5757; font-weight: bold;">-</span></p>
+                    <p><strong>Aras:</strong> Matematik Sekolah Rendah</p>
+                </div>
+
+                <button class="action-btn" style="background-color: var(--primary-purple); box-shadow: 0 4px 0 #8d5cc4; width: 100%; margin-bottom: 15px;" onclick="playClickSound(); showScreen('profile-selection-screen')">Tukar / Tambah Profil 🔄</button>
+                
+                <div style="background: #FFF9C4; padding: 15px; border-radius: 15px; border: 2px dashed #FBC02D; text-align: left; margin-bottom: 15px;">
+                    <h3 style="color: #D35400; font-size: 1.1rem; margin-bottom: 8px;">🔐 Tukar Kata Laluan</h3>
+                    <div class="input-group" style="margin: 10px 0;">
+                        <label for="current-password-input">Kata Laluan Semasa</label>
+                        <input type="password" id="current-password-input" class="form-input" placeholder="Masukkan kata laluan semasa">
+                    </div>
+                    <div class="input-group" style="margin: 10px 0;">
+                        <label for="new-password-input">Kata Laluan Baharu (Min. 6 aksara)</label>
+                        <input type="password" id="new-password-input" class="form-input" placeholder="Masukkan kata laluan baharu">
+                    </div>
+                    <button class="action-btn" style="background-color: #E67E22; box-shadow: 0 4px 0 #B9770E; width: 100%; margin-top: 5px;" onclick="playClickSound(); handlePasswordChange()">Kemaskini Kata Laluan 🔑</button>
+                </div>
+
+                <button class="action-btn home-btn" style="width: 100%; margin: 0;" onclick="playClickSound(); navigateTo('home-screen')">Kembali ke Utama 🏠</button>
+            </div>
+
+            <!-- 6. SCORES HISTORY SCREEN -->
+            <div id="scores-screen" class="card">
+                <h2 style="color: #333;">🏆 Sejarah Percubaan Kuiz</h2>
+                <p style="color: #666; margin-top: 5px;">Rekod setiap sesi kuiz matematik yang telah diselesaikan!</p>
+                
+                <div class="table-container">
+                    <table class="record-table">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Topik</th>
+                                <th>Skor (%)</th>
+                                <th>Tarikh & Masa</th>
+                            </tr>
+                        </thead>
+                        <tbody id="score-records-body">
+                            <!-- Loaded via JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Kembali ke Utama 🏠</button>
+                <button class="action-btn clear-btn" onclick="playClickSound(); clearHistory()">Kosongkan Sejarah 🗑️</button>
+            </div>
+
+            <!-- 7. QUIZ SCREEN (MULTIPLE CHOICE) -->
+            <div id="quiz-screen" class="card">
+                <div class="quiz-header">
+                    <span id="active-topic-label">Topik</span>
+                    <span>Soalan: <span id="question-num">1</span>/<span id="total-q-num">10</span></span>
+                    <span>Skor: <span id="current-score">0</span></span>
+                </div>
+
+                <div id="question-text" class="question-box">
+                    Kandungan soalan di sini...
+                </div>
+
+                <div id="options-container" class="options-grid">
+                    <!-- Option buttons -->
+                </div>
+
+                <div class="quiz-action-container">
+                    <button id="next-btn" class="action-btn" style="display:none;" onclick="playClickSound(); nextQuestion()">Soalan Seterusnya ➔</button>
+                    <button class="action-btn home-btn" onclick="playClickSound(); confirmBackToHome()">Utama 🏠</button>
+                </div>
+            </div>
+
+            <!-- 8. RESULT SCREEN -->
+            <div id="result-screen" class="card">
+                <h2>Syabas! Pencapaian Cemerlang 🎉</h2>
+                <p>Anda telah melengkapkan kuiz ini!</p>
+                <div class="result-score" id="final-score">0%</div>
+                <div class="completion-time" id="completion-time">📅 Diselesaikan pada: -</div>
+                <p id="feedback-message" style="font-weight: 700; color: #555;"></p>
+                <br>
+                <button class="action-btn home-btn" style="display:inline-block;" onclick="playClickSound(); navigateTo('home-screen')">Kembali ke Menu 🏠</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FIREBASE SDKs -->
+    <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, set, get, child, remove, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { 
+            getAuth, 
+            signInWithEmailAndPassword, 
+            signOut, 
+            onAuthStateChanged,
+            EmailAuthProvider,
+            reauthenticateWithCredential,
+            updatePassword
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            getDatabase, 
+            ref, 
+            set, 
+            push, 
+            get, 
+            child, 
+            remove 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // 1. Firebase Config untuk Paparan Admin & Pending List (admin-f72e5)
-        const adminFirebaseConfig = {
-    apiKey: "AIzaSyCxxEsifGhdkTj_3EOdjflPS__B_SKRSZY",
-    authDomain: "admin-f72e5.firebaseapp.com",
-    databaseURL: "https://admin-f72e5-default-rtdb.asia-southeast1.firebasedatabase.app", // Pastikan baris ini wujud!
-    projectId: "admin-f72e5",
-    storageBucket: "admin-f72e5.firebasestorage.app",
-    messagingSenderId: "523370880023",
-    appId: "1:523370880023:web:883b422a9611abb2889052"
-};
-
-        // 2. Firebase Config untuk Target User / Grammar Hub (grammar-hub-6af80)
-        const targetFirebaseConfig = {
+        const firebaseConfig = {
             apiKey: "AIzaSyDXc06B8WLtqjkG0aScBHrd3L3M-n_5okc",
             authDomain: "grammar-hub-6af80.firebaseapp.com",
             databaseURL: "https://grammar-hub-6af80-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -45,452 +876,902 @@
             messagingSenderId: "1092171234032",
             appId: "1:1092171234032:web:7cc8efefb812993500e035"
         };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
 
-        // Initialize Admin Firebase App (Primary)
-        const adminApp = initializeApp(adminFirebaseConfig, "AdminApp");
-        const adminAuth = getAuth(adminApp);
-        const adminDb = getDatabase(adminApp);
+        window.currentUserAuth = null;
+        window.activeProfile = "";
+        window.userProfiles = [];
 
-        // Initialize Target Grammar Hub Firebase App (Secondary)
-        const targetApp = initializeApp(targetFirebaseConfig, "TargetApp");
-        const targetAuth = getAuth(targetApp);
-        const targetDb = getDatabase(targetApp);
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                window.currentUserAuth = user;
+                document.getElementById("nav-menu").style.display = "flex";
+                document.getElementById("acc-email-val").innerText = user.email;
+                await fetchProfiles();
+            } else {
+                window.currentUserAuth = null;
+                window.activeProfile = "";
+                document.getElementById("nav-menu").style.display = "none";
+                showScreen("login-screen");
+            }
+        });
 
-        // 1. Handle Pendaftaran & Simpan Live ke Firebase Realtime Database Admin (Pending)
-        window.handleRegister = async function(event) {
-            event.preventDefault();
+        window.handleLogin = async function() {
+            const email = document.getElementById("login-email").value.trim();
+            const password = document.getElementById("login-password").value.trim();
 
-            const submitBtn = event.target.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Memproses...";
+            if (!email || !password) {
+                alert("Sila masukkan e-mel dan kata laluan.");
+                return;
+            }
 
-            const custNama = document.getElementById('cust_nama').value;
-            const custEmail = document.getElementById('cust_email').value;
-            const custNofon = document.getElementById('cust_nofon').value;
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (error) {
+                alert("Log masuk gagal: " + error.message);
+            }
+        };
+
+        window.logout = async function() {
+            closeSidebar();
+            try {
+                await signOut(auth);
+                alert("Anda telah berjaya log keluar.");
+            } catch (error) {
+                alert("Ralat log keluar: " + error.message);
+            }
+        };
+
+        window.handlePasswordChange = async function() {
+            const currentPass = document.getElementById("current-password-input").value;
+            const newPass = document.getElementById("new-password-input").value;
+
+            if (!currentPass || !newPass) {
+                alert("Sila isi ruang kata laluan semasa dan baharu.");
+                return;
+            }
+
+            if (newPass.length < 6) {
+                .alert("Kata laluan baharu mestilah sekurang-kurangnya 6 aksara.");
+                return;
+            }
+
+            const user = auth.currentUser;
+            if (!user) {
+                alert("Tiada pengguna yang log masuk.");
+                return;
+            }
+
+            try {
+                const credential = EmailAuthProvider.credential(user.email, currentPass);
+                await reauthenticateWithCredential(user, credential);
+                await updatePassword(user, newPass);
+                
+                alert("Kata laluan berjaya dikemaskini! 🎉");
+                document.getElementById("current-password-input").value = "";
+                document.getElementById("new-password-input").value = "";
+            } catch (error) {
+                alert("Gagal mengemaskini kata laluan: " + error.message);
+            }
+        };
+
+        async function fetchProfiles() {
+            if (!window.currentUserAuth) return;
+            const uid = window.currentUserAuth.uid;
+            const dbRef = ref(db);
             
-            const resNama = document.getElementById('res_nama').value;
-            const resEmail = document.getElementById('res_email').value;
-            const resNofon = document.getElementById('res_nofon').value;
+            try {
+                const snapshot = await get(child(dbRef, `users/${uid}/profiles`));
+                const listContainer = document.getElementById("profile-selection-list");
+                listContainer.innerHTML = "";
 
-            const defaultPassword = "GH548257af";
-            const requestId = 'req_' + Date.now();
+                if (snapshot.exists()) {
+                    window.userProfiles = Object.values(snapshot.val());
+                    window.userProfiles.forEach(profName => {
+                        const btn = document.createElement("button");
+                        btn.className = "action-btn";
+                        btn.style.display = "block";
+                        btn.style.width = "100%";
+                        btn.style.margin = "8px 0";
+                        btn.innerText = `👤 ${profName}`;
+                        btn.onclick = () => selectProfile(profName);
+                        listContainer.appendChild(btn);
+                    });
+                } else {
+                    window.userProfiles = [];
+                    listContainer.innerHTML = "<p style='color:#777;'>Tiada profil ditemui. Sila cipta satu di bawah!</p>";
+                }
 
-            const newRequest = {
-                id: requestId,
-                nama: custNama,
-                email: custEmail,
-                nofon: custNofon,
-                reseller_nama: resNama,
-                reseller_email: resEmail,
-                reseller_nofon: resNofon,
-                password: defaultPassword,
-                date: new Date().toLocaleString()
+                if (!window.activeProfile) {
+                    showScreen("profile-selection-screen");
+                }
+            } catch (err) {
+                console.error("Ralat memuatkan profil:", err);
+            }
+        }
+
+        window.addNewProfile = async function() {
+            const nameInput = document.getElementById("new-profile-name");
+            const newName = nameInput.value.trim();
+
+            if (!newName) {
+                alert("Sila masukkan nama pelajar.");
+                return;
+            }
+
+            if (!window.currentUserAuth) return;
+            const uid = window.currentUserAuth.uid;
+
+            try {
+                const newProfileRef = push(ref(db, `users/${uid}/profiles`));
+                await set(newProfileRef, newName);
+                nameInput.value = "";
+                await fetchProfiles();
+                selectProfile(newName);
+            } catch (err) {
+                alert("Gagal menambah profil: " + err.message);
+            }
+        };
+
+        function selectProfile(profileName) {
+            window.activeProfile = profileName;
+            document.getElementById("home-greeting").innerText = `Hi ${profileName}! 👋`;
+            document.getElementById("active-profile-val").innerText = profileName;
+            document.getElementById("current-badge-name").innerText = profileName;
+            showScreen("home-screen");
+        }
+
+        window.saveSessionRecord = async function(topic, scoreValue, totalQ, formattedTime) {
+            if (!window.currentUserAuth || !window.activeProfile) return;
+            const uid = window.currentUserAuth.uid;
+
+            const percentage = Math.round((scoreValue / totalQ) * 100);
+
+            const sessionData = {
+                profile: window.activeProfile,
+                topic: topic,
+                score: `${percentage}%`,
+                rawScore: `${scoreValue} / ${totalQ}`,
+                time: formattedTime,
+                timestamp: Date.now()
             };
 
             try {
-                // Simpan ke admin database di bawah node 'pending_users'
-                await set(ref(adminDb, 'pending_users/' + requestId), newRequest);
-                
-                const baseUrl = "https://bijakbelajar.bcl.my/form/customer-registration";
-                const targetUrl = `${baseUrl}?name=${encodeURIComponent(resNama)}&email=${encodeURIComponent(resEmail)}&phone=${encodeURIComponent(resNofon)}`;
-                
-                window.location.href = targetUrl;
-            } catch (error) {
-                console.error("Ralat menyimpan data:", error);
-                alert("Gagal menghantar pendaftaran: " + error.message);
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Register & Teruskan";
+                const historyRef = ref(db, `users/${uid}/history`);
+                const newSessionRef = push(historyRef);
+                await set(newSessionRef, sessionData);
+            } catch (err) {
+                console.error("Gagal menyimpan sejarah skor:", err);
             }
-        }
+        };
 
-        // 2. Fungsi Admin Login (Menggunakan Admin Auth)
-        window.checkAdminLogin = async function() {
-            const email = document.getElementById('admin_email').value;
-            const pass = document.getElementById('admin_pass').value;
+        window.loadScoreBoard = async function() {
+            const tbody = document.getElementById("score-records-body");
+            tbody.innerHTML = "<tr><td colspan='4'>Memuatkan sejarah...</td></tr>";
 
-            if (!email || !pass) {
-                alert("Sila masukkan email dan password admin.");
-                return;
-            }
+            if (!window.currentUserAuth) return;
+            const uid = window.currentUserAuth.uid;
+            const dbRef = ref(db);
 
             try {
-                await signInWithEmailAndPassword(adminAuth, email, pass);
-                document.getElementById('login_section').classList.add('hidden');
-                document.getElementById('admin_dashboard').classList.remove('hidden');
-                
-                initRealtimeListeners();
-            } catch (error) {
-                console.error("Ralat Log Masuk:", error);
-                alert("Log Masuk Gagal: " + error.message);
-            }
-        }
+                const snapshot = await get(child(dbRef, `users/${uid}/history`));
+                tbody.innerHTML = "";
 
-        window.closeAdmin = function() {
-            document.getElementById('admin_modal').classList.add('hidden');
-            document.getElementById('admin_pass').value = '';
-            document.getElementById('admin_email').value = '';
-        }
+                if (snapshot.exists()) {
+                    const allData = Object.values(snapshot.val());
+                    const profileData = allData.filter(item => item.profile === window.activeProfile);
 
-        window.openAdminModal = function() {
-            document.getElementById('admin_modal').classList.remove('hidden');
-            document.getElementById('login_section').classList.remove('hidden');
-            document.getElementById('admin_dashboard').classList.add('hidden');
-        }
+                    if (profileData.length === 0) {
+                        tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">Tiada sesi kuiz direkodkan untuk ${window.activeProfile} lagi!</td></tr>`;
+                        return;
+                    }
 
-        window.switchTab = function(tabName) {
-            const pendingSec = document.getElementById('section_pending');
-            const approvedSec = document.getElementById('section_approved');
-            const tabPendingBtn = document.getElementById('tab_pending_btn');
-            const tabApprovedBtn = document.getElementById('tab_approved_btn');
+                    profileData.slice().reverse().forEach((session, idx) => {
+                        const tr = document.createElement("tr");
+                        const sessionNum = profileData.length - idx;
 
-            if (tabName === 'pending') {
-                pendingSec.classList.remove('hidden');
-                approvedSec.classList.add('hidden');
-                tabPendingBtn.className = "px-4 py-2 text-xs font-bold rounded-lg bg-blue-600 text-white shadow";
-                tabApprovedBtn.className = "px-4 py-2 text-xs font-bold rounded-lg bg-slate-200 text-slate-700 hover:bg-slate-300";
-            } else {
-                pendingSec.classList.add('hidden');
-                approvedSec.classList.remove('hidden');
-                tabApprovedBtn.className = "px-4 py-2 text-xs font-bold rounded-lg bg-blue-600 text-white shadow";
-                tabPendingBtn.className = "px-4 py-2 text-xs font-bold rounded-lg bg-slate-200 text-slate-700 hover:bg-slate-300";
-            }
-        }
-
-        function initRealtimeListeners() {
-            onValue(ref(adminDb, 'pending_users'), (snapshot) => {
-                const data = snapshot.val();
-                loadPendingTable(data);
-            });
-
-            onValue(ref(adminDb, 'approved_users'), (snapshot) => {
-                const data = snapshot.val();
-                loadApprovedTable(data);
-            });
-        }
-
-        function loadPendingTable(data) {
-            const tbody = document.getElementById('pending_table_body');
-            tbody.innerHTML = '';
-
-            if (!data || Object.keys(data).length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-slate-500">Tiada senarai menunggu.</td></tr>`;
-                return;
-            }
-
-            Object.entries(data).forEach(([key, user]) => {
-                const tr = document.createElement('tr');
-                tr.className = "border-b border-slate-100";
-                tr.innerHTML = `
-                    <td class="py-3 px-4">
-                        <span class="font-semibold text-slate-800">${user.nama}</span><br>
-                        <span class="text-xs text-slate-500">${user.email} (${user.nofon})</span>
-                    </td>
-                    <td class="py-3 px-4">
-                        <span class="font-medium text-blue-600">${user.reseller_nama || '-'}</span><br>
-                        <span class="text-xs text-slate-400">${user.reseller_email || ''} (${user.reseller_nofon || ''})</span>
-                    </td>
-                    <td class="py-3 px-4 text-xs text-slate-500">${user.date}</td>
-                    <td class="py-3 px-4 text-right">
-                        <div class="inline-flex items-center space-x-3">
-                            <button onclick="approveUser('${key}')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-lg shadow">Approve</button>
-                            <button onclick="rejectUser('${key}')" class="bg-rose-600 hover:bg-rose-700 text-white text-xs px-3 py-1.5 rounded-lg shadow">Reject</button>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function loadApprovedTable(data) {
-            const tbody = document.getElementById('approved_table_body');
-            tbody.innerHTML = '';
-
-            if (!data || Object.keys(data).length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-slate-500">Tiada rekod yang telah diluluskan.</td></tr>`;
-                return;
-            }
-
-            Object.values(data).reverse().forEach((user) => {
-                const rawMsg = `🎉 TERIMA KASIH ATAS PEMBELIAN ANDA!
-
-Terima kasih kerana memilih Grammar Hub! 💙
-
-Kami sangat teruja untuk anda mula belajar, berlatih dan meneroka pelbagai bahan pembelajaran yang telah disediakan untuk membantu meningkatkan penguasaan English Grammar dengan lebih mudah dan menyeronokkan.
-
-📚 AKSES GRAMMAR HUB ANDA
-
-Klik pautan di bawah untuk mula menggunakan Grammar Hub:
-
-👇🏻👇🏻
-https://bijakdigital21-lang.github.io/Grammarhub./
-
-🔐 MAKLUMAT LOG MASUK
-
-Email: ${user.email}
-Password: ${user.password}
-
-📌 Sila tukar password anda di laman profile selepas berjaya log masuk ke aplikasi ini.
-
-⚠️ PENTING
-
-📌 Simpan pautan Grammar Hub ini untuk rujukan dan akses anda pada masa akan datang.
-
-Sertai group reseller kami untuk info dan sokongan berterusan.
-👇🏻👇🏻👇🏻
-https://t.me/+Z-uxVSN8A54zNTdl
-
-📱 Sekiranya anda mengalami sebarang masalah untuk membuka atau mengakses Grammar Hub, jangan risau.
-
-Hubungi kami melalui WhatsApp dan kami sedia membantu.
-
-💙 Selamat belajar!
-Semoga Grammar Hub membantu anda.`;
-
-                let cleanPhone = user.nofon.replace(/\D/g,'');
-                if(cleanPhone.startsWith('0')) {
-                    cleanPhone = '6' + cleanPhone;
+                        tr.innerHTML = `
+                            <td style="font-weight:700;">#${sessionNum}</td>
+                            <td style="text-transform: capitalize; font-weight:700;">${session.topic}</td>
+                            <td style="font-weight:700; color:#5E17EB;">${session.score}</td>
+                            <td style="font-size:0.8rem; color:#555;">${session.time}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">Tiada sesi kuiz direkodkan lagi!</td></tr>`;
                 }
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="4" style="color:red;">Ralat memuatkan sejarah.</td></tr>`;
+            }
+        };
 
-                const encodedMsg = encodeURIComponent(rawMsg);
-                const waLink = `https://wa.me/${cleanPhone}?text=${encodedMsg}`;
+        window.clearHistory = async function() {
+            if (!confirm(`Adakah anda pasti mahu memadamkan semua sejarah untuk ${window.activeProfile}?`)) return;
 
-                const tr = document.createElement('tr');
-                tr.className = "border-b border-slate-100";
-                tr.innerHTML = `
-                    <td class="py-3 px-4 font-medium text-slate-800">
-                        ${user.nama}<br><span class="text-xs text-slate-400">${user.email}</span>
-                    </td>
-                    <td class="py-3 px-4">
-                        <span class="font-medium text-blue-600">${user.reseller_nama || '-'}</span>
-                    </td>
-                    <td class="py-3 px-4">
-                        <a href="${waLink}" target="_blank" class="inline-flex items-center gap-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-emerald-200 transition" title="Klik untuk hantar WhatsApp">
-                            📱 ${user.nofon} ↗
-                        </a>
-                    </td>
-                    <td class="py-3 px-4 text-xs text-slate-500">${user.date}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
+            if (!window.currentUserAuth) return;
+            const uid = window.currentUserAuth.uid;
 
-        // 5. Proses Approve: Cipta Akaun Automatik dalam Target Firebase (grammar-hub-6af80)
-        window.approveUser = async function(key) {
             try {
-                const pendingRef = ref(adminDb, 'pending_users/' + key);
-                const snapshot = await get(pendingRef);
-                
-                if (!snapshot.exists()) {
-                    alert("Data tidak dijumpai.");
-                    return;
+                const snapshot = await get(ref(db, `users/${uid}/history`));
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    for (let key in data) {
+                        if (data[key].profile === window.activeProfile) {
+                            await remove(ref(db, `users/${uid}/history/${key}`));
+                        }
+                    }
                 }
-
-                const user = snapshot.val();
-
-                if (!confirm(`Adakah anda pasti untuk approve ${user.nama}?`)) return;
-
-                // 1. Cipta akaun pengguna di dalam Firebase Auth PROJECT KEDUA (grammar-hub-6af80)[cite: 1]
-                const userCredential = await createUserWithEmailAndPassword(targetAuth, user.email, user.password);
-                const firebaseUser = userCredential.user;
-
-                // 2. Simpan maklumat profil ke Database PROJECT KEDUA (grammar-hub-6af80)[cite: 1]
-                await set(ref(targetDb, 'users/' + firebaseUser.uid), {
-                    nama: user.nama,
-                    email: user.email,
-                    nofon: user.nofon,
-                    reseller_nama: user.reseller_nama,
-                    reseller_email: user.reseller_email,
-                    reseller_nofon: user.reseller_nofon,
-                    createdAt: new Date().toISOString()
-                });
-
-                // 3. Hantar emel menggunakan EmailJS
-                const templateParams = {
-                    to_name: user.nama,
-                    to_email: user.email,
-                    password: user.password
-                };
-                await emailjs.send('service_hd5rpgc', 'template_9sh4gw2', templateParams);
-
-                // 4. Pindah data dari pending ke approved di database ADMIN (admin-f72e5)
-                await set(ref(adminDb, 'approved_users/' + key), user);
-                await remove(pendingRef);
-
-                alert(`Berjaya approve ${user.nama}! Akaun telah dicipta dalam Grammar Hub & emel telah dihantar.`);
-
-            } catch (error) {
-                console.error("Ralat:", error);
-                alert("Gagal memproses kelulusan: " + error.message);
+                loadScoreBoard();
+            } catch (err) {
+                alert("Gagal memadam sejarah: " + err.message);
             }
-        }
-
-        // 6. Proses Reject (Padam dari Pending List Admin)
-        window.rejectUser = async function(key) {
-            try {
-                const pendingRef = ref(adminDb, 'pending_users/' + key);
-                const snapshot = await get(pendingRef);
-
-                if (!snapshot.exists()) return;
-                const user = snapshot.val();
-
-                if (!confirm(`Adakah anda pasti untuk REJECT permohonan daripada ${user.nama}?`)) return;
-
-                await remove(pendingRef);
-                alert(`Permohonan ${user.nama} telah ditolak (rejected).`);
-            } catch (error) {
-                console.error("Ralat reject:", error);
-                alert("Gagal menolak permohonan: " + error.message);
-            }
-        }
+        };
     </script>
-</head>
-<body class="min-h-screen flex flex-col items-center justify-center py-8 relative bg-cover bg-center bg-no-repeat" style="background-image: url('https://i.imgur.com/H46KuIJ.jpeg');">
 
-    <div class="absolute inset-0 bg-black/40 z-0"></div>
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-    <div class="relative z-10 bg-white/95 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md border border-white/25 my-6">
-        <div class="text-center mb-6">
-            <h2 class="text-2xl font-bold text-slate-900 tracking-tight">GRAMMAR HUB</h2>
-             <h2 class="text-xl font-semibold text-blue-600 tracking-wide mt-1">CUSTOMER REGISTRATION</h2>
-        </div>
+        function playClickSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.08);
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.08);
+        }
 
-        <form id="regForm" onsubmit="handleRegister(event)" class="space-y-6">
+        function playCorrectSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc1 = audioCtx.createOscillator();
+            const gain1 = audioCtx.createGain();
+            osc1.type = 'triangle';
+            osc1.frequency.setValueAtTime(523.25, now); 
+            gain1.gain.setValueAtTime(0.3, now);
+            gain1.gain.linearRampToValueAtTime(0.01, now + 0.15);
+            osc1.connect(gain1);
+            gain1.connect(audioCtx.destination);
+            osc1.start(now);
+            osc1.stop(now + 0.15);
+
+            const osc2 = audioCtx.createOscillator();
+            const gain2 = audioCtx.createGain();
+            osc2.type = 'triangle';
+            osc2.frequency.setValueAtTime(659.25, now + 0.1); 
+            gain2.gain.setValueAtTime(0.3, now + 0.1);
+            gain2.gain.linearRampToValueAtTime(0.01, now + 0.3);
+            osc2.connect(gain2);
+            gain2.connect(audioCtx.destination);
+            osc2.start(now + 0.1);
+            osc2.stop(now + 0.3);
+        }
+
+        function playWrongSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(220, now);
+            osc.frequency.linearRampToValueAtTime(130, now + 0.25);
+            gain.gain.setValueAtTime(0.3, now);
+            gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(now + 0.25);
+        }
+
+        // DEFINISI TOPIK MENGIKUT TAHUN (1 HINGGA 6)
+        const yearTopics = {
+            1: [
+                { id: "t1_nombor", name: "Nombor hingga 100 🔢", desc: "Mengenal, menulis dan membandingkan nilai nombor dari 0 hingga 100.", examples: "<ul><li>Contoh: Nombor selepas 45 ialah <b>46</b>.</li><li>Contoh: 89 lebih besar daripada 78.</li></ul>" },
+                { id: "t1_tambah", name: "Operasi Tambah ➕", desc: "Menambah dua nombor dengan hasil tambah hingga 100.", examples: "<ul><li>Contoh: 24 + 15 = <b>39</b></li><li>Contoh: 50 + 20 = <b>70</b></li></ul>" },
+                { id: "t1_tolak", name: "Operasi Tolak ➖", desc: "Menolak nombor dalam lingkungan 100.", examples: "<ul><li>Contoh: 48 - 12 = <b>36</b></li><li>Contoh: 70 - 30 = <b>40</b></li></ul>" },
+                { id: "t1_wang", name: "Wang 💵", desc: "Mengenal mata wang Malaysia (syiling dan wang kertas) hingga RM10.", examples: "<ul><li>Contoh: Syiling 50 sen ditulis sebagai <b>RM0.50</b>.</li></ul>" },
+                { id: "t1_masa", name: "Masa & Waktu ⏰", desc: "Mengenal hari dalam seminggu, bulan dalam setahun dan membaca jam penuh.", examples: "<ul><li>Contoh: Jarum pendek menunjuk ke angka 3, jam menunjukkan pukul <b>3:00</b>.</li></ul>" }
+            ],
+            2: [
+                { id: "t2_nombor", name: "Nombor hingga 1,000 🔢", desc: "Membaca, menulis dan menentukan nilai tempat bagi nombor hingga 1,000.", examples: "<ul><li>Contoh: Nilai digit 7 dalam nombor <b>7</b>32 ialah 700.</li></ul>" },
+                { id: "t2_tambah", name: "Tambah & Tolak Lanjutan ➕➖", desc: "Operasi tambah dan tolak melibatkan nombor hingga 1,000 termasuk mengumpul semula.", examples: "<ul><li>Contoh: 345 + 126 = <b>471</b></li><li>Contoh: 500 - 145 = <b>355</b></li></ul>" },
+                { id: "t2_darab", name: "Darab ✖️", desc: "Konsep darab sebagai tambah berulang dan sifir asas (2, 4, 5, 10).", examples: "<ul><li>Contoh: 4 × 5 = <b>20</b></li></ul>" },
+                { id: "t2_bahagi", name: "Bahagi ➗", desc: "Konsep bahagi sebagai agihan sama rata dan songsangan darab.", examples: "<ul><li>Contoh: 18 ÷ 3 = <b>6</b></li></ul>" },
+                { id: "t2_pecahan", name: "Pecahan Wajar 🍕", desc: "Mengenal pecahan wajar seperti setengah, perempat dan perlima.", examples: "<ul><li>Contoh: Satu bahagian daripada 4 bahagian yang sama besar ditulis sebagai <b>1/4</b>.</li></ul>" }
+            ],
+            3: [
+                { id: "t3_nombor", name: "Nombor hingga 10,000 🔢", desc: "Membaca, menulis, mencerakin dan membandingkan nombor hingga 10,000.", examples: "<ul><li>Contoh: 4,000 + 3Scalars... Cerakin 4,321 = <b>4000 + 300 + 20 + 1</b>.</li></ul>" },
+                { id: "t3_sifir", name: "Darab & Bahagi Lanjutan ✖️➗", desc: "Menguasai sifir 3, 6, 7, 8, 9 dan operasi bahagi yang berkaitan.", examples: "<ul><li>Contoh: 7 × 8 = <b>56</b></li><li>Contoh: 72 ÷ 9 = <b>8</b></li></ul>" },
+                { id: "t3_wang", name: "Wang hingga RM10,000 💰", desc: "Operasi tambah, tolak, darab dan bahagi melibatkan nilai wang ringgit dan sen.", examples: "<ul><li>Contoh: RM45.50 + RM12.20 = <b>RM57.70</b></li></ul>" },
+                { id: "t3_masa", name: "Masa & Waktu (Jam & Minit) ⏱️", desc: "Menukar unit masa dan mengira tempoh masa.", examples: "<ul><li>Contoh: 2 jam = <b>120 minit</b></li></ul>" },
+                { id: "t3_panjang", name: "Ukuran Panjang, Jisim & Isipadu 📏", desc: "Menukar unit sentimeter (cm), meter (m), gram (g), kilogram (kg), mililiter (ml) dan liter (l).", examples: "<ul><li>Contoh: 1 kg = <b>1,000 g</b></li></ul>" }
+            ],
+            4: [
+                { id: "t4_operasi", name: "Operasi Bergabung ➕➖✖️➗", desc: "Menyelesaikan ayat matematik melibatkan operasi bergabung mengikut tertib.", examples: "<ul><li>Contoh: 12 + 4 × 3 = 12 + 12 = <b>24</b></li></ul>" },
+                { id: "t4_pecahan", name: "Pecahan, Perpuluhan & Peratus 📊", desc: "Operasi melibatkan pecahan tak wajar, nombor bercampur, perpuluhan dan peratus.", examples: "<ul><li>Contoh: 3/10 ditulis dalam perpuluhan sebagai <b>0.3</b>.</li></ul>" },
+                { id: "t4_wang", name: "Pengurusan Kewangan 💳", desc: "Kira faedah mudah, simpanan, pelaburan dan perancangan bajet.", examples: "<ul><li>Contoh: Simpanan tetap menghasilkan <b>faedah</b> tahunan.</li></ul>" },
+                { id: "t4_ruang", name: "Sudut, Perimeter & Luas 📐", desc: "Mengira perimeter bentuk 2D dan luas permukaan petak segi empat.", examples: "<ul><li>Contoh: Perimeter segi empat sama sisi 5 cm = <b>20 cm</b>.</li></ul>" },
+                { id: "t4_purata", name: "Purata, Data & Koordinat 📈", desc: "Mencari nilai purata sekumpulan nombor dan membaca piktograf.", examples: "<ul><li>Contoh: Purata bagi 10, 20 dan 30 ialah (10+20+30) ÷ 3 = <b>20</b>.</li></ul>" }
+            ],
+            5: [
+                { id: "t5_juta", name: "Nombor hingga 1 Juta 🔢", desc: "Membaca, menulis dan operasi asas nombor bulat besar hingga 1,000,000.", examples: "<ul><li>Contoh: 2.5 juta = <b>2,500,000</b>.</li></ul>" },
+                { id: "t5_pecahan", name: "Pecahan & Perpuluhan Lanjutan 🧮", desc: "Operasi tambah, tolak dan darab melibatkan pecahan dan perpuluhan.", examples: "<ul><li>Contoh: 1/2 + 1/4 = <b>3/4</b></li></ul>" },
+                { id: "t5_peratus", name: "Peratus & Nisbah 💯", desc: "Kira peratus daripada suatu kuantiti dan konsep nisbah asas.", examples: "<ul><li>Contoh: 25% daripada 200 = <b>50</b>.</li></ul>" },
+                { id: "t5_ruang", name: "Isipadu Pepejal & Ruang 🧊", desc: "Mengira isi padu kubus dan kuboid menggunakan formula panjang × lebar × tinggi.", examples: "<ul><li>Contoh: Isi padu kuboid (4cm × 3cm × 2cm) = <b>24 cm³</b>.</li></ul>" },
+                { id: "t5_kebolehjadian", name: "Kebolehjadian & Koordinat 🎯", desc: "Menentukan kebolehjadian sesuatu peristiwa (pasti, mungkin, mustahil).", examples: "<ul><li>Contoh: Matahari terbit dari barat adalah peristiwa <b>mustahil</b>.</li></ul>" }
+            ],
+            6: [
+                { id: "t6_operasi", name: "Nombor & Operasi Lengkap 🔢", desc: "Operasi bergabung nombor bulat, pecahan, perpuluhan dan nombor negatif.", examples: "<ul><li>Contoh: (-5) + 8 = <b>3</b></li></ul>" },
+                { id: "t6_peratus", name: "Peratus Lanjutan & Diskaun 🏷️", desc: "Mengira diskaun, untung rugi, komisen dan cukai perkhidmatan.", examples: "<ul><li>Contoh: Harga asal RM100, diskaun 20%. Harga selepas diskaun = <b>RM80</b>.</li></ul>" },
+                { id: "t6_nisbah", name: "Nisbah & Kadaran ⚖️", desc: "Menyelesaikan masalah harian menggunakan konsep nisbah dan kadaran.", examples: "<ul><li>Contoh: Nisbah 2:3, jika bahagian pertama ialah 10, bahagian kedua ialah <b>15</b>.</li></ul>" },
+                { id: "t6_ruang", name: "Bentuk 3D & 2D Kompleks 📐", desc: "Menghitung luas gabungan bentuk geometri dan sudut pada garis lurus.", examples: "<ul><li>Contoh: Sudut penggenap bagi 70° ialah 180° - 70° = <b>110°</b>.</li></ul>" },
+                { id: "t6_statistik", name: "Penyusunan Data & Mod 📊", desc: "Menentukan mod, median, min dan julat daripada set data.", examples: "<ul><li>Contoh: Mod bagi set data (2, 3, 3, 5, 7) ialah <b>3</b>.</li></ul>" }
+            ]
+        };
+
+        // BANK SOALAN MATEMATIK SEKOLAH RENDAH (TAHUN 1 HINGGA 6)
+        const questionBank = {
+            t1_nombor: [
+                { q: "Apakah nombor yang tertera selepas 48?", options: ["47", "49", "50", "40"], answer: 1 },
+                { q: "Manakah antara berikut adalah nombor sepuluh?", options: ["10", "1", "100", "0"], answer: 0 },
+                { q: "Pilih nombor yang lebih besar daripada 70.", options: ["68", "65", "72", "59"], answer: 2 },
+                { q: "Cerakinkan nombor 35 mengikut nilai digit.", options: ["3 + 5", "30 + 5", "35 + 0", "3 + 50"], answer: 1 },
+                { q: "Nombor manakah yang terletak di antara 24 dan 26?", options: ["23", "27", "25", "28"], answer: 2 },
+                { q: "Apakah nilai tempat bagi digit 8 dalam nombor 82?", options: ["Sa", "Puluh", "Ratus", "Ribu"], answer: 1 },
+                { q: "Tuliskan dalam angka: 'Sembilan belas'", options: ["91", "19", "90", "9"], answer: 1 },
+                { q: "Susun nombor secara menaik: 12, 10, 15, 11", options: ["10, 11, 12, 15", "15, 12, 11, 10", "10, 12, 11, 15", "11, 10, 12, 15"], answer: 0 },
+                { q: "Nombor manakah adalah nombor genap?", options: ["13", "15", "18", "21"], answer: 2 },
+                { q: "Apakah nombor sebelum 60?", options: ["59", "61", "50", "58"], answer: 0 }
+            ],
+            t1_tambah: [
+                { q: "12 + 7 = ?", options: ["18", "19", "20", "17"], answer: 1 },
+                { q: "25 + 14 = ?", options: ["39", "38", "40", "37"], answer: 0 },
+                { q: "Berapakah hasil tambah bagi 30 dan 25?", options: ["55", "50", "65", "45"], answer: 0 },
+                { q: "8 + 8 + 8 = ?", options: ["16", "24", "22", "18"], answer: 1 },
+                { q: "Ali mempunyai 10 biji guli. Abu beri lagi 5 biji. Berapa jumlah guli Ali?", options: ["12", "14", "15", "16"], answer: 2 },
+                { q: "43 + 6 = ?", options: ["48", "49", "50", "47"], answer: 1 },
+                { q: "50 + 40 = ?", options: ["80", "90", "100", "70"], answer: 1 },
+                { q: "Apakah nombor yang hilang: 15 + ___ = 20", options: ["4", "5", "6", "10"], answer: 1 },
+                { q: "Ibu beli 12 oren merah dan 8 oren hijau. Berapa jumlah buah oren?", options: ["18", "19", "20", "21"], answer: 2 },
+                { q: "61 + 8 = ?", options: ["68", "69", "70", "71"], answer: 1 }
+            ],
+            t1_tolak: [
+                { q: "18 - 5 = ?", options: ["12", "13", "14", "15"], answer: 1 },
+                { q: "45 - 20 = ?", options: ["25", "35", "15", "20"], answer: 0 },
+                { q: "Berapakah baki jika 50 ditolak dengan 15?", options: ["35", "45", "25", "30"], answer: 0 },
+                { q: "32 - 8 = ?", options: ["22", "24", "26", "28"], answer: 1 },
+                { q: "Siti ada 20 biji gula-gula. Dia makan 4 biji. Berapa baki gula-gula?", options: ["15", "16", "17", "18"], answer: 1 },
+                { q: "70 - 30 = ?", options: ["30", "40", "50", "20"], answer: 1 },
+                { q: "99 - 11 = ?", options: ["88", "89", "78", "90"], answer: 0 },
+                { q: "Apakah nombor yang hilang: 30 - ___ = 12", options: ["18", "16", "20", "15"], answer: 0 },
+                { q: "Buku cerita ada 40 buah. 15 telah rosak. Berapa buku yang elok?", options: ["25", "35", "20", "15"], answer: 0 },
+                { q: "87 - 5 = ?", options: ["80", "81", "82", "83"], answer: 2 }
+            ],
+            t1_wang: [
+                { q: "Manakah nilai wang yang paling besar?", options: ["RM1", "50 sen", "RM5", "20 sen"], answer: 2 },
+                { q: "RM2.00 + RM3.00 = ?", options: ["RM4.00", "RM5.00", "RM6.00", "RM5.50"], answer: 1 },
+                { q: "Tuliskan nilai wang: 'Lima ringgit'", options: ["RM0.50", "RM5.00", "RM50.00", "RM5"], answer: 1 },
+                { q: "Berapa keping syiling 20 sen dalam nilai RM1.00?", options: ["2 keping", "4 keping", "5 keping", "10 keping"], answer: 2 },
+                { q: "Harga sebuah buku ialah RM4.00. Anda bayar dengan wang RM5.00. Berapa baki?", options: ["RM1.00", "RM2.00", "RM0.50", "RM1.50"], answer: 0 },
+                { q: "RM10.00 - RM4.00 = ?", options: ["RM5.00", "RM6.00", "RM7.00", "RM8.00"], answer: 1 },
+                { q: "Manakah gabungan bernilai RM2.00?", options: ["Dua keping RM1", "Empat keping 10 sen", "Dua keping 50 sen", "Tiga keping RM1"], answer: 0 },
+                { q: "10 sen + 20 sen + 50 sen = ?", options: ["70 sen", "80 sen", "90 sen", "RM1.00"], answer: 1 },
+                { q: "Wang kertas manakah yang berwarna biru di Malaysia?", options: ["RM1", "RM5", "RM10", "RM20"], answer: 0 },
+                { q: "RM3.50 + RM1.20 = ?", options: ["RM4.60", "RM4.70", "RM5.70", "RM4.50"], answer: 1 }
+            ],
+            t1_masa: [
+                { q: "Hari apakah selepas hari Isnin?", options: ["Ahad", "Selasa", "Rabu", "Khamis"], answer: 1 },
+                { q: "Berapakah bilangan hari dalam seminggu?", options: ["5 hari", "6 hari", "7 hari", "30 hari"], answer: 2 },
+                { q: "Bulan manakah yang pertama dalam tahun Masihi?", options: ["Disember", "Februari", "Januari", "Mac"], answer: 2 },
+                { q: "Jarum pendek menunjuk ke angka 4, jarum panjang ke angka 12. Pukul berapa?", options: ["Pukul 12:00", "Pukul 4:00", "Pukul 6:00", "Pukul 3:00"], answer: 1 },
+                { q: "Apakah hari cuti hujung minggu di kebanyakan negeri di Malaysia?", options: ["Isnin & Selasa", "Sabtu & Ahad", "Rabu & Khamis", "Jumaat sahaja"], answer: 1 },
+                { q: "Bulan Februari mempunyai bilangan hari yang paling...", options: ["panjang", "sedikit", "banyak", "sama"], answer: 1 },
+                { q: "Sebelum hari Jumaat ialah hari...", options: ["Sabtu", "Khamis", "Rabu", "Ahad"], answer: 1 },
+                { q: "1 hari bersamaan dengan berapa jam?", options: ["12 jam", "24 jam", "60 jam", "365 jam"], answer: 1 },
+                { q: "Bulan Jun adalah bulan ke berapa?", options: ["Ke-5", "Ke-6", "Ke-7", "Ke-4"], answer: 1 },
+                { q: "Pukul 1:00 siang juga dikenali sebagai pukul...", options: ["1:00 pagi", "1:00 petang", "12:00 tengah hari", "1:00 malam"], answer: 1 }
+            ],
+            t2_nombor: [
+                { q: "Apakah nilai digit 5 dalam nombor 542?", options: ["5", "50", "500", "5,000"], answer: 2 },
+                { q: "Tulis dalam perkataan: 708", options: ["Tujuh ratus lapan", "Tujuh lapan puluh", "Tujuh ratus lapan puluh", "Tujuh ribu lapan"], answer: 0 },
+                { q: "Manakah nombor yang paling kecil?", options: ["432", "234", "324", "423"], answer: 1 },
+                { q: "Apakah nombor selepas 899?", options: ["900", "990", "890", "1000"], answer: 0 },
+                { q: "Cerakinkan 604 mengikut nilai tempat.", options: ["6 ratus + 4 sa", "6 ratus + 4 puluh", "6 puluh + 4 sa", "6 ribu + 4 sa"], answer: 0 },
+                { q: "Apakah nombor 9 ratus + 2 puluh + 7 sa?", options: ["927", "972", "297", "729"], answer: 0 },
+                { q: "Lengkapkan tertib menaik: 310, 320, ___, 340", options: ["325", "330", "350", "335"], answer: 1 },
+                { q: "Nombor manakah mempunyai digit ratus bernilai 4?", options: ["4210", "412", "142", "214"], answer: 1 },
+                { q: "Bundarkan 43 kepada puluh terdekat.", options: ["40", "50", "45", "30"], answer: 0 },
+                { q: "Bundarkan 276 kepada ratus terdekat.", options: ["200", "300", "250", "280"], answer: 1 }
+            ],
+            t2_tambah: [
+                { q: "432 + 156 = ?", options: ["588", "578", "688", "587"], answer: 0 },
+                { q: "278 + 345 = ?", options: ["613", "623", "523", "612"], answer: 1 },
+                { q: "504 + 298 = ?", options: ["792", "802", "812", "702"], answer: 1 },
+                { q: "850 - 320 = ?", options: ["530", "520", "540", "430"], answer: 0 },
+                { q: "721 - 456 = ?", options: ["275", "265", "375", "285"], answer: 1 },
+                { q: "1000 - 345 = ?", options: ["655", "645", "755", "665"], answer: 0 },
+                { q: "Ali ada 450 biji guli. Dia beli lagi 275 biji. Berapa jumlah guli?", options: ["715", "725", "625", "735"], answer: 1 },
+                { q: "Apakah nombor yang hilang: 400 + ___ = 950", options: ["450", "550", "500", "600"], answer: 1 },
+                { q: "672 + 0 = ?", options: ["0", "672", "1", "673"], answer: 1 },
+                { q: "Tolak 125 daripada 500.", options: ["375", "385", "475", "365"], answer: 0 }
+            ],
+            t2_darab: [
+                { q: "4 × 5 = ?", options: ["15", "20", "25", "30"], answer: 1 },
+                { q: "6 × 3 = ?", options: ["16", "18", "21", "24"], answer: 1 },
+                { q: "7 × 10 = ?", options: ["7", "70", "700", "17"], answer: 1 },
+                { q: "9 × 2 = ?", options: ["16", "18", "20", "22"], answer: 1 },
+                { q: "Apakah maksud 3 × 4?", options: ["3 + 4", "4 + 4 + 4", "3 + 3 + 3", "4 × 4 × 4"], answer: 1 },
+                { q: "8 × 5 = ?", options: ["35", "40", "45", "50"], answer: 1 },
+                { q: "Sebuah kotak ada 10 pensel. Berapa pensel dalam 6 kotak?", options: ["50", "60", "70", "80"], answer: 1 },
+                { q: "0 × 99 = ?", options: ["99", "1", "0", "990"], answer: 2 },
+                { q: "6 × 6 = ?", options: ["30", "36", "42", "48"], answer: 1 },
+                { q: "Nombor darab dengan 1 menghasilkan...", options: ["Sifar", "Nombor itu sendiri", "Satu", "Dua kali ganda"], answer: 1 }
+            ],
+            t2_bahagi: [
+                { q: "20 ÷ 4 = ?", options: ["4", "5", "6", "8"], answer: 1 },
+                { q: "36 ÷ 6 = ?", options: ["5", "6", "7", "8"], answer: 1 },
+                { q: "18 ÷ 2 = ?", options: ["8", "9", "10", "12"], answer: 1 },
+                { q: "45 ÷ 5 = ?", options: ["8", "9", "10", "7"], answer: 1 },
+                { q: "Bahagikan 24 biji gula-gula kepada 4 orang sama rata. Setiap seorang dapat...", options: ["5 biji", "6 biji", "7 biji", "8 biji"], answer: 1 },
+                { q: "50 ÷ 10 = ?", options: ["5", "10", "50", "1"], answer: 0 },
+                { q: "14 ÷ 2 = ?", options: ["6", "7", "8", "9"], answer: 1 },
+                { q: "Sebarang nombor dibahagi dengan 1 akan menghasilkan...", options: ["Sifar", "Satu", "Nombor itu sendiri", "Tidak tentu"], answer: 2 },
+                { q: "32 ÷ 8 = ?", options: ["3", "4", "5", "6"], answer: 1 },
+                { q: "81 ÷ 9 = ?", options: ["7", "8", "9", "10"], answer: 2 }
+            ],
+            t2_pecahan: [
+                { q: "Manakah mewakili pecahan satu perdua (1/2)?", options: ["1 bahagian daripada 2 bahagian sama besar", "2 bahagian daripada 1 bahagian", "1 bahagian daripada 3 bahagian", "Kesemua bahagian"], answer: 0 },
+                { q: "Bagaimana ditulis dalam angka untuk 'satu perempat'?", options: ["1/2", "1/3", "1/4", "3/4"], answer: 2 },
+                { q: "Pecahan manakah yang lebih besar antara 1/4 dan 3/4?", options: ["1/4", "3/4", "Kedua-duanya sama", "Tidak pasti"], answer: 1 },
+                { q: "Berapakah pecahan kawasan lorekan jika 2 daripada 4 bahagian dilorek?", options: ["1/4", "2/4", "3/4", "4/4"], answer: 1 },
+                { q: "1/3 dibaca sebagai...", options: ["Satu per dua", "Satu per tiga", "Tiga per satu", "Satu pertiga"], answer: 1 },
+                { q: "Pecahan penuh (keseluruhan) bagi 4 bahagian daripada 4 ialah...", options: ["1/4", "2/4", "1", "0"], answer: 2 },
+                { q: "Manakah pecahan wajar?", options: ["5/4", "2/3", "7/2", "4/4"], answer: 1 },
+                { q: "Dua perempat (2/4) adalah sama nilai dengan...", options: ["1/2", "1/3", "3/4", "1/4"], answer: 0 },
+                { q: "Jika kek dipotong kepada 10 bahagian sama besar, satu bahagian ialah...", options: ["1/5", "1/10", "10/1", "1/2"], answer: 1 },
+                { q: "Pecahan manakah mewakili bahagian berlorek jika 1 daripada 8 bahagian dipilih?", options: ["1/8", "1/7", "8/1", "1/4"], answer: 0 }
+            ],
+            t3_nombor: [
+                { q: "Apakah nilai tempat bagi digit 7 dalam nombor 7,421?", options: ["Sa", "Puluh", "Ratus", "Ribu"], answer: 3 },
+                { q: "Cerakinkan 5,082 mengikut nilai digit.", options: ["5,000 + 80 + 2", "5,000 + 800 + 2", "500 + 80 + 2", "5,000 + 8 + 2"], answer: 0 },
+                { q: "Bundarkan 4,521 kepada ribu terdekat.", options: ["4,000", "5,000", "4,500", "4,600"], answer: 1 },
+                { q: "Manakah nombor yang paling besar?", options: ["8,901", "8,910", "8,190", "8,091"], answer: 1 },
+                { q: "Apakah nombor sebelum 3,000?", options: ["2,999", "3,001", "2,990", "2,000"], answer: 0 },
+                { q: "Tulis dalam angka: 'Empat ribu dua puluh lima'", options: ["4,250", "4,025", "4,205", "4,225"], answer: 1 },
+                { q: "Bundarkan 7,349 kepada ratus terdekat.", options: ["7,300", "7,400", "7,000", "7,350"], answer: 0 },
+                { q: "Apakah nombor 6 ribu + 4 ratus + 0 puluh + 9 sa?", options: ["6,049", "6,409", "6,490", "6,094"], answer: 1 },
+                { q: "Lengkapkan siri nombor: 2,100, 2,200, 2,300, ___", options: ["2,350", "2,400", "2,500", "3,000"], answer: 1 },
+                { q: "Apakah nilai digit 3 dalam 9,341?", options: ["3", "30", "300", "3,000"], answer: 2 }
+            ],
+            t3_sifir: [
+                { q: "7 × 8 = ?", options: ["54", "56", "64", "48"], answer: 1 },
+                { q: "9 × 9 = ?", options: ["81", "72", "90", "89"], answer: 0 },
+                { q: "72 ÷ 9 = ?", options: ["7", "8", "9", "6"], answer: 1 },
+                { q: "6 × 7 = ?", options: ["36", "42", "48", "56"], answer: 1 },
+                { q: "54 ÷ 6 = ?", options: ["8", "9", "7", "6"], answer: 1 },
+                { q: "8 × 8 = ?", options: ["56", "64", "72", "48"], answer: 1 },
+                { q: "45 ÷ 9 = ?", options: ["4", "5", "6", "7"], answer: 1 },
+                { q: "12 × 5 = ?", options: ["50", "55", "60", "65"], answer: 2 },
+                { q: "63 ÷ 7 = ?", options: ["7", "8", "9", "6"], answer: 2 },
+                { q: "11 × 8 = ?", options: ["88", "80", "96", "78"], answer: 0 }
+            ],
+            t3_wang: [
+                { q: "RM45.50 + RM12.20 = ?", options: ["RM57.70", "RM56.70", "RM57.60", "RM58.70"], answer: 0 },
+                { q: "RM100.00 - RM34.50 = ?", options: ["RM65.50", "RM64.50", "RM75.50", "RM65.00"], answer: 0 },
+                { q: "RM12.50 × 4 = ?", options: ["RM48.00", "RM50.00", "RM52.00", "RM45.00"], answer: 1 },
+                { q: "RM84.60 ÷ 2 = ?", options: ["RM42.20", "RM42.30", "RM41.30", "RM43.30"], answer: 1 },
+                { q: "Ibu ada RM50. Beli barang dapur RM32.80. Berapa baki?", options: ["RM17.20", "RM18.20", "RM16.20", "RM17.80"], answer: 0 },
+                { q: "Berapakah 5 keping wang kertas RM10?", options: ["RM20", "RM50", "RM100", "RM500"], answer: 1 },
+                { q: "RM25.30 + RM14.70 = ?", options: ["RM39.00", "RM40.00", "RM40.10", "RM39.50"], answer: 1 },
+                { q: "Harga sepasang kasut RM89.90. Harga baju RM45.50. Jumlah harga?", options: ["RM134.40", "RM135.40", "RM134.50", "RM124.40"], answer: 0 },
+                { q: "Tukarkan nilai: 450 sen kepada Ringgit Malaysia.", options: ["RM0.45", "RM4.50", "RM45.00", "RM455.00"], answer: 1 },
+                { q: "RM10.50 dibahagi kepada 3 orang sama rata. Seorang dapat...", options: ["RM3.00", "RM3.50", "RM4.00", "RM3.20"], answer: 1 }
+            ],
+            t3_masa: [
+                { q: "2 jam = ___ minit", options: ["60 minit", "100 minit", "120 minit", "180 minit"], answer: 2 },
+                { q: "1 minggu = ___ hari", options: ["5 hari", "7 hari", "10 hari", "30 hari"], answer: 1 },
+                { q: "Pukul 3:45 petang dalam sistem 24 jam ialah...", options: ["1345 jam", "1445 jam", "1545 jam", "1645 jam"], answer: 2 },
+                { q: "Berapa minit dalam setengah jam?", options: ["15 minit", "30 minit", "45 minit", "60 minit"], answer: 1 },
+                { q: "1 tahun = ___ bulan", options: ["10 bulan", "12 bulan", "24 bulan", "365 bulan"], answer: 1 },
+                { q: "Tempoh dari pukul 8:00 pagi hingga 10:30 pagi ialah...", options: ["1 jam 30 minit", "2 jam", "2 jam 30 minit", "3 jam"], answer: 2 },
+                { q: "3 jam 20 minit = ___ minit", options: ["140 minit", "180 minit", "200 minit", "220 minit"], answer: 2 },
+                { q: "Tukar 150 minit kepada jam dan minit.", options: ["1 jam 50 minit", "2 jam 30 minit", "2 jam 50 minit", "3 jam"], answer: 1 },
+                { q: "Abad bermaksud tempoh masa selama...", options: ["10 tahun", "50 tahun", "100 tahun", "1000 tahun"], answer: 2 },
+                { q: "Tahun lompat berlaku sekali setiap berapa tahun?", options: ["2 tahun", "3 tahun", "4 tahun", "5 tahun"], answer: 2 }
+            ],
+            t3_panjang: [
+                { q: "1 meter = ___ sentimeter", options: ["10 cm", "100 cm", "1,000 cm", "10,000 cm"], answer: 1 },
+                { q: "1 kilogram = ___ gram", options: ["10 g", "100 g", "1,000 g", "10,000 g"], answer: 2 },
+                { q: "1 liter = ___ mililiter", options: ["10 ml", "100 ml", "1,000 ml", "10,000 ml"], answer: 2 },
+                { q: "3 km = ___ meter", options: ["30 m", "300 m", "3,000 m", "30,000 m"], answer: 2 },
+                { q: "2 kg 450 g = ___ g", options: ["245 g", "2,045 g", "2,450 g", "24,500 g"], answer: 2 },
+                { q: "4 m 15 cm = ___ cm", options: ["415 cm", "4,015 cm", "4150 cm", "405 cm"], answer: 0 },
+                { q: "500 ml + 750 ml = ___ liter ___ mililiter", options: ["1 l 250 ml", "1 l 500 ml", "2 l 250 ml", "1 l 75 ml"], answer: 0 },
+                { q: "Tukar 3,200 g kepada kilogram dan gram.", options: ["3 kg 200 g", "32 kg 0 g", "3 kg 2 g", "30 kg 200 g"], answer: 0 },
+                { q: "Panjang sebatang pensel biasanya diukur dalam unit...", options: ["Kilometer", "Meter", "Sentimeter", "Mililiter"], answer: 2 },
+                { q: "Jarak antara Kuala Lumpur dan Melaka diukur menggunakan unit...", options: ["cm", "m", "km", "g"], answer: 2 }
+            ],
+            t4_operasi: [
+                { q: "12 + 4 × 3 = ?", options: ["48", "24", "28", "36"], answer: 1 },
+                { q: "50 - (10 + 15) = ?", options: ["25", "35", "15", "40"], answer: 0 },
+                { q: "24 ÷ 4 × 2 = ?", options: ["3", "6", "12", "16"], answer: 2 },
+                { q: "8 × (5 + 3) = ?", options: ["43", "64", "48", "40"], answer: 1 },
+                { q: "100 - 20 × 3 = ?", options: ["240", "40", "60", "80"], answer: 1 },
+                { q: "(18 + 12) ÷ 6 = ?", options: ["3", "5", "6", "8"], answer: 1 },
+                { q: "7 × 8 + 14 = ?", options: ["70", "68", "72", "64"], answer: 0 },
+                { q: "45 ÷ 5 + 12 = ?", options: ["21", "19", "25", "17"], answer: 0 },
+                { q: "60 - 15 ÷ 3 = ?", options: ["15", "55", "45", "50"], answer: 1 },
+                { q: "3 × (12 - 4) = ?", options: ["24", "32", "20", "28"], answer: 0 }
+            ],
+            t4_pecahan: [
+                { q: "Tulis 3/10 dalam bentuk perpuluhan.", options: ["0.03", "0.3", "3.0", "0.003"], answer: 1 },
+                { q: "2.45 ditulis dalam perkataan ialah...", options: ["Dua perpuluhan empat puluh lima", "Dua perpuluhan empat lima", "Dua perpuluhan empat puluh lima sen", "Dua ratus empat puluh lima"], answer: 1 },
+                { q: "Tukar 1/2 kepada peratus.", options: ["25%", "50%", "75%", "100%"], answer: 1 },
+                { q: "25% daripada 200 ialah...", options: ["25", "50", "75", "100"], answer: 1 },
+                { q: "1 3/4 tukar kepada pecahan tak wajar.", options: ["5/4", "7/4", "6/4", "3/4"], answer: 1 },
+                { q: "0.75 dalam bentuk pecahan ringkas ialah...", options: ["1/4", "1/2", "3/4", "2/3"], answer: 2 },
+                { q: "4/5 + 1/5 = ?", options: ["5/10", "1", "5/5", "1 dan 1/5"], answer: 1 },
+                { q: "Berapakah nilai peratus bagi 3/4?", options: ["25%", "50%", "75%", "100%"], answer: 2 },
+                { q: "3.2 + 1.45 = ?", options: ["4.65", "3.65", "4.55", "4.75"], answer: 0 },
+                { q: "10 - 4.25 = ?", options: ["5.85", "5.75", "6.75", "6.25"], answer: 1 }
+            ],
+            t4_wang: [
+                { q: "Apakah maksud faedah dalam simpanan bank?", options: ["Bayaran denda", "Pendapatan tambahan daripada simpanan", "Cukai kerajaan", "Pinjaman wang"], answer: 1 },
+                { q: "RM150.00 × 5 = ?", options: ["RM650.00", "RM750.00", "RM850.00", "RM700.00"], answer: 1 },
+                { q: "Satu bajet yang baik memastikan jumlah perbelanjaan adalah...", options: ["Melebihi pendapatan", "Kurang atau sama dengan pendapatan", "Sifar", "Sama dengan hutang"], answer: 1 },
+                { q: "Hitung diskaun 10% daripada harga baju RM80.00.", options: ["RM5.00", "RM8.00", "RM10.00", "RM12.00"], answer: 1 },
+                { q: "RM450.50 + RM1,230.20 = ?", options: ["RM1,680.70", "RM1,580.70", "RM1,670.70", "RM1,780.70"], answer: 0 },
+                { q: "Apakah perbezaan antara keperluan dan kehendak?", options: ["Kehendak mesti dipenuhi untuk hidup", "Keperluan adalah barangan asas untuk meneruskan kehidupan", "Tiada perbezaan", "Keperluan adalah barang mewah"], answer: 1 },
+                { q: "Ali menyimpan RM50 setiap bulan selama setahun. Berapa jumlah simpanan?", options: ["RM500", "RM550", "RM600", "RM650"], answer: 2 },
+                { q: "Invois adalah dokumen perniagaan yang menunjukkan...", options: ["Senarai barangan dan harga yang perlu dibayar", "Keputusan peperiksaan", "Jadual perjalanan", "Resit derma"], answer: 0 },
+                { q: "RM5,000 ÷ 4 = ?", options: ["RM1,150", "RM1,200", "RM1,250", "RM1,300"], answer: 2 },
+                { q: "Mengapa penting untuk menabung?", options: ["Untuk mempamerkan kekayaan", "Untuk kegunaan masa kecemasan", "Supaya wang cepat habis", "Untuk membayar denda"], answer: 1 }
+            ],
+            t4_ruang: [
+                { q: "Berapakah perimeter bagi sebuah segi empat sama yang sisi 6 cm?", options: ["12 cm", "18 cm", "24 cm", "36 cm"], answer: 2 },
+                { q: "Hitung luas segi empat tepat dengan panjang 8 cm dan lebar 4 cm.", options: ["12 cm²", "24 cm²", "32 cm²", "16 cm²"], answer: 2 },
+                { q: "Apakah formula luas segi empat tepat?", options: ["Panjang × Lebar", "Panjang + Lebar + Panjang + Lebar", "4 × Sisi", "2 × (Panjang + Lebar)"], answer: 0 },
+                { q: "Sudut tegak mempunyai nilai tepat sebanyak...", options: ["45°", "90°", "180°", "360°"], answer: 1 },
+                { q: "Jumlah sudut dalam sebuah segi tiga ialah...", options: ["90°", "180°", "270°", "360°"], answer: 1 },
+                { q: "Perimeter segi tiga sama sisi dengan panjang sisi 7 cm ialah...", options: ["14 cm", "21 cm", "28 cm", "49 cm"], answer: 1 },
+                { q: "Sebuah kubus mempunyai berapa permukaan rata?", options: ["4", "6", "8", "12"], answer: 1 },
+                { q: "Garisan yang tidak akan bersilang walaupun dipanjangkan disebut...", options: ["Garis berserenjang", "Garis selari", "Garis lengkung", "Garis lintang"], answer: 1 },
+                { q: "Luas petak berukuran 1 cm × 1 cm ialah...", options: ["1 cm", "1 cm²", "2 cm", "4 cm²"], answer: 1 },
+                { q: "Bentuk 2D yang mempunyai 3 sisi dan 3 bucu ialah...", options: ["Segi empat", "Segi tiga", "Pentagon", "Bulatan"], answer: 1 }
+            ],
+            t4_purata: [
+                { q: "Cari purata bagi nombor 10, 20 dan 30.", options: ["15", "20", "25", "30"], answer: 1 },
+                { q: "Purata markah bagi dua ujian ialah 80. Jumlah markah ialah...", options: ["80", "150", "160", "180"], answer: 2 },
+                { q: "Cari mod bagi set nombor: 2, 4, 4, 5, 7, 4, 9", options: ["2", "4", "5", "9"], answer: 1 },
+                { q: "Apakah yang dimaksudkan dengan 'Mod' dalam statistik?", options: ["Nilai tengah", "Nilai yang paling kerap berulang", "Hasil tambah semua nilai", "Beza nilai tertinggi dan terendah"], answer: 1 },
+                { q: "Berat 3 kotak ialah 12 kg, 15 kg dan 18 kg. Cari purata jisim.", options: ["14 kg", "15 kg", "16 kg", "17 kg"], answer: 1 },
+                { q: "Piktograf menggunakan ___ untuk mewakili data.", options: ["Angka", "Simbol atau gambar", "Perkataan", "Warna"], answer: 1 },
+                { q: "Cari purata bagi 4, 8, 12 dan 16.", options: ["8", "10", "12", "14"], answer: 1 },
+                { q: "Dalam koordinat, paksi mengufuk (melintang) dikenali sebagai...", options: ["Paksi-y", "Paksi-x", "Paksi-z", "Paksi utama"], answer: 1 },
+                { q: "Koordinat Asalan (Origin) pada graf ditulis sebagai...", options: ["(1, 1)", "(0, 1)", "(0, 0)", "(1, 0)"], answer: 2 },
+                { q: "Jika min bagi 4 nombor ialah 25, apakah jumlah nilai keempat-empat nombor itu?", options: ["50", "75", "100", "125"], answer: 2 }
+            ],
+            t5_juta: [
+                { q: "Tuliskan 1.2 juta dalam nombor bulat.", options: ["1,200,000", "120,000", "12,000,000", "1,020,000"], answer: 0 },
+                { q: "3/4 juta ditulis dalam nombor bulat ialah...", options: ["500,000", "750,000", "250,000", "600,000"], answer: 1 },
+                { q: "450,000 + 350,000 = ?", options: ["700,000", "800,000", "900,000", "750,000"], answer: 1 },
+                { q: "1,000,000 - 450,000 = ?", options: ["550,000", "650,000", "540,000", "600,000"], answer: 0 },
+                { q: "2.4 juta × 3 = ?", options: ["7.2 juta", "6.2 juta", "8.1 juta", "7.5 juta"], answer: 0 },
+                { q: "Apakah nilai tempat bagi digit 6 dalam 3,654,120?", options: ["Ratus ribu", "Puluh ribu", "Ribu", "Juta"], answer: 0 },
+                { q: "1/2 juta + 1/4 juta = ?", options: ["3/4 juta", "1 juta", "1/2 juta", "1/8 juta"], answer: 0 },
+                { q: "Bundarkan 3,456,789 kepada ratus ribu terdekat.", options: ["3,400,000", "3,500,000", "3,450,000", "4,000,000"], answer: 1 },
+                { q: "Tulis 2 1/5 juta dalam perpuluhan juta.", options: ["2.1 juta", "2.2 juta", "2.5 juta", "2.05 juta"], answer: 1 },
+                { q: "Bahagikan 4.5 juta dengan 10.", options: ["450,000", "45,000", "4,500,000", "4500"], answer: 0 }
+            ],
+            t5_pecahan: [
+                { q: "2/3 + 1/6 = ?", options: ["3/9", "5/6", "3/6", "1/2"], answer: 1 },
+                { q: "4/5 - 1/2 = ?", options: ["3/10", "3/3", "1/10", "2/5"], answer: 0 },
+                { q: "3/4 × 8/9 = ?", options: ["2/3", "1/2", "3/4", "1/3"], answer: 0 },
+                { q: "Bahagi pecahan: 3/4 ÷ 1/2 = ?", options: ["3/8", "1 1/2", "2/3", "3/2"], answer: 1 },
+                { q: "2 1/4 + 1 1/2 = ?", options: ["3 3/4", "3 1/2", "4 1/4", "3 2/6"], answer: 0 },
+                { q: "Tukar 7/3 kepada nombor bercampur.", options: ["2 1/3", "3 1/3", "2 2/3", "1 3/4"], answer: 2 },
+                { q: "1/5 daripada 45 kg ialah...", options: ["8 kg", "9 kg", "10 kg", "12 kg"], answer: 1 },
+                { q: "5 - 2 3/4 = ?", options: ["2 1/4", "3 1/4", "2 3/4", "1 1/4"], answer: 0 },
+                { q: "Cari hasil darab: 1.25 × 100", options: ["12.5", "125", "1,250", "0.125"], answer: 1 },
+                { q: "45.6 ÷ 10 = ?", options: ["4.56", "0.456", "456", "45.60"], answer: 0 }
+            ],
+            t5_peratus: [
+                { q: "Cari 35% daripada 400.", options: ["120", "140", "160", "150"], answer: 1 },
+                { q: "RM60 adalah 20% daripada harga suatu barang. Cari harga asal barang itu.", options: ["RM200", "RM250", "RM300", "RM350"], answer: 2 },
+                { q: "Tukar 3/8 kepada peratus.", options: ["37.5%", "35%", "38.5%", "40%"], answer: 0 },
+                { q: "Dalam sebuah kelas 40 murid, 15 orang adalah perempuan. Berapa peratus murid perempuan?", options: ["35%", "37.5%", "40%", "42.5%"], answer: 1 },
+                { q: "Nisbah 3 kepada 5 ditulis sebagai...", options: ["5:3", "3:5", "3.5", "3/8"], answer: 1 },
+                { q: "Jika nisbah pensel Ali kepada Abu ialah 2:3 dan Ali mempunyai 10 pensel, berapa pensel Abu?", options: ["12", "15", "18", "20"], answer: 1 },
+                { q: "120% dinyatakan dalam nombor perpuluhan ialah...", options: ["0.12", "1.2", "12.0", "0.012"], answer: 1 },
+                { q: "Kurangkan RM80 sebanyak 15%. Harga baharu ialah...", options: ["RM68", "RM72", "RM65", "RM70"], answer: 0 },
+                { q: "Cari nilai x jika x : 4 = 15 : 20", options: ["2", "3", "4", "5"], answer: 1 },
+                { q: "12 pen daripada 60 pen ialah berapa peratus?", options: ["15%", "20%", "25%", "30%"], answer: 1 }
+            ],
+            t5_ruang: [
+                { q: "Cari isi padu kuboid berukuran 5 cm panjang, 4 cm lebar dan 3 cm tinggi.", options: ["12 cm³", "60 cm³", "40 cm³", "45 cm³"], answer: 1 },
+                { q: "Formula isi padu kubus dengan sisi s ialah...", options: ["s × s", "6 × s", "s × s × s", "4 × s"], answer: 2 },
+                { q: "Sebuah kubus mempunyai panjang sisi 4 cm. Hitung isi padunya.", options: ["16 cm³", "48 cm³", "64 cm³", "32 cm³"], answer: 2 },
+                { q: "Luas permukaan kubus dengan sisi 3 cm ialah...", options: ["27 cm²", "54 cm²", "36 cm²", "18 cm²"], answer: 1 },
+                { q: "Tukar 450 cm³ kepada liter.", options: ["0.45 l", "4.5 l", "45 l", "0.045 l"], answer: 0 },
+                { q: "1 liter air setara dengan...", options: ["1 cm³", "10 cm³", "100 cm³", "1,000 cm³"], answer: 3 },
+                { q: "Sebuah bekas berbentuk kuboid mengandungi air setinggi 10 cm. Tapaknya berukuran 5 cm × 4 cm. Isi padu air ialah...", options: ["100 cm³", "200 cm³", "150 cm³", "250 cm³"], answer: 1 },
+                { q: "Bentuk 3D yang mempunyai satu tapak bulatan dan satu puncak tirus ialah...", options: ["Silinder", "Kon", "Piramid", "Sfera"], answer: 1 },
+                { q: "Berapakah bilangan bucu bagi sebuah kuboid?", options: ["6", "8", "12", "4"], answer: 1 },
+                { q: "Garisan penjimatan simetri bagi sebuah segi empat sama ialah...", options: ["2", "4", "6", "8"], answer: 1 }
+            ],
+            t5_kebolehjadian: [
+                { q: "Apakah kebolehjadian hujan turun di Malaysia pada musim tengkujuh?", options: ["Mustahil", "Kecil kemungkinan", "Besar kemungkinan / Pasti", "Sifar"], answer: 2 },
+                { q: "Sebuah kotak ada 5 biji bola merah. Kebolehjadian mengambil sebiji bola merah ialah...", options: ["Mustahil", "Pasti", "Kecil kemungkinan", "Sama kemungkinan"], answer: 1 },
+                { q: "Melonjakkan dadu standard 6 sisi, kebolehjadian mendapat nombor 7 ialah...", options: ["Pasti", "Mustahil", "1/2", "1/6"], answer: 1 },
+                { q: "Hari selepas hari Ahad ialah hari Isnin. Peristiwa ini adalah...", options: ["Mungkin", "Mustahil", "Pasti", "Kecil kemungkinan"], answer: 2 },
+                { q: "Dalam koordinat, jika titik A berada di (3, 4) dan B di (3, 7), jarak menegak antara A dan B ialah...", options: ["3 unit", "4 unit", "7 unit", "1 unit"], answer: 0 },
+                { q: "Hitung jarak mengufuk dari titik P(1, 2) ke Q(6, 2).", options: ["5 unit", "6 unit", "2 unit", "7 unit"], answer: 0 },
+                { q: "Sebuah beg mengandungi 3 guli biru dan 3 guli merah. Mengambil guli biru mempunyai...", options: ["Pasti", "Mustahil", "Kecil kemungkinan", "Kemungkinan yang sama"], answer: 3 },
+                { q: "Apakah kebolehjadian manusia terbang tanpa mesin?", options: ["Pasti", "Mustahil", "Mungkin", "Sama kemungkinan"], answer: 1 },
+                { q: "Jika anda melambung duit syiling, kebolehjadian mendapat 'Angka' ialah...", options: ["1", "0", "1/2", "1/4"], answer: 2 },
+                { q: "Peristiwa yang pasti berlaku mempunyai nilai kebolehjadian...", options: ["0", "1", "1/2", "Tidak tentu"], answer: 1 },
+            ],
+            t6_operasi: [
+                { q: "-5 + 8 = ?", options: ["-3", "3", "13", "-13"], answer: 1 },
+                { q: "(-12) - (-4) = ?", options: ["-16", "-8", "8", "16"], answer: 1 },
+                { q: "-6 × 7 = ?", options: ["42", "-42", "-48", "48"], answer: 1 },
+                { q: "-36 ÷ (-9) = ?", options: ["-4", "4", "-5", "5"], answer: 1 },
+                { q: "3/4 + 1/2 × 2/3 = ?", options: ["1 1/12", "1 1/6", "5/6", "7/12"], answer: 1 },
+                { q: "(15.2 - 3.7) × 2 = ?", options: ["23.0", "22.8", "24.0", "21.8"], answer: 0 },
+                { q: "Suhu pada waktu pagi ialah -2°C. Menjelang tengah hari suhu naik 7°C. Suhu baharu ialah...", options: ["-5°C", "5°C", "9°C", "-9°C"], answer: 1 },
+                { q: "-15 + (-25) = ?", options: ["-40", "40", "10", "-10"], answer: 0 },
+                { q: "2 1/3 ÷ 1 1/6 = ?", options: ["1", "2", "3", "1 1/2"], answer: 1 },
+                { q: "(-8) × 3 + 10 = ?", options: ["-14", "-34", "14", "34"], answer: 0 }
+            ],
+            t6_peratus: [
+                { q: "Harga kos basikal ialah RM200. Dijual dengan untung 20%. Harga jual ialah...", options: ["RM220", "RM240", "RM250", "RM230"], answer: 1 },
+                { q: "Sebuah beg berharga RM120 diberi diskaun 25%. Berapa nilai diskaun?", options: ["RM20", "RM25", "RM30", "RM35"], answer: 2 },
+                { q: "Ali jual jam tangan pada harga RM315 dengan rugi 10%. Berapa harga kos jam itu?", options: ["RM350", "RM340", "RM330", "RM360"], answer: 0 },
+                { q: "Cukai perkhidmatan 6% dikenakan atas bil makanan RM150. Hitung jumlah cukai.", options: ["RM6.00", "RM9.00", "RM12.00", "RM15.00"], answer: 1 },
+                { q: "Komisen sebanyak 5% dibayar atas jualan bernilai RM4,000. Kira komisen.", options: ["RM150", "RM200", "RM250", "RM300"], answer: 1 },
+                { q: "Faedah mudah 4% setahun atas simpanan RM5,000 selama 2 tahun ialah...", options: ["RM200", "RM400", "RM500", "RM300"], answer: 1 },
+                { q: "Harga selepas diskaun 10% ialah RM90. Berapa harga asal?", options: ["RM99", "RM100", "RM110", "RM105"], answer: 1 },
+                { q: "Sebuah televisyen kos RM1,500 dijual dengan harga RM1,800. Peratus untung ialah...", options: ["15%", "20%", "25%", "30%"], answer: 1 },
+                { q: "Dividen ASB sebanyak 6% diisytiharkan ke atas pelaburan RM10,000. Jumlah dividen?", options: ["RM400", "RM500", "RM600", "RM700"], answer: 2 },
+                { q: "Invois menunjukkan jumlah RM250 selepas diskaun 10%. Berapa harga asal sebelum diskaun?", options: ["RM275", "RM277.78", "RM280", "RM290"], answer: 1 }
+            ],
+            t6_nisbah: [
+                { q: "Nisbah bilangan buku Ali kepada Abu ialah 3:5. Jika Abu ada 25 buku, berapa buku Ali?", options: ["10", "12", "15", "18"], answer: 2 },
+                { q: "Jumlah wang RM70 dibahagikan antara Amin dan Siti mengikut nisbah 2:5. Berapa wang Siti?", options: ["RM20", "RM35", "RM50", "RM40"], answer: 2 },
+                { q: "Nisbah 45 minit kepada 2 jam dalam bentuk termudah ialah...", options: ["3:8", "1:2", "3:4", "2:3"], answer: 0 },
+                { q: "Jika 3 biji epal berharga RM6, berapa harga 7 biji epal?", options: ["RM12", "RM14", "RM16", "RM18"], answer: 1 },
+                { q: "Nisbah murid lelaki kepada perempuan ialah 4:3. Jika jumlah murid 56 orang, berapa lelaki?", options: ["24", "28", "32", "36"], answer: 2 },
+                { q: "Sebuah kereta guna 8 liter petrol untuk jarak 96 km. Berapa km untuk 1 liter?", options: ["10 km", "12 km", "14 km", "16 km"], answer: 1 },
+                { q: "Nisbah 500 g kepada 2 kg dalam bentuk termudah ialah...", options: ["1:4", "1:2", "1:5", "2:5"], answer: 0 },
+                { q: "Kadaran: Jika 5 kg beras berharga RM20, berapa kos 12 kg beras?", options: ["RM40", "RM48", "RM50", "RM52"], answer: 1 },
+                { q: "Umur bapa kepada anak ialah 7:2. Jika anak berumur 12 tahun, berapa umur bapa?", options: ["35 tahun", "42 tahun", "49 tahun", "56 tahun"], answer: 1 },
+                { q: "Ringkaskan nisbah 24:36 ke bentuk terendah.", options: ["2:3", "3:4", "4:6", "6:9"], answer: 0 }
+            ],
+            t6_ruang: [
+                { q: "Hitung luas permukaan gabungan bentuk kuboid dan kubus jika sisi kubus 2 cm dan kuboid 5×3×2 cm.", options: ["64 cm²", "72 cm²", "80 cm²", "60 cm²"], answer: 1 },
+                { q: "Sudut pelengkap bagi 35° ialah...", options: ["55°", "65°", "145°", "90°"], answer: 0 },
+                { q: "Sudut penggenap (supplementary) bagi 110° ialah...", options: ["70°", "80°", "90°", "60°"], answer: 0 },
+                { q: "Hitung luas bulatan dengan jejari 7 cm. (Guna π = 22/7)", options: ["154 cm²", "44 cm²", "88 cm²", "308 cm²"], answer: 0 },
+                { q: "Lilitan bulatan dengan jejari 14 cm ialah... (Guna π = 22/7)", options: ["44 cm", "88 cm", "154 cm", "66 cm"], answer: 1 },
+                { q: "Pusat ke lilitan bulatan dikenali sebagai...", options: ["Diameter", "Jejari (Radius)", "Perimeter", "Perentas"], answer: 1 },
+                { q: "Garis lurus terpanjang yang merentasi pusat bulatan ialah...", options: ["Jejari", "Diameter", "Lilitan", "Arc"], answer: 1 },
+                { q: "Jumlah sudut pada satu titik pusingan lengkap ialah...", options: ["90°", "180°", "270°", "360°"], answer: 3 },
+                { q: "Luas segi tiga bertapak 10 cm dan tinggi 8 cm ialah...", options: ["80 cm²", "40 cm²", "20 cm²", "60 cm²"], answer: 1 },
+                { q: "Sebuah trapezium mempunyai panjang selari 6 cm dan 10 cm serta tinggi 4 cm. Luasnya ialah...", options: ["32 cm²", "64 cm²", "40 cm²", "24 cm²"], answer: 0 }
+            ],
+            t6_statistik: [
+                { q: "Cari min bagi data: 12, 15, 18, 20, 25", options: ["18", "19", "20", "17"], answer: 0 },
+                { q: "Cari median bagi data: 4, 7, 9, 12, 15", options: ["7", "9", "12", "10"], answer: 1 },
+                { q: "Cari julat bagi set data: 5, 12, 18, 3, 25", options: ["20", "22", "25", "18"], answer: 1 },
+                { q: "Cari mod bagi data: 3, 5, 3, 7, 8, 3, 9", options: ["5", "3", "7", "8"], answer: 1 },
+                { q: "Jika min 5 nombor ialah 40, apakah jumlah nilai kesemua nombor itu?", options: ["160", "180", "200", "220"], answer: 2 },
+                { q: "Median bagi nombor genap data tersusun (misal 4 data) diperoleh dengan...", options: ["Mengambil nilai tengah pertama", "Purata dua nilai di tengah", "Nilai maksimum", "Mod data"], answer: 1 },
+                { q: "Julat dikira melalui formula...", options: ["Nilai maksimum - Nilai minimum", "Nilai maksimum + Nilai minimum", "Jumlah ÷ Bilangan", "Nilai tengah"], answer: 0 },
+                { q: "Cari median bagi data tersusun: 10, 14, 18, 22, 26, 30", options: ["18", "20", "22", "20"], answer: 1 },
+                { q: "Min juga dikenali dalam kehidupan seharian sebagai...", options: ["Purata", "Tengah", "Paling kerap", "Beza"], answer: 0 },
+                { q: "Apakah nilai min bagi nombor: 5, 5, 5, 5, 5?", options: ["0", "1", "5", "25"], answer: 2 }
+            ]
+        };
+
+        let currentYear = 1;
+        let currentTopicKey = "";
+        let currentLessonObj = null;
+        let selectedQuestionCount = 10;
+        let activeQuestionsPool = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let currentTimerInterval = null;
+
+        window.selectYear = function(year) {
+            currentYear = year;
+            document.getElementById("topic-screen-title").innerText = `Matematik Tahun ${year} 📚`;
             
-            <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg text-sm text-amber-900 space-y-1 shadow-sm">
-                <p class="font-bold flex items-center gap-1.5">
-                    <span>⚠️</span> PERINGATAN PENTING
-                </p>
-                <p>Sila pastikan semua maklumat customer anda diisi dengan tepat dan lengkap.</p>
-                <p>Pastikan alamat email yang didaftarkan adalah betul dan aktif.</p>
-            </div>
+            const gridContainer = document.getElementById("topic-grid-container");
+            gridContainer.innerHTML = "";
 
-            <div class="space-y-4 pb-2">
-                <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider border-b pb-1">Maklumat Customer</h3>
-                
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Nama Customer</label>
-                    <input type="text" id="cust_nama" required 
-                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white text-slate-900 font-medium"
-                        placeholder="Contoh: Siti Aminah">
-                </div>
+            const topics = yearTopics[year];
+            topics.forEach(topic => {
+                const btn = document.createElement("button");
+                btn.className = "topic-btn";
+                btn.innerText = topic.name;
+                btn.onclick = () => {
+                    playClickSound();
+                    openLesson(topic.id);
+                };
+                gridContainer.appendChild(btn);
+            });
 
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Email Customer</label>
-                    <input type="email" id="cust_email" required 
-                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white text-slate-900 font-medium"
-                        placeholder="customer@email.com">
-                </div>
+            showScreen("topic-screen");
+        };
 
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">No. Telefon Customer</label>
-                    <input type="tel" id="cust_nofon" required 
-                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white text-slate-900 font-medium"
-                        placeholder="0123456789">
-                </div>
-            </div>
-
-            <div class="space-y-4 pb-2">
-                <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider border-b pb-1">Maklumat Reseller</h3>
-                
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Nama Reseller</label>
-                    <input type="text" id="res_nama" required 
-                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white text-slate-900 font-medium"
-                        placeholder="Contoh: Ahmad Zaki">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Email Reseller</label>
-                    <input type="email" id="res_email" required 
-                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white text-slate-900 font-medium"
-                        placeholder="reseller@email.com">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">No. Telefon Reseller</label>
-                    <input type="tel" id="res_nofon" required 
-                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white text-slate-900 font-medium"
-                        placeholder="0198765432">
-                </div>
-            </div>
-
-            <button type="submit" 
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-200 shadow-md">
-                Register & Teruskan
-            </button>
-        </form>
-    </div>
-
-    <div id="admin_modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden border border-slate-200">
+        window.openLesson = function(topicKey) {
+            currentTopicKey = topicKey;
             
-            <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
-                <h3 class="font-bold text-lg">Admin Control Panel</h3>
-                <button onclick="closeAdmin()" class="text-slate-400 hover:text-white text-xl font-bold">&times;</button>
-            </div>
+            // Cari objek lesson dalam semua tahun
+            let foundTopic = null;
+            for (let y in yearTopics) {
+                const match = yearTopics[y].find(t => t.id === topicKey);
+                if (match) {
+                    foundTopic = match;
+                    break;
+                }
+            }
 
-            <div class="p-6">
-                <div id="login_section" class="space-y-4 max-w-sm mx-auto py-8 text-center">
-                    <h4 class="text-slate-700 font-medium">Log Masuk Admin</h4>
-                    <input type="email" id="admin_email" placeholder="Email Admin" 
-                        class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-800 focus:outline-none">
-                    <input type="password" id="admin_pass" placeholder="Password" 
-                        class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-800 focus:outline-none">
-                    <button onclick="checkAdminLogin()" class="w-full bg-slate-900 hover:bg-black text-white font-semibold py-2 rounded-lg transition">
-                        Log Masuk
-                    </button>
-                </div>
+            if (!foundTopic) return;
+            currentLessonObj = foundTopic;
 
-                <div id="admin_dashboard" class="hidden space-y-4">
-                    <div class="flex gap-2 border-b pb-3">
-                        <button id="tab_pending_btn" onclick="switchTab('pending')" class="px-4 py-2 text-xs font-bold rounded-lg bg-blue-600 text-white shadow">
-                            Menunggu Kelulusan (Pending)
-                        </button>
-                        <button id="tab_approved_btn" onclick="switchTab('approved')" class="px-4 py-2 text-xs font-bold rounded-lg bg-slate-200 text-slate-700 hover:bg-slate-300">
-                            Telah Diluluskan (Approved)
-                        </button>
-                    </div>
+            document.getElementById("lesson-title").innerText = foundTopic.name;
+            document.getElementById("lesson-desc").innerHTML = foundTopic.desc;
+            document.getElementById("lesson-examples").innerHTML = foundTopic.examples;
 
-                    <div id="section_pending" class="space-y-3">
-                        <h4 class="font-semibold text-slate-800 text-sm">Senarai Pendaftaran Baru (Customer & Reseller)</h4>
-                        <div class="overflow-x-auto max-h-80">
-                            <table class="w-full text-left border-collapse text-sm">
-                                <thead>
-                                    <tr class="bg-slate-100 text-slate-600 border-b border-slate-200">
-                                        <th class="py-2.5 px-4">Maklumat Customer</th>
-                                        <th class="py-2.5 px-4">Maklumat Reseller</th>
-                                        <th class="py-2.5 px-4">Tarikh Mohon</th>
-                                        <th class="py-2.5 px-4 text-right">Tindakan</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="pending_table_body">
-                                    </tbody>
-                            </table>
-                        </div>
-                    </div>
+            showScreen("lesson-screen");
+        };
 
-                    <div id="section_approved" class="space-y-3 hidden">
-                        <h4 class="font-semibold text-slate-800 text-sm">Rekod Pelanggan & Reseller Diluluskan</h4>
-                        <div class="overflow-x-auto max-h-80">
-                            <table class="w-full text-left border-collapse text-sm">
-                                <thead>
-                                    <tr class="bg-slate-100 text-slate-600 border-b border-slate-200">
-                                        <th class="py-2.5 px-4">Customer</th>
-                                        <th class="py-2.5 px-4">Reseller Bertanggungjawab</th>
-                                        <th class="py-2.5 px-4">WhatsApp Customer</th>
-                                        <th class="py-2.5 px-4">Tarikh</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="approved_table_body">
-                                    </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        window.proceedToQuestionCount = function() {
+            showScreen("count-selection-screen");
+        };
 
-        </div>
-    </div>
+        window.startQuizWithCount = function(count) {
+            selectedQuestionCount = count;
+            
+            const rawPool = questionBank[currentTopicKey] || [];
+            if (rawPool.length === 0) {
+                alert("Soalan belum tersedia untuk topik ini.");
+                return;
+            }
 
+            // Pastikan tiada soalan berulang dalam satu sesi dengan merawak dan mengehadkan kepada bilangan count
+            let shuffled = [...rawPool].sort(() => 0.5 - Math.random());
+            activeQuestionsPool = shuffled.slice(0, Math.min(count, shuffled.length));
+
+            currentQuestionIndex = 0;
+            score = 0;
+
+            document.getElementById("active-topic-label").innerText = currentLessonObj.name;
+            document.getElementById("total-q-num").innerText = activeQuestionsPool.length;
+
+            showScreen("quiz-screen");
+            loadCurrentQuestion();
+        };
+
+        function loadCurrentQuestion() {
+            if (currentQuestionIndex >= activeQuestionsPool.length) {
+                finishQuiz();
+                return;
+            }
+
+            const qData = activeQuestionsPool[currentQuestionIndex];
+            document.getElementById("question-num").innerText = currentQuestionIndex + 1;
+            document.getElementById("current-score").innerText = score;
+            document.getElementById("question-text").innerText = qData.q;
+
+            const optionsContainer = document.getElementById("options-container");
+            optionsContainer.innerHTML = "";
+
+            qData.options.forEach((optText, idx) => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.innerText = optText;
+                btn.onclick = () => checkAnswer(idx, qData.answer, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById("next-btn").style.display = "none";
+        }
+
+        function checkAnswer(selectedIndex, correctIndex, selectedBtn) {
+            const allBtns = document.querySelectorAll(".options-container button, .options-grid button");
+            allBtns.forEach(b => b.disabled = true);
+
+            if (selectedIndex === correctIndex) {
+                selectedBtn.classList.add("correct");
+                score++;
+                playCorrectSound();
+            } else {
+                selectedBtn.classList.add("wrong");
+                playWrongSound();
+                allBtns.forEach((b, idx) => {
+                    if (idx === correctIndex) b.classList.add("correct");
+                });
+            }
+
+            document.getElementById("current-score").innerText = score;
+            document.getElementById("next-btn").style.display = "inline-block";
+        }
+
+        window.nextQuestion = function() {
+            currentQuestionIndex++;
+            loadCurrentQuestion();
+        };
+
+        function finishQuiz() {
+            const totalQ = activeQuestionsPool.length;
+            const percentage = Math.round((score / totalQ) * 100);
+            const nowStr = new Date().toLocaleString('ms-MY');
+
+            document.getElementById("final-score").innerText = `${percentage}%`;
+            document.getElementById("completion-time").innerText = `📅 Diselesaikan pada: ${nowStr}`;
+            
+            let feedback = "Teruskan usaha yang cemerlang! 🌟";
+            if (percentage === 100) feedback = "Tahniah! Anda Mendapat Markah Penuh! 🏆 Smart Sifir!";
+            else if (percentage >= 80) feedback = "Hebat! Penguasaan matematik yang sangat baik! 👍";
+            else if (percentage >= 50) - (feedback = "Bagus, teruskan latihan untuk lebih cekap! 💪");
+            
+            document.getElementById("feedback-message").innerText = feedback;
+
+            saveSessionRecord(currentLessonObj.name, score, totalQ, nowStr);
+            showScreen("result-screen");
+        }
+
+        window.confirmBackToHome = function() {
+            if (confirm("Adakah anda pasti mahu keluar ke menu utama? Progres kuiz ini akan tamat.")) {
+                navigateTo('home-screen');
+            }
+        };
+
+        window.showScreen = function(screenId) {
+            document.querySelectorAll(".card").forEach(c => c.classList.remove("active"));
+            document.getElementById(screenId).classList.add("active");
+            if (screenId === 'scores-screen') {
+                loadScoreBoard();
+            }
+        };
+
+        window.navigateTo = function(screenId, navElement = null) {
+            closeSidebar();
+            if (navElement) {
+                document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
+                navElement.classList.add("active");
+            }
+            showScreen(screenId);
+        };
+
+        window.toggleSidebar = function(e) {
+            e.stopPropagation();
+            document.getElementById("sidebar").classList.toggle("open");
+        };
+
+        window.closeSidebar = function() {
+            document.getElementById("sidebar").classList.remove("open");
+        };
+
+        document.addEventListener("click", (e) => {
+            const sidebar = document.getElementById("sidebar");
+            const toggleBtn = document.getElementById("mobile-toggle-btn");
+            if (window.innerWidth <= 768 && sidebar.classList.contains("open")) {
+                if (!sidebar.contains(e.target) && e.target !== toggleBtn) {
+                    closeSidebar();
+                }
+            }
+        });
+    </script>
 </body>
 </html>
