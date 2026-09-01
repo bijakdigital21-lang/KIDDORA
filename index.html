@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bijak Math - Primary School Mathematics</title>
+    <title>Bijak Matematik - Sekolah Rendah KSSR</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
@@ -73,7 +73,7 @@
 
         .sidebar-title {
             font-family: 'Fredoka One', cursive;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: var(--primary-yellow);
             text-align: center;
             margin-bottom: 5px;
@@ -81,7 +81,7 @@
         }
 
         .sidebar-subtitle {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-align: center;
             color: #BDC3C7;
             margin-bottom: 25px;
@@ -256,6 +256,8 @@
             margin-bottom: 15px;
             font-weight: 700;
             font-size: 0.95rem;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .switch-profile-btn {
@@ -275,7 +277,6 @@
             box-shadow: none;
         }
 
-        /* TAHUN GRID SELECTION */
         .year-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -284,29 +285,23 @@
         }
 
         .year-btn {
-            background-color: var(--primary-blue);
-            color: var(--text-dark);
+            background-color: var(--primary-purple);
+            color: white;
             border: none;
-            padding: 18px 12px;
-            border-radius: 18px;
+            padding: 15px;
+            border-radius: 15px;
             font-size: 1.1rem;
-            font-family: 'Fredoka One', cursive;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 5px 0 #3bafb3;
+            box-shadow: 0 4px 0 #8d5cc4;
+            transition: all 0.2s;
+            font-family: 'Quicksand', sans-serif;
         }
 
         .year-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 0 #3bafb3;
+            transform: translateY(-2px);
+            background-color: #b179ff;
         }
-
-        .year-btn:nth-child(6n-5) { background-color: var(--primary-blue); box-shadow: 0 5px 0 #3bafb3; }
-        .year-btn:nth-child(6n-4) { background-color: var(--primary-pink); box-shadow: 0 5px 0 #c74597; color: white;}
-        .year-btn:nth-child(6n-3) { background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d; }
-        .year-btn:nth-child(6n-2) { background-color: var(--primary-purple); box-shadow: 0 5px 0 #8d5cc4; color: white;}
-        .year-btn:nth-child(6n-1) { background-color: var(--primary-yellow); box-shadow: 0 5px 0 #c2a332; }
-        .year-btn:nth-child(6n) { background-color: #FF7043; box-shadow: 0 5px 0 #D84315; color: white; }
 
         .topic-grid {
             display: grid;
@@ -353,12 +348,12 @@
         .lesson-title {
             font-family: 'Fredoka One', cursive;
             color: #5E17EB;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             margin-bottom: 10px;
         }
 
         .lesson-desc {
-            font-size: 1.05rem;
+            font-size: 1rem;
             line-height: 1.5;
             margin-bottom: 15px;
         }
@@ -371,11 +366,6 @@
             margin-top: 10px;
         }
 
-        .lesson-example ul {
-            padding-left: 20px;
-            margin-top: 5px;
-        }
-
         .quiz-header {
             display: flex;
             justify-content: space-between;
@@ -385,16 +375,17 @@
             background: #FFF9C4;
             padding: 10px 20px;
             border-radius: 15px;
+            font-size: 0.9rem;
         }
 
         .question-box {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 700;
             margin: 25px 0;
-            padding: 20px;
+            padding: 15px;
             background-color: #F0F4F8;
             border-radius: 15px;
-            min-height: 90px;
+            min-height: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -410,9 +401,9 @@
         .option-btn {
             background-color: #FFFFFF;
             border: 3px solid #CBD5E1;
-            padding: 14px;
+            padding: 12px;
             border-radius: 12px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
@@ -455,6 +446,7 @@
             box-shadow: 0 4px 0 #E65100;
             margin: 5px;
             text-decoration: none;
+            font-family: 'Quicksand', sans-serif;
         }
 
         .action-btn:active {
@@ -462,22 +454,26 @@
             box-shadow: 0 2px 0 #E65100;
         }
 
-        .login-google-btn {
-            background-color: #FFFFFF;
+        .google-login-btn {
+            background-color: #ffffff;
             color: #444444;
-            border: 2px solid #CBD5E1;
-            box-shadow: 0 4px 0 #CBD5E1;
+            border: 2px solid #ddd;
+            box-shadow: 0 4px 0 #ccc;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
             width: 100%;
+            font-weight: 700;
             font-size: 1.05rem;
         }
 
-        .login-google-btn:hover {
-            background-color: #F8FAFC;
-            border-color: #94A3B8;
+        .google-login-btn:hover {
+            background-color: #f7f7f7;
+        }
+
+        .google-login-btn:active {
+            box-shadow: 0 2px 0 #ccc;
         }
 
         .login-whatsapp-btn {
@@ -490,17 +486,9 @@
             width: 100%;
         }
 
-        .login-whatsapp-btn:hover {
-            background-color: #1EBE5D;
-        }
-
         .home-btn {
             background-color: #3498DB;
             box-shadow: 0 4px 0 #1F618D;
-        }
-
-        .home-btn:active {
-            box-shadow: 0 2px 0 #1F618D;
         }
 
         .clear-btn {
@@ -562,10 +550,6 @@
             font-size: 1rem;
         }
 
-        .profile-card-details p {
-            margin-bottom: 8px;
-        }
-
         .profile-list-box {
             background: #FFFFFF;
             border: 2px solid var(--primary-blue);
@@ -592,6 +576,7 @@
             cursor: pointer;
             box-shadow: 0 4px 0 #8d5cc4;
             transition: all 0.2s;
+            font-family: 'Quicksand', sans-serif;
         }
 
         .count-btn:hover {
@@ -621,11 +606,6 @@
                 margin-left: 0;
                 padding: 70px 15px 20px 15px;
             }
-
-            .record-table th, .record-table td {
-                font-size: 0.8rem;
-                padding: 6px;
-            }
         }
     </style>
 </head>
@@ -637,14 +617,14 @@
     <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-            <img src="https://i.imgur.com/vPd4cjj.jpeg" alt="bijak math Logo">
+            <img src="https://i.imgur.com/vPd4cjj.jpeg" alt="Logo Bijak Math">
         </div>
-        <div class="sidebar-title">bijak math</div>
-        <div class="sidebar-subtitle">Matematik Sekolah Rendah</div>
+        <div class="sidebar-title">Bijak Matematik</div>
+        <div class="sidebar-subtitle">Sekolah Rendah KSSR</div>
 
         <ul class="nav-menu" id="nav-menu" style="display: none;">
             <li class="nav-item active" onclick="playClickSound(); navigateTo('home-screen', this)">
-                📚 Laman Utama
+                📚 Halaman Utama
             </li>
             <li class="nav-item" onclick="playClickSound(); navigateTo('profile-view-screen', this)">
                 👤 Profil Pelajar
@@ -665,14 +645,14 @@
     <div class="main-content">
         <div class="container">
 
-            <!-- 1. LOGIN SCREEN -->
+            <!-- 1. LOGIN SCREEN (GOOGLE SIGN-IN) -->
             <div id="login-screen" class="card active">
-                <h1 style="font-family: 'Fredoka One', cursive; color: #FF5757; margin-bottom: 10px;">bijak math</h1>
+                <h1 style="font-family: 'Fredoka One', cursive; color: #FF5757; margin-bottom: 10px;">Bijak Matematik</h1>
                 <h2>Selamat Kembali! 👋</h2>
                 <p style="margin-top: 5px; color: #666; margin-bottom: 25px;">Sila log masuk menggunakan akaun Google anda.</p>
                 
-                <button class="action-btn login-google-btn" onclick="playClickSound(); handleGoogleLogin()">
-                    <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.13 0-5.78-2.11-6.73-4.96H1.18v3.14C3.17 21.36 7.23 24 12 24z"/><path fill="#FBBC05" d="M5.27 14.24c-.25-.72-.38-1.49-.38-2.24s.13-1.52.38-2.24V6.62H1.18C.43 8.13 0 9.82 0 12s.43 3.87 1.18 5.38l4.09-3.14z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.17 2.64 1.18 6.62l4.09 3.14c.95-2.85 3.6-4.91 6.73-4.91z"/></svg>
+                <button class="action-btn google-login-btn" onclick="playClickSound(); handleGoogleLogin()">
+                    <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.95H1.19v3.15C3.17 21.31 7.23 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.25c-.25-.72-.38-1.49-.38-2.25s.13-1.53.38-2.25V6.6H1.19C.43 8.15 0 9.89 0 12s.43 3.85 1.19 5.4l4.09-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.17 2.69 1.19 6.6l4.09 3.15c.95-2.84 3.6-4.95 6.72-4.95z"/></svg>
                     Log Masuk dengan Google 🚀
                 </button>
                 
@@ -690,7 +670,7 @@
                 <p style="color: #666; margin-top: 5px;">Pilih profil pelajar atau tambah profil baharu.</p>
                 
                 <div class="profile-list-box" id="profile-selection-list">
-                    <!-- Profile buttons populated dynamically -->
+                    <!-- Populated dynamically -->
                 </div>
 
                 <div style="margin-top: 20px; border-top: 2px dashed #DDD; padding-top: 15px;">
@@ -702,57 +682,58 @@
                 </div>
             </div>
 
-            <!-- 3. HOME SCREEN (PILIH TAHUN 1 HINGGA 6) -->
+            <!-- 3. YEAR SELECTION SCREEN (TAHUN 1 - 6) -->
+            <div id="year-selection-screen" class="card">
+                <h2>Pilih Tahap Tahun 📚</h2>
+                <p style="color: #666; margin-top: 5px;">Sila pilih tahun persekolahan anda.</p>
+                
+                <div class="year-grid">
+                    <button class="year-btn" onclick="playClickSound(); selectYear(1)">Tahun 1 🎒</button>
+                    <button class="year-btn" onclick="playClickSound(); selectYear(2)">Tahun 2 ✏️</button>
+                    <button class="year-btn" onclick="playClickSound(); selectYear(3)">Tahun 3 📐</button>
+                    <button class="year-btn" onclick="playClickSound(); selectYear(4)">Tahun 4 🧮</button>
+                    <button class="year-btn" onclick="playClickSound(); selectYear(5)">Tahun 5 📈</button>
+                    <button class="year-btn" onclick="playClickSound(); selectYear(6)">Tahun 6 🎓</button>
+                </div>
+                <br>
+                <button class="action-btn home-btn" onclick="playClickSound(); showScreen('profile-selection-screen')">Tukar Profil 🔄</button>
+            </div>
+
+            <!-- 4. HOME SCREEN (TOPICS LIST) -->
             <div id="home-screen" class="card">
                 <div class="home-header">
-                    <img src="https://i.imgur.com/vPd4cjj.jpeg" alt="bijak math Logo" class="home-app-logo">
-                    <h2 class="home-intro-title" id="home-greeting">Hi Pelajar! 👋</h2>
+                    <img src="https://i.imgur.com/vPd4cjj.jpeg" alt="Logo" class="home-app-logo">
+                    <h2 class="home-intro-title" id="home-greeting">Hai Pelajar! 👋</h2>
                     
                     <div class="active-profile-badge">
                         <span>Profil: <strong id="current-badge-name" style="color: #5E17EB;">-</strong></span>
-                        <button class="switch-profile-btn" onclick="playClickSound(); showScreen('profile-selection-screen')">Tukar 🔄</button>
+                        <span>|</span>
+                        <span>Tahap: <strong id="current-badge-year" style="color: #FF5757;">-</strong></span>
+                        <button class="switch-profile-btn" onclick="playClickSound(); showScreen('year-selection-screen')">Tukar Tahap 🔄</button>
                     </div>
 
-                    <p class="home-intro-subtitle">Sila pilih tahun persekolahan di bawah.</p>
+                    <p class="home-intro-subtitle">Pilih topik matematik di bawah untuk mula belajar.</p>
                 </div>
 
-                <div class="year-grid">
-                    <button class="year-btn" onclick="playClickSound(); selectYear(1)">Tahun 1 🧮</button>
-                    <button class="year-btn" onclick="playClickSound(); selectYear(2)">Tahun 2 ➕</button>
-                    <button class="year-btn" onclick="playClickSound(); selectYear(3)">Tahun 3 ✖️</button>
-                    <button class="year-btn" onclick="playClickSound(); selectYear(4)">Tahun 4 ➗</button>
-                    <button class="year-btn" onclick="playClickSound(); selectYear(5)">Tahun 5 📊</button>
-                    <button class="year-btn" onclick="playClickSound(); selectYear(6)">Tahun 6 📐</button>
-                </div>
-            </div>
-
-            <!-- 3B. TOPIC SELECTION SCREEN (BERDASARKAN TAHUN) -->
-            <div id="topic-screen" class="card">
-                <div class="home-header">
-                    <h2 class="home-intro-title" id="topic-screen-title">Pilih Topik</h2>
-                    <p class="home-intro-subtitle">Pilih tajuk matematik untuk mula mengulangkaji.</p>
-                </div>
                 <div class="topic-grid" id="topic-grid-container">
-                    <!-- Diisi secara dinamik melalui JS -->
+                    <!-- Populated dynamically based on Year -->
                 </div>
-                <br>
-                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Kembali ke Pilihan Tahun 🏠</button>
             </div>
 
-            <!-- 4. LESSON SCREEN -->
+            <!-- 5. LESSON SCREEN -->
             <div id="lesson-screen" class="card">
-                <h2 style="color: #333;">Nota Pembelajaran! 📖</h2>
+                <h2 style="color: #333;">Nota & Pembelajaran! 📖</h2>
                 <div class="lesson-box">
                     <div class="lesson-title" id="lesson-title">Tajuk Topik</div>
                     <div class="lesson-desc" id="lesson-desc">Penerangan nota di sini...</div>
                     <div class="lesson-example">
                         <strong>Contoh:</strong>
-                        <div id="lesson-examples">Contoh di sini...</div>
+                        <div id="lesson-examples">Contoh soalan dan jalan kerja...</div>
                     </div>
                 </div>
                 <button class="action-btn" style="display:inline-block; background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); proceedToQuestionCount()">Pilih Bilangan Soalan 🚀</button>
                 <br>
-                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('topic-screen')">Kembali 🔙</button>
+                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Utama 🏠</button>
             </div>
 
             <!-- SCREEN PILIH BILANGAN SOALAN -->
@@ -767,27 +748,27 @@
                     <button class="count-btn" onclick="playClickSound(); startQuizWithCount(20)">20 Soalan</button>
                 </div>
                 <br>
-                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Menu Utama 🏠</button>
+                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Kembali ke Utama 🏠</button>
             </div>
 
-            <!-- 5. PROFILES & ACCOUNT MANAGEMENT VIEW -->
+            <!-- 6. PROFILES & ACCOUNT MANAGEMENT VIEW -->
             <div id="profile-view-screen" class="card">
-                <h2>Akaun & Profil 👤</h2>
+                <h2>Akaun & Profil Pelajar 👤</h2>
                 <div class="profile-card-details">
-                    <p><strong>E-mel Akaun:</strong> <span id="acc-email-val" style="color: #5E17EB;">-</span></p>
+                    <p><strong>Emel Akaun Google:</strong> <span id="acc-email-val" style="color: #5E17EB;">-</span></p>
                     <p><strong>Profil Pelajar Aktif:</strong> <span id="active-profile-val" style="color: #FF5757; font-weight: bold;">-</span></p>
-                    <p><strong>Aras:</strong> Matematik Sekolah Rendah</p>
+                    <p><strong>Tahap Dipilih:</strong> <span id="active-year-val" style="color: #2E7D32; font-weight: bold;">-</span></p>
                 </div>
 
                 <button class="action-btn" style="background-color: var(--primary-purple); box-shadow: 0 4px 0 #8d5cc4; width: 100%; margin-bottom: 15px;" onclick="playClickSound(); showScreen('profile-selection-screen')">Tukar / Tambah Profil 🔄</button>
-
+                
                 <button class="action-btn home-btn" style="width: 100%; margin: 0;" onclick="playClickSound(); navigateTo('home-screen')">Kembali ke Utama 🏠</button>
             </div>
 
-            <!-- 6. SCORES HISTORY SCREEN -->
+            <!-- 7. SCORES HISTORY SCREEN -->
             <div id="scores-screen" class="card">
-                <h2 style="color: #333;">🏆 Sejarah Percubaan Kuiz</h2>
-                <p style="color: #666; margin-top: 5px;">Rekod setiap sesi kuiz matematik yang telah diselesaikan!</p>
+                <h2 style="color: #333;">🏆 Rekod Percubaan Kuiz</h2>
+                <p style="color: #666; margin-top: 5px;">Sejarah pencapaian latihan matematik anda!</p>
                 
                 <div class="table-container">
                     <table class="record-table">
@@ -806,13 +787,13 @@
                 </div>
                 <br>
                 <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Kembali ke Utama 🏠</button>
-                <button class="action-btn clear-btn" onclick="playClickSound(); clearHistory()">Kosongkan Sejarah 🗑️</button>
+                <button class="action-btn clear-btn" onclick="playClickSound(); clearHistory()">Kosongkan Rekod 🗑️</button>
             </div>
 
-            <!-- 7. QUIZ SCREEN (MULTIPLE CHOICE) -->
+            <!-- 8. QUIZ SCREEN (MULTIPLE CHOICE) -->
             <div id="quiz-screen" class="card">
                 <div class="quiz-header">
-                    <span id="active-topic-label">Topik</span>
+                    <span id="topic-title">Topik</span>
                     <span>Soalan: <span id="question-num">1</span>/<span id="total-q-num">10</span></span>
                     <span>Skor: <span id="current-score">0</span></span>
                 </div>
@@ -831,12 +812,12 @@
                 </div>
             </div>
 
-            <!-- 8. RESULT SCREEN -->
+            <!-- 9. RESULT SCREEN -->
             <div id="result-screen" class="card">
-                <h2>Syabas! Pencapaian Cemerlang 🎉</h2>
-                <p>Anda telah melengkapkan kuiz ini!</p>
+                <h2>Syabas! Tahniah! 🎉</h2>
+                <p>Anda telah selesai menjawab kuiz!</p>
                 <div class="result-score" id="final-score">0%</div>
-                <div class="completion-time" id="completion-time">📅 Diselesaikan pada: -</div>
+                <div class="completion-time" id="completion-time">📅 Tarikh: -</div>
                 <p id="feedback-message" style="font-weight: 700; color: #555;"></p>
                 <br>
                 <button class="action-btn home-btn" style="display:inline-block;" onclick="playClickSound(); navigateTo('home-screen')">Kembali ke Menu 🏠</button>
@@ -851,9 +832,9 @@
         import { 
             getAuth, 
             signInWithPopup, 
-            GoogleAuthProvider,
+            GoogleAuthProvider, 
             signOut, 
-            onAuthStateChanged
+            onAuthStateChanged 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { 
             getDatabase, 
@@ -866,21 +847,23 @@
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
-  apiKey: "AIzaSyC8w1fYkU83GRZ23_izvZr2Vu0S00BDFmc",
-  authDomain: "bijak-math-1143e.firebaseapp.com",
-  databaseURL: "https://bijak-math-1143e-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "bijak-math-1143e",
-  storageBucket: "bijak-math-1143e.firebasestorage.app",
-  messagingSenderId: "322115981531",
-  appId: "1:322115981531:web:2ac06ea39130f147853cfe"
-};
+            apiKey: "AIzaSyC8w1fYkU83GRZ23_izvZr2Vu0S00BDFmc",
+            authDomain: "bijak-math-1143e.firebaseapp.com",
+            databaseURL: "https://bijak-math-1143e-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "bijak-math-1143e",
+            storageBucket: "bijak-math-1143e.firebasestorage.app",
+            messagingSenderId: "322115981531",
+            appId: "1:322115981531:web:2ac06ea39130f147853cfe"
+        };
+
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
-        const googleProvider = new GoogleAuthProvider();
+        const provider = new GoogleAuthProvider();
 
         window.currentUserAuth = null;
         window.activeProfile = "";
+        window.activeYear = 1;
         window.userProfiles = [];
 
         onAuthStateChanged(auth, async (user) => {
@@ -899,7 +882,7 @@
 
         window.handleGoogleLogin = async function() {
             try {
-                await signInWithPopup(auth, googleProvider);
+                await signInWithPopup(auth, provider);
             } catch (error) {
                 alert("Log masuk Google gagal: " + error.message);
             }
@@ -939,7 +922,7 @@
                     });
                 } else {
                     window.userProfiles = [];
-                    listContainer.innerHTML = "<p style='color:#777;'>Tiada profil ditemui. Sila cipta satu di bawah!</p>";
+                    listContainer.innerHTML = "<p style='color:#777;'>Tiada profil lagi. Sila cipta profil di bawah!</p>";
                 }
 
                 if (!window.activeProfile) {
@@ -975,10 +958,9 @@
 
         function selectProfile(profileName) {
             window.activeProfile = profileName;
-            document.getElementById("home-greeting").innerText = `Hi ${profileName}! 👋`;
             document.getElementById("active-profile-val").innerText = profileName;
             document.getElementById("current-badge-name").innerText = profileName;
-            showScreen("home-screen");
+            showScreen("year-selection-screen");
         }
 
         window.saveSessionRecord = async function(topic, scoreValue, totalQ, formattedTime) {
@@ -989,6 +971,7 @@
 
             const sessionData = {
                 profile: window.activeProfile,
+                year: `Tahun ${window.activeYear}`,
                 topic: topic,
                 score: `${percentage}%`,
                 rawScore: `${scoreValue} / ${totalQ}`,
@@ -1001,7 +984,7 @@
                 const newSessionRef = push(historyRef);
                 await set(newSessionRef, sessionData);
             } catch (err) {
-                console.error("Gagal menyimpan sejarah skor:", err);
+                console.error("Gagal menyimpan rekod skor:", err);
             }
         };
 
@@ -1022,7 +1005,7 @@
                     const profileData = allData.filter(item => item.profile === window.activeProfile);
 
                     if (profileData.length === 0) {
-                        tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">Tiada sesi kuiz direkodkan untuk ${window.activeProfile} lagi!</td></tr>`;
+                        tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">Tiada rekod kuiz untuk ${window.activeProfile} lagi!</td></tr>`;
                         return;
                     }
 
@@ -1032,14 +1015,14 @@
 
                         tr.innerHTML = `
                             <td style="font-weight:700;">#${sessionNum}</td>
-                            <td style="text-transform: capitalize; font-weight:700;">${session.topic}</td>
+                            <td style="text-transform: capitalize; font-weight:700;">[${session.year}] ${session.topic}</td>
                             <td style="font-weight:700; color:#5E17EB;">${session.score}</td>
                             <td style="font-size:0.8rem; color:#555;">${session.time}</td>
                         `;
                         tbody.appendChild(tr);
                     });
                 } else {
-                    tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">Tiada sesi kuiz direkodkan lagi!</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">Tiada rekod kuiz lagi!</td></tr>`;
                 }
             } catch (err) {
                 tbody.innerHTML = `<tr><td colspan="4" style="color:red;">Ralat memuatkan sejarah.</td></tr>`;
@@ -1047,7 +1030,7 @@
         };
 
         window.clearHistory = async function() {
-            if (!confirm(`Adakah anda pasti mahu memadamkan semua sejarah untuk ${window.activeProfile}?`)) return;
+            if (!confirm(`Adakah anda pasti mahu mengosongkan semua rekod untuk ${window.activeProfile}?`)) return;
 
             if (!window.currentUserAuth) return;
             const uid = window.currentUserAuth.uid;
@@ -1064,11 +1047,12 @@
                 }
                 loadScoreBoard();
             } catch (err) {
-                alert("Gagal memadam sejarah: " + err.message);
+                alert("Gagal mengosongkan rekod: " + err.message);
             }
         };
     </script>
 
+    <!-- MATHEMATICS LOGIC & UI SCRIPT -->
     <script>
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -1129,497 +1113,613 @@
             osc.stop(now + 0.25);
         }
 
-        // DEFINISI TOPIK MENGIKUT TAHUN (1 HINGGA 6)
-        const yearTopics = {
-            1: [
-                { id: "t1_nombor", name: "Nombor hingga 100 🔢", desc: "Mengenal, menulis dan membandingkan nilai nombor dari 0 hingga 100.", examples: "<ul><li>Contoh: Nombor selepas 45 ialah <b>46</b>.</li><li>Contoh: 89 lebih besar daripada 78.</li></ul>" },
-                { id: "t1_tambah", name: "Operasi Tambah ➕", desc: "Menambah dua nombor dengan hasil tambah hingga 100.", examples: "<ul><li>Contoh: 24 + 15 = <b>39</b></li><li>Contoh: 50 + 20 = <b>70</b></li></ul>" },
-                { id: "t1_tolak", name: "Operasi Tolak ➖", desc: "Menolak nombor dalam lingkungan 100.", examples: "<ul><li>Contoh: 48 - 12 = <b>36</b></li><li>Contoh: 70 - 30 = <b>40</b></li></ul>" },
-                { id: "t1_wang", name: "Wang 💵", desc: "Mengenal mata wang Malaysia (syiling dan wang kertas) hingga RM10.", examples: "<ul><li>Contoh: Syiling 50 sen ditulis sebagai <b>RM0.50</b>.</li></ul>" },
-                { id: "t1_masa", name: "Masa & Waktu ⏰", desc: "Mengenal hari dalam seminggu, bulan dalam setahun dan membaca jam penuh.", examples: "<ul><li>Contoh: Jarum pendek menunjuk ke angka 3, jam menunjukkan pukul <b>3:00</b>.</li></ul>" }
-            ],
-            2: [
-                { id: "t2_nombor", name: "Nombor hingga 1,000 🔢", desc: "Membaca, menulis dan menentukan nilai tempat bagi nombor hingga 1,000.", examples: "<ul><li>Contoh: Nilai digit 7 dalam nombor <b>7</b>32 ialah 700.</li></ul>" },
-                { id: "t2_tambah", name: "Tambah & Tolak Lanjutan ➕➖", desc: "Operasi tambah dan tolak melibatkan nombor hingga 1,000 termasuk mengumpul semula.", examples: "<ul><li>Contoh: 345 + 126 = <b>471</b></li><li>Contoh: 500 - 145 = <b>355</b></li></ul>" },
-                { id: "t2_darab", name: "Darab ✖️", desc: "Konsep darab sebagai tambah berulang dan sifir asas (2, 4, 5, 10).", examples: "<ul><li>Contoh: 4 × 5 = <b>20</b></li></ul>" },
-                { id: "t2_bahagi", name: "Bahagi ➗", desc: "Konsep bahagi sebagai agihan sama rata dan songsangan darab.", examples: "<ul><li>Contoh: 18 ÷ 3 = <b>6</b></li></ul>" },
-                { id: "t2_pecahan", name: "Pecahan Wajar 🍕", desc: "Mengenal pecahan wajar seperti setengah, perempat dan perlima.", examples: "<ul><li>Contoh: Satu bahagian daripada 4 bahagian yang sama besar ditulis sebagai <b>1/4</b>.</li></ul>" }
-            ],
-            3: [
-                { id: "t3_nombor", name: "Nombor hingga 10,000 🔢", desc: "Membaca, menulis, mencerakin dan membandingkan nombor hingga 10,000.", examples: "<ul><li>Contoh: 4,000 + 3Scalars... Cerakin 4,321 = <b>4000 + 300 + 20 + 1</b>.</li></ul>" },
-                { id: "t3_sifir", name: "Darab & Bahagi Lanjutan ✖️➗", desc: "Menguasai sifir 3, 6, 7, 8, 9 dan operasi bahagi yang berkaitan.", examples: "<ul><li>Contoh: 7 × 8 = <b>56</b></li><li>Contoh: 72 ÷ 9 = <b>8</b></li></ul>" },
-                { id: "t3_wang", name: "Wang hingga RM10,000 💰", desc: "Operasi tambah, tolak, darab dan bahagi melibatkan nilai wang ringgit dan sen.", examples: "<ul><li>Contoh: RM45.50 + RM12.20 = <b>RM57.70</b></li></ul>" },
-                { id: "t3_masa", name: "Masa & Waktu (Jam & Minit) ⏱️", desc: "Menukar unit masa dan mengira tempoh masa.", examples: "<ul><li>Contoh: 2 jam = <b>120 minit</b></li></ul>" },
-                { id: "t3_panjang", name: "Ukuran Panjang, Jisim & Isipadu 📏", desc: "Menukar unit sentimeter (cm), meter (m), gram (g), kilogram (kg), mililiter (ml) dan liter (l).", examples: "<ul><li>Contoh: 1 kg = <b>1,000 g</b></li></ul>" }
-            ],
-            4: [
-                { id: "t4_operasi", name: "Operasi Bergabung ➕➖✖️➗", desc: "Menyelesaikan ayat matematik melibatkan operasi bergabung mengikut tertib.", examples: "<ul><li>Contoh: 12 + 4 × 3 = 12 + 12 = <b>24</b></li></ul>" },
-                { id: "t4_pecahan", name: "Pecahan, Perpuluhan & Peratus 📊", desc: "Operasi melibatkan pecahan tak wajar, nombor bercampur, perpuluhan dan peratus.", examples: "<ul><li>Contoh: 3/10 ditulis dalam perpuluhan sebagai <b>0.3</b>.</li></ul>" },
-                { id: "t4_wang", name: "Pengurusan Kewangan 💳", desc: "Kira faedah mudah, simpanan, pelaburan dan perancangan bajet.", examples: "<ul><li>Contoh: Simpanan tetap menghasilkan <b>faedah</b> tahunan.</li></ul>" },
-                { id: "t4_ruang", name: "Sudut, Perimeter & Luas 📐", desc: "Mengira perimeter bentuk 2D dan luas permukaan petak segi empat.", examples: "<ul><li>Contoh: Perimeter segi empat sama sisi 5 cm = <b>20 cm</b>.</li></ul>" },
-                { id: "t4_purata", name: "Purata, Data & Koordinat 📈", desc: "Mencari nilai purata sekumpulan nombor dan membaca piktograf.", examples: "<ul><li>Contoh: Purata bagi 10, 20 dan 30 ialah (10+20+30) ÷ 3 = <b>20</b>.</li></ul>" }
-            ],
-            5: [
-                { id: "t5_juta", name: "Nombor hingga 1 Juta 🔢", desc: "Membaca, menulis dan operasi asas nombor bulat besar hingga 1,000,000.", examples: "<ul><li>Contoh: 2.5 juta = <b>2,500,000</b>.</li></ul>" },
-                { id: "t5_pecahan", name: "Pecahan & Perpuluhan Lanjutan 🧮", desc: "Operasi tambah, tolak dan darab melibatkan pecahan dan perpuluhan.", examples: "<ul><li>Contoh: 1/2 + 1/4 = <b>3/4</b></li></ul>" },
-                { id: "t5_peratus", name: "Peratus & Nisbah 💯", desc: "Kira peratus daripada suatu kuantiti dan konsep nisbah asas.", examples: "<ul><li>Contoh: 25% daripada 200 = <b>50</b>.</li></ul>" },
-                { id: "t5_ruang", name: "Isipadu Pepejal & Ruang 🧊", desc: "Mengira isi padu kubus dan kuboid menggunakan formula panjang × lebar × tinggi.", examples: "<ul><li>Contoh: Isi padu kuboid (4cm × 3cm × 2cm) = <b>24 cm³</b>.</li></ul>" },
-                { id: "t5_kebolehjadian", name: "Kebolehjadian & Koordinat 🎯", desc: "Menentukan kebolehjadian sesuatu peristiwa (pasti, mungkin, mustahil).", examples: "<ul><li>Contoh: Matahari terbit dari barat adalah peristiwa <b>mustahil</b>.</li></ul>" }
-            ],
-            6: [
-                { id: "t6_operasi", name: "Nombor & Operasi Lengkap 🔢", desc: "Operasi bergabung nombor bulat, pecahan, perpuluhan dan nombor negatif.", examples: "<ul><li>Contoh: (-5) + 8 = <b>3</b></li></ul>" },
-                { id: "t6_peratus", name: "Peratus Lanjutan & Diskaun 🏷️", desc: "Mengira diskaun, untung rugi, komisen dan cukai perkhidmatan.", examples: "<ul><li>Contoh: Harga asal RM100, diskaun 20%. Harga selepas diskaun = <b>RM80</b>.</li></ul>" },
-                { id: "t6_nisbah", name: "Nisbah & Kadaran ⚖️", desc: "Menyelesaikan masalah harian menggunakan konsep nisbah dan kadaran.", examples: "<ul><li>Contoh: Nisbah 2:3, jika bahagian pertama ialah 10, bahagian kedua ialah <b>15</b>.</li></ul>" },
-                { id: "t6_ruang", name: "Bentuk 3D & 2D Kompleks 📐", desc: "Menghitung luas gabungan bentuk geometri dan sudut pada garis lurus.", examples: "<ul><li>Contoh: Sudut penggenap bagi 70° ialah 180° - 70° = <b>110°</b>.</li></ul>" },
-                { id: "t6_statistik", name: "Penyusunan Data & Mod 📊", desc: "Menentukan mod, median, min dan julat daripada set data.", examples: "<ul><li>Contoh: Mod bagi set data (2, 3, 3, 5, 7) ialah <b>3</b>.</li></ul>" }
-            ]
+        // DATABASE TOPIK DAN SOALAN MENGIKUT TAHUN 1 HINGGA 6
+        const syllabusData = {
+            1: {
+                title: "Tahun 1",
+                topics: [
+                    { id: "t1_nombor", name: "Nombor hingga 100 🔢", desc: "Mengenal, menulis dan membandingkan nombor bulat hingga 100.", example: "Contoh: Nombor selepas 49 ialah 50." },
+                    { id: "t1_tambah", name: "Operasi Tambah ➕", desc: "Tambah dua nombor hasil tambah hingga 100.", example: "Contoh: 24 + 13 = 37" },
+                    { id: "t1_tolak", name: "Operasi Tolak ➖", desc: "Tolak dalam lingkungan 100.", example: "Contoh: 45 - 12 = 33" },
+                    { id: "t1_wang", name: "Wang 💵", desc: "Mengenal mata wang Malaysia hingga RM100.", example: "Contoh: RM50 + RM20 = RM70" },
+                    { id: "t1_masa", name: "Masa & Waktu ⏰", desc: "Mengenal hari dalam seminggu dan bulan dalam setahun.", example: "Contoh: Selepas hari Isnin ialah hari Selasa." }
+                ]
+            },
+            2: {
+                title: "Tahun 2",
+                topics: [
+                    { id: "t2_nombor", name: "Nombor hingga 1000 🔢", desc: "Nilai tempat dan nilai digit nombor hingga 1,000.", example: "Contoh: Digit 5 dalam 352 berada pada nilai tempat puluh." },
+                    { id: "t2_tambah_tolak", name: "Tambah & Tolak ➕➖", desc: "Operasi asas tambah dan tolak melibatkan nombor hingga 1,000.", example: "Contoh: 320 + 150 = 470" },
+                    { id: "t2_darab_bahagi", name: "Darab & Bahagi ✖️➗", desc: "Fakta asas darab dan bahagi sifir 2, 3, 4, 5, 10.", example: "Contoh: 4 × 5 = 20" },
+                    { id: "t2_pecahan", name: "Pecahan 🍰", desc: "Mengenal pecahan wajar (setengah, perempat).", example: "Contoh: 1/2 daripada 4 ialah 2." },
+                    { id: "t2_wang", name: "Wang hingga RM1000 💰", desc: "Pecahan wang dan tambah nilai wang.", example: "Contoh: RM100 + RM50 + RM20 = RM170" }
+                ]
+            },
+            3: {
+                title: "Tahun 3",
+                topics: [
+                    { id: "t3_nombor", name: "Nombor hingga 10,000 🔢", desc: "Membaca, menulis dan mencerakinkan nombor hingga 10,000.", example: "Contoh: 4,582 cerakinan = 4000 + 500 + 80 + 2" },
+                    { id: "t3_operasiasas", name: "Operasi Asas 🧮", desc: "Tambah, tolak, darab dan bahagi dalam lingkungan 10,000.", example: "Contoh: 125 × 4 = 500" },
+                    { id: "t3_pecahan_perpuluhan", name: "Pecahan & Perpuluhan 📊", desc: "Operasi melibatkan pecahan wajar dan perpuluhan hingga dua tempat perpuluhan.", example: "Contoh: 0.5 + 0.25 = 0.75" },
+                    { id: "t3_wang", name: "Wang hingga RM10,000 💳", desc: "Operasi bergabung tambah dan tolak wang.", example: "Contoh: RM4,500 - RM1,200 = RM3,300" },
+                    { id: "t3_masa", name: "Masa & Waktu ⌛", desc: "Sistem 12 jam dan 24 jam serta peraitan masa.", example: "Contoh: 3 jam = 180 minit" }
+                ]
+            },
+            4: {
+                title: "Tahun 4",
+                topics: [
+                    { id: "t4_nombor", name: "Nombor hingga 100,000 🔢", desc: "Nombor bulat hingga 100,000 dan anggaran.", example: "Contoh: Bundarkan 45,670 kepada ratus terdekat menjadi 45,700." },
+                    { id: "t4_operasibergabung", name: "Operasi Bergabung ➕✖️", desc: "Mengira gabungan operasi tambah, tolak, darab dan bahagi.", example: "Contoh: 20 + 5 × 4 = 40" },
+                    { id: "t4_pecahan_peratus", name: "Pecahan, Perpuluhan & Peratus 📉", desc: "Hubungan antara pecahan, perpuluhan dan peratus.", example: "Contoh: 1/2 dalam peratus ialah 50%" },
+                    { id: "t4_wang", name: "Wang hingga RM100,000 💰", desc: "Pengurusan kewangan, belanjawan dan mata wang asing.", example: "Contoh: RM12,500 × 3 = RM37,500" },
+                    { id: "t4_masa", name: "Masa, Panjang & Jisim ⏱️", desc: "Penyelesaian masalah melibatkan unit panjang, jisim dan isi padu.", example: "Contoh: 2 kg 450 g = 2450 g" }
+                ]
+            },
+            5: {
+                title: "Tahun 5",
+                topics: [
+                    { id: "t5_nombor", name: "Nombor hingga 1,000,000 🔢", desc: "Nombor perdana, nombor gubahan dan operasi asas.", example: "Contoh: Nombor perdana terkecil ialah 2." },
+                    { id: "t5_pecahan_lanjutan", name: "Pecahan & Perpuluhan Lanjutan ➗", desc: "Pendaraban dan pembahagian pecahan dan perpuluhan.", example: "Contoh: 3/4 × 12 = 9" },
+                    { id: "t5_peratus", name: "Peratus % 📈", desc: "Kira nilai peratus daripada suatu kuantiti.", example: "Contoh: 25% daripada 200 = 50" },
+                    { id: "t5_wang", name: "Pengurusan Kewangan 💳", desc: "Faedah mudah, pelaburan dan perancangan kewangan.", example: "Contoh: Simpanan RM1,000 dengan faedah 3% setahun." },
+                    { id: "t5_ruang", name: "Ruang & Koordinat 📐", desc: "Sudut, perimeter, luas dan isi padu bentuk 3D.", example: "Contoh: Luas segi empat tepat panjang 5cm dan lebar 3cm ialah 15 cm²." }
+                ]
+            },
+            6: {
+                title: "Tahun 6",
+                topics: [
+                    { id: "t6_nombor", name: "Nombor Bulat & Operasi 🔢", desc: "Operasi bergabung dan penyelesaian masalah harian.", example: "Contoh: 50,000 + (1,200 × 5) = 56,000" },
+                    { id: "t6_pecahan_nisbah", name: "Pecahan, Nisbah & Kadaran ⚖️", desc: "Nisbah dua kuantiti dan kadaran langsung.", example: "Contoh: Nisbah 2:3, jika A = 10 maka B = 15." },
+                    { id: "t6_tajuk_kewangan", name: "Kewangan & Percukaian 💰", desc: "Invois, bil, diskaun, rebat dan cukai perkhidmatan.", example: "Contoh: Diskaun 20% untuk harga barang RM50." },
+                    { id: "t6_pengurusan_data", name: "Pengurusan Data 📊", desc: "Mod, median, min dan julat daripada carta atau jadual.", example: "Contoh: Min bagi nombor 2, 4, 6 ialah 4." },
+                    { id: "t6_projek_khas", name: "Ulang Kaji UPSR/UASA 🏆", desc: "Soalan peperiksaan mencabar merangkumi semua tajuk sekolah rendah.", example: "Contoh: Soalan KBAT Matematik UPSR." }
+                ]
+            }
         };
 
-        // BANK SOALAN MATEMATIK SEKOLAH RENDAH (TAHUN 1 HINGGA 6)
+        // BANK SOALAN MATEMATIK BERVARIASI
         const questionBank = {
             t1_nombor: [
-                { q: "Apakah nombor yang tertera selepas 48?", options: ["47", "49", "50", "40"], answer: 1 },
-                { q: "Manakah antara berikut adalah nombor sepuluh?", options: ["10", "1", "100", "0"], answer: 0 },
-                { q: "Pilih nombor yang lebih besar daripada 70.", options: ["68", "65", "72", "59"], answer: 2 },
-                { q: "Cerakinkan nombor 35 mengikut nilai digit.", options: ["3 + 5", "30 + 5", "35 + 0", "3 + 50"], answer: 1 },
-                { q: "Nombor manakah yang terletak di antara 24 dan 26?", options: ["23", "27", "25", "28"], answer: 2 },
-                { q: "Apakah nilai tempat bagi digit 8 dalam nombor 82?", options: ["Sa", "Puluh", "Ratus", "Ribu"], answer: 1 },
-                { q: "Tuliskan dalam angka: 'Sembilan belas'", options: ["91", "19", "90", "9"], answer: 1 },
-                { q: "Susun nombor secara menaik: 12, 10, 15, 11", options: ["10, 11, 12, 15", "15, 12, 11, 10", "10, 12, 11, 15", "11, 10, 12, 15"], answer: 0 },
-                { q: "Nombor manakah adalah nombor genap?", options: ["13", "15", "18", "21"], answer: 2 },
-                { q: "Apakah nombor sebelum 60?", options: ["59", "61", "50", "58"], answer: 0 }
+                { q: "Nombor manakah yang lebih besar daripada 45?", options: ["38", "42", "51", "29"], answer: 2 },
+                { q: "Apakah nombor selepas 78?", options: ["77", "79", "80", "88"], answer: 1 },
+                { q: "Cerakinkan nombor 64 mengikut nilai digit.", options: ["60 + 4", "6 + 4", "40 + 6", "64 + 0"], answer: 0 },
+                { q: "Nombor manakah di antara 32 dan 35?", options: ["31", "36", "33", "30"], answer: 2 },
+                { q: "Apakah nilai tempat bagi digit 7 dalam nombor 72?", options: ["Sa", "Puluh", "Ratus", "Ribu"], answer: 1 },
+                { q: "Susun nombor berikut secara menaik: 12, 5, 20, 15", options: ["5, 12, 15, 20", "20, 15, 12, 5", "12, 5, 15, 20", "5, 15, 12, 20"], answer: 0 },
+                { q: "Apakah nombor sebelum 90?", options: ["91", "89", "88", "80"], answer: 1 },
+                { q: "Pilih nombor yang mengandungi 6 puluh dan 3 sa.", options: ["36", "63", "603", "306"], answer: 1 },
+                { q: "Nombor manakah yang paling kecil?", options: ["84", "48", "58", "85"], answer: 1 },
+                { q: "Apakah perkataan bagi nombor 56?", options: ["Lima puluh enam", "Enam puluh lima", "Empat puluh enam", "Lima puluh empat"], answer: 0 }
             ],
             t1_tambah: [
-                { q: "12 + 7 = ?", options: ["18", "19", "20", "17"], answer: 1 },
-                { q: "25 + 14 = ?", options: ["39", "38", "40", "37"], answer: 0 },
-                { q: "Berapakah hasil tambah bagi 30 dan 25?", options: ["55", "50", "65", "45"], answer: 0 },
-                { q: "8 + 8 + 8 = ?", options: ["16", "24", "22", "18"], answer: 1 },
-                { q: "Ali mempunyai 10 biji guli. Abu beri lagi 5 biji. Berapa jumlah guli Ali?", options: ["12", "14", "15", "16"], answer: 2 },
-                { q: "43 + 6 = ?", options: ["48", "49", "50", "47"], answer: 1 },
-                { q: "50 + 40 = ?", options: ["80", "90", "100", "70"], answer: 1 },
-                { q: "Apakah nombor yang hilang: 15 + ___ = 20", options: ["4", "5", "6", "10"], answer: 1 },
-                { q: "Ibu beli 12 oren merah dan 8 oren hijau. Berapa jumlah buah oren?", options: ["18", "19", "20", "21"], answer: 2 },
-                { q: "61 + 8 = ?", options: ["68", "69", "70", "71"], answer: 1 }
+                { q: "14 + 12 = ?", options: ["24", "26", "28", "36"], answer: 1 },
+                { q: "Berapakah hasil tambah 35 dan 20?", options: ["55", "45", "65", "50"], answer: 0 },
+                { q: "Ali mempunyai 12 biji guli. Abu memberi lagi 15 biji guli kepadanya. Berapa jumlah guli Ali?", options: ["25", "27", "30", "22"], answer: 1 },
+                { q: "40 + 35 = ?", options: ["65", "70", "75", "80"], answer: 2 },
+                { q: "8 + 7 + 5 = ?", options: ["18", "19", "20", "21"], answer: 2 },
+                { q: "Apakah nombor yang perlu diletakkan di tempat kosong? 18 + ___ = 30", options: ["10", "12", "14", "15"], answer: 1 },
+                { q: "Ibu beli 24 buah buku merah dan 13 buah buku biru. Berjumlah berapa semua buku?", options: ["37", "35", "39", "47"], answer: 0 },
+                { q: "52 + 18 = ?", options: ["60", "70", "68", "72"], answer: 1 },
+                { q: "66 tambah 4 sama dengan...", options: ["60", "70", "72", "64"], answer: 1 },
+                { q: "19 + 11 = ?", options: ["20", "30", "40", "29"], answer: 1 }
             ],
             t1_tolak: [
-                { q: "18 - 5 = ?", options: ["12", "13", "14", "15"], answer: 1 },
-                { q: "45 - 20 = ?", options: ["25", "35", "15", "20"], answer: 0 },
-                { q: "Berapakah baki jika 50 ditolak dengan 15?", options: ["35", "45", "25", "30"], answer: 0 },
-                { q: "32 - 8 = ?", options: ["22", "24", "26", "28"], answer: 1 },
-                { q: "Siti ada 20 biji gula-gula. Dia makan 4 biji. Berapa baki gula-gula?", options: ["15", "16", "17", "18"], answer: 1 },
-                { q: "70 - 30 = ?", options: ["30", "40", "50", "20"], answer: 1 },
-                { q: "99 - 11 = ?", options: ["88", "89", "78", "90"], answer: 0 },
-                { q: "Apakah nombor yang hilang: 30 - ___ = 12", options: ["18", "16", "20", "15"], answer: 0 },
-                { q: "Buku cerita ada 40 buah. 15 telah rosak. Berapa buku yang elok?", options: ["25", "35", "20", "15"], answer: 0 },
-                { q: "87 - 5 = ?", options: ["80", "81", "82", "83"], answer: 2 }
+                { q: "48 - 15 = ?", options: ["33", "23", "35", "25"], answer: 0 },
+                { q: "Berapakah baki jika 70 ditolak 25?", options: ["45", "55", "35", "50"], answer: 0 },
+                { q: "Siti ada 32 kuntum bunga. 12 kuntum telah layu. Berapa baki bunga Siti?", options: ["10", "15", "20", "22"], answer: 2 },
+                { q: "89 - 44 = ?", options: ["45", "35", "55", "44"], answer: 0 },
+                { q: "50 - 18 = ?", options: ["32", "42", "28", "38"], answer: 0 },
+                { q: "Apakah nombor yang hilang? 60 - ___ = 35", options: ["15", "20", "25", "30"], answer: 2 },
+                { q: "Dalam sebuah bas ada 45 penumpang. 18 orang turun di stesen. Berapa baki penumpang?", options: ["25", "27", "37", "28"], answer: 1 },
+                { q: "99 - 50 = ?", options: ["40", "49", "59", "45"], answer: 1 },
+                { q: "63 tolak 14 sama dengan...", options: ["49", "51", "59", "47"], answer: 0 },
+                { q: "75 - 30 = ?", options: ["35", "40", "45", "50"], answer: 2 }
             ],
             t1_wang: [
-                { q: "Manakah nilai wang yang paling besar?", options: ["RM1", "50 sen", "RM5", "20 sen"], answer: 2 },
-                { q: "RM2.00 + RM3.00 = ?", options: ["RM4.00", "RM5.00", "RM6.00", "RM5.50"], answer: 1 },
-                { q: "Tuliskan nilai wang: 'Lima ringgit'", options: ["RM0.50", "RM5.00", "RM50.00", "RM5"], answer: 1 },
-                { q: "Berapa keping syiling 20 sen dalam nilai RM1.00?", options: ["2 keping", "4 keping", "5 keping", "10 keping"], answer: 2 },
-                { q: "Harga sebuah buku ialah RM4.00. Anda bayar dengan wang RM5.00. Berapa baki?", options: ["RM1.00", "RM2.00", "RM0.50", "RM1.50"], answer: 0 },
-                { q: "RM10.00 - RM4.00 = ?", options: ["RM5.00", "RM6.00", "RM7.00", "RM8.00"], answer: 1 },
-                { q: "Manakah gabungan bernilai RM2.00?", options: ["Dua keping RM1", "Empat keping 10 sen", "Dua keping 50 sen", "Tiga keping RM1"], answer: 0 },
-                { q: "10 sen + 20 sen + 50 sen = ?", options: ["70 sen", "80 sen", "90 sen", "RM1.00"], answer: 1 },
-                { q: "Wang kertas manakah yang berwarna biru di Malaysia?", options: ["RM1", "RM5", "RM10", "RM20"], answer: 0 },
-                { q: "RM3.50 + RM1.20 = ?", options: ["RM4.60", "RM4.70", "RM5.70", "RM4.50"], answer: 1 }
+                { q: "RM50 + RM20 = ?", options: ["RM60", "RM70", "RM80", "RM52"], answer: 1 },
+                { q: "Wang kertas manakah yang mempunyai nilai paling besar?", options: ["RM1", "RM5", "RM10", "RM100"], answer: 3 },
+                { q: "RM30 - RM12 = ?", options: ["RM18", "RM22", "RM15", "RM20"], answer: 0 },
+                { q: "Ibu guna RM10 untuk beli pensel berharga RM4. Berapa baki wang ibu?", options: ["RM5", "RM6", "RM7", "RM4"], answer: 1 },
+                { q: "RM15 + RM15 + RM10 = ?", options: ["RM30", "RM35", "RM40", "RM45"], answer: 2 },
+                { q: "Berapakah nilai bagi dua keping wang kertas RM20?", options: ["RM20", "RM30", "RM40", "RM50"], answer: 2 },
+                { q: "RM75 - RM25 = ?", options: ["RM40", "RM50", "RM60", "RM55"], answer: 1 },
+                { q: "Harga sebuah buku ialah RM8. Abu bayar dengan wang RM10. Berapa baki?", options: ["RM1", "RM2", "RM3", "RM4"], answer: 1 },
+                { q: "RM5 + 50 sen = ?", options: ["RM5.05", "RM5.50", "RM5.15", "RM6.00"], answer: 1 },
+                { q: "Manakah kombinasi bernilai RM20?", options: ["Dua keping RM10", "Tiga keping RM5", "Lima keping RM1", "Satu keping RM50"], answer: 0 }
             ],
             t1_masa: [
-                { q: "Hari apakah selepas hari Isnin?", options: ["Ahad", "Selasa", "Rabu", "Khamis"], answer: 1 },
-                { q: "Berapakah bilangan hari dalam seminggu?", options: ["5 hari", "6 hari", "7 hari", "30 hari"], answer: 2 },
-                { q: "Bulan manakah yang pertama dalam tahun Masihi?", options: ["Disember", "Februari", "Januari", "Mac"], answer: 2 },
-                { q: "Jarum pendek menunjuk ke angka 4, jarum panjang ke angka 12. Pukul berapa?", options: ["Pukul 12:00", "Pukul 4:00", "Pukul 6:00", "Pukul 3:00"], answer: 1 },
-                { q: "Apakah hari cuti hujung minggu di kebanyakan negeri di Malaysia?", options: ["Isnin & Selasa", "Sabtu & Ahad", "Rabu & Khamis", "Jumaat sahaja"], answer: 1 },
-                { q: "Bulan Februari mempunyai bilangan hari yang paling...", options: ["panjang", "sedikit", "banyak", "sama"], answer: 1 },
-                { q: "Sebelum hari Jumaat ialah hari...", options: ["Sabtu", "Khamis", "Rabu", "Ahad"], answer: 1 },
-                { q: "1 hari bersamaan dengan berapa jam?", options: ["12 jam", "24 jam", "60 jam", "365 jam"], answer: 1 },
-                { q: "Bulan Jun adalah bulan ke berapa?", options: ["Ke-5", "Ke-6", "Ke-7", "Ke-4"], answer: 1 },
-                { q: "Pukul 1:00 siang juga dikenali sebagai pukul...", options: ["1:00 pagi", "1:00 petang", "12:00 tengah hari", "1:00 malam"], answer: 1 }
+                { q: "Hari apakah selepas hari Rabu?", options: ["Selasa", "Khamis", "Jumaat", "Sabtu"], answer: 1 },
+                { q: "Bulan pertama dalam setahun ialah...", options: ["Februari", "Januari", "Disember", "Mac"], answer: 1 },
+                { q: "Berapakah hari dalam seminggu?", options: ["5 hari", "6 hari", "7 hari", "30 hari"], answer: 2 },
+                { q: "Bulan apakah selepas bulan Jun?", options: ["Mei", "Julai", "Ogos", "April"], answer: 1 },
+                { q: "Hari cuti hujung minggu di kebanyakan negeri ialah...", options: ["Isnin & Selasa", "Sabtu & Ahad", "Rabu & Khamis", "Jumaat sahaja"], answer: 1 },
+                { q: "Jam berapakah jarum pendek di angka 12 dan jarum panjang di angka 12?", options: ["12:00 tengah hari", "6:00", "3:00", "9:00"], answer: 0 },
+                { q: "Berapakah bulan dalam masa setahun?", options: ["10", "11", "12", "365"], answer: 2 },
+                { q: "Sebelum hari Jumaat ialah hari...", options: ["Khamis", "Sabtu", "Rabu", "Selasa"], answer: 0 },
+                { q: "Bulan ke-12 dalam takwim Masihi ialah...", options: ["November", "Oktober", "Disember", "September"], answer: 2 },
+                { q: "Pukul berapakah jarum pendek di angka 3 dan jarum panjang di angka 12?", options: ["Pukul 12", "Pukul 3", "Pukul 6", "Pukul 9"], answer: 1 }
             ],
             t2_nombor: [
-                { q: "Apakah nilai digit 5 dalam nombor 542?", options: ["5", "50", "500", "5,000"], answer: 2 },
-                { q: "Tulis dalam perkataan: 708", options: ["Tujuh ratus lapan", "Tujuh lapan puluh", "Tujuh ratus lapan puluh", "Tujuh ribu lapan"], answer: 0 },
-                { q: "Manakah nombor yang paling kecil?", options: ["432", "234", "324", "423"], answer: 1 },
-                { q: "Apakah nombor selepas 899?", options: ["900", "990", "890", "1000"], answer: 0 },
-                { q: "Cerakinkan 604 mengikut nilai tempat.", options: ["6 ratus + 4 sa", "6 ratus + 4 puluh", "6 puluh + 4 sa", "6 ribu + 4 sa"], answer: 0 },
-                { q: "Apakah nombor 9 ratus + 2 puluh + 7 sa?", options: ["927", "972", "297", "729"], answer: 0 },
-                { q: "Lengkapkan tertib menaik: 310, 320, ___, 340", options: ["325", "330", "350", "335"], answer: 1 },
-                { q: "Nombor manakah mempunyai digit ratus bernilai 4?", options: ["4210", "412", "142", "214"], answer: 1 },
-                { q: "Bundarkan 43 kepada puluh terdekat.", options: ["40", "50", "45", "30"], answer: 0 },
-                { q: "Bundarkan 276 kepada ratus terdekat.", options: ["200", "300", "250", "280"], answer: 1 }
+                { q: "Apakah nilai digit bagi 4 dalam nombor 742?", options: ["4", "40", "400", "44"], answer: 1 },
+                { q: "Tuliskan dalam angka: 'Tiga ratus empat puluh lima'", options: ["354", "435", "345", "543"], answer: 2 },
+                { q: "Bundarkan 368 kepada ratus terdekat.", options: ["300", "360", "400", "370"], answer: 2 },
+                { q: "Nombor manakah yang paling besar nilainya?", options: ["891", "819", "918", "981"], answer: 3 },
+                { q: "Apakah nilai tempat bagi digit 9 dalam nombor 905?", options: ["Sa", "Puluh", "Ratus", "Ribu"], answer: 2 },
+                { q: "Cerakinkan 608 mengikut nilai digit.", options: ["600 + 8", "60 + 8", "600 + 80", "6 + 0 + 8"], answer: 0 },
+                { q: "Apakah nombor di antara 450 dan 452?", options: ["451", "453", "449", "455"], answer: 0 },
+                { q: "Bundarkan 524 kepada puluh terdekat.", options: ["500", "520", "530", "600"], answer: 1 },
+                { q: "Nombor selepas 999 ialah...", options: ["100", "1000", "9990", "10000"], answer: 1 },
+                { q: "Apakah nilai angka bagi 8 ratus, 2 puluh dan 5 sa?", options: ["258", "528", "852", "825"], answer: 3 }
             ],
-            t2_tambah: [
-                { q: "432 + 156 = ?", options: ["588", "578", "688", "587"], answer: 0 },
-                { q: "278 + 345 = ?", options: ["613", "623", "523", "612"], answer: 1 },
-                { q: "504 + 298 = ?", options: ["792", "802", "812", "702"], answer: 1 },
-                { q: "850 - 320 = ?", options: ["530", "520", "540", "430"], answer: 0 },
-                { q: "721 - 456 = ?", options: ["275", "265", "375", "285"], answer: 1 },
-                { q: "1000 - 345 = ?", options: ["655", "645", "755", "665"], answer: 0 },
-                { q: "Ali ada 450 biji guli. Dia beli lagi 275 biji. Berapa jumlah guli?", options: ["715", "725", "625", "735"], answer: 1 },
-                { q: "Apakah nombor yang hilang: 400 + ___ = 950", options: ["450", "550", "500", "600"], answer: 1 },
-                { q: "672 + 0 = ?", options: ["0", "672", "1", "673"], answer: 1 },
-                { q: "Tolak 125 daripada 500.", options: ["375", "385", "475", "365"], answer: 0 }
+            t2_tambah_tolak: [
+                { q: "432 + 256 = ?", options: ["688", "678", "588", "698"], answer: 0 },
+                { q: "750 - 325 = ?", options: ["435", "425", "525", "325"], answer: 1 },
+                { q: "584 + 190 = ?", options: ["764", "774", "674", "784"], answer: 1 },
+                { q: "900 - 463 = ?", options: ["437", "447", "537", "438"], answer: 0 },
+                { q: "215 + 342 + 110 = ?", options: ["657", "667", "677", "647"], answer: 1 },
+                { q: "Apakah nombor yang mesti ditambah kepada 300 untuk menjadi 850?", options: ["450", "550", "650", "500"], answer: 1 },
+                { q: "623 - 180 = ?", options: ["443", "433", "543", "453"], answer: 0 },
+                { q: "145 + 67 = ?", options: ["202", "212", "222", "211"], answer: 1 },
+                { q: "800 - (250 + 100) = ?", options: ["450", "550", "350", "650"], answer: 0 },
+                { q: "409 + 291 = ?", options: ["600", "700", "690", "710"], answer: 1 }
             ],
-            t2_darab: [
-                { q: "4 × 5 = ?", options: ["15", "20", "25", "30"], answer: 1 },
-                { q: "6 × 3 = ?", options: ["16", "18", "21", "24"], answer: 1 },
-                { q: "7 × 10 = ?", options: ["7", "70", "700", "17"], answer: 1 },
-                { q: "9 × 2 = ?", options: ["16", "18", "20", "22"], answer: 1 },
-                { q: "Apakah maksud 3 × 4?", options: ["3 + 4", "4 + 4 + 4", "3 + 3 + 3", "4 × 4 × 4"], answer: 1 },
-                { q: "8 × 5 = ?", options: ["35", "40", "45", "50"], answer: 1 },
-                { q: "Sebuah kotak ada 10 pensel. Berapa pensel dalam 6 kotak?", options: ["50", "60", "70", "80"], answer: 1 },
-                { q: "0 × 99 = ?", options: ["99", "1", "0", "990"], answer: 2 },
-                { q: "6 × 6 = ?", options: ["30", "36", "42", "48"], answer: 1 },
-                { q: "Nombor darab dengan 1 menghasilkan...", options: ["Sifar", "Nombor itu sendiri", "Satu", "Dua kali ganda"], answer: 1 }
-            ],
-            t2_bahagi: [
-                { q: "20 ÷ 4 = ?", options: ["4", "5", "6", "8"], answer: 1 },
-                { q: "36 ÷ 6 = ?", options: ["5", "6", "7", "8"], answer: 1 },
-                { q: "18 ÷ 2 = ?", options: ["8", "9", "10", "12"], answer: 1 },
-                { q: "45 ÷ 5 = ?", options: ["8", "9", "10", "7"], answer: 1 },
-                { q: "Bahagikan 24 biji gula-gula kepada 4 orang sama rata. Setiap seorang dapat...", options: ["5 biji", "6 biji", "7 biji", "8 biji"], answer: 1 },
-                { q: "50 ÷ 10 = ?", options: ["5", "10", "50", "1"], answer: 0 },
-                { q: "14 ÷ 2 = ?", options: ["6", "7", "8", "9"], answer: 1 },
-                { q: "Sebarang nombor dibahagi dengan 1 akan menghasilkan...", options: ["Sifar", "Satu", "Nombor itu sendiri", "Tidak tentu"], answer: 2 },
-                { q: "32 ÷ 8 = ?", options: ["3", "4", "5", "6"], answer: 1 },
-                { q: "81 ÷ 9 = ?", options: ["7", "8", "9", "10"], answer: 2 }
+            t2_darab_bahagi: [
+                { q: "6 × 4 = ?", options: ["20", "24", "28", "30"], answer: 1 },
+                { q: "36 ÷ 4 = ?", options: ["6", "7", "8", "9"], answer: 3 },
+                { q: "7 × 5 = ?", options: ["30", "35", "40", "42"], answer: 1 },
+                { q: "48 ÷ 6 = ?", options: ["6", "7", "8", "9"], answer: 2 },
+                { q: "9 × 3 = ?", options: ["24", "27", "30", "21"], answer: 1 },
+                { q: "Berapakah hasil bahagi 45 dengan 5?", options: ["8", "9", "7", "6"], answer: 1 },
+                { q: "8 darab 8 ialah...", options: ["64", "56", "72", "48"], answer: 0 },
+                { q: "54 ÷ 6 = ?", options: ["7", "8", "9", "6"], answer: 2 },
+                { q: "Sebuah bakul ada 5 biji epal. Berapa jumlah epal dalam 7 bakul?", options: ["30", "35", "40", "45"], answer: 1 },
+                { q: "24 biji gula-gula diagihkan sama rata kepada 4 orang kanak-kanak. Berapa seorang dapat?", options: ["5", "6", "7", "8"], answer: 1 }
             ],
             t2_pecahan: [
-                { q: "Manakah mewakili pecahan satu perdua (1/2)?", options: ["1 bahagian daripada 2 bahagian sama besar", "2 bahagian daripada 1 bahagian", "1 bahagian daripada 3 bahagian", "Kesemua bahagian"], answer: 0 },
-                { q: "Bagaimana ditulis dalam angka untuk 'satu perempat'?", options: ["1/2", "1/3", "1/4", "3/4"], answer: 2 },
-                { q: "Pecahan manakah yang lebih besar antara 1/4 dan 3/4?", options: ["1/4", "3/4", "Kedua-duanya sama", "Tidak pasti"], answer: 1 },
-                { q: "Berapakah pecahan kawasan lorekan jika 2 daripada 4 bahagian dilorek?", options: ["1/4", "2/4", "3/4", "4/4"], answer: 1 },
-                { q: "1/3 dibaca sebagai...", options: ["Satu per dua", "Satu per tiga", "Tiga per satu", "Satu pertiga"], answer: 1 },
-                { q: "Pecahan penuh (keseluruhan) bagi 4 bahagian daripada 4 ialah...", options: ["1/4", "2/4", "1", "0"], answer: 2 },
-                { q: "Manakah pecahan wajar?", options: ["5/4", "2/3", "7/2", "4/4"], answer: 1 },
-                { q: "Dua perempat (2/4) adalah sama nilai dengan...", options: ["1/2", "1/3", "3/4", "1/4"], answer: 0 },
-                { q: "Jika kek dipotong kepada 10 bahagian sama besar, satu bahagian ialah...", options: ["1/5", "1/10", "10/1", "1/2"], answer: 1 },
-                { q: "Pecahan manakah mewakili bahagian berlorek jika 1 daripada 8 bahagian dipilih?", options: ["1/8", "1/7", "8/1", "1/4"], answer: 0 }
+                { q: "Apakah nama pecahan bagi 1/2?", options: ["Satu pertiga", "Setengah", "Satu perempat", "Tiga perempat"], answer: 1 },
+                { q: "Pecahan manakah yang lebih besar antara 1/4 dan 3/4?", options: ["1/4", "3/4", "Sama besar", "Tidak pasti"], answer: 1 },
+                { q: "Apakah pecahan bagi bahagian yang berlorek jika rajah dibahagi kepada 4 bahagian dan 2 berlorek?", options: ["1/4", "2/4", "3/4", "4/4"], answer: 1 },
+                { q: "1/3 dibaca sebagai...", options: ["Satu per dua", "Satu per tiga", "Satu per empat", "Tiga per satu"], answer: 1 },
+                { q: "Pecahan perempat ditulis sebagai...", options: ["1/2", "1/3", "1/4", "3/4"], answer: 2 },
+                { q: "Berapakah 1/2 daripada 10 biji bola?", options: ["3", "4", "5", "6"], answer: 2 },
+                { q: "Dua bahagian daripada empat bahagian yang sama besar ialah...", options: ["1/2", "1/4", "3/4", "4/4"], answer: 0 },
+                { q: "Manakah pecahan wajar?", options: ["3/2", "4/4", "2/3", "5/4"], answer: 2 },
+                { q: "Pecahan bagi 'tiga perempat' ialah...", options: ["1/4", "2/4", "3/4", "4/3"], answer: 2 },
+                { q: "Jika satu kek dipotong kepada 4 bahagian sama besar dan Ali makan 1 bahagian, berapa pecahan baki kek?", options: ["1/4", "2/4", "3/4", "4/4"], answer: 2 }
+            ],
+            t2_wang: [
+                { q: "RM250.50 + RM120.20 = ?", options: ["RM370.70", "RM370.50", "RM360.70", "RM380.70"], answer: 0 },
+                { q: "RM500 - RM145.50 = ?", options: ["RM354.50", "RM365.50", "RM355.50", "RM345.50"], answer: 0 },
+                { q: "Berapakah nilai bagi 3 keping wang kertas RM50 dan 2 keping RM10?", options: ["RM150", "RM160", "RM170", "RM180"], answer: 2 },
+                { q: "RM85.40 tambah RM14.60 =", options: ["RM99.00", "RM100.00", "RM100.50", "RM99.50"], answer: 1 },
+                { q: "RM450 dibahagikan kepada 5 orang sama rata. Berapa seorang?", options: ["RM80", "RM90", "RM100", "RM85"], answer: 1 },
+                { q: "Harga sepasang kasut sekolah ialah RM45.90. Ali bayar dengan wang RM50. Berapa baki?", options: ["RM4.10", "RM5.10", "RM4.50", "RM5.50"], answer: 0 },
+                { q: "RM12.50 × 4 = ?", options: ["RM48.00", "RM50.00", "RM52.00", "RM45.00"], answer: 1 },
+                { q: "Antara berikut, yang manakah paling tinggi nilainya?", options: ["RM200", "Tiga keping RM50", "Sepuluh keping RM10", "Lima keping RM20"], answer: 0 },
+                { q: "RM300 - RM125.75 = ?", options: ["RM174.25", "RM184.25", "RM175.25", "RM164.25"], answer: 0 },
+                { q: "Berapakah bilangan syiling 50 sen dalam nilai RM10?", options: ["10", "20", "50", "100"], answer: 1 }
             ],
             t3_nombor: [
-                { q: "Apakah nilai tempat bagi digit 7 dalam nombor 7,421?", options: ["Sa", "Puluh", "Ratus", "Ribu"], answer: 3 },
-                { q: "Cerakinkan 5,082 mengikut nilai digit.", options: ["5,000 + 80 + 2", "5,000 + 800 + 2", "500 + 80 + 2", "5,000 + 8 + 2"], answer: 0 },
-                { q: "Bundarkan 4,521 kepada ribu terdekat.", options: ["4,000", "5,000", "4,500", "4,600"], answer: 1 },
-                { q: "Manakah nombor yang paling besar?", options: ["8,901", "8,910", "8,190", "8,091"], answer: 1 },
-                { q: "Apakah nombor sebelum 3,000?", options: ["2,999", "3,001", "2,990", "2,000"], answer: 0 },
-                { q: "Tulis dalam angka: 'Empat ribu dua puluh lima'", options: ["4,250", "4,025", "4,205", "4,225"], answer: 1 },
-                { q: "Bundarkan 7,349 kepada ratus terdekat.", options: ["7,300", "7,400", "7,000", "7,350"], answer: 0 },
-                { q: "Apakah nombor 6 ribu + 4 ratus + 0 puluh + 9 sa?", options: ["6,049", "6,409", "6,490", "6,094"], answer: 1 },
-                { q: "Lengkapkan siri nombor: 2,100, 2,200, 2,300, ___", options: ["2,350", "2,400", "2,500", "3,000"], answer: 1 },
-                { q: "Apakah nilai digit 3 dalam 9,341?", options: ["3", "30", "300", "3,000"], answer: 2 }
+                { q: "Apakah nilai digit bagi 7 dalam nombor 8,745?", options: ["7", "70", "700", "7,000"], answer: 2 },
+                { q: "Tulis dalam angka: 'Empat ribu dua puluh sembilan'", options: ["4,092", "4,290", "4,029", "4,209"], answer: 3 },
+                { q: "Bundarkan 6,834 kepada ribu terdekat.", options: ["6,000", "6,800", "7,000", "6,900"], answer: 2 },
+                { q: "Nombor manakah yang paling kecil?", options: ["3,421", "3,241", "3,142", "3,412"], answer: 2 },
+                { q: "Apakah nombor sebelum 5,000?", options: ["4,900", "4,999", "5,001", "4,990"], answer: 1 },
+                { q: "Cerakinkan 7,042 mengikut nilai tempat.", options: ["7 ribu + 0 ratus + 4 puluh + 2 sa", "7 ribu + 4 ratus + 2 sa", "7000 + 40 + 2", "7 ribu + 42 sa"], answer: 0 },
+                { q: "Bundarkan 4,562 kepada ratus terdekat.", options: ["4,500", "4,600", "5,000", "4,560"], answer: 1 },
+                { q: "Apakah nilai tempat bagi digit 3 dalam 9,312?", options: ["Sa", "Puluh", "Ratus", "Ribu"], answer: 2 },
+                { q: "Nombor antara 2,450 dan 2,452 ialah...", options: ["2,451", "2,453", "2,449", "2,455"], answer: 0 },
+                { q: "Apakah nombor yang dibentuk daripada 5 ribu, 3 ratus, 8 puluh dan 4 sa?", options: ["3,584", "5,384", "8,534", "4,385"], answer: 1 }
             ],
-            t3_sifir: [
-                { q: "7 × 8 = ?", options: ["54", "56", "64", "48"], answer: 1 },
-                { q: "9 × 9 = ?", options: ["81", "72", "90", "89"], answer: 0 },
-                { q: "72 ÷ 9 = ?", options: ["7", "8", "9", "6"], answer: 1 },
-                { q: "6 × 7 = ?", options: ["36", "42", "48", "56"], answer: 1 },
-                { q: "54 ÷ 6 = ?", options: ["8", "9", "7", "6"], answer: 1 },
-                { q: "8 × 8 = ?", options: ["56", "64", "72", "48"], answer: 1 },
-                { q: "45 ÷ 9 = ?", options: ["4", "5", "6", "7"], answer: 1 },
-                { q: "12 × 5 = ?", options: ["50", "55", "60", "65"], answer: 2 },
-                { q: "63 ÷ 7 = ?", options: ["7", "8", "9", "6"], answer: 2 },
-                { q: "11 × 8 = ?", options: ["88", "80", "96", "78"], answer: 0 }
+            t3_operasiasas: [
+                { q: "4,520 + 2,341 = ?", options: ["6,861", "6,761", "6,851", "6,961"], answer: 0 },
+                { q: "8,750 - 3,420 = ?", options: ["5,330", "5,230", "5,430", "5,320"], answer: 0 },
+                { q: "342 × 3 = ?", options: ["1,026", "1,016", "926", "1,126"], answer: 0 },
+                { q: "4,500 ÷ 5 = ?", options: ["800", "900", "850", "950"], answer: 1 },
+                { q: "1,245 + 3,820 - 1,500 = ?", options: ["3,565", "3,465", "3,665", "3,555"], answer: 0 },
+                { q: "25 × 14 = ?", options: ["350", "300", "400", "325"], answer: 0 },
+                { q: "6,300 ÷ 9 = ?", options: ["600", "700", "800", "900"], answer: 1 },
+                { q: "Berapakah hasil darab 312 dengan 4?", options: ["1,248", "1,238", "1,348", "1,258"], answer: 0 },
+                { q: "7,000 - 2,435 = ?", options: ["4,575", "4,565", "4,655", "4,555"], answer: 1 },
+                { q: "1,500 + 2,300 + 1,200 = ?", options: ["4,900", "5,000", "5,100", "4,800"], answer: 1 }
+            ],
+            t3_pecahan_perpuluhan: [
+                { q: "1/4 + 2/4 = ?", options: ["1/4", "2/4", "3/4", "4/4"], answer: 2 },
+                { q: "0.4 + 0.3 = ?", options: ["0.7", "0.07", "7.0", "0.1"], answer: 0 },
+                { q: "Apakah nilai perpuluhan bagi pecahan 3/10?", options: ["0.03", "0.3", "3.0", "0.003"], answer: 1 },
+                { q: "0.85 - 0.32 = ?", options: ["0.53", "0.43", "0.52", "0.63"], answer: 0 },
+                { q: "7/10 - 2/10 = ?", options: ["4/10", "5/10", "6/10", "3/10"], answer: 1 },
+                { q: "Tuliskan 0.09 dalam bentuk pecahan.", options: ["9/10", "9/100", "9/1000", "90/100"], answer: 1 },
+                { q: "2.45 + 1.20 = ?", options: ["3.55", "3.65", "3.75", "3.45"], answer: 1 },
+                { q: "Pecahan setara bagi 1/2 ialah...", options: ["2/4", "1/3", "3/5", "2/5"], answer: 0 },
+                { q: "1 - 3/4 = ?", options: ["1/4", "2/4", "3/4", "0"], answer: 0 },
+                { q: "Manakah nilai perpuluhan yang paling besar?", options: ["0.45", "0.54", "0.05", "0.50"], answer: 1 }
             ],
             t3_wang: [
-                { q: "RM45.50 + RM12.20 = ?", options: ["RM57.70", "RM56.70", "RM57.60", "RM58.70"], answer: 0 },
-                { q: "RM100.00 - RM34.50 = ?", options: ["RM65.50", "RM64.50", "RM75.50", "RM65.00"], answer: 0 },
-                { q: "RM12.50 × 4 = ?", options: ["RM48.00", "RM50.00", "RM52.00", "RM45.00"], answer: 1 },
-                { q: "RM84.60 ÷ 2 = ?", options: ["RM42.20", "RM42.30", "RM41.30", "RM43.30"], answer: 1 },
-                { q: "Ibu ada RM50. Beli barang dapur RM32.80. Berapa baki?", options: ["RM17.20", "RM18.20", "RM16.20", "RM17.80"], answer: 0 },
-                { q: "Berapakah 5 keping wang kertas RM10?", options: ["RM20", "RM50", "RM100", "RM500"], answer: 1 },
-                { q: "RM25.30 + RM14.70 = ?", options: ["RM39.00", "RM40.00", "RM40.10", "RM39.50"], answer: 1 },
-                { q: "Harga sepasang kasut RM89.90. Harga baju RM45.50. Jumlah harga?", options: ["RM134.40", "RM135.40", "RM134.50", "RM124.40"], answer: 0 },
-                { q: "Tukarkan nilai: 450 sen kepada Ringgit Malaysia.", options: ["RM0.45", "RM4.50", "RM45.00", "RM455.00"], answer: 1 },
-                { q: "RM10.50 dibahagi kepada 3 orang sama rata. Seorang dapat...", options: ["RM3.00", "RM3.50", "RM4.00", "RM3.20"], answer: 1 }
+                { q: "RM2,450.00 + RM3,120.50 = ?", options: ["RM5,570.50", "RM5,560.50", "RM5,470.50", "RM5,670.50"], answer: 0 },
+                { q: "RM7,800.00 - RM2,350.25 = ?", options: ["RM5,449.75", "RM5,450.75", "RM5,549.75", "RM5,349.75"], answer: 0 },
+                { q: "RM450.00 × 8 = ?", options: ["RM3,400", "RM3,600", "RM3,500", "RM3,800"], answer: 1 },
+                { q: "RM9,600.00 ÷ 6 = ?", options: ["RM1,500", "RM1,600", "RM1,700", "RM1,800"], answer: 1 },
+                { q: "Ali ada RM5,000. Dia beli komputer berharga RM2,390. Berapa baki wang Ali?", options: ["RM2,610", "RM2,710", "RM2,510", "RM2,810"], answer: 0 },
+                { q: "RM1,250.75 + RM849.25 = ?", options: ["RM2,000.00", "RM2,100.00", "RM2,050.00", "RM1,900.00"], answer: 0 },
+                { q: "Berapakah nilai 5 keping wang kertas RM100 dan 4 keping RM50?", options: ["RM600", "RM700", "RM800", "RM900"], answer: 1 },
+                { q: "RM4,200 dibahagikan sama rata kepada 4 buah keluarga. Berapa setiap keluarga terima?", options: ["RM1,000", "RM1,050", "RM1,100", "RM1,150"], answer: 1 },
+                { q: "RM345.50 × 3 = ?", options: ["RM1,026.50", "RM1,036.50", "RM1,046.50", "RM1,056.50"], answer: 1 },
+                { q: "RM8,000 - (RM1,500 + RM2,200) = ?", options: ["RM4,200", "RM4,300", "RM4,400", "RM4,100"], answer: 0 }
             ],
             t3_masa: [
-                { q: "2 jam = ___ minit", options: ["60 minit", "100 minit", "120 minit", "180 minit"], answer: 2 },
-                { q: "1 minggu = ___ hari", options: ["5 hari", "7 hari", "10 hari", "30 hari"], answer: 1 },
+                { q: "3 jam = _____ minit", options: ["120", "150", "180", "200"], answer: 2 },
+                { q: "Tukarkan 150 minit kepada jam dan minit.", options: ["1 jam 30 minit", "2 jam 30 minit", "2 jam 50 minit", "3 jam 10 minit"], answer: 1 },
                 { q: "Pukul 3:45 petang dalam sistem 24 jam ialah...", options: ["1345 jam", "1445 jam", "1545 jam", "1645 jam"], answer: 2 },
-                { q: "Berapa minit dalam setengah jam?", options: ["15 minit", "30 minit", "45 minit", "60 minit"], answer: 1 },
-                { q: "1 tahun = ___ bulan", options: ["10 bulan", "12 bulan", "24 bulan", "365 bulan"], answer: 1 },
-                { q: "Tempoh dari pukul 8:00 pagi hingga 10:30 pagi ialah...", options: ["1 jam 30 minit", "2 jam", "2 jam 30 minit", "3 jam"], answer: 2 },
-                { q: "3 jam 20 minit = ___ minit", options: ["140 minit", "180 minit", "200 minit", "220 minit"], answer: 2 },
-                { q: "Tukar 150 minit kepada jam dan minit.", options: ["1 jam 50 minit", "2 jam 30 minit", "2 jam 50 minit", "3 jam"], answer: 1 },
-                { q: "Abad bermaksud tempoh masa selama...", options: ["10 tahun", "50 tahun", "100 tahun", "1000 tahun"], answer: 2 },
-                { q: "Tahun lompat berlaku sekali setiap berapa tahun?", options: ["2 tahun", "3 tahun", "4 tahun", "5 tahun"], answer: 2 }
+                { q: "2 hari = _____ jam", options: ["24", "36", "48", "60"], answer: 2 },
+                { q: "1 tahun 4 bulan = _____ bulan", options: ["12", "14", "16", "18"], answer: 2 },
+                { q: "2 jam 15 minit + 1 jam 50 minit =", options: ["3 jam 5 minit", "3 jam 65 minit", "4 jam 5 minit", "4 jam 15 minit"], answer: 2 },
+                { q: "120 saat = _____ minit", options: ["1", "2", "3", "4"], answer: 1 },
+                { q: "Pukul 0830 dalam sistem 12 jam ialah...", options: ["8:30 pagi", "8:30 malam", "3:30 pagi", "3:30 petang"], answer: 0 },
+                { q: "Berapa bilangan hari dalam tahun lompat (leap year)?", options: ["364", "365", "366", "367"], answer: 2 },
+                { q: "5 minggu = _____ hari", options: ["28", "30", "35", "40"], answer: 2 }
             ],
-            t3_panjang: [
-                { q: "1 meter = ___ sentimeter", options: ["10 cm", "100 cm", "1,000 cm", "10,000 cm"], answer: 1 },
-                { q: "1 kilogram = ___ gram", options: ["10 g", "100 g", "1,000 g", "10,000 g"], answer: 2 },
-                { q: "1 liter = ___ mililiter", options: ["10 ml", "100 ml", "1,000 ml", "10,000 ml"], answer: 2 },
-                { q: "3 km = ___ meter", options: ["30 m", "300 m", "3,000 m", "30,000 m"], answer: 2 },
-                { q: "2 kg 450 g = ___ g", options: ["245 g", "2,045 g", "2,450 g", "24,500 g"], answer: 2 },
-                { q: "4 m 15 cm = ___ cm", options: ["415 cm", "4,015 cm", "4150 cm", "405 cm"], answer: 0 },
-                { q: "500 ml + 750 ml = ___ liter ___ mililiter", options: ["1 l 250 ml", "1 l 500 ml", "2 l 250 ml", "1 l 75 ml"], answer: 0 },
-                { q: "Tukar 3,200 g kepada kilogram dan gram.", options: ["3 kg 200 g", "32 kg 0 g", "3 kg 2 g", "30 kg 200 g"], answer: 0 },
-                { q: "Panjang sebatang pensel biasanya diukur dalam unit...", options: ["Kilometer", "Meter", "Sentimeter", "Mililiter"], answer: 2 },
-                { q: "Jarak antara Kuala Lumpur dan Melaka diukur menggunakan unit...", options: ["cm", "m", "km", "g"], answer: 2 }
+            t4_nombor: [
+                { q: "Apakah nilai digit 5 dalam nombor 75,432?", options: ["50", "500", "5,000", "50,000"], answer: 2 },
+                { q: "Bundarkan 64,890 kepada ribu terdekat.", options: ["64,000", "64,800", "65,000", "64,900"], answer: 2 },
+                { q: "Tulis dalam angka: 'Empat puluh dua ribu sembilan ratus sepuluh'", options: ["42,901", "42,910", "40,291", "42,091"], answer: 1 },
+                { q: "Nombor manakah yang paling besar?", options: ["78,920", "79,280", "78,290", "79,028"], answer: 1 },
+                { q: "Bundarkan 89,450 kepada puluh ribu terdekat.", options: ["80,000", "90,000", "89,000", "85,000"], answer: 1 },
+                { q: "Cerakinkan 50,674 mengikut nilai digit.", options: ["50,000 + 600 + 70 + 4", "5000 + 600 + 74", "50,000 + 6,000 + 70 + 4", "50,000 + 6074"], answer: 0 },
+                { q: "Apakah nombor 10 lebih daripada 45,890?", options: ["45,900", "45,800", "46,000", "45,910"], answer: 0 },
+                { q: "Antara berikut, yang manakah nombor perdana?", options: ["21", "25", "29", "33"], answer: 2 },
+                { q: "Bundarkan 34,499 kepada ratus terdekat.", options: ["34,400", "34,500", "34,000", "35,000"], answer: 1 },
+                { q: "Apakah nilai tempat bagi digit 0 dalam 60,432?", options: ["Puluh", "Ratus", "Ribu", "Puluh ribu"], answer: 2 }
             ],
-            t4_operasi: [
-                { q: "12 + 4 × 3 = ?", options: ["48", "24", "28", "36"], answer: 1 },
-                { q: "50 - (10 + 15) = ?", options: ["25", "35", "15", "40"], answer: 0 },
-                { q: "24 ÷ 4 × 2 = ?", options: ["3", "6", "12", "16"], answer: 2 },
-                { q: "8 × (5 + 3) = ?", options: ["43", "64", "48", "40"], answer: 1 },
-                { q: "100 - 20 × 3 = ?", options: ["240", "40", "60", "80"], answer: 1 },
-                { q: "(18 + 12) ÷ 6 = ?", options: ["3", "5", "6", "8"], answer: 1 },
-                { q: "7 × 8 + 14 = ?", options: ["70", "68", "72", "64"], answer: 0 },
-                { q: "45 ÷ 5 + 12 = ?", options: ["21", "19", "25", "17"], answer: 0 },
-                { q: "60 - 15 ÷ 3 = ?", options: ["15", "55", "45", "50"], answer: 1 },
-                { q: "3 × (12 - 4) = ?", options: ["24", "32", "20", "28"], answer: 0 }
+            t4_operasibergabung: [
+                { q: "24 + 6 × 5 = ?", options: ["150", "54", "45", "60"], answer: 1 },
+                { q: "(45 - 15) ÷ 5 = ?", options: ["6", "5", "7", "8"], answer: 0 },
+                { q: "80 ÷ 4 + 15 × 2 = ?", options: ["40", "50", "60", "35"], answer: 1 },
+                { q: "100 - 20 × 3 = ?", options: ["240", "40", "80", "60"], answer: 1 },
+                { q: "12 × (5 + 3) = ?", options: ["63", "96", "85", "72"], answer: 1 },
+                { q: "50 + 50 ÷ 2 = ?", options: ["50", "75", "100", "25"], answer: 1 },
+                { q: "18 + 6 - 4 × 2 = ?", options: ["16", "20", "14", "18"], answer: 0 },
+                { q: "(72 ÷ 8) + (5 × 4) = ?", options: ["29", "32", "25", "27"], answer: 0 },
+                { q: "200 - 50 × 2 + 10 = ?", options: ["110", "100", "120", "90"], answer: 0 },
+                { q: "15 × 4 ÷ 2 = ?", options: ["30", "15", "60", "45"], answer: 0 }
             ],
-            t4_pecahan: [
-                { q: "Tulis 3/10 dalam bentuk perpuluhan.", options: ["0.03", "0.3", "3.0", "0.003"], answer: 1 },
-                { q: "2.45 ditulis dalam perkataan ialah...", options: ["Dua perpuluhan empat puluh lima", "Dua perpuluhan empat lima", "Dua perpuluhan empat puluh lima sen", "Dua ratus empat puluh lima"], answer: 1 },
-                { q: "Tukar 1/2 kepada peratus.", options: ["25%", "50%", "75%", "100%"], answer: 1 },
-                { q: "25% daripada 200 ialah...", options: ["25", "50", "75", "100"], answer: 1 },
-                { q: "1 3/4 tukar kepada pecahan tak wajar.", options: ["5/4", "7/4", "6/4", "3/4"], answer: 1 },
-                { q: "0.75 dalam bentuk pecahan ringkas ialah...", options: ["1/4", "1/2", "3/4", "2/3"], answer: 2 },
-                { q: "4/5 + 1/5 = ?", options: ["5/10", "1", "5/5", "1 dan 1/5"], answer: 1 },
-                { q: "Berapakah nilai peratus bagi 3/4?", options: ["25%", "50%", "75%", "100%"], answer: 2 },
-                { q: "3.2 + 1.45 = ?", options: ["4.65", "3.65", "4.55", "4.75"], answer: 0 },
-                { q: "10 - 4.25 = ?", options: ["5.85", "5.75", "6.75", "6.25"], answer: 1 }
+            t4_pecahan_peratus: [
+                { q: "Tukarkan 3/4 kepada peratus.", options: ["25%", "50%", "75%", "100%"], answer: 2 },
+                { q: "Berapakah 40% daripada 300?", options: ["100", "120", "140", "160"], answer: 1 },
+                { q: "Tukarkan 0.6 kepada peratus.", options: ["6%", "60%", "0.6%", "600%"], answer: 1 },
+                { q: "2 1/2 ditulis sebagai perpuluhan ialah...", options: ["2.1", "2.25", "2.5", "2.05"], answer: 2 },
+                { q: "35% dalam bentuk pecahan termudah ialah...", options: ["7/20", "3/10", "35/100", "3/5"], answer: 0 },
+                { q: "Apakah nilai bagi 1/5 dalam peratus?", options: ["10%", "20%", "25%", "50%"], answer: 1 },
+                { q: "12.4 + 3.25 - 1.1 = ?", options: ["14.55", "14.45", "15.55", "13.55"], answer: 0 },
+                { q: "Tukarkan 85% kepada perpuluhan.", options: ["8.5", "0.85", "0.085", "85.0"], answer: 1 },
+                { q: "Berapakah 1/4 daripada 200 kg?", options: ["25 kg", "50 kg", "75 kg", "100 kg"], answer: 1 },
+                { q: "Pecahan tak wajar bagi 3 1/4 ialah...", options: ["11/4", "13/4", "12/4", "7/4"], answer: 1 }
             ],
             t4_wang: [
-                { q: "Apakah maksud faedah dalam simpanan bank?", options: ["Bayaran denda", "Pendapatan tambahan daripada simpanan", "Cukai kerajaan", "Pinjaman wang"], answer: 1 },
-                { q: "RM150.00 × 5 = ?", options: ["RM650.00", "RM750.00", "RM850.00", "RM700.00"], answer: 1 },
-                { q: "Satu bajet yang baik memastikan jumlah perbelanjaan adalah...", options: ["Melebihi pendapatan", "Kurang atau sama dengan pendapatan", "Sifar", "Sama dengan hutang"], answer: 1 },
-                { q: "Hitung diskaun 10% daripada harga baju RM80.00.", options: ["RM5.00", "RM8.00", "RM10.00", "RM12.00"], answer: 1 },
-                { q: "RM450.50 + RM1,230.20 = ?", options: ["RM1,680.70", "RM1,580.70", "RM1,670.70", "RM1,780.70"], answer: 0 },
-                { q: "Apakah perbezaan antara keperluan dan kehendak?", options: ["Kehendak mesti dipenuhi untuk hidup", "Keperluan adalah barangan asas untuk meneruskan kehidupan", "Tiada perbezaan", "Keperluan adalah barang mewah"], answer: 1 },
-                { q: "Ali menyimpan RM50 setiap bulan selama setahun. Berapa jumlah simpanan?", options: ["RM500", "RM550", "RM600", "RM650"], answer: 2 },
-                { q: "Invois adalah dokumen perniagaan yang menunjukkan...", options: ["Senarai barangan dan harga yang perlu dibayar", "Keputusan peperiksaan", "Jadual perjalanan", "Resit derma"], answer: 0 },
-                { q: "RM5,000 ÷ 4 = ?", options: ["RM1,150", "RM1,200", "RM1,250", "RM1,300"], answer: 2 },
-                { q: "Mengapa penting untuk menabung?", options: ["Untuk mempamerkan kekayaan", "Untuk kegunaan masa kecemasan", "Supaya wang cepat habis", "Untuk membayar denda"], answer: 1 }
+                { q: "RM45,200.00 + RM32,450.50 = ?", options: ["RM77,650.50", "RM76,650.50", "RM77,550.50", "RM78,650.50"], answer: 0 },
+                { q: "RM80,000.00 - RM35,420.00 = ?", options: ["RM44,580.00", "RM45,580.00", "RM44,480.00", "RM43,580.00"], answer: 0 },
+                { q: "RM12,450.00 × 5 = ?", options: ["RM61,250", "RM62,250", "RM60,250", "RM63,250"], answer: 1 },
+                { q: "RM94,500.00 ÷ 9 = ?", options: ["RM10,400", "RM10,500", "RM11,500", "RM9,500"], answer: 1 },
+                { q: "Ali ada RM50,000. Dia beli kereta terpakai bernilai RM35,800. Berapa baki?", options: ["RM14,200", "RM15,200", "RM14,800", "RM13,200"], answer: 0 },
+                { q: "Hitung 25% daripada RM8,000.", options: ["RM1,500", "RM2,000", "RM2,500", "RM1,800"], answer: 1 },
+                { q: "RM15,400 + RM23,100 - RM8,500 = ?", options: ["RM30,000", "RM29,000", "RM31,000", "RM28,000"], answer: 0 },
+                { q: "Harga seunit komputer ialah RM3,200. Berapa harga untuk 4 unit?", options: ["RM12,800", "RM12,400", "RM13,200", "RM11,800"], answer: 0 },
+                { q: "RM56,000 dibahagi 8 orang =", options: ["RM6,000", "RM7,000", "RM8,000", "RM7,500"], answer: 1 },
+                { q: "Antara berikut, yang manakah aset kewangan?", options: ["Hutang kad kredit", "Pinjaman peribadi", "Simpanan bank", "Bil utiliti"], answer: 2 }
             ],
-            t4_ruang: [
-                { q: "Berapakah perimeter bagi sebuah segi empat sama yang sisi 6 cm?", options: ["12 cm", "18 cm", "24 cm", "36 cm"], answer: 2 },
-                { q: "Hitung luas segi empat tepat dengan panjang 8 cm dan lebar 4 cm.", options: ["12 cm²", "24 cm²", "32 cm²", "16 cm²"], answer: 2 },
-                { q: "Apakah formula luas segi empat tepat?", options: ["Panjang × Lebar", "Panjang + Lebar + Panjang + Lebar", "4 × Sisi", "2 × (Panjang + Lebar)"], answer: 0 },
-                { q: "Sudut tegak mempunyai nilai tepat sebanyak...", options: ["45°", "90°", "180°", "360°"], answer: 1 },
-                { q: "Jumlah sudut dalam sebuah segi tiga ialah...", options: ["90°", "180°", "270°", "360°"], answer: 1 },
-                { q: "Perimeter segi tiga sama sisi dengan panjang sisi 7 cm ialah...", options: ["14 cm", "21 cm", "28 cm", "49 cm"], answer: 1 },
-                { q: "Sebuah kubus mempunyai berapa permukaan rata?", options: ["4", "6", "8", "12"], answer: 1 },
-                { q: "Garisan yang tidak akan bersilang walaupun dipanjangkan disebut...", options: ["Garis berserenjang", "Garis selari", "Garis lengkung", "Garis lintang"], answer: 1 },
-                { q: "Luas petak berukuran 1 cm × 1 cm ialah...", options: ["1 cm", "1 cm²", "2 cm", "4 cm²"], answer: 1 },
-                { q: "Bentuk 2D yang mempunyai 3 sisi dan 3 bucu ialah...", options: ["Segi empat", "Segi tiga", "Pentagon", "Bulatan"], answer: 1 }
+            t4_masa: [
+                { q: "3 dekad 4 tahun = _____ tahun", options: ["34", "304", "43", "340"], answer: 0 },
+                { q: "2 abad 15 tahun = _____ tahun", options: ["215", "2015", "2150", "250"], answer: 0 },
+                { q: "Tukarkan 500 tahun kepada abad.", options: ["2 abad", "3 abad", "4 abad", "5 abad"], answer: 3 },
+                { q: "4 jam 25 minit + 3 jam 50 minit =", options: ["7 jam 75 minit", "8 jam 15 minit", "8 jam 25 minit", "7 jam 50 minit"], answer: 1 },
+                { q: "Berapakah bilangan hari dalam 4 minggu?", options: ["24", "28", "30", "31"], answer: 1 },
+                { q: "1.5 jam = _____ minit", options: ["75", "90", "100", "80"], answer: 1 },
+                { q: "Berapa tahun dalam 2 alaf?", options: ["20", "200", "2,000", "20,000"], answer: 2 },
+                { q: "72 jam = _____ hari", options: ["2", "3", "4", "5"], answer: 1 },
+                { q: "Pukul 2115 dalam sistem 12 jam ialah...", options: ["9:15 pagi", "9:15 malam", "2:15 pagi", "2:15 petang"], answer: 1 },
+                { q: "Berapakah bulan dalam setengah tahun?", options: ["3", "6", "9", "12"], answer: 1 }
             ],
-            t4_purata: [
-                { q: "Cari purata bagi nombor 10, 20 dan 30.", options: ["15", "20", "25", "30"], answer: 1 },
-                { q: "Purata markah bagi dua ujian ialah 80. Jumlah markah ialah...", options: ["80", "150", "160", "180"], answer: 2 },
-                { q: "Cari mod bagi set nombor: 2, 4, 4, 5, 7, 4, 9", options: ["2", "4", "5", "9"], answer: 1 },
-                { q: "Apakah yang dimaksudkan dengan 'Mod' dalam statistik?", options: ["Nilai tengah", "Nilai yang paling kerap berulang", "Hasil tambah semua nilai", "Beza nilai tertinggi dan terendah"], answer: 1 },
-                { q: "Berat 3 kotak ialah 12 kg, 15 kg dan 18 kg. Cari purata jisim.", options: ["14 kg", "15 kg", "16 kg", "17 kg"], answer: 1 },
-                { q: "Piktograf menggunakan ___ untuk mewakili data.", options: ["Angka", "Simbol atau gambar", "Perkataan", "Warna"], answer: 1 },
-                { q: "Cari purata bagi 4, 8, 12 dan 16.", options: ["8", "10", "12", "14"], answer: 1 },
-                { q: "Dalam koordinat, paksi mengufuk (melintang) dikenali sebagai...", options: ["Paksi-y", "Paksi-x", "Paksi-z", "Paksi utama"], answer: 1 },
-                { q: "Koordinat Asalan (Origin) pada graf ditulis sebagai...", options: ["(1, 1)", "(0, 1)", "(0, 0)", "(1, 0)"], answer: 2 },
-                { q: "Jika min bagi 4 nombor ialah 25, apakah jumlah nilai keempat-empat nombor itu?", options: ["50", "75", "100", "125"], answer: 2 }
+            t5_nombor: [
+                { q: "Apakah nilai digit 7 dalam nombor 876,432?", options: ["70,000", "7,000", "700,000", "700"], answer: 0 },
+                { q: "Bundarkan 456,890 kepada ratus ribu terdekat.", options: ["400,000", "500,000", "450,000", "460,000"], answer: 1 },
+                { q: "Nombor perd antara 10 hingga 20 ialah...", options: ["12", "15", "17", "18"], answer: 2 },
+                { q: "Apakah hasil darab 4,500 dengan 100?", options: ["45,000", "450,000", "4,500,000", "450"], answer: 1 },
+                { q: "987,650 - 452,100 = ?", options: ["535,550", "545,550", "525,550", "534,550"], answer: 0 },
+                { q: "Antara berikut, yang manakah bukan nombor perdana?", options: ["2", "11", "23", "27"], answer: 3 },
+                { q: "Bundarkan 723,450 kepada puluh ribu terdekat.", options: ["720,000", "730,000", "700,000", "725,000"], answer: 0 },
+                { q: "850,000 ÷ 1,000 = ?", options: ["85", "850", "8,500", "8.5"], answer: 1 },
+                { q: "Apakah nombor 100,000 lebih daripada 650,400?", options: ["750,400", "750,000", "660,400", "740,400"], answer: 0 },
+                { q: "Cerakinkan 804,025 mengikut nilai digit.", options: ["800,000 + 4,000 + 20 + 5", "800,000 + 400 + 25", "80,000 + 4,000 + 25", "800,000 + 4,025"], answer: 0 }
             ],
-            t5_juta: [
-                { q: "Tuliskan 1.2 juta dalam nombor bulat.", options: ["1,200,000", "120,000", "12,000,000", "1,020,000"], answer: 0 },
-                { q: "3/4 juta ditulis dalam nombor bulat ialah...", options: ["500,000", "750,000", "250,000", "600,000"], answer: 1 },
-                { q: "450,000 + 350,000 = ?", options: ["700,000", "800,000", "900,000", "750,000"], answer: 1 },
-                { q: "1,000,000 - 450,000 = ?", options: ["550,000", "650,000", "540,000", "600,000"], answer: 0 },
-                { q: "2.4 juta × 3 = ?", options: ["7.2 juta", "6.2 juta", "8.1 juta", "7.5 juta"], answer: 0 },
-                { q: "Apakah nilai tempat bagi digit 6 dalam 3,654,120?", options: ["Ratus ribu", "Puluh ribu", "Ribu", "Juta"], answer: 0 },
-                { q: "1/2 juta + 1/4 juta = ?", options: ["3/4 juta", "1 juta", "1/2 juta", "1/8 juta"], answer: 0 },
-                { q: "Bundarkan 3,456,789 kepada ratus ribu terdekat.", options: ["3,400,000", "3,500,000", "3,450,000", "4,000,000"], answer: 1 },
-                { q: "Tulis 2 1/5 juta dalam perpuluhan juta.", options: ["2.1 juta", "2.2 juta", "2.5 juta", "2.05 juta"], answer: 1 },
-                { q: "Bahagikan 4.5 juta dengan 10.", options: ["450,000", "45,000", "4,500,000", "4500"], answer: 0 }
-            ],
-            t5_pecahan: [
-                { q: "2/3 + 1/6 = ?", options: ["3/9", "5/6", "3/6", "1/2"], answer: 1 },
-                { q: "4/5 - 1/2 = ?", options: ["3/10", "3/3", "1/10", "2/5"], answer: 0 },
-                { q: "3/4 × 8/9 = ?", options: ["2/3", "1/2", "3/4", "1/3"], answer: 0 },
-                { q: "Bahagi pecahan: 3/4 ÷ 1/2 = ?", options: ["3/8", "1 1/2", "2/3", "3/2"], answer: 1 },
-                { q: "2 1/4 + 1 1/2 = ?", options: ["3 3/4", "3 1/2", "4 1/4", "3 2/6"], answer: 0 },
-                { q: "Tukar 7/3 kepada nombor bercampur.", options: ["2 1/3", "3 1/3", "2 2/3", "1 3/4"], answer: 2 },
-                { q: "1/5 daripada 45 kg ialah...", options: ["8 kg", "9 kg", "10 kg", "12 kg"], answer: 1 },
-                { q: "5 - 2 3/4 = ?", options: ["2 1/4", "3 1/4", "2 3/4", "1 1/4"], answer: 0 },
-                { q: "Cari hasil darab: 1.25 × 100", options: ["12.5", "125", "1,250", "0.125"], answer: 1 },
-                { q: "45.6 ÷ 10 = ?", options: ["4.56", "0.456", "456", "45.60"], answer: 0 }
+            t5_pecahan_lanjutan: [
+                { q: "3/4 × 24 = ?", options: ["16", "18", "20", "15"], answer: 1 },
+                { q: "2/3 ÷ 4/9 = ?", options: ["3/2", "8/27", "1/2", "2/3"], answer: 0 },
+                { q: "1 1/2 + 2 3/4 = ?", options: ["3 1/4", "4 1/4", "4 3/4", "3 3/4"], answer: 1 },
+                { q: "5 - 2 3/5 = ?", options: ["2 2/5", "3 2/5", "2 3/5", "3 3/5"], answer: 0 },
+                { q: "0.45 × 10 = ?", options: ["4.5", "45.0", "0.045", "450"], answer: 0 },
+                { q: "12.8 ÷ 4 = ?", options: ["3.2", "3.02", "0.32", "32.0"], answer: 0 },
+                { q: "1/2 daripada 3/5 ialah...", options: ["3/10", "2/7", "1/5", "3/7"], answer: 0 },
+                { q: "Tukarkan 7/4 kepada nombor bercampur.", options: ["1 1/4", "1 3/4", "2 1/4", "1 2/4"], answer: 1 },
+                { q: "3.25 × 100 = ?", options: ["32.5", "325.0", "0.325", "3,250"], answer: 1 },
+                { q: "8.45 ÷ 10 = ?", options: ["84.5", "0.845", "845.0", "0.0845"], answer: 1 }
             ],
             t5_peratus: [
-                { q: "Cari 35% daripada 400.", options: ["120", "140", "160", "150"], answer: 1 },
-                { q: "RM60 adalah 20% daripada harga suatu barang. Cari harga asal barang itu.", options: ["RM200", "RM250", "RM300", "RM350"], answer: 2 },
-                { q: "Tukar 3/8 kepada peratus.", options: ["37.5%", "35%", "38.5%", "40%"], answer: 0 },
-                { q: "Dalam sebuah kelas 40 murid, 15 orang adalah perempuan. Berapa peratus murid perempuan?", options: ["35%", "37.5%", "40%", "42.5%"], answer: 1 },
-                { q: "Nisbah 3 kepada 5 ditulis sebagai...", options: ["5:3", "3:5", "3.5", "3/8"], answer: 1 },
-                { q: "Jika nisbah pensel Ali kepada Abu ialah 2:3 dan Ali mempunyai 10 pensel, berapa pensel Abu?", options: ["12", "15", "18", "20"], answer: 1 },
-                { q: "120% dinyatakan dalam nombor perpuluhan ialah...", options: ["0.12", "1.2", "12.0", "0.012"], answer: 1 },
-                { q: "Kurangkan RM80 sebanyak 15%. Harga baharu ialah...", options: ["RM68", "RM72", "RM65", "RM70"], answer: 0 },
-                { q: "Cari nilai x jika x : 4 = 15 : 20", options: ["2", "3", "4", "5"], answer: 1 },
-                { q: "12 pen daripada 60 pen ialah berapa peratus?", options: ["15%", "20%", "25%", "30%"], answer: 1 }
+                { q: "Berapakah 35% daripada 400?", options: ["120", "130", "140", "150"], answer: 2 },
+                { q: "Jika 20% daripada suatu nombor ialah 50, apakah nombor itu?", options: ["200", "250", "300", "150"], answer: 1 },
+                { q: "Tukarkan 3/8 kepada peratus.", options: ["32.5%", "35%", "37.5%", "40%"], answer: 2 },
+                { q: "Harga asal sebuah beg ialah RM200. Diskaun sebanyak 15% diberikan. Berapa harga diskaun?", options: ["RM25", "RM30", "RM35", "RM40"], answer: 1 },
+                { q: "45 daripada 60 murid ialah perempuan. Berapa peratus murid perempuan?", options: ["70%", "75%", "80%", "65%"], answer: 1 },
+                { q: "Berapakah 120% daripada 50?", options: ["50", "60", "70", "80"], answer: 1 },
+                { q: "Tukarkan 4 1/2 kepada peratus.", options: ["450%", "425%", "400%", "475%"], answer: 0 },
+                { q: "Kurangkan RM80 sebanyak 10%.", options: ["RM70", "RM72", "RM75", "RM68"], answer: 1 },
+                { q: "9 ialah berapa peratus daripada 30?", options: ["25%", "30%", "35%", "40%"], answer: 1 },
+                { q: "Sebuah sekolah mempunyai 800 murid. 55% adalah lelaki. Berapa bilangan murid lelaki?", options: ["420", "440", "460", "400"], answer: 1 }
+            ],
+            t5_wang: [
+                { q: "Kira faedah mudah untuk simpanan RM10,000 pada kadar 4% setahun selama 2 tahun.", options: ["RM400", "RM800", "RM1,000", "RM1,200"], answer: 1 },
+                { q: "RM458,200 + RM321,400 = ?", options: ["RM779,600", "RM769,600", "RM789,600", "RM778,600"], answer: 0 },
+                { q: "RM1,000,000 - RM452,100 = ?", options: ["RM547,900", "RM557,900", "RM537,900", "RM548,900"], answer: 0 },
+                { q: "Ali menyimpan RM200 setiap bulan. Berapa jumlah simpanan dalam masa 2 tahun?", options: ["RM2,400", "RM4,800", "RM5,000", "RM3,600"], answer: 1 },
+                { q: "Harga kos sebuah basikal ialah RM300. Dijual dengan untung 20%. Berapa harga jual?", options: ["RM340", "RM350", "RM360", "RM380"], answer: 2 },
+                { q: "RM12,500 ÷ 4 = ?", options: ["RM3,125", "RM3,225", "RM3,025", "RM3,150"], answer: 0 },
+                { q: "Invois menunjukkan jumlah RM850. Diberi diskaun 10%. Berapa perlu dibayar?", options: ["RM750", "RM765", "RM770", "RM780"], answer: 1 },
+                { q: "RM45.50 × 12 = ?", options: ["RM536", "RM546", "RM556", "RM526"], answer: 1 },
+                { q: "Apakah maksud 'Aset' dalam kewangan?", options: ["Harta yang dimiliki bernilai", "Wang yang dipinjam", "Cukai kerajaan", "Bil bulanan"], answer: 0 },
+                { q: "Simpanan sebanyak RM5,000 dengan kadar faedah 3% setahun. Berapa faedah untuk 1 tahun?", options: ["RM100", "RM150", "RM200", "RM250"], answer: 1 }
             ],
             t5_ruang: [
-                { q: "Cari isi padu kuboid berukuran 5 cm panjang, 4 cm lebar dan 3 cm tinggi.", options: ["12 cm³", "60 cm³", "40 cm³", "45 cm³"], answer: 1 },
-                { q: "Formula isi padu kubus dengan sisi s ialah...", options: ["s × s", "6 × s", "s × s × s", "4 × s"], answer: 2 },
-                { q: "Sebuah kubus mempunyai panjang sisi 4 cm. Hitung isi padunya.", options: ["16 cm³", "48 cm³", "64 cm³", "32 cm³"], answer: 2 },
-                { q: "Luas permukaan kubus dengan sisi 3 cm ialah...", options: ["27 cm²", "54 cm²", "36 cm²", "18 cm²"], answer: 1 },
-                { q: "Tukar 450 cm³ kepada liter.", options: ["0.45 l", "4.5 l", "45 l", "0.045 l"], answer: 0 },
-                { q: "1 liter air setara dengan...", options: ["1 cm³", "10 cm³", "100 cm³", "1,000 cm³"], answer: 3 },
-                { q: "Sebuah bekas berbentuk kuboid mengandungi air setinggi 10 cm. Tapaknya berukuran 5 cm × 4 cm. Isi padu air ialah...", options: ["100 cm³", "200 cm³", "150 cm³", "250 cm³"], answer: 1 },
-                { q: "Bentuk 3D yang mempunyai satu tapak bulatan dan satu puncak tirus ialah...", options: ["Silinder", "Kon", "Piramid", "Sfera"], answer: 1 },
-                { q: "Berapakah bilangan bucu bagi sebuah kuboid?", options: ["6", "8", "12", "4"], answer: 1 },
-                { q: "Garisan penjimatan simetri bagi sebuah segi empat sama ialah...", options: ["2", "4", "6", "8"], answer: 1 }
+                { q: "Berapakah perimeter bagi sebuah segi empat sama yang panjang sisinya 7 cm?", options: ["14 cm", "21 cm", "28 cm", "49 cm"], answer: 2 },
+                { q: "Hitung luas segi empat tepat dengan panjang 12 cm dan lebar 5 cm.", options: ["34 cm²", "60 cm²", "17 cm²", "50 cm²"], answer: 1 },
+                { q: "Isi padu sebuah kuboid dengan panjang 5 cm, lebar 4 cm dan tinggi 3 cm ialah...", options: ["12 cm³", "60 cm³", "47 cm³", "20 cm³"], answer: 1 },
+                { q: "Hasil tambah sudut pedalaman dalam sebuah segi tiga ialah...", options: ["90°", "180°", "270°", "360°"], answer: 1 },
+                { q: "Cari perimeter sebuah padang segi empat panjang berukuran 40m panjang dan 20m lebar.", options: ["800 m", "120 m", "60 m", "100 m"], answer: 1 },
+                { q: "Luas sebuah segi tiga dengan tapak 10 cm dan tinggi 8 cm ialah...", options: ["80 cm²", "40 cm²", "20 cm²", "60 cm²"], answer: 1 },
+                { q: "Berapakah sudut pada satu putaran lengkap (360°)?", options: ["Satu sudut tegak", "Dua sudut tegak", "Empat sudut tegak", "Tiga sudut tegak"], answer: 2 },
+                { q: "Isi padu sebuah kubus yang panjang sisinya 4 cm ialah...", options: ["16 cm³", "64 cm³", "32 cm³", "48 cm³"], answer: 1 },
+                { q: "Sebuah kuboid mempunyai isi padu 120 cm³. Luas tapaknya ialah 20 cm². Berapa tingginya?", options: ["4 cm", "5 cm", "6 cm", "8 cm"], answer: 2 },
+                { q: "Hasil tambah sudut pada satu garis lurus ialah...", options: ["90°", "180°", "270°", "360°"], answer: 1 }
             ],
-            t5_kebolehjadian: [
-                { q: "Apakah kebolehjadian hujan turun di Malaysia pada musim tengkujuh?", options: ["Mustahil", "Kecil kemungkinan", "Besar kemungkinan / Pasti", "Sifar"], answer: 2 },
-                { q: "Sebuah kotak ada 5 biji bola merah. Kebolehjadian mengambil sebiji bola merah ialah...", options: ["Mustahil", "Pasti", "Kecil kemungkinan", "Sama kemungkinan"], answer: 1 },
-                { q: "Melonjakkan dadu standard 6 sisi, kebolehjadian mendapat nombor 7 ialah...", options: ["Pasti", "Mustahil", "1/2", "1/6"], answer: 1 },
-                { q: "Hari selepas hari Ahad ialah hari Isnin. Peristiwa ini adalah...", options: ["Mungkin", "Mustahil", "Pasti", "Kecil kemungkinan"], answer: 2 },
-                { q: "Dalam koordinat, jika titik A berada di (3, 4) dan B di (3, 7), jarak menegak antara A dan B ialah...", options: ["3 unit", "4 unit", "7 unit", "1 unit"], answer: 0 },
-                { q: "Hitung jarak mengufuk dari titik P(1, 2) ke Q(6, 2).", options: ["5 unit", "6 unit", "2 unit", "7 unit"], answer: 0 },
-                { q: "Sebuah beg mengandungi 3 guli biru dan 3 guli merah. Mengambil guli biru mempunyai...", options: ["Pasti", "Mustahil", "Kecil kemungkinan", "Kemungkinan yang sama"], answer: 3 },
-                { q: "Apakah kebolehjadian manusia terbang tanpa mesin?", options: ["Pasti", "Mustahil", "Mungkin", "Sama kemungkinan"], answer: 1 },
-                { q: "Jika anda melambung duit syiling, kebolehjadian mendapat 'Angka' ialah...", options: ["1", "0", "1/2", "1/4"], answer: 2 },
-                { q: "Peristiwa yang pasti berlaku mempunyai nilai kebolehjadian...", options: ["0", "1", "1/2", "Tidak tentu"], answer: 1 },
+            t6_nombor: [
+                { q: "1,200,450 + 350,100 - 120,000 = ?", options: ["1,430,550", "1,420,550", "1,440,550", "1,410,550"], answer: 0 },
+                { q: "450 × (200 ÷ 5) = ?", options: ["18,000", "15,000", "20,000", "25,000"], answer: 0 },
+                { q: "Apakah nombor terdekat apabila 789,432 dibundarkan kepada puluh ribu terdekat?", options: ["780,000", "790,000", "800,000", "785,000"], answer: 1 },
+                { q: "2 1/4 juta ditulis dalam nombor bulat ialah...", options: ["2,250,000", "2,025,000", "2,125,000", "2,500,000"], answer: 0 },
+                { q: "3.4 juta - 1 1/2 juta = ?", options: ["1.9 juta", "1.8 juta", "2.1 juta", "2.0 juta"], answer: 0 },
+                { q: "Berapakah 3/5 daripada 2 juta?", options: ["1,200,000", "1,500,000", "1,800,000", "1,000,000"], answer: 0 },
+                { q: "850,000 ÷ 25 = ?", options: ["34,000", "32,000", "35,000", "30,000"], answer: 0 },
+                { q: "1.05 juta + 450,000 = ?", options: ["1,500,000", "1,450,000", "1,600,000", "1,550,000"], answer: 0 },
+                { q: "Nombor manakah yang paling kecil?", options: ["1.23 juta", "1 1/4 juta", "1,240,000", "1,205,000"], answer: 3 },
+                { q: "Hasil darab 125 dengan 800 =", options: ["100,000", "10,000", "1,000,000", "50,000"], answer: 0 }
             ],
-            t6_operasi: [
-                { q: "-5 + 8 = ?", options: ["-3", "3", "13", "-13"], answer: 1 },
-                { q: "(-12) - (-4) = ?", options: ["-16", "-8", "8", "16"], answer: 1 },
-                { q: "-6 × 7 = ?", options: ["42", "-42", "-48", "48"], answer: 1 },
-                { q: "-36 ÷ (-9) = ?", options: ["-4", "4", "-5", "5"], answer: 1 },
-                { q: "3/4 + 1/2 × 2/3 = ?", options: ["1 1/12", "1 1/6", "5/6", "7/12"], answer: 1 },
-                { q: "(15.2 - 3.7) × 2 = ?", options: ["23.0", "22.8", "24.0", "21.8"], answer: 0 },
-                { q: "Suhu pada waktu pagi ialah -2°C. Menjelang tengah hari suhu naik 7°C. Suhu baharu ialah...", options: ["-5°C", "5°C", "9°C", "-9°C"], answer: 1 },
-                { q: "-15 + (-25) = ?", options: ["-40", "40", "10", "-10"], answer: 0 },
-                { q: "2 1/3 ÷ 1 1/6 = ?", options: ["1", "2", "3", "1 1/2"], answer: 1 },
-                { q: "(-8) × 3 + 10 = ?", options: ["-14", "-34", "14", "34"], answer: 0 }
+            t6_pecahan_nisbah: [
+                { q: "Nisbah bilangan buku Ali kepada Abu ialah 3:4. Jika Ali ada 15 buku, berapa buku Abu?", options: ["20", "25", "18", "24"], answer: 0 },
+                { q: "2 1/3 × 1 3/7 = ?", options: ["3 1/3", "3 2/3", "4 1/3", "2 2/3"], answer: 1 },
+                { q: "Dalam sebuah kelas, nisbah murid lelaki kepada perempuan ialah 2:3. Jika jumlah murid 40 orang, berapa murid perempuan?", options: ["16", "24", "20", "18"], answer: 1 },
+                { q: "4.2 ÷ 0.07 = ?", options: ["60", "600", "6", "0.6"], answer: 1 },
+                { q: "3 3/4 ÷ 1 1/4 = ?", options: ["2", "3", "4", "5"], answer: 1 },
+                { q: "Nisbah 45 minit kepada 2 jam ialah...", options: ["3:8", "4:9", "3:5", "2:3"], answer: 0 },
+                { q: "Jika 3 biji epal berharga RM6, berapa harga untuk 7 biji epal?", options: ["RM12", "RM14", "RM15", "RM16"], answer: 1 },
+                { q: "5/8 daripada 400 kg =", options: ["200 kg", "250 kg", "225 kg", "275 kg"], answer: 1 },
+                { q: "Nisbah termudah bagi 24:36 ialah...", options: ["2:3", "3:4", "4:5", "1:2"], answer: 0 },
+                { q: "4.5 kg - 1200 g = _____ g", options: ["3,300", "3,500", "4,380", "3,200"], answer: 0 }
             ],
-            t6_peratus: [
-                { q: "Harga kos basikal ialah RM200. Dijual dengan untung 20%. Harga jual ialah...", options: ["RM220", "RM240", "RM250", "RM230"], answer: 1 },
-                { q: "Sebuah beg berharga RM120 diberi diskaun 25%. Berapa nilai diskaun?", options: ["RM20", "RM25", "RM30", "RM35"], answer: 2 },
-                { q: "Ali jual jam tangan pada harga RM315 dengan rugi 10%. Berapa harga kos jam itu?", options: ["RM350", "RM340", "RM330", "RM360"], answer: 0 },
-                { q: "Cukai perkhidmatan 6% dikenakan atas bil makanan RM150. Hitung jumlah cukai.", options: ["RM6.00", "RM9.00", "RM12.00", "RM15.00"], answer: 1 },
-                { q: "Komisen sebanyak 5% dibayar atas jualan bernilai RM4,000. Kira komisen.", options: ["RM150", "RM200", "RM250", "RM300"], answer: 1 },
-                { q: "Faedah mudah 4% setahun atas simpanan RM5,000 selama 2 tahun ialah...", options: ["RM200", "RM400", "RM500", "RM300"], answer: 1 },
-                { q: "Harga selepas diskaun 10% ialah RM90. Berapa harga asal?", options: ["RM99", "RM100", "RM110", "RM105"], answer: 1 },
-                { q: "Sebuah televisyen kos RM1,500 dijual dengan harga RM1,800. Peratus untung ialah...", options: ["15%", "20%", "25%", "30%"], answer: 1 },
-                { q: "Dividen ASB sebanyak 6% diisytiharkan ke atas pelaburan RM10,000. Jumlah dividen?", options: ["RM400", "RM500", "RM600", "RM700"], answer: 2 },
-                { q: "Invois menunjukkan jumlah RM250 selepas diskaun 10%. Berapa harga asal sebelum diskaun?", options: ["RM275", "RM277.78", "RM280", "RM290"], answer: 1 }
+            t6_tajuk_kewangan: [
+                { q: "Sebuah televisyen berharga RM2,500. Diberi diskaun 20%. Berapa harga selepas diskaun?", options: ["RM1,900", "RM2,000", "RM2,100", "RM2,200"], answer: 1 },
+                { q: "Cukai perkhidmatan 6% dikenakan atas bil makanan bernilai RM150. Hitung jumlah cukai.", options: ["RM6.00", "RM9.00", "RM12.00", "RM15.00"], answer: 1 },
+                { q: "Faedah kompaun lebih menguntungkan daripada faedah mudah kerana...", options: ["Faedah dikira atas prinsipal asal sahaja", "Faedah atas prinsipal dan terkumpul", "Kadar lebih rendah", "Tiada tempoh masa"], answer: 1 },
+                { q: "Harga kos sejambak bunga ialah RM40. Dijual dengan untung 50%. Berapa harga jual?", options: ["RM50", "RM55", "RM60", "RM65"], answer: 2 },
+                { q: "Ali meminjam RM10,000 dari bank dengan kadar faedah 4% setahun selama 3 tahun. Berapa jumlah faedah?", options: ["RM1,000", "RM1,200", "RM1,500", "RM1,800"], answer: 1 },
+                { q: "Invois mencatat barangan bernilai RM400, rebat tunai RM20 dan diskaun 10%. Berapa jumlah perlu dibayar?", options: ["RM340", "RM350", "RM360", "RM330"], answer: 0 },
+                { q: "Apakah yang dimaksudkan dengan 'Invois'?", options: ["Penyata hutang atau bil pembelian", "Resit pembayaran penuh", "Sijil pelaburan", "Buku simpanan bank"], answer: 0 },
+                { q: "Sebuah komputer dibeli dengan harga RM3,000 dan dijual rugi 10%. Berapa harga jual?", options: ["RM2,700", "RM2,800", "RM2,600", "RM2,500"], answer: 0 },
+                { q: "Insurans kebakaran melindungi pemilik daripada...", options: ["Kemalangan jalan raya", "Kerosakan akibat kebakaran harta benda", "Penyakit kritikal", "Kehilangan pekerjaan"], answer: 1 },
+                { q: "Manakah liabiliti dalam kewangan peribadi?", options: ["Hartanah", "Simpanan tetap", "Pinjaman kenderaan", "Saham amanah saham"], answer: 2 }
             ],
-            t6_nisbah: [
-                { q: "Nisbah bilangan buku Ali kepada Abu ialah 3:5. Jika Abu ada 25 buku, berapa buku Ali?", options: ["10", "12", "15", "18"], answer: 2 },
-                { q: "Jumlah wang RM70 dibahagikan antara Amin dan Siti mengikut nisbah 2:5. Berapa wang Siti?", options: ["RM20", "RM35", "RM50", "RM40"], answer: 2 },
-                { q: "Nisbah 45 minit kepada 2 jam dalam bentuk termudah ialah...", options: ["3:8", "1:2", "3:4", "2:3"], answer: 0 },
-                { q: "Jika 3 biji epal berharga RM6, berapa harga 7 biji epal?", options: ["RM12", "RM14", "RM16", "RM18"], answer: 1 },
-                { q: "Nisbah murid lelaki kepada perempuan ialah 4:3. Jika jumlah murid 56 orang, berapa lelaki?", options: ["24", "28", "32", "36"], answer: 2 },
-                { q: "Sebuah kereta guna 8 liter petrol untuk jarak 96 km. Berapa km untuk 1 liter?", options: ["10 km", "12 km", "14 km", "16 km"], answer: 1 },
-                { q: "Nisbah 500 g kepada 2 kg dalam bentuk termudah ialah...", options: ["1:4", "1:2", "1:5", "2:5"], answer: 0 },
-                { q: "Kadaran: Jika 5 kg beras berharga RM20, berapa kos 12 kg beras?", options: ["RM40", "RM48", "RM50", "RM52"], answer: 1 },
-                { q: "Umur bapa kepada anak ialah 7:2. Jika anak berumur 12 tahun, berapa umur bapa?", options: ["35 tahun", "42 tahun", "49 tahun", "56 tahun"], answer: 1 },
-                { q: "Ringkaskan nisbah 24:36 ke bentuk terendah.", options: ["2:3", "3:4", "4:6", "6:9"], answer: 0 }
+            t6_pengurusan_data: [
+                { q: "Cari mod bagi set nombor berikut: 4, 5, 2, 4, 7, 4, 3", options: ["2", "3", "4", "5"], answer: 2 },
+                { q: "Cari median bagi nombor: 12, 15, 18, 22, 25", options: ["15", "18", "22", "19"], answer: 1 },
+                { q: "Hitung min bagi nombor: 10, 20, 30, 40", options: ["20", "25", "30", "35"], answer: 1 },
+                { q: "Cari julat bagi set data: 14, 28, 19, 45, 12", options: ["33", "45", "31", "28"], answer: 0 },
+                { q: "Min bagi 5 nombor ialah 20. Apakah hasil tambah kesemua 5 nombor itu?", options: ["80", "100", "120", "90"], answer: 1 },
+                { q: "Apakah maksud 'Mod' dalam statistik?", options: ["Nilai yang paling kerap berulang", "Nilai di tengah-tengah", "Purata nilai", "Beza nilai tertinggi dan terendah"], answer: 0 },
+                { q: "Julat bagi nombor 55, 82, 40, 95, 63 ialah...", options: ["55", "45", "50", "35"], answer: 1 },
+                { q: "Median bagi 7, 3, 9, 12, 5 ialah...", options: ["5", "7", "9", "12"], answer: 1 },
+                { q: "Min bagi 4, 8, 12, 16, 20 ialah...", options: ["10", "12", "14", "16"], answer: 0 },
+                { q: "Data manakah yang mempunyai dua mod (bimod)?", options: ["2, 3, 4, 5", "2, 2, 4, 4, 5", "1, 2, 3, 4, 5", "3, 3, 3, 4, 5"], answer: 1 }
             ],
-            t6_ruang: [
-                { q: "Hitung luas permukaan gabungan bentuk kuboid dan kubus jika sisi kubus 2 cm dan kuboid 5×3×2 cm.", options: ["64 cm²", "72 cm²", "80 cm²", "60 cm²"], answer: 1 },
-                { q: "Sudut pelengkap bagi 35° ialah...", options: ["55°", "65°", "145°", "90°"], answer: 0 },
-                { q: "Sudut penggenap (supplementary) bagi 110° ialah...", options: ["70°", "80°", "90°", "60°"], answer: 0 },
-                { q: "Hitung luas bulatan dengan jejari 7 cm. (Guna π = 22/7)", options: ["154 cm²", "44 cm²", "88 cm²", "308 cm²"], answer: 0 },
-                { q: "Lilitan bulatan dengan jejari 14 cm ialah... (Guna π = 22/7)", options: ["44 cm", "88 cm", "154 cm", "66 cm"], answer: 1 },
-                { q: "Pusat ke lilitan bulatan dikenali sebagai...", options: ["Diameter", "Jejari (Radius)", "Perimeter", "Perentas"], answer: 1 },
-                { q: "Garis lurus terpanjang yang merentasi pusat bulatan ialah...", options: ["Jejari", "Diameter", "Lilitan", "Arc"], answer: 1 },
-                { q: "Jumlah sudut pada satu titik pusingan lengkap ialah...", options: ["90°", "180°", "270°", "360°"], answer: 3 },
-                { q: "Luas segi tiga bertapak 10 cm dan tinggi 8 cm ialah...", options: ["80 cm²", "40 cm²", "20 cm²", "60 cm²"], answer: 1 },
-                { q: "Sebuah trapezium mempunyai panjang selari 6 cm dan 10 cm serta tinggi 4 cm. Luasnya ialah...", options: ["32 cm²", "64 cm²", "40 cm²", "24 cm²"], answer: 0 }
-            ],
-            t6_statistik: [
-                { q: "Cari min bagi data: 12, 15, 18, 20, 25", options: ["18", "19", "20", "17"], answer: 0 },
-                { q: "Cari median bagi data: 4, 7, 9, 12, 15", options: ["7", "9", "12", "10"], answer: 1 },
-                { q: "Cari julat bagi set data: 5, 12, 18, 3, 25", options: ["20", "22", "25", "18"], answer: 1 },
-                { q: "Cari mod bagi data: 3, 5, 3, 7, 8, 3, 9", options: ["5", "3", "7", "8"], answer: 1 },
-                { q: "Jika min 5 nombor ialah 40, apakah jumlah nilai kesemua nombor itu?", options: ["160", "180", "200", "220"], answer: 2 },
-                { q: "Median bagi nombor genap data tersusun (misal 4 data) diperoleh dengan...", options: ["Mengambil nilai tengah pertama", "Purata dua nilai di tengah", "Nilai maksimum", "Mod data"], answer: 1 },
-                { q: "Julat dikira melalui formula...", options: ["Nilai maksimum - Nilai minimum", "Nilai maksimum + Nilai minimum", "Jumlah ÷ Bilangan", "Nilai tengah"], answer: 0 },
-                { q: "Cari median bagi data tersusun: 10, 14, 18, 22, 26, 30", options: ["18", "20", "22", "20"], answer: 1 },
-                { q: "Min juga dikenali dalam kehidupan seharian sebagai...", options: ["Purata", "Tengah", "Paling kerap", "Beza"], answer: 0 },
-                { q: "Apakah nilai min bagi nombor: 5, 5, 5, 5, 5?", options: ["0", "1", "5", "25"], answer: 2 }
+            t6_projek_khas: [
+                { q: "Sebuah kilang mengeluarkan 45,000 botol minuman sehari. Berapa botol dikeluarkan dalam masa 2 minggu?", options: ["630,000", "540,000", "700,000", "650,000"], answer: 0 },
+                { q: "Ali memandu sejauh 345 km dalam masa 4 jam 30 minit. Hitung purata laju per jam.", options: ["70 km/j", "75 km/j", "80 km/j", "85 km/j"], answer: 1 },
+                { q: "Luas sebuah tapak berbentuk segi empat sama ialah 144 cm². Berapa panjang sisinya?", options: ["10 cm", "11 cm", "12 cm", "14 cm"], answer: 2 },
+                { q: "Harga sebuah basikal selepas diskaun 20% ialah RM240. Berapa harga asal basikal itu?", options: ["RM280", "RM300", "RM320", "RM350"], answer: 1 },
+                { q: "Pecahan berikut yang manakah nilainya paling besar? 3/4, 7/10, 4/5, 65%", options: ["3/4", "7/10", "4/5", "65%"], answer: 2 },
+                { q: "Min bagi 6 nombor ialah 15. Dua nombor dikeluarkan, jumlahnya 18. Berapa min bagi 4 nombor yang tinggal?", options: ["15", "18", "12", "14"], answer: 1 },
+                { q: "Sebuah bekas berisi 3.5 liter air. 1,250 ml air digunakan. Berapa baki air dalam mililiter?", options: ["2,250 ml", "2,500 ml", "2,150 ml", "2,350 ml"], answer: 0 },
+                { q: "Dalam suatu pemilihan, calon A mendapat 45% undi, calon B mendapat 35% dan bakinya 200 undi untuk calon C. Berapa jumlah semua undi?", options: ["800", "1,000", "1,200", "900"], answer: 1 },
+                { q: "Hitung perimeter seluruh rajah yang dibentuk oleh dua buah segi empat sama bersisi 5 cm yang cantum sebahagian sisinya.", options: ["30 cm", "35 cm", "40 cm", "25 cm"], answer: 0 },
+                { q: "Sebuah bas bertolak pada pukul 0830 dan tiba pada pukul 1415 hari yang sama. Berapa lama perjalanan itu?", options: ["5 jam 45 minit", "6 jam 15 minit", "5 jam 15 minit", "6 jam 45 minit"], answer: 0 }
             ]
         };
 
-        let currentYear = 1;
-        let currentTopicKey = "";
-        let currentLessonObj = null;
-        let selectedQuestionCount = 10;
-        let activeQuestionsPool = [];
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let currentTimerInterval = null;
+        // NAVIGATION & APP STATE
+        window.showScreen = function(screenId) {
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            closeSidebar();
+        }
 
-        window.selectYear = function(year) {
-            currentYear = year;
-            document.getElementById("topic-screen-title").innerText = `Matematik Tahun ${year} 📚`;
+        window.navigateTo = function(screenId) {
+            playClickSound();
+            showScreen(screenId);
+            if(screenId === 'scores-screen') {
+                loadScoreBoard();
+            }
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+        }
+
+        window.toggleSidebar = function(e) {
+            e.stopPropagation();
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        window.selectYear = function(yearNum) {
+            window.activeYear = yearNum;
+            document.getElementById("current-badge-year").innerText = `Tahun ${yearNum}`;
+            document.getElementById("active-year-val").innerText = `Tahun ${yearNum}`;
             
-            const gridContainer = document.getElementById("topic-grid-container");
-            gridContainer.innerHTML = "";
+            // Generate topic buttons based on selected year
+            const grid = document.getElementById("topic-grid-container");
+            grid.innerHTML = "";
+            const yearData = syllabusData[yearNum];
+            
+            document.getElementById("home-greeting").innerText = `Hai ${window.activeProfile}! (Tahun ${yearNum}) 👋`;
 
-            const topics = yearTopics[year];
-            topics.forEach(topic => {
+            yearData.topics.forEach(top => {
                 const btn = document.createElement("button");
                 btn.className = "topic-btn";
-                btn.innerText = topic.name;
+                btn.innerText = top.name;
                 btn.onclick = () => {
                     playClickSound();
-                    openLesson(topic.id);
+                    openLesson(top.id);
                 };
-                gridContainer.appendChild(btn);
+                grid.appendChild(btn);
             });
 
-            showScreen("topic-screen");
-        };
+            showScreen("home-screen");
+        }
 
-        window.openLesson = function(topicKey) {
-            currentTopicKey = topicKey;
-            
+        let currentActiveTopic = null;
+        window.openLesson = function(topicId) {
+            currentActiveTopic = topicId;
             let foundTopic = null;
-            for (let y in yearTopics) {
-                const match = yearTopics[y].find(t => t.id === topicKey);
-                if (match) {
-                    foundTopic = match;
-                    break;
-                }
+            for(let y in syllabusData) {
+                const t = syllabusData[y].topics.find(x => x.id === topicId);
+                if(t) { foundTopic = t; break; }
             }
 
-            if (!foundTopic) return;
-            currentLessonObj = foundTopic;
-
-            document.getElementById("lesson-title").innerText = foundTopic.name;
-            document.getElementById("lesson-desc").innerHTML = foundTopic.desc;
-            document.getElementById("lesson-examples").innerHTML = foundTopic.examples;
-
-            showScreen("lesson-screen");
-        };
+            if(foundTopic) {
+                document.getElementById("lesson-title").innerText = foundTopic.name;
+                document.getElementById("lesson-desc").innerHTML = foundTopic.desc;
+                document.getElementById("lesson-examples").innerHTML = foundTopic.example;
+                showScreen("lesson-screen");
+            }
+        }
 
         window.proceedToQuestionCount = function() {
             showScreen("count-selection-screen");
-        };
+        }
+
+        // QUIZ ENGINE WITH NO REPEATING QUESTIONS IN A SINGLE SESSION
+        let quizQuestions = [];
+        let currentQuestionIndex = 0;
+        let scoreCount = 0;
+        let totalQuestionsCount = 10;
 
         window.startQuizWithCount = function(count) {
-            selectedQuestionCount = count;
-            
-            const rawPool = questionBank[currentTopicKey] || [];
-            if (rawPool.length === 0) {
-                alert("Soalan belum tersedia untuk topik ini.");
+            totalQuestionsCount = count;
+            let rawPool = questionBank[currentActiveTopic] || [
+                { q: "Contoh soalan matematik asas?", options: ["1", "2", "3", "4"], answer: 1 }
+            ];
+
+            // Shuffle array to ensure randomness and NO REPEATING QUESTIONS in session
+            let shuffled = [...rawPool].sort(() => 0.5 - Math.random());
+            quizQuestions = shuffled.slice(0, Math.min(count, shuffled.length));
+            totalQuestionsCount = quizQuestions.length;
+
+            currentQuestionIndex = 0;
+            scoreCount = 0;
+
+            let topicName = currentActiveTopic;
+            for(let y in syllabusData) {
+                let t = syllabusData[y].topics.find(x => x.id === currentActiveTopic);
+                if(t) topicName = t.name;
+            }
+
+            document.getElementById("topic-title").innerText = topicName;
+            document.getElementById("total-q-num").innerText = totalQuestionsCount;
+            document.getElementById("current-score").innerText = scoreCount;
+
+            showScreen("quiz-screen");
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if(currentQuestionIndex >= quizQuestions.length) {
+                finishQuiz();
                 return;
             }
 
-            let shuffled = [...rawPool].sort(() => 0.5 - Math.random());
-            activeQuestionsPool = shuffled.slice(0, Math.min(count, shuffled.length));
+            document.getElementById("question-num").innerText = currentQuestionIndex + 1;
+            const qObj = quizQuestions[currentQuestionIndex];
+            document.getElementById("question-text").innerText = qObj.q;
 
-            currentQuestionIndex = 0;
-            score = 0;
+            const optsContainer = document.getElementById("options-container");
+            optsContainer.innerHTML = "";
+            document.getElementById("next-btn").style.display = "none";
 
-            document.getElementById("active-topic-label").innerText = currentLessonObj.name;
-            document.getElementById("total-q-num").innerText = activeQuestionsPool.length;
+            qObj.options.forEach((optText, idx) => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.innerText = optText;
+                btn.onclick = () => selectOption(idx, qObj.answer, btn);
+                optsContainer.appendChild(btn);
+            });
+        }
 
-            showScreen("quiz-screen");
-            loadCurrentQuestion();
-        };
+        function selectOption(selectedIndex, correctIndex, btnElement) {
+            const allBtns = document.querySelectorAll(".options-container .option-btn, #options-container .option-btn");
+            allBtns.forEach(b => b.style.pointerEvents = "none");
 
-        function loadCurrentQuestion() {
-            // Sambungan fungsi kuiz anda yang seterusnya...
+            if(selectedIndex === correctIndex) {
+                btnElement.classList.add("correct");
+                scoreCount++;
+                document.getElementById("current-score").innerText = scoreCount;
+                playCorrectSound();
+            } else {
+                btnElement.classList.add("wrong");
+                allBtns[correctIndex].classList.add("correct");
+                playWrongSound();
+            }
+
+            document.getElementById("next-btn").style.display = "inline-block";
+        }
+
+        window.nextQuestion = function() {
+            currentQuestionIndex++;
+            loadQuestion();
+        }
+
+        function finishQuiz() {
+            const percentage = Math.round((scoreCount / totalQuestionsCount) * 100);
+            document.getElementById("final-score").innerText = `${percentage}%`;
+            
+            const now = new Date();
+            const timeStr = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+            document.getElementById("completion-time").innerText = `📅 Tarikh: ${timeStr}`;
+
+            let msg = "Teruskan berusaha!";
+            if(percentage === 100) msg = "Hebat! Markah Penuh! 🌟";
+            else if(percentage >= 80) msg = "Syabas! Cemerlang! 👏";
+            else if(percentage >= 50) msg = "Bagus, boleh cuba lagi untuk lebih baik! 👍";
+            document.getElementById("feedback-message").innerText = msg;
+
+            let topicName = currentActiveTopic;
+            for(let y in syllabusData) {
+                let t = syllabusData[y].topics.find(x => x.id === currentActiveTopic);
+                if(t) topicName = t.name;
+            }
+
+            window.saveSessionRecord(topicName, scoreCount, totalQuestionsCount, timeStr);
+            showScreen("result-screen");
+        }
+
+        window.confirmBackToHome = function() {
+            if(confirm("Adakah anda pasti mahu kembali ke halaman utama?")) {
+                navigateTo('home-screen');
+            }
         }
     </script>
 </body>
