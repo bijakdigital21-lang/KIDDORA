@@ -124,16 +124,6 @@
             background-color: #1565C0;
         }
 
-        .nav-item.whatsapp-btn {
-            background-color: #25D366;
-            color: white;
-            margin-top: auto;
-        }
-
-        .nav-item.whatsapp-btn:hover {
-            background-color: #1EBE5D;
-        }
-
         .nav-item.logout-btn {
             background-color: var(--primary-red);
             margin-top: 5px;
@@ -454,16 +444,6 @@
             box-shadow: 0 2px 0 #ccc;
         }
 
-        .login-whatsapp-btn {
-            background-color: #25D366;
-            box-shadow: 0 4px 0 #1EBE5D;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-        }
-
         .home-btn {
             background-color: var(--primary-blue);
             box-shadow: 0 4px 0 #1565C0;
@@ -613,9 +593,6 @@
             <li class="nav-item lang-btn" onclick="playClickSound(); toggleLanguage()">
                 🌐 <span id="lang-label">English</span>
             </li>
-            <a href="https://wa.me/60196818139" target="_blank" class="nav-item whatsapp-btn" onclick="playClickSound(); closeSidebar();">
-                💬 WhatsApp
-            </a>
             <li class="nav-item logout-btn" onclick="playClickSound(); logout()" data-i18n="nav_logout">
                 🚪 Log Keluar
             </li>
@@ -639,8 +616,6 @@
                 
                 <div style="margin-top: 25px; border-top: 2px dashed #DDD; padding-top: 20px;">
                     <p style="font-weight: 700; color: #555; margin-bottom: 10px; font-size: 1rem;" data-i18n="contact_us">Hubungi Kami</p>
-                    <a href="https://wa.me/60196818139" target="_blank" class="action-btn login-whatsapp-btn" onclick="playClickSound()">
-                        💬 WhatsApp
                     </a>
                 </div>
             </div>
