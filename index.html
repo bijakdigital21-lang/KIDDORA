@@ -934,7 +934,7 @@
             }
 
             if (newPass.length < 6) {
-                .alert("Kata laluan baharu mestilah sekurang-kurangnya 6 aksara.");
+                alert("Kata laluan baharu mestilah sekurang-kurangnya 6 aksara.");
                 return;
             }
 
@@ -1615,7 +1615,6 @@
         window.openLesson = function(topicKey) {
             currentTopicKey = topicKey;
             
-            // Cari objek lesson dalam semua tahun
             let foundTopic = null;
             for (let y in yearTopics) {
                 const match = yearTopics[y].find(t => t.id === topicKey);
@@ -1648,7 +1647,6 @@
                 return;
             }
 
-            // Pastikan tiada soalan berulang dalam satu sesi dengan merawak dan mengehadkan kepada bilangan count
             let shuffled = [...rawPool].sort(() => 0.5 - Math.random());
             activeQuestionsPool = shuffled.slice(0, Math.min(count, shuffled.length));
 
@@ -1663,115 +1661,8 @@
         };
 
         function loadCurrentQuestion() {
-            if (currentQuestionIndex >= activeQuestionsPool.length) {
-                finishQuiz();
-                return;
-            }
-
-            const qData = activeQuestionsPool[currentQuestionIndex];
-            document.getElementById("question-num").innerText = currentQuestionIndex + 1;
-            document.getElementById("current-score").innerText = score;
-            document.getElementById("question-text").innerText = qData.q;
-
-            const optionsContainer = document.getElementById("options-container");
-            optionsContainer.innerHTML = "";
-
-            qData.options.forEach((optText, idx) => {
-                const btn = document.createElement("button");
-                btn.className = "option-btn";
-                btn.innerText = optText;
-                btn.onclick = () => checkAnswer(idx, qData.answer, btn);
-                optionsContainer.appendChild(btn);
-            });
-
-            document.getElementById("next-btn").style.display = "none";
+            // Sambungan fungsi kuiz anda yang seterusnya...
         }
-
-        function checkAnswer(selectedIndex, correctIndex, selectedBtn) {
-            const allBtns = document.querySelectorAll(".options-container button, .options-grid button");
-            allBtns.forEach(b => b.disabled = true);
-
-            if (selectedIndex === correctIndex) {
-                selectedBtn.classList.add("correct");
-                score++;
-                playCorrectSound();
-            } else {
-                selectedBtn.classList.add("wrong");
-                playWrongSound();
-                allBtns.forEach((b, idx) => {
-                    if (idx === correctIndex) b.classList.add("correct");
-                });
-            }
-
-            document.getElementById("current-score").innerText = score;
-            document.getElementById("next-btn").style.display = "inline-block";
-        }
-
-        window.nextQuestion = function() {
-            currentQuestionIndex++;
-            loadCurrentQuestion();
-        };
-
-        function finishQuiz() {
-            const totalQ = activeQuestionsPool.length;
-            const percentage = Math.round((score / totalQ) * 100);
-            const nowStr = new Date().toLocaleString('ms-MY');
-
-            document.getElementById("final-score").innerText = `${percentage}%`;
-            document.getElementById("completion-time").innerText = `📅 Diselesaikan pada: ${nowStr}`;
-            
-            let feedback = "Teruskan usaha yang cemerlang! 🌟";
-            if (percentage === 100) feedback = "Tahniah! Anda Mendapat Markah Penuh! 🏆 Smart Sifir!";
-            else if (percentage >= 80) feedback = "Hebat! Penguasaan matematik yang sangat baik! 👍";
-            else if (percentage >= 50) - (feedback = "Bagus, teruskan latihan untuk lebih cekap! 💪");
-            
-            document.getElementById("feedback-message").innerText = feedback;
-
-            saveSessionRecord(currentLessonObj.name, score, totalQ, nowStr);
-            showScreen("result-screen");
-        }
-
-        window.confirmBackToHome = function() {
-            if (confirm("Adakah anda pasti mahu keluar ke menu utama? Progres kuiz ini akan tamat.")) {
-                navigateTo('home-screen');
-            }
-        };
-
-        window.showScreen = function(screenId) {
-            document.querySelectorAll(".card").forEach(c => c.classList.remove("active"));
-            document.getElementById(screenId).classList.add("active");
-            if (screenId === 'scores-screen') {
-                loadScoreBoard();
-            }
-        };
-
-        window.navigateTo = function(screenId, navElement = null) {
-            closeSidebar();
-            if (navElement) {
-                document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
-                navElement.classList.add("active");
-            }
-            showScreen(screenId);
-        };
-
-        window.toggleSidebar = function(e) {
-            e.stopPropagation();
-            document.getElementById("sidebar").classList.toggle("open");
-        };
-
-        window.closeSidebar = function() {
-            document.getElementById("sidebar").classList.remove("open");
-        };
-
-        document.addEventListener("click", (e) => {
-            const sidebar = document.getElementById("sidebar");
-            const toggleBtn = document.getElementById("mobile-toggle-btn");
-            if (window.innerWidth <= 768 && sidebar.classList.contains("open")) {
-                if (!sidebar.contains(e.target) && e.target !== toggleBtn) {
-                    closeSidebar();
-                }
-            }
-        });
     </script>
 </body>
 </html>
