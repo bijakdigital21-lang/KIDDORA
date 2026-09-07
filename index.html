@@ -275,7 +275,7 @@
             box-shadow: none;
         }
 
-        /* MODUL KOTAK DENGAN IMEJ FULL (BUANG PERKATAAN) */
+        /* TOPIC GRID & SUB-MODULE STYLING */
         .topic-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -296,6 +296,7 @@
             transition: all 0.2s ease;
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             aspect-ratio: 1 / 1;
+            position: relative;
         }
 
         .topic-btn img {
@@ -314,6 +315,114 @@
 
         .topic-btn:hover img {
             transform: scale(1.08);
+        }
+
+        /* ABC SUB-MENU CONTAINER */
+        .abc-menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .abc-sub-btn {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+            color: white;
+            border: none;
+            padding: 30px 20px;
+            border-radius: 20px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #4a15b8;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .abc-sub-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 0 #4a15b8;
+        }
+
+        .abc-sub-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 3px 0 #4a15b8;
+        }
+
+        /* FLASHCARD STYLING FOR ABC */
+        .flashcard-box {
+            background: #FFF9C4;
+            border: 4px dashed #FBC02D;
+            border-radius: 25px;
+            padding: 25px;
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .flashcard-letter {
+            font-family: 'Fredoka One', cursive;
+            font-size: 5rem;
+            color: #FF5757;
+            text-shadow: 2px 2px 0 #FFDE59;
+            margin-bottom: 5px;
+        }
+
+        .flashcard-img-container {
+            width: 200px;
+            height: 200px;
+            background: white;
+            border-radius: 20px;
+            border: 3px solid var(--primary-blue);
+            overflow: hidden;
+            margin: 15px 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .flashcard-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .flashcard-text {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.8rem;
+            color: #2C3E50;
+            margin: 10px 0;
+        }
+
+        .sound-btn {
+            background: #FF66C4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #b33687;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .sound-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #b33687;
+        }
+
+        .flashcard-nav {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 20px;
         }
 
         .lesson-box {
@@ -692,7 +801,7 @@
                 </div>
 
                 <div class="topic-grid">
-                    <button class="topic-btn" onclick="playClickSound(); openLesson('abc')">
+                    <button class="topic-btn" onclick="playClickSound(); openABCMenu()">
                         <img src="https://i.imgur.com/HRl0fWA.jpeg" alt="ABC Character">
                     </button>
                     <button class="topic-btn" onclick="playClickSound(); openLesson('numeric')">
@@ -719,6 +828,47 @@
                     <button class="topic-btn" onclick="playClickSound(); openLesson('jobs')">
                         <img src="https://i.imgur.com/Y9TvZHi.jpeg" alt="Jobs & Profession">
                     </button>
+                </div>
+            </div>
+
+            <!-- ABC MODULE TOPICS SELECTION SCREEN -->
+            <div id="abc-menu-screen" class="card">
+                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">ABC Modules 🔤</h2>
+                <p style="color: #666; margin-top: 5px;">Choose your preferred language or mode to learn the alphabet!</p>
+                
+                <div class="abc-menu-grid">
+                    <button class="abc-sub-btn" onclick="playClickSound(); startABC('en')">
+                        <span>🇬🇧</span>
+                        <span>Learn ABC</span>
+                        <span style="font-size: 0.85rem; font-weight: 500; opacity: 0.9;">(English)</span>
+                    </button>
+                    <button class="abc-sub-btn" onclick="playClickSound(); startABC('ms')">
+                        <span>🇲🇾</span>
+                        <span>Belajar ABC</span>
+                        <span style="font-size: 0.85rem; font-weight: 500; opacity: 0.9;">(Bahasa Melayu)</span>
+                    </button>
+                </div>
+                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+            </div>
+
+            <!-- ABC INTERACTIVE FLASHCARD SCREEN -->
+            <div id="abc-flashcard-screen" class="card">
+                <h2 id="abc-screen-title" style="color: #333; margin-bottom: 5px;">Learn ABC</h2>
+                <p style="color: #666; font-size: 0.9rem;" id="abc-progress-indicator">Letter A of Z</p>
+
+                <div class="flashcard-box">
+                    <div class="flashcard-letter" id="abc-letter">A</div>
+                    <div class="flashcard-img-container">
+                        <img id="abc-image" src="" alt="ABC Item">
+                    </div>
+                    <div class="flashcard-text" id="abc-caption">A for Apple</div>
+                    <button class="sound-btn" onclick="playABCSound()">🔊 Listen / Dengar</button>
+                </div>
+
+                <div class="flashcard-nav">
+                    <button class="action-btn home-btn" onclick="playClickSound(); prevABCLetter()" id="prev-abc-btn">⬅ Prev</button>
+                    <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Home 🏠</button>
+                    <button class="action-btn" style="background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); nextABCLetter()" id="next-abc-btn">Next ➡</button>
                 </div>
             </div>
 
@@ -1165,12 +1315,131 @@
             osc.stop(now + 0.25);
         }
 
+        // --- ABC DATA & LOGIC ---
+        const abcDataEn = [
+            { letter: "A", word: "Apple", image: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&q=80" },
+            { letter: "B", word: "Ball", image: "https://images.unsplash.com/photo-1575361204480-aadea25d6e68?w=400&q=80" },
+            { letter: "C", word: "Cat", image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&q=80" },
+            { letter: "D", word: "Dog", image: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400&q=80" },
+            { letter: "E", word: "Elephant", image: "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=400&q=80" },
+            { letter: "F", word: "Fish", image: "https://images.unsplash.com/photo-1524704654690-b56c05c78a00?w=400&q=80" },
+            { letter: "G", word: "Giraffe", image: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400&q=80" },
+            { letter: "H", word: "Horse", image: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=400&q=80" },
+            { letter: "I", word: "Ice Cream", image: "https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=400&q=80" },
+            { letter: "J", word: "Jacket", image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&q=80" },
+            { letter: "K", word: "Kite", image: "https://images.unsplash.com/photo-1533105079780-92b9be482077?w=400&q=80" },
+            { letter: "L", word: "Lion", image: "https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?w=400&q=80" },
+            { letter: "M", word: "Monkey", image: "https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?w=400&q=80" },
+            { letter: "N", word: "Nest", image: "https://images.unsplash.com/photo-1444464666168-49d633b86797?w=400&q=80" },
+            { letter: "O", word: "Orange", image: "https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=400&q=80" },
+            { letter: "P", word: "Pen", image: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=400&q=80" },
+            { letter: "Q", word: "Queen", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80" },
+            { letter: "R", word: "Rabbit", image: "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=400&q=80" },
+            { letter: "S", word: "Sun", image: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=400&q=80" },
+            { letter: "T", word: "Tree", image: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=400&q=80" },
+            { letter: "U", word: "Umbrella", image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400&q=80" },
+            { letter: "V", word: "Violin", image: "https://images.unsplash.com/photo-1612225330812-01a9c6b355ec?w=400&q=80" },
+            { letter: "W", word: "Watch", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80" },
+            { letter: "X", word: "Xylophone", image: "https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=400&q=80" },
+            { letter: "Y", word: "Yacht", image: "https://images.unsplash.com/photo-1569263979104-865ab9cd8d5b?w=400&q=80" },
+            { letter: "Z", word: "Zebra", image: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400&q=80" }
+        ];
+
+        const abcDataMs = [
+            { letter: "A", word: "Ayam", image: "https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=400&q=80" },
+            { letter: "B", word: "Bola", image: "https://images.unsplash.com/photo-1575361204480-aadea25d6e68?w=400&q=80" },
+            { letter: "C", word: "Cili", image: "https://images.unsplash.com/photo-1588836101323-cd55d24f0046?w=400&q=80" },
+            { letter: "D", word: "Duku", image: "https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=400&q=80" },
+            { letter: "E", word: "Epal", image: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&q=80" },
+            { letter: "F", word: "Feri", image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400&q=80" },
+            { letter: "G", word: "Gajah", image: "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=400&q=80" },
+            { letter: "H", word: "Harimau", image: "https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?w=400&q=80" },
+            { letter: "I", word: "Ikan", image: "https://images.unsplash.com/photo-1524704654690-b56c05c78a00?w=400&q=80" },
+            { letter: "J", word: "Jarum", image: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=400&q=80" },
+            { letter: "K", word: "Kucing", image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&q=80" },
+            { letter: "L", word: " Lembu", image: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=400&q=80" },
+            { letter: "M", word: "Mangga", image: "https://images.unsplash.com/photo-1553279768-865429fa0078?w=400&q=80" },
+            { letter: "N", word: "Nenas", image: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=400&q=80" },
+            { letter: "O", word: "Oren", image: "https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=400&q=80" },
+            { letter: "P", word: "Paku", image: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=400&q=80" },
+            { letter: "Q", word: "Quran", image: "https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=400&q=80" },
+            { letter: "R", word: "Rusa", image: "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=400&q=80" },
+            { letter: "S", word: "Susu", image: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=80" },
+            { letter: "T", word: "Topi", image: "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=400&q=80" },
+            { letter: "U", word: "Ular", image: "https://images.unsplash.com/photo-1531306728370-e2ebd9d7bb99?w=400&q=80" },
+            { letter: "V", word: "Van", image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400&q=80" },
+            { letter: "W", word: "Wisel", image: "https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=400&q=80" },
+            { letter: "X", word: "Xarif", image: "https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=400&q=80" },
+            { letter: "Y", word: "Yoyo", image: "https://images.unsplash.com/photo-1575361204480-aadea25d6e68?w=400&q=80" },
+            { letter: "Z", word: "Zirafah", image: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400&q=80" }
+        ];
+
+        let currentABCMode = 'en'; // 'en' or 'ms'
+        let currentABCIndex = 0;
+
+        function openABCMenu() {
+            showScreen('abc-menu-screen');
+        }
+
+        function startABC(mode) {
+            currentABCMode = mode;
+            currentABCIndex = 0;
+            showScreen('abc-flashcard-screen');
+            renderABCFlashcard();
+            playABCSound();
+        }
+
+        function renderABCFlashcard() {
+            const list = currentABCMode === 'en' ? abcDataEn : abcDataMs;
+            const item = list[currentABCIndex];
+            
+            document.getElementById("abc-screen-title").innerText = currentABCMode === 'en' ? "Learn ABC" : "Belajar ABC";
+            document.getElementById("abc-progress-indicator").innerText = `Letter ${item.letter} of Z (${currentABCIndex + 1} / ${list.length})`;
+            document.getElementById("abc-letter").innerText = item.letter;
+            document.getElementById("abc-image").src = item.image;
+            
+            const caption = currentABCMode === 'en' ? `${item.letter} for ${item.word}` : `${item.letter} untuk ${item.word}`;
+            document.getElementById("abc-caption").innerText = caption;
+
+            document.getElementById("prev-abc-btn").style.display = currentABCIndex === 0 ? "none" : "inline-block";
+            document.getElementById("next-abc-btn").innerText = currentABCIndex === list.length - 1 ? "Finish 🏁" : "Next ➡";
+        }
+
+        function nextABCLetter() {
+            const list = currentABCMode === 'en' ? abcDataEn : abcDataMs;
+            if (currentABCIndex < list.length - 1) {
+                currentABCIndex++;
+                renderABCFlashcard();
+                playABCSound();
+            } else {
+                alert(currentABCMode === 'en' ? "Great job completing Learn ABC! 🎉" : "Tahniah! Anda telah tamat Belajar ABC! 🎉");
+                navigateTo('home-screen');
+            }
+        }
+
+        function prevABCLetter() {
+            if (currentABCIndex > 0) {
+                currentABCIndex--;
+                renderABCFlashcard();
+                playABCSound();
+            }
+        }
+
+        function playABCSound() {
+            const list = currentABCMode === 'en' ? abcDataEn : abcDataMs;
+            const item = list[currentABCIndex];
+            const textToSpeak = currentABCMode === 'en' ? `${item.letter} for ${item.word}` : `${item.letter} untuk ${item.word}`;
+            
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // Stop any ongoing speech
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                utterance.lang = currentABCMode === 'en' ? 'en-US' : 'ms-MY';
+                utterance.rate = 0.85; // slightly slower for kids
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
         const lessonData = {
-            abc: {
-                title: "ABC Character",
-                desc: "Let's learn the alphabet from A to Z! Recognizing uppercase and lowercase letters is an essential first step for reading.",
-                examples: "<ul><li>Uppercase: <i>A, B, C, D...</i></li><li>Lowercase: <i>a, b, c, d...</i></li></ul>"
-            },
             numeric: {
                 title: "Number",
                 desc: "Let's count numbers from 1 to 10 and beyond! Counting helps us understand quantity and math basics.",
@@ -1214,18 +1483,6 @@
         };
 
         const questionBank = {
-            abc: [
-                { q: "What letter comes after 'A'?", options: ["B", "C", "D", "Z"], answer: 0 },
-                { q: "Which of these is a vowel letter?", options: ["B", "C", "A", "T"], answer: 2 },
-                { q: "What letter comes before 'C'?", options: ["A", "B", "D", "E"], answer: 1 },
-                { q: "Find the lowercase letter for 'M':", options: ["m", "w", "n", "u"], answer: 0 },
-                { q: "What is the first letter of the alphabet?", options: ["Z", "A", "B", "M"], answer: 1 },
-                { q: "Which letter comes after 'F'?", options: ["E", "G", "H", "I"], answer: 1 },
-                { q: "Find the uppercase letter for 's':", options: ["S", "C", "Z", "X"], answer: 0 },
-                { q: "Which letter is at the very end of the alphabet?", options: ["Y", "X", "Z", "W"], answer: 2 },
-                { q: "What letter comes between 'D' and 'F'?", options: ["C", "E", "G", "H"], answer: 1 },
-                { q: "Which of these is a consonant?", options: ["E", "A", "O", "P"], answer: 3 }
-            ],
             numeric: [
                 { q: "What number comes after 2?", options: ["1", "3", "4", "5"], answer: 1 },
                 { q: "How many fingers do you have on one hand?", options: ["3", "4", "5", "10"], answer: 2 },
@@ -1431,7 +1688,7 @@
                 playWrongSound();
             }
 
-            document.getElementById("current-score").innerText = score;
+                document.getElementById("current-score").innerText = score;
             document.getElementById("next-btn").style.display = "inline-block";
         }
 
