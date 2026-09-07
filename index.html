@@ -847,6 +847,11 @@
                         <span>Belajar ABC</span>
                         <span style="font-size: 0.85rem; font-weight: 500; opacity: 0.9;">(Bahasa Melayu)</span>
                     </button>
+                    <button class="abc-sub-btn" style="grid-column: span 2; background: linear-gradient(135deg, var(--primary-pink), var(--primary-yellow)); color: var(--text-dark); box-shadow: 0 6px 0 #b33687;" onclick="playClickSound(); startABCTracing()">
+                        <span>✍️</span>
+                        <span>ABC Tracing</span>
+                        <span style="font-size: 0.85rem; font-weight: 700; opacity: 0.9;">(Trace Uppercase & Lowercase A-Z)</span>
+                    </button>
                 </div>
                 <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
@@ -869,6 +874,26 @@
                     <button class="action-btn home-btn" onclick="playClickSound(); prevABCLetter()" id="prev-abc-btn">⬅ Prev</button>
                     <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Home 🏠</button>
                     <button class="action-btn" style="background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); nextABCLetter()" id="next-abc-btn">Next ➡</button>
+                </div>
+            </div>
+
+            <!-- ABC TRACING SCREEN -->
+            <div id="abc-tracing-screen" class="card">
+                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">ABC Tracing ✍️</h2>
+                <p style="color: #666; font-size: 0.9rem;" id="tracing-progress">Letter 1 of 26</p>
+
+                <div class="flashcard-box" style="background: #FFF; border: 4px dashed var(--primary-blue);">
+                    <div style="font-size: 1.2rem; font-weight: 700; color: #555; margin-bottom: 5px;" id="tracing-letter-display">A a</div>
+                    <div style="position: relative; width: 300px; height: 300px; background: #F8FAFC; border-radius: 20px; border: 3px solid #CBD5E1; margin: 10px auto; overflow: hidden; touch-action: none;">
+                        <canvas id="tracing-canvas" style="display: block; width: 100%; height: 100%; cursor: crosshair;"></canvas>
+                    </div>
+                    <button class="sound-btn" style="background-color: #E74C3C; box-shadow: 0 4px 0 #922B21;" onclick="playClickSound(); clearTracingCanvas()">🔄 Clear / Padam</button>
+                </div>
+
+                <div class="flashcard-nav">
+                    <button class="action-btn home-btn" onclick="playClickSound(); prevTracingLetter()" id="prev-tracing-btn">⬅ Prev</button>
+                    <button class="action-btn home-btn" onclick="playClickSound(); showScreen('abc-menu-screen')">ABC Menu 🔤</button>
+                    <button class="action-btn" style="background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); nextTracingLetter()" id="next-tracing-btn">Next ➡</button>
                 </div>
             </div>
 
@@ -1318,7 +1343,7 @@
         // --- ABC DATA & LOGIC ---
         const abcDataEn = [
             { letter: "A", word: "Apple", image: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&q=80" },
-            { letter: "B", word: "Ball", image: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxUPDxAPFRUVFRUVDxUPFQ8PDw8PFRUWFhUVFRUYHSggGBolGxUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDg0OFw8QGisdHR0tKy0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLSsrLS0tKystLS0tLS0tLS0tLS0tLf/AABEIAQQAwgMBIgACEQEDEQH/xAAcAAABBQEBAQAAAAAAAAAAAAABAAIDBAUHBgj/xABBEAACAQMBBQUFBAgEBwEAAAABAgADBBEhBQYSMUEHE1FhcSIygZGhQmKx0RQjM0NSgrLBc5Lh8SU1VGNyovAI/8QAGQEAAwEBAQAAAAAAAAAAAAAAAAECAwQF/8QAIBEBAQEAAgMAAwEBAAAAAAAAAAECAxESITEEQVETMv/aAAwDAQACEQMRAD8A42IQIgJIqyUgqyVaceiSVVk9ouka05IEjwI7EXbK7MCQ8EkxFiLtF2i4ICkmxERDsTauacYaUtFY0rH2ucim1OMKy6VkbJH20m1MiDEsMkiKx9rlRwRxEBjMDBDAYAIIYoA2COggAxBFFH2FtBJkWNRZOokVGqKiSARAR4Elz60AEcBCBDiHTG7DEWI7EOI2fmZiLEfiLEB5GYgxH4ixDpU2ixGkSXEBETTO0DLImSWiJGyx9t87U2WRkS06yFlj7bSoYI8iNlKNgjoDAGmCOgMAEUWIoBpIJKojVElUSHPvRyiPAgEeBByb0QEIEOIYMbQxDiHEUE9hiLEMUB2biDEfFA+zMRpEkxERA5pCRGMsnIjSsG2ORWYSF1lphImWEdeNKbLIyJZdZCwlRvKjghIgjMII4xpgAxFDFANZRJVEagkgEzcHJoRHgQCOEbltIQxQxoKKKAmBlFmMZxI2uVHURLnHq/InilQ3qeIhW9Q9RBX+G/4txSNagPKPBjZWWfSxGkR8BEQlRMsiYSwwkbCDfj2qusrusuOsgdYR3Y0qMI2SuJGZTaGwR0EYNihxFANlRJFjVjxIjy904RwgEIgwoxRSOrUAGTGJLb1CqOBzmbcbR6LK93dFjpylXEcj0uL8eZnevdSVK7HmTI8xRYlOkIRFiGMz6dZl5EzQtto9GmZiLEmyM98edz3HpEcHUR8wLW6KenhNmhWDDIkvO5vx7j3PiUiMYSSAiJhKrsshcSywkTiJ28W1OosgYS44lZxKjszUJgjjBKUEUUUA2lkgjFjxIeTo4QwQwZExmPtC5yeEcpev63CvnMQyo7/xeP150MQwgRYjdgRYhhxAGxR2IcQBkUdiLEAbJbeuUOR8RGERuICzv1XoKFYMMiSzCsrjgbyPObinMmx5fPxeF9fKDSJhJzImEVTx69qziVqglxxK9UQj0MVUaNkjCMMpsbFDBGG4seBGLJBIeRoREYhAxgz/AGyNp1MtjwlMCSVmyxPnGCXHs4z45kKHEIEIEFBiHEko0WZgiKzMxwqqCzMx5AAakzrm5HZQoC3G1Bk6FbdT7K/4rD3j90aeOZOtSfVTNvxzHYuwLu7bhtLepVx7xUAU1P3nbCj0Jns7TsluBgXVwiM2StK2pVbqu4GM8+BF5gZLYGRrrO8WFJEASmqIiDAVQFRV8ABoJ4Xbu8t5R2zx2djXuqbUFSoaKOQp7xjgVMcOdOWRz8pE5Zr4u8fX1gW/ZQgXS1rE4GDd1jxaj+ChwBfTibnznnNrbj9yx7ygoAH7pq5HPrxVCR8x6zrdXfq4RQ1TYm1Ry4uFKLgZ8OFyT8pyXfbtDuKtTBtalvkEBaylKnCc9Dz6cvD1leV76hePr28htOzoocKCMZ4gOLXHTLFtfz+E293917LaI7uzu6lG6AJ7i9COlbAyTSrUwM4xqCufIzAs6Nze1RQt6TVKjdFH2RjUk6Ko6scDlOk7u9k5psta6u6i1FIZVssL3bA5/asDk+i/Ex3XX0s57c83h3WvLI4uqDKucCovt0W9HGg9DgyLZlxkcB5jl6T6Q4D3fduxqAjDd+KbFx4HhAHzBnOt6OzmkxNewxScatSOe5fx4f4Php5CTN9/Ynm4ZrNjwsYwk9e3emxSorKw5q2hH5jzkLCN4vVl6QOJXqCW2Er1BE7uKqTiRGT1BITLjqhsEMUZttZIJGskEh4+xEbV5H0j5HX90+kCx/1Hn44QCOEt7RASSlTLEKoJJIChRlmYnAAHUkxqidM7Ldgon/ELga8rUMMYBGtUZ55zgH1PUSN68Z2ec+V6es7O9zKdjTFeuFa5canmKCn92nn4nr6T1la+54OANSTyA8TKIrF9SQq9C5CAjyzKvfJUbgpMGRSeJlIK1KqnBwRzCkEeoPgDOa8W9+9fP46prOfWWnSuC3vZ4f4T9rzby+7888hda8YgDkByA0AHlKNJZZVZvngk+sry9nAnqTIryzp1UNOtTR1IwVqAOpHoZYRZMtOa/wCeUedYWwdgW9mav6NSVO9ZS3CAuFVQAowPdGpx4kmabCWTQ1ERo4hnHVo1r0oPKtcaeHh5TSejK70Zr1GfdeW29sWhc0S1RqdN0+07LT4SdQQTpwnB9ny6aTlV3QKOyEqeE4yhV1PmCNCJ1Pfrd4XVnUQAFgOOl5VFGR8+XxnBtn3ZRtfdPvDw85nvLn5+HznlPsbjSCoJYaQVJkw4ap1RIGlirK7So7obFFFKNsrJAZChkokR5fJDxG1eR9I4RNBjPVjzwjhDUXDEeZhWU9ps7p7J/SrtKTe571X/AA15j46D4za7TN6+O77qyqstOmlNG7vKBaqKEZVI5gcI+sztl3xtbGtXXSpVPdUj1VRzYfEn5CePk5nlru/pcvUTNc1CSTUqEsMMSzEsDzBOdZ3bsyujXsFqMctx1OPXPtF2J8T16zgi851rsN2iP19ox1yKqcuRwrfgvzmvXsnVqSSylONRZapJKAKkkRZIqShvFt22sLc3N2/CvKmo1q1n6Ki9T9BzOIiXbivTp0zVrOiIurPUIRFHmTCjLUQPTZHU8mpkOp9CNJ8y78783O0quah4KKn9TQQ+wn3mP238zy6YmXu9vJd2NTvLOu9M5yyg5pVPJ6Z0b8YuzfVLJK1WnPK7hdptttArb3IWhdHRR+4uG/7ZPut90/Ame5q0OhEqUumM6+M+Y957bur65pgaLXqgf+PGcfTE+ob4Kg9rOeirqx+HQeZnz/2hbs3NOtVvSpNOpULNj2jTLfxaaDOnyhSjF2XX4k4TzX6r0k9SZOzHxUHnkf3/ALTWqTDU9ufWPHfr9qlWV2k9WQMY42hsUUEpTVQyVTK6GTqZm4eXKUQxojo3HWTfph8+OshWaG06eV4vD8DM9I/09Xh35YlaG30ItqA6aj+bhVz/AF/SefE9vvHQpmwpICxrio9UIoB/UMMZJzpoBjnyM8THj43Op857zsu2NdG6W8ogcKEg8WeF1PssrY6+HoCemfP7l7uPf3S0BkIParsPs0/LzPIfHwn0rsnZtOjSWlSUKqjAA/GWDrVqmPaQfyt+azRpVB1Vh8iIkWTLGGfvJvDb2NpUu63EQgGEAw1SoxwqjPLJ6z5j3n3iudo3RuLl8k6U0H7OjTzoiA8h59eZn05vHsdbu0rWrfvabKDp7LYyrD0YA/CfM1hsN8sGDB6bNTqqRju6qnhIznXWEz3S1rqMdrc+f9h5SKohBwf9J6ers8j7PENeegByBrjGmczKv7U65IyM54eWfH/XyEdz0jO+2WrT6H7H96ri9snpXD8T27BO8P7SpSZcrxHqRgjPM6dZ88spHT8ec7n/APn22IsrmpjRq4UefBTBP9Ulo6Q1qvPHqTqT6nrKN1ZKwKsoIOhBGQQdMYmuRK1YS4mvnffrc82d8gt1JpVmzRGp7tgcsmfADUeXpMeoZ3/eG2Rl4nUHgDshIBKMV4SR54Yj4z5/qmZck6sZ792KtUyBjJXkRii4bFBFGa/TaWEMp0zLKGRWG8rCmPEiUyQQcO89C65BBmNUQqxB/wBxNoGQXtvxDI5jl5+Ua/x+XwvjflbGxafE3eHVmOc+WAFA9As39o9m9K6XvbZ1o1CMkEZoufQaqc9R8phbtOTTUY1Gny0nSNh3JVVH/wAJXHHpWoezHd42dF6dThNXvHFUrkglCVGCemB9Z0GmJm29ELUbH2jxj+cZP1zNOnNOgnSPWMWPERp1nHO0SyFhthbkj9Regd5oWVLlBgnH3hwn5+E7Ehnn+0ndwX+z6lAY7wAPbk/ZrL7oz0BBKnyYwmvG9wrPKdV45tgUKtMVEKcsnizk/KeC3q2YqAkaa8zkDJzpr5Ym1sHdjeO3I4KFEheQrVKRHpocy/t7dDb18vDWpbPpDIJ4HcHIOegOefWb3kzYxnFZXHazDlrpz6z6f7M9iG02Tb0nGHdTVq+Ier7WD6AgfCeB3Z7Gnp10rX1ak6owY0qQYioQcgMxxpnpjynaCRjSc7fpXcSpVlx5SuDiVCYG8jYt6zeFGofwnz3WM7j2h3nd7OqnrUxTX0zg/j9JwusZHJ9iL9V3MiMe5kZkxcCKCKMLKGTo0qqZKjSamxcRpKplVGk6tJcvJhODHAyIGOBjcmstPY1bhqY8T9Z7rZdXOJzVHwciex2BfcQB6jn5GXi9V2fj8nlPG/Y6nYPxUgR7yDkPtIefxHP5y9SqA8pibv3GcYnmts9pdpbbSq2rJU7tCFepTw6ivzccHPAzjTOoOk2rqjpCmSqZ5vY++Gz7gfqbugT/AAlwj/FGwfpN1blCMh1+YkmtoY8HiOTyHLzlKncq3uMD4lSCBjQjI6y0p0iqk/FjlAzSLMWYugcYwnB8j9DDmR1eUfQBzPJ76b2W1jTLVnBcj9XSUg1ah8h0HmdJy3fXtK2j+k1rahXSnTR2RWoqveso5EuScH0x8JzmtWeoxZmZnY6s5Lux8ydTH30XTrfartpKqWtOkTwPSSuPHhdQVz5niPynM6jS/tO9NRlJ5JTp0qY58NOkioo/9c+pMy3aZW93tEMYxhhJjTGoooIoBIDJFMhBj1MQqwjSdGlNTJkaTWeouK0eDKytJVaJz7wmBl3Z16aT8Q1H2h4j85ngx4Mfbm6ub3HXN2L/ADh1ywIyuOpHT1zOBXVd3qPUqe+7Mz50PGxJb6kz2mxdt17V+Ki+B9pTqjfDx847eXZKX5a8sUArnLXVsPeqNzarQH2ieZUa51Gc4mvl27uHmzr1frwmYRjwHyEQ0yGBzqP4Sref5RsHS7j2K70Cr3lnUID5Nanoqg8ZzVCgffJbH3/KdaBnyFsbalW2r07mi2HpsGXwPip8iMg+s+m90966F9bLXpHB5VUbHFSqY1U/2PUSp7J6QGLMiFQGNaqPEQJMTPGdpu96WFoQjDv6oK0F5lehqEeA/HE0N7dr3NvavWtbVq7jkgOCB1YqPaYDwGpnzVtW/uby4evWLVKjH2yfZVB0XwRR0EL6NnM2dfnL1lQwONuf2fIeMdRsQpy5BPQD3frzktRpldd+kXXfqGVWldjHO0jJhDgQGKAxmUUEUAfCDGgwwB4MkUyERwMRLCNJlaVA0kVok2LYaSBpVVpIGksdYWA0kp1SCGUkEaggkEHxBlYNCGgwvE2615a3X/MaLM//AFNsVpXXT9oCOGry5kcWOsmXs4o1qbVbLaKVMa93UpFKqr1zwsckek8/xR9OsyniUkHoVJUj4iVN/wBa45N59X29Lsfsxplgbm8HD1WghDN/O3L5Tq2w6tpZ0Bb2tNUQc+pdurMebHzM4jQ25cp7tap/MeP+rMmO812f3x/y0/ymk5M/xr/rXcKm8CDktP8Ayj8pnXu91OmMvUpoP5VJnFq+2Lh/erVD6EqPkJRZ+v8AvC8s/ULz06btntJABW3BY9GbKoP7mc92ntStXcvWqMx5jOijPgOQlFnkTPM9auvp9W/TnaV3aF2kLGEjSQGMbEYJSiMaYTGwBQwRQAiOEYDHAwB0OY2GAPBjgZHmEGIJlaSBpXBjwYk2LIaODSANHBokXKbMWZEGh4odJ8UuYMxmYiYdDo4tGlo0mNJgqQmaRs0RMjYxrkImMMRMEaggJhJjSYwUbFFmAKKCKMEI7MYDCDAHgxwMZmHMQOhzG5hgDwY4GRwgxBKGjg0hzCDDouk4aOBkAaODRF0mBhzIeKHjgXR5MjJgLRpaByETGExExsaigMUBMYAwGImAwAQZiMEoDmCGKANEIiigDhCIooqDhDFFEBiiigBhEUUAIhBiigBzFmKKIATATFFGDTBFFABGmKKACAxRRgIoIowOIooog//Z" },
+            { letter: "B", word: "Ball", image: "data:image/jpeg;base64,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" },
             { letter: "C", word: "Cat", image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&q=80" },
             { letter: "D", word: "Dog", image: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400&q=80" },
             { letter: "E", word: "Elephant", image: "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=400&q=80" },
@@ -1437,6 +1462,127 @@
                 utterance.rate = 0.3; // slightly slower for kids
                 window.speechSynthesis.speak(utterance);
             }
+        }
+
+        // --- ABC TRACING LOGIC ---
+        let currentTracingIndex = 0;
+        const alphabetList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+        let tracingCanvas, tracingCtx;
+        let isDrawing = false;
+
+        function initTracingCanvas() {
+            tracingCanvas = document.getElementById('tracing-canvas');
+            if (!tracingCanvas) return;
+            tracingCtx = tracingCanvas.getContext('2d');
+            
+            tracingCanvas.width = 300;
+            tracingCanvas.height = 300;
+
+            if (!tracingCanvas.dataset.listenersAttached) {
+                tracingCanvas.addEventListener('mousedown', startDraw);
+                tracingCanvas.addEventListener('mousemove', draw);
+                tracingCanvas.addEventListener('mouseup', stopDraw);
+                tracingCanvas.addEventListener('mouseleave', stopDraw);
+
+                tracingCanvas.addEventListener('touchstart', handleTouch, { passive: false });
+                tracingCanvas.addEventListener('touchmove', handleTouch, { passive: false });
+                tracingCanvas.addEventListener('touchend', stopDraw);
+                tracingCanvas.dataset.listenersAttached = "true";
+            }
+        }
+
+        function startDraw(e) {
+            isDrawing = true;
+            tracingCtx.beginPath();
+            const rect = tracingCanvas.getBoundingClientRect();
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            if (clientX === undefined || clientY === undefined) return;
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+            tracingCtx.moveTo(x, y);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            e.preventDefault();
+            const rect = tracingCanvas.getBoundingClientRect();
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            if (clientX === undefined || clientY === undefined) return;
+            
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+            
+            tracingCtx.lineWidth = 14;
+            tracingCtx.lineCap = 'round';
+            tracingCtx.lineJoin = 'round';
+            tracingCtx.strokeStyle = '#FF66C4';
+            tracingCtx.lineTo(x, y);
+            tracingCtx.stroke();
+        }
+
+        function stopDraw() {
+            isDrawing = false;
+        }
+
+        function handleTouch(e) {
+            if (e.type === 'touchstart') {
+                startDraw(e);
+            } else if (e.type === 'touchmove') {
+                draw(e);
+            }
+        }
+
+        function renderTracingLetter() {
+            if (!tracingCtx) initTracingCanvas();
+            const letterU = alphabetList[currentTracingIndex];
+            const letterL = letterU.toLowerCase();
+            
+            document.getElementById("tracing-progress").innerText = `Letter ${currentTracingIndex + 1} of 26`;
+            document.getElementById("tracing-letter-display").innerText = `${letterU}  ${letterL}`;
+            
+            tracingCtx.clearRect(0, 0, tracingCanvas.width, tracingCanvas.height);
+            
+            tracingCtx.font = 'bold 90px "Fredoka One", cursive';
+            tracingCtx.fillStyle = '#E2E8F0';
+            tracingCtx.textAlign = 'center';
+            tracingCtx.textBaseline = 'middle';
+            tracingCtx.fillText(`${letterU} ${letterL}`, tracingCanvas.width / 2, tracingCanvas.height / 2);
+
+            document.getElementById("prev-tracing-btn").style.display = currentTracingIndex === 0 ? "none" : "inline-block";
+            document.getElementById("next-tracing-btn").innerText = currentTracingIndex === alphabetList.length - 1 ? "Finish 🏁" : "Next ➡";
+        }
+
+        function clearTracingCanvas() {
+            renderTracingLetter();
+        }
+
+        function nextTracingLetter() {
+            if (currentTracingIndex < alphabetList.length - 1) {
+                currentTracingIndex++;
+                renderTracingLetter();
+                playClickSound();
+            } else {
+                alert("Awesome! You finished tracing all letters from A to Z! 🎉");
+                showScreen('abc-menu-screen');
+            }
+        }
+
+        function prevTracingLetter() {
+            if (currentTracingIndex > 0) {
+                currentTracingIndex--;
+                renderTracingLetter();
+                playClickSound();
+            }
+        }
+
+        function startABCTracing() {
+            currentTracingIndex = 0;
+            showScreen('abc-tracing-screen');
+            setTimeout(() => {
+                renderTracingLetter();
+            }, 50);
         }
 
         const lessonData = {
@@ -1688,7 +1834,7 @@
                 playWrongSound();
             }
 
-                document.getElementById("current-score").innerText = score;
+            document.getElementById("current-score").innerText = score;
             document.getElementById("next-btn").style.display = "inline-block";
         }
 
