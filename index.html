@@ -1,393 +1,1469 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kiddora - Belajar ABC</title>
+    <title>KIDDORA - Tadika Kindergarten Kids App</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-yellow: #FFDE59;
+            --primary-pink: #FF66C4;
+            --primary-blue: #5CE1E6;
+            --primary-green: #7ED957;
+            --primary-purple: #C38FFF;
+            --sidebar-bg: rgba(74, 35, 90, 0.95);
+            --sidebar-text: #FFFFFF;
+            --text-dark: #2C3E50;
+            --white: rgba(255, 255, 255, 0.95);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Comic Sans MS', 'Bubblegum Sans', 'Poppins', sans-serif;
-            user-select: none;
         }
 
         body {
-            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('https://i.imgur.com/H46KuIJ.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            backdrop-filter: blur(8px);
+            color: var(--sidebar-text);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 15px;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 100;
+            position: fixed;
             height: 100vh;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar-logo {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 10px auto;
+            background: #E0F7FA;
+            border-radius: 50%;
+            padding: 4px;
+            border: 3px dashed var(--primary-green);
+            overflow: hidden;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        .sidebar-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .sidebar-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.5rem;
+            color: var(--primary-yellow);
+            text-align: center;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.85rem;
+            text-align: center;
+            color: #BDC3C7;
+            margin-bottom: 25px;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        .nav-item {
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s ease;
+            color: #ECF0F1;
+            text-decoration: none;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: var(--primary-pink);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-item.whatsapp-btn {
+            background-color: #25D366;
+            color: white;
+            margin-top: auto;
+        }
+
+        .nav-item.whatsapp-btn:hover {
+            background-color: #1EBE5D;
+        }
+
+        .nav-item.logout-btn {
+            background-color: #E74C3C;
+            margin-top: 5px;
+        }
+
+        .nav-item.logout-btn:hover {
+            background-color: #C0392B;
+        }
+
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: var(--sidebar-bg);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            margin-left: 250px;
+            padding: 40px 30px;
             display: flex;
             justify-content: center;
-            align-items: center;
-            overflow: hidden;
+            align-items: flex-start;
+            min-height: 100vh;
         }
 
         .container {
+            background-color: var(--white);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             width: 100%;
-            max-width: 600px;
-            height: 100%;
-            max-height: 800px;
-            background: #fff;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-        }
-
-        @media (min-width: 601px) {
-            .container {
-                border-radius: 30px;
-                height: 90vh;
-            }
-        }
-
-        /* Skrin Pemilihan Bahasa */
-        #language-screen {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
-            padding: 20px;
+            max-width: 650px;
+            padding: 30px;
             text-align: center;
+            border: 5px solid var(--primary-yellow);
+            position: relative;
         }
 
-        .logo-title {
-            font-size: 3.5rem;
-            color: #ff4757;
-            text-shadow: 3px 3px 0px #ffa502;
+        .card {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .card.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .input-group {
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 1rem;
+            border: 2px solid var(--primary-blue);
+            border-radius: 12px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            outline: none;
+            background: #fff;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary-pink);
+        }
+
+        .home-header {
+            margin-bottom: 15px;
+        }
+
+        .home-app-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 8px auto;
+            border-radius: 50%;
+            border: 4px solid var(--primary-yellow);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .home-intro-title {
+            font-family: 'Fredoka One', cursive;
+            color: #5E17EB;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+        }
+
+        .home-intro-subtitle {
+            font-size: 0.95rem;
+            color: #555;
+            font-weight: 700;
+        }
+
+        .active-profile-badge {
+            background: #E0F7FA;
+            border: 2px dashed var(--primary-blue);
+            padding: 8px 15px;
+            border-radius: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .switch-profile-btn {
+            background: var(--primary-purple);
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 2px 0 #8d5cc4;
+        }
+
+        .switch-profile-btn:active {
+            transform: translateY(1px);
+            box-shadow: none;
+        }
+
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .topic-btn {
+            background-color: var(--primary-blue);
+            color: var(--text-dark);
+            border: none;
+            padding: 15px 12px;
+            border-radius: 18px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 5px 0 #3bafb3;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .topic-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 0 #3bafb3;
+        }
+
+        .topic-btn:nth-child(9n-8) { background-color: var(--primary-blue); box-shadow: 0 5px 0 #3bafb3; }
+        .topic-btn:nth-child(9n-7) { background-color: var(--primary-pink); box-shadow: 0 5px 0 #c74597; color: white;}
+        .topic-btn:nth-child(9n-6) { background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d; }
+        .topic-btn:nth-child(9n-5) { background-color: var(--primary-purple); box-shadow: 0 5px 0 #8d5cc4; color: white;}
+        .topic-btn:nth-child(9n-4) { background-color: var(--primary-yellow); box-shadow: 0 5px 0 #c2a332; }
+        .topic-btn:nth-child(9n-3) { background-color: #FF7043; box-shadow: 0 5px 0 #D84315; color: white; }
+        .topic-btn:nth-child(9n-2) { background-color: #AB47BC; box-shadow: 0 5px 0 #7B1FA2; color: white; }
+        .topic-btn:nth-child(9n-1) { background-color: #26A69A; box-shadow: 0 5px 0 #00796B; color: white; }
+        .topic-btn:nth-child(9n) { background-color: #EC407A; box-shadow: 0 5px 0 #C2185B; color: white; }
+
+        .lesson-box {
+            background: #F0F4F8;
+            border-radius: 18px;
+            padding: 20px;
+            text-align: left;
+            margin: 20px 0;
+            border-left: 6px solid var(--primary-purple);
+        }
+
+        .lesson-title {
+            font-family: 'Fredoka One', cursive;
+            color: #5E17EB;
+            font-size: 1.6rem;
             margin-bottom: 10px;
         }
 
-        .logo-subtitle {
-            font-size: 1.5rem;
-            color: #2f3542;
-            margin-bottom: 40px;
+        .lesson-desc {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
         }
 
-        .lang-btn-container {
-            display: flex;
-            gap: 20px;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .lang-btn {
-            flex: 1;
-            padding: 20px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            color: white;
-            box-shadow: 0 6px 0 rgba(0,0,0,0.15);
-            transition: transform 0.1s, box-shadow 0.1s;
-        }
-
-        .lang-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 rgba(0,0,0,0.15);
-        }
-
-        .btn-bm { background-color: #2ed573; }
-        .btn-bi { background-color: #1e90ff; }
-
-        /* Skrin Utama Modul ABC */
-        #abc-screen {
-            display: none;
-            flex-direction: column;
-            height: 100%;
-            background: #fffdf9;
-        }
-
-        .app-header {
-            background-color: #ffa502;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .header-title {
-            font-size: 1.8rem;
-            font-weight: bold;
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
-        }
-
-        .back-btn {
-            background: #ff4757;
-            border: none;
-            padding: 8px 15px;
+        .lesson-example {
+            background: #FFFFFF;
+            padding: 12px 15px;
             border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 0 #b33939;
+            border: 2px dashed var(--primary-blue);
+            margin-top: 10px;
         }
 
-        .back-btn:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #b33939;
+        .lesson-example ul {
+            padding-left: 20px;
+            margin-top: 5px;
         }
 
-        .card-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            position: relative;
-        }
-
-        .letter-card {
-            background: white;
-            width: 100%;
-            max-width: 350px;
-            height: 440px;
-            border-radius: 30px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-around;
-            padding: 20px;
-            border: 5px solid #70a1ff;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .letter-card:hover {
-            transform: scale(1.02);
-        }
-
-        .big-letter {
-            font-size: 5.5rem;
-            font-weight: bold;
-            color: #ff4757;
-            line-height: 1;
-            text-shadow: 3px 3px 0px #ffeaa7;
-        }
-
-        .card-image-container {
-            width: 150px;
-            height: 150px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #f1f2f6;
-            border-radius: 20px;
-            box-shadow: inset 0 4px 6px rgba(0,0,0,0.05);
-            overflow: hidden;
-            border: 3px solid #dfe4ea;
-        }
-
-        .card-image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .word-label {
-            font-size: 2rem;
-            color: #2f3542;
-            font-weight: bold;
-            text-transform: capitalize;
-        }
-
-        .nav-controls {
+        .quiz-header {
             display: flex;
             justify-content: space-between;
-            padding: 20px;
-            background: #f8f9fa;
-            gap: 15px;
+            align-items: center;
+            margin-bottom: 20px;
+            font-weight: 700;
+            background: #FFF9C4;
+            padding: 10px 20px;
+            border-radius: 15px;
         }
 
-        .nav-btn {
-            flex: 1;
+        .question-box {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 25px 0;
             padding: 15px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border: none;
+            background-color: #F0F4F8;
             border-radius: 15px;
-            background-color: #3742fa;
-            color: white;
-            cursor: pointer;
-            box-shadow: 0 5px 0 #2f3640;
+            min-height: 80px;
             display: flex;
+            align-items: center;
             justify-content: center;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background-color: #FFFFFF;
+            border: 3px solid #CBD5E1;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary-blue);
+            background-color: #E0F7FA;
+        }
+
+        .option-btn.correct {
+            background-color: var(--primary-green) !important;
+            border-color: #4CAF50 !important;
+            color: white;
+        }
+
+        .option-btn.wrong {
+            background-color: #FF6B6B !important;
+            border-color: #E53935 !important;
+            color: white;
+        }
+
+        .quiz-action-container {
+            display: flex;
+            flex-direction: column;
             align-items: center;
             gap: 10px;
         }
 
-        .nav-btn:active {
-            transform: translateY(3px);
-            box-shadow: 0 2px 0 #2f3640;
+        .action-btn {
+            background-color: #FF9800;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #E65100;
+            margin: 5px;
+            text-decoration: none;
         }
 
-        .sound-hint {
-            margin-top: 5px;
+        .action-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #E65100;
+        }
+
+        .login-whatsapp-btn {
+            background-color: #25D366;
+            box-shadow: 0 4px 0 #1EBE5D;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .login-whatsapp-btn:hover {
+            background-color: #1EBE5D;
+        }
+
+        .login-whatsapp-btn:active {
+            box-shadow: 0 2px 0 #1EBE5D;
+        }
+
+        .home-btn {
+            background-color: #3498DB;
+            box-shadow: 0 4px 0 #1F618D;
+        }
+
+        .home-btn:active {
+            box-shadow: 0 2px 0 #1F618D;
+        }
+
+        .clear-btn {
+            background-color: #E74C3C;
+            box-shadow: 0 4px 0 #922B21;
+        }
+
+        .clear-btn:active {
+            box-shadow: 0 2px 0 #922B21;
+        }
+
+        .result-score {
+            font-size: 3rem;
+            font-family: 'Fredoka One', cursive;
+            color: #5E17EB;
+            margin: 15px 0;
+        }
+
+        .completion-time {
+            font-size: 0.95rem;
+            color: #555;
+            background: #E0F7FA;
+            padding: 8px 15px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .table-container {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 15px;
+            border-radius: 12px;
+            border: 2px solid #FFE082;
+        }
+
+        .record-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #FFFDE7;
+        }
+
+        .record-table th, .record-table td {
+            padding: 10px;
+            border: 1px solid #FFE082;
             font-size: 0.9rem;
-            color: #747d8c;
-            text-align: center;
+        }
+
+        .record-table th {
+            background-color: var(--primary-yellow);
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .profile-card-details {
+            background: #F0F4F8;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+            text-align: left;
+            font-size: 1rem;
+        }
+
+        .profile-card-details p {
+            margin-bottom: 8px;
+        }
+
+        .profile-list-box {
+            background: #FFFFFF;
+            border: 2px solid var(--primary-blue);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .question-count-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .count-btn {
+            background-color: var(--primary-purple);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #8d5cc4;
+            transition: all 0.2s;
+        }
+
+        .count-btn:hover {
+            transform: translateY(-2px);
+            background-color: #b179ff;
+        }
+
+        .count-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #8d5cc4;
+        }
+
+        .audio-btn {
+            background: var(--primary-blue);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            color: var(--text-dark);
+            box-shadow: 0 3px 0 #3bafb3;
+            margin-bottom: 15px;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .audio-btn:active {
+            transform: translateY(2px);
+            box-shadow: none;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .sidebar {
+                left: -260px;
+                height: 100vh;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 70px 15px 20px 15px;
+            }
+
+            .record-table th, .record-table td {
+                font-size: 0.8rem;
+                padding: 6px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- SKRIN 1: PILIH BAHASA -->
-        <div id="language-screen">
-            <h1 class="logo-title">Kiddora</h1>
-            <p class="logo-subtitle">Pilih Bahasa / Choose Language</p>
-            <div class="lang-btn-container">
-                <button class="lang-btn btn-bm" onclick="setLanguage('ms')">Bahasa Melayu</button>
-                <button class="lang-btn btn-bi" onclick="setLanguage('en')">English</button>
-            </div>
+    <!-- MOBILE TOGGLE BUTTON -->
+    <button class="mobile-toggle" id="mobile-toggle-btn" onclick="toggleSidebar(event)">☰</button>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <img src="https://i.imgur.com/vPd4cjj.jpeg" alt="KIDDORA Logo">
         </div>
+        <div class="sidebar-title">KIDDORA</div>
+        <div class="sidebar-subtitle">Tadika Kindergarten App</div>
 
-        <!-- SKRIN 2: MODUL ABC -->
-        <div id="abc-screen">
-            <div class="app-header">
-                <div class="header-title" id="module-title">Belajar ABC</div>
-                <button class="back-btn" onclick="goBack()">🏠 Menu</button>
-            </div>
+        <ul class="nav-menu" id="nav-menu" style="display: none;">
+            <li class="nav-item active" onclick="playClickSound(); navigateTo('home-screen', this)">
+                📚 Home
+            </li>
+            <li class="nav-item" onclick="playClickSound(); navigateTo('profile-view-screen', this)">
+                👤 Profiles
+            </li>
+            <li class="nav-item" onclick="playClickSound(); navigateTo('scores-screen', this)">
+                🏆 Scores
+            </li>
+            <a href="https://wa.me/60196818139" target="_blank" class="nav-item whatsapp-btn" onclick="playClickSound(); closeSidebar();">
+                💬 WhatsApp
+            </a>
+            <li class="nav-item logout-btn" onclick="playClickSound(); logout()">
+                🚪 Logout
+            </li>
+        </ul>
+    </div>
 
-            <div class="card-area">
-                <div class="letter-card" onclick="speakCurrentCard()">
-                    <div class="big-letter" id="display-letter">A</div>
-                    <div class="card-image-container">
-                        <img id="display-img" src="" alt="Gambar Pembelajaran">
-                    </div>
-                    <div class="word-label" id="display-word">Epal</div>
+    <!-- MAIN CONTENT AREA -->
+    <div class="main-content">
+        <div class="container">
+
+            <!-- 1. LOGIN SCREEN -->
+            <div id="login-screen" class="card active">
+                <h1 style="font-family: 'Fredoka One', cursive; color: #FF5757; margin-bottom: 10px;">KIDDORA</h1>
+                <h2>Welcome Back, Kids! 👋</h2>
+                <p style="margin-top: 5px; color: #666;">Log in using your authorized email.</p>
+                
+                <div class="input-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" class="form-input" placeholder="example@email.com">
                 </div>
-                <div class="sound-hint">🔊 Sentuh kad untuk dengar bunyi</div>
+                <div class="input-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" class="form-input" placeholder="••••••••">
+                </div>
+                <button class="action-btn" style="display:inline-block; width: 100%;" onclick="playClickSound(); handleLogin()">Log In 🚀</button>
+                
+                <div style="margin-top: 25px; border-top: 2px dashed #DDD; padding-top: 20px;">
+                    <p style="font-weight: 700; color: #555; margin-bottom: 10px; font-size: 1rem;">Contact Us</p>
+                    <a href="https://wa.me/60196818139" target="_blank" class="action-btn login-whatsapp-btn" onclick="playClickSound()">
+                        💬 WhatsApp
+                    </a>
+                </div>
             </div>
 
-            <div class="nav-controls">
-                <button class="nav-btn" onclick="prevLetter()">⬅️ Sebelumnya</button>
-                <button class="nav-btn" onclick="nextLetter()">Seterusnya ➡️</button>
+            <!-- 2. PROFILE SELECTION / ADD SCREEN -->
+            <div id="profile-selection-screen" class="card">
+                <h2>Who is Learning Today? 🧒👧</h2>
+                <p style="color: #666; margin-top: 5px;">Select a kid profile or add a new one.</p>
+                
+                <div class="profile-list-box" id="profile-selection-list">
+                    <!-- Profile buttons populated dynamically -->
+                </div>
+
+                <div style="margin-top: 20px; border-top: 2px dashed #DDD; padding-top: 15px;">
+                    <h3>Add New Kid Profile</h3>
+                    <div class="input-group">
+                        <input type="text" id="new-profile-name" class="form-input" placeholder="Enter kid name..." maxlength="20">
+                    </div>
+                    <button class="action-btn" style="display:inline-block;" onclick="playClickSound(); addNewProfile()">Add Profile ➕</button>
+                </div>
             </div>
+
+            <!-- 3. HOME SCREEN -->
+            <div id="home-screen" class="card">
+                <div class="home-header">
+                    <img src="https://i.imgur.com/vPd4cjj.jpeg" alt="KIDDORA Logo" class="home-app-logo">
+                    <h2 class="home-intro-title" id="home-greeting">Hi Kid! 👋</h2>
+                    
+                    <div class="active-profile-badge">
+                        <span>Profile: <strong id="current-badge-name" style="color: #5E17EB;">-</strong></span>
+                        <button class="switch-profile-btn" onclick="playClickSound(); showScreen('profile-selection-screen')">Switch 🔄</button>
+                    </div>
+
+                    <p class="home-intro-subtitle">Pick a fun module below to start learning!</p>
+                </div>
+
+                <div class="topic-grid">
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('abc')">1) ABC Character 🔤</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('numeric')">2) Numeric 🔢</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('animal')">3) Animal 🐶</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('colour')">4) Colour 🎨</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('bodyPart')">5) Body Part 👁️</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('shape')">6) Shape ⭕</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('transport')">7) Transport 🚗</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('food')">8) Food 🍎</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('jobs')">9) Jobs & Profession 👨‍⚕️</button>
+                </div>
+            </div>
+
+            <!-- 4. LESSON SCREEN -->
+            <div id="lesson-screen" class="card">
+                <h2 style="color: #333;">Lesson Time! 📖</h2>
+                <div class="lesson-box">
+                    <div class="lesson-title" id="lesson-title">Topic Title</div>
+                    <div class="lesson-desc" id="lesson-desc">Lesson explanation content goes here...</div>
+                    <div class="lesson-example">
+                        <strong>Examples:</strong>
+                        <div id="lesson-examples">Examples go here...</div>
+                    </div>
+                </div>
+                <button class="action-btn" style="display:inline-block; background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); proceedToQuestionCount()">Choose Questions 🚀</button>
+                <br>
+                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Home 🏠</button>
+            </div>
+
+            <!-- SCREEN PILIH BILANGAN SOALAN -->
+            <div id="count-selection-screen" class="card">
+                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">Select Question Count 📝</h2>
+                <p style="color: #666; margin-top: 5px;">How many questions would you like to answer?</p>
+                
+                <div class="question-count-grid">
+                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(5)">5 Questions</button>
+                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(10)">10 Questions</button>
+                </div>
+                <br>
+                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+            </div>
+
+            <!-- 5. PROFILES & ACCOUNT MANAGEMENT VIEW -->
+            <div id="profile-view-screen" class="card">
+                <h2>Account & Profiles 👤</h2>
+                <div class="profile-card-details">
+                    <p><strong>Account Email:</strong> <span id="acc-email-val" style="color: #5E17EB;">-</span></p>
+                    <p><strong>Active Kid Profile:</strong> <span id="active-profile-val" style="color: #FF5757; font-weight: bold;">-</span></p>
+                    <p><strong>Level:</strong> Kindergarten Tadika App (KIDDORA)</p>
+                </div>
+
+                <button class="action-btn" style="background-color: var(--primary-purple); box-shadow: 0 4px 0 #8d5cc4; width: 100%; margin-bottom: 15px;" onclick="playClickSound(); showScreen('profile-selection-screen')">Switch / Add Profiles 🔄</button>
+                
+                <div style="background: #FFF9C4; padding: 15px; border-radius: 15px; border: 2px dashed #FBC02D; text-align: left; margin-bottom: 15px;">
+                    <h3 style="color: #D35400; font-size: 1.1rem; margin-bottom: 8px;">🔐 Change Password</h3>
+                    <div class="input-group" style="margin: 10px 0;">
+                        <label for="current-password-input">Current Password</label>
+                        <input type="password" id="current-password-input" class="form-input" placeholder="Enter current password">
+                    </div>
+                    <div class="input-group" style="margin: 10px 0;">
+                        <label for="new-password-input">New Password (Min. 6 characters)</label>
+                        <input type="password" id="new-password-input" class="form-input" placeholder="Enter new password">
+                    </div>
+                    <button class="action-btn" style="background-color: #E67E22; box-shadow: 0 4px 0 #B9770E; width: 100%; margin-top: 5px;" onclick="playClickSound(); handlePasswordChange()">Update Password 🔑</button>
+                </div>
+
+                <button class="action-btn home-btn" style="width: 100%; margin: 0;" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+            </div>
+
+            <!-- 6. SCORES HISTORY SCREEN -->
+            <div id="scores-screen" class="card">
+                <h2 style="color: #333;">🏆 Quiz Attempt History</h2>
+                <p style="color: #666; margin-top: 5px;">Records of every quiz session completed!</p>
+                
+                <div class="table-container">
+                    <table class="record-table">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Module</th>
+                                <th>Score (%)</th>
+                                <th>Date & Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="score-records-body">
+                            <!-- Loaded via JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+                <button class="action-btn clear-btn" onclick="playClickSound(); clearHistory()">Clear History 🗑️</button>
+            </div>
+
+            <!-- 7. QUIZ SCREEN (STANDARD MULTIPLE CHOICE) -->
+            <div id="quiz-screen" class="card">
+                <div class="quiz-header">
+                    <span id="topic-title">Module</span>
+                    <span>Question: <span id="question-num">1</span>/<span id="total-q-num">10</span></span>
+                    <span>Score: <span id="current-score">0</span></span>
+                </div>
+
+                <div id="question-text" class="question-box">
+                    Question content goes here...
+                </div>
+
+                <div id="options-container" class="options-grid">
+                    <!-- Option buttons -->
+                </div>
+
+                <div class="quiz-action-container">
+                    <button id="next-btn" class="action-btn" style="display:none;" onclick="playClickSound(); nextQuestion()">Next Question ➔</button>
+                    <button class="action-btn home-btn" onclick="playClickSound(); confirmBackToHome()">Home 🏠</button>
+                </div>
+            </div>
+
+            <!-- 8. RESULT SCREEN -->
+            <div id="result-screen" class="card">
+                <h2>Awesome Job! 🎉</h2>
+                <p>You have completed the quiz!</p>
+                <div class="result-score" id="final-score">0%</div>
+                <div class="completion-time" id="completion-time">📅 Completed on: -</div>
+                <p id="feedback-message" style="font-weight: 700; color: #555;"></p>
+                <br>
+                <button class="action-btn home-btn" style="display:inline-block;" onclick="playClickSound(); navigateTo('home-screen')">Back to Menu 🏠</button>
+            </div>
+
         </div>
     </div>
 
+    <!-- FIREBASE SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getAuth, 
+            signInWithEmailAndPassword, 
+            signOut, 
+            onAuthStateChanged,
+            EmailAuthProvider,
+            reauthenticateWithCredential,
+            updatePassword
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            getDatabase, 
+            ref, 
+            set, 
+            push, 
+            get, 
+            child, 
+            remove 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDXc06B8WLtqjkG0aScBHrd3L3M-n_5okc",
+            authDomain: "grammar-hub-6af80.firebaseapp.com",
+            databaseURL: "https://grammar-hub-6af80-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "grammar-hub-6af80",
+            storageBucket: "grammar-hub-6af80.firebasestorage.app",
+            messagingSenderId: "1092171234032",
+            appId: "1:1092171234032:web:7cc8efefb812993500e035"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        window.currentUserAuth = null;
+        window.activeProfile = "";
+        window.userProfiles = [];
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                window.currentUserAuth = user;
+                document.getElementById("nav-menu").style.display = "flex";
+                document.getElementById("acc-email-val").innerText = user.email;
+                await fetchProfiles();
+            } else {
+                window.currentUserAuth = null;
+                window.activeProfile = "";
+                document.getElementById("nav-menu").style.display = "none";
+                showScreen("login-screen");
+            }
+        });
+
+        window.handleLogin = async function() {
+            const email = document.getElementById("login-email").value.trim();
+            const password = document.getElementById("login-password").value.trim();
+
+            if (!email || !password) {
+                alert("Please fill in both email and password.");
+                return;
+            }
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (error) {
+                alert("Login failed: " + error.message);
+            }
+        };
+
+        window.logout = async function() {
+            closeSidebar();
+            try {
+                await signOut(auth);
+                alert("You have logged out successfully.");
+            } catch (error) {
+                alert("Error logging out: " + error.message);
+            }
+        };
+
+        window.handlePasswordChange = async function() {
+            const currentPass = document.getElementById("current-password-input").value;
+            const newPass = document.getElementById("new-password-input").value;
+
+            if (!currentPass || !newPass) {
+                alert("Please fill in both current and new password fields.");
+                return;
+            }
+
+            if (newPass.length < 6) {
+                alert("New password must be at least 6 characters long.");
+                return;
+            }
+
+            const user = auth.currentUser;
+            if (!user) {
+                alert("No user signed in.");
+                return;
+            }
+
+            try {
+                const credential = EmailAuthProvider.credential(user.email, currentPass);
+                await reauthenticateWithCredential(user, credential);
+                await updatePassword(user, newPass);
+                
+                alert("Password updated successfully! 🎉");
+                document.getElementById("current-password-input").value = "";
+                document.getElementById("new-password-input").value = "";
+            } catch (error) {
+                alert("Failed to update password: " + error.message);
+            }
+        };
+
+        async function fetchProfiles() {
+            if (!window.currentUserAuth) return;
+            const uid = window.currentUserAuth.uid;
+            const dbRef = ref(db);
+            
+            try {
+                const snapshot = await get(child(dbRef, `users/${uid}/profiles`));
+                const listContainer = document.getElementById("profile-selection-list");
+                listContainer.innerHTML = "";
+
+                if (snapshot.exists()) {
+                    window.userProfiles = Object.values(snapshot.val());
+                    window.userProfiles.forEach(profName => {
+                        const btn = document.createElement("button");
+                        btn.className = "action-btn";
+                        btn.style.display = "block";
+                        btn.style.width = "100%";
+                        btn.style.margin = "8px 0";
+                        btn.innerText = `👤 ${profName}`;
+                        btn.onclick = () => selectProfile(profName);
+                        listContainer.appendChild(btn);
+                    });
+                } else {
+                    window.userProfiles = [];
+                    listContainer.innerHTML = "<p style='color:#777;'>No profiles created yet. Please create one below!</p>";
+                }
+
+                if (!window.activeProfile) {
+                    showScreen("profile-selection-screen");
+                }
+            } catch (err) {
+                console.error("Error fetching profiles:", err);
+            }
+        }
+
+        window.addNewProfile = async function() {
+            const nameInput = document.getElementById("new-profile-name");
+            const newName = nameInput.value.trim();
+
+            if (!newName) {
+                alert("Please enter a kid name.");
+                return;
+            }
+
+            if (!window.currentUserAuth) return;
+            const uid = window.currentUserAuth.uid;
+
+            try {
+                const newProfileRef = push(ref(db, `users/${uid}/profiles`));
+                await set(newProfileRef, newName);
+                nameInput.value = "";
+                await fetchProfiles();
+                selectProfile(newName);
+            } catch (err) {
+                alert("Failed to add profile: " + err.message);
+            }
+        };
+
+        function selectProfile(profileName) {
+            window.activeProfile = profileName;
+            document.getElementById("home-greeting").innerText = `Hi ${profileName}! 👋`;
+            document.getElementById("active-profile-val").innerText = profileName;
+            document.getElementById("current-badge-name").innerText = profileName;
+            showScreen("home-screen");
+        }
+
+        window.saveSessionRecord = async function(topic, scoreValue, totalQ, formattedTime) {
+            if (!window.currentUserAuth || !window.activeProfile) return;
+            const uid = window.currentUserAuth.uid;
+
+            const percentage = Math.round((scoreValue / totalQ) * 100);
+
+            const sessionData = {
+                profile: window.activeProfile,
+                topic: topic,
+                score: `${percentage}%`,
+                rawScore: `${scoreValue} / ${totalQ}`,
+                time: formattedTime,
+                timestamp: Date.now()
+            };
+
+            try {
+                const historyRef = ref(db, `users/${uid}/history`);
+                const newSessionRef = push(historyRef);
+                await set(newSessionRef, sessionData);
+            } catch (err) {
+                console.error("Failed to save score history:", err);
+            }
+        };
+
+        window.loadScoreBoard = async function() {
+            const tbody = document.getElementById("score-records-body");
+            tbody.innerHTML = "<tr><td colspan='4'>Loading history...</td></tr>";
+
+            if (!window.currentUserAuth) return;
+            const uid = window.currentUserAuth.uid;
+            const dbRef = ref(db);
+
+            try {
+                const snapshot = await get(child(dbRef, `users/${uid}/history`));
+                tbody.innerHTML = "";
+
+                if (snapshot.exists()) {
+                    const allData = Object.values(snapshot.val());
+                    const profileData = allData.filter(item => item.profile === window.activeProfile);
+
+                    if (profileData.length === 0) {
+                        tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">No quiz sessions recorded for ${window.activeProfile} yet!</td></tr>`;
+                        return;
+                    }
+
+                    profileData.slice().reverse().forEach((session, idx) => {
+                        const tr = document.createElement("tr");
+                        const sessionNum = profileData.length - idx;
+
+                        tr.innerHTML = `
+                            <td style="font-weight:700;">#${sessionNum}</td>
+                            <td style="text-transform: capitalize; font-weight:700;">${session.topic}</td>
+                            <td style="font-weight:700; color:#5E17EB;">${session.score}</td>
+                            <td style="font-size:0.8rem; color:#555;">${session.time}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">No quiz sessions recorded yet! Start a quiz to see your history.</td></tr>`;
+                }
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="4" style="color:red;">Error loading history.</td></tr>`;
+            }
+        };
+
+        window.clearHistory = async function() {
+            if (!confirm(`Are you sure you want to clear all history for ${window.activeProfile}?`)) return;
+
+            if (!window.currentUserAuth) return;
+            const uid = window.currentUserAuth.uid;
+
+            try {
+                const snapshot = await get(ref(db, `users/${uid}/history`));
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    for (let key in data) {
+                        if (data[key].profile === window.activeProfile) {
+                            await remove(ref(db, `users/${uid}/history/${key}`));
+                        }
+                    }
+                }
+                loadScoreBoard();
+            } catch (err) {
+                alert("Failed to clear history: " + err.message);
+            }
+        };
+    </script>
+
     <script>
-        // Data Huruf Versi Bahasa Melayu (BM) & English (EN) dengan pautan gambar sebenar
-        const alphabetData = {
-            ms: [
-                { letter: 'A', word: 'Epal', img: 'https://cdn-icons-png.flaticon.com/512/415/415733.png' },
-                { letter: 'B', word: 'Bola', img: 'https://cdn-icons-png.flaticon.com/512/33/33736.png' },
-                { letter: 'C', word: 'Cawan', img: 'https://cdn-icons-png.flaticon.com/512/924/924514.png' },
-                { letter: 'D', word: 'Duri', img: 'https://cdn-icons-png.flaticon.com/512/3014/3014467.png' },
-                { letter: 'E', word: 'Ekor', img: 'https://cdn-icons-png.flaticon.com/512/616/616408.png' },
-                { letter: 'F', word: 'Feri', img: 'https://cdn-icons-png.flaticon.com/512/2933/2933116.png' },
-                { letter: 'G', word: 'Gajah', img: 'https://cdn-icons-png.flaticon.com/512/3069/3069186.png' },
-                { letter: 'H', word: 'Harimau', img: 'https://cdn-icons-png.flaticon.com/512/616/616554.png' },
-                { letter: 'I', word: 'Ikan', img: 'https://cdn-icons-png.flaticon.com/512/3069/3069172.png' },
-                { letter: 'J', word: 'Jarum', img: 'https://cdn-icons-png.flaticon.com/512/3233/3233480.png' },
-                { letter: 'K', word: 'Kucing', img: 'https://cdn-icons-png.flaticon.com/512/616/616430.png' },
-                { letter: 'L', word: 'Lalat', img: 'https://cdn-icons-png.flaticon.com/512/2272/2272808.png' },
-                { letter: 'M', word: 'Madu', img: 'https://cdn-icons-png.flaticon.com/512/3592/3592233.png' },
-                { letter: 'N', word: 'Nenas', img: 'https://cdn-icons-png.flaticon.com/512/2909/2909787.png' },
-                { letter: 'O', word: 'Oren', img: 'https://cdn-icons-png.flaticon.com/512/1728/1728751.png' },
-                { letter: 'P', word: 'Paku', img: 'https://cdn-icons-png.flaticon.com/512/2202/2202271.png' },
-                { letter: 'Q', word: 'Quran', img: 'https://cdn-icons-png.flaticon.com/512/2436/2436856.png' },
-                { letter: 'R', word: 'Rusa', img: 'https://cdn-icons-png.flaticon.com/512/3069/3069201.png' },
-                { letter: 'S', word: 'Susu', img: 'https://cdn-icons-png.flaticon.com/512/2674/2674136.png' },
-                { letter: 'T', word: 'Topi', img: 'https://cdn-icons-png.flaticon.com/512/2584/2584606.png' },
-                { letter: 'U', word: 'Ular', img: 'https://cdn-icons-png.flaticon.com/512/3069/3069195.png' },
-                { letter: 'V', word: 'Van', img: 'https://cdn-icons-png.flaticon.com/512/741/741407.png' },
-                { letter: 'W', word: 'Wau', img: 'https://cdn-icons-png.flaticon.com/512/2549/2549903.png' },
-                { letter: 'X', word: 'Xifos', img: 'https://cdn-icons-png.flaticon.com/512/3358/3358049.png' },
-                { letter: 'Y', word: 'Yoyo', img: 'https://cdn-icons-png.flaticon.com/512/2592/2592770.png' },
-                { letter: 'Z', word: 'Zirafah', img: 'https://cdn-icons-png.flaticon.com/512/3069/3069189.png' }
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playClickSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.08);
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.08);
+        }
+
+        function playCorrectSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc1 = audioCtx.createOscillator();
+            const gain1 = audioCtx.createGain();
+            osc1.type = 'triangle';
+            osc1.frequency.setValueAtTime(523.25, now); 
+            gain1.gain.setValueAtTime(0.3, now);
+            gain1.gain.linearRampToValueAtTime(0.01, now + 0.15);
+            osc1.connect(gain1);
+            gain1.connect(audioCtx.destination);
+            osc1.start(now);
+            osc1.stop(now + 0.15);
+
+            const osc2 = audioCtx.createOscillator();
+            const gain2 = audioCtx.createGain();
+            osc2.type = 'triangle';
+            osc2.frequency.setValueAtTime(659.25, now + 0.1); 
+            gain2.gain.setValueAtTime(0.3, now + 0.1);
+            gain2.gain.linearRampToValueAtTime(0.01, now + 0.3);
+            osc2.connect(gain2);
+            gain2.connect(audioCtx.destination);
+            osc2.start(now + 0.1);
+            osc2.stop(now + 0.3);
+        }
+
+        function playWrongSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(220, now);
+            osc.frequency.linearRampToValueAtTime(130, now + 0.25);
+            gain.gain.setValueAtTime(0.3, now);
+            gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(now + 0.25);
+        }
+
+        const lessonData = {
+            abc: {
+                title: "ABC Character",
+                desc: "Let's learn the alphabet from A to Z! Recognizing uppercase and lowercase letters is an essential first step for reading.",
+                examples: "<ul><li>Uppercase: <i>A, B, C, D...</i></li><li>Lowercase: <i>a, b, c, d...</i></li></ul>"
+            },
+            numeric: {
+                title: "Numeric",
+                desc: "Let's count numbers from 1 to 10 and beyond! Counting helps us understand quantity and math basics.",
+                examples: "<ul><li>Numbers: <i>1 (One), 2 (Two), 3 (Three), 4 (Four)...</i></li></ul>"
+            },
+            animal: {
+                title: "Animal",
+                desc: "Discover various animals found around the world, including farm animals, pets, and wild animals!",
+                examples: "<ul><li>Pets & Farm: <i>Cat, Dog, Cow, Duck</i></li><li>Wild: <i>Lion, Elephant, Monkey</i></li></ul>"
+            },
+            colour: {
+                title: "Colour",
+                desc: "Explore vibrant colours all around us! Colors make our world beautiful and full of life.",
+                examples: "<ul><li>Primary colours: <i>Red, Blue, Yellow</i></li><li>Others: <i>Green, Pink, Purple, Orange</i></li></ul>"
+            },
+            bodyPart: {
+                title: "Body Part",
+                desc: "Learn about the different parts of our body and what each part helps us do every day.",
+                examples: "<ul><li>Face: <i>Eyes, Nose, Mouth, Ears</i></li><li>Limbs: <i>Hands, Fingers, Legs, Feet</i></li></ul>"
+            },
+            shape: {
+                title: "Shape",
+                desc: "Identify fundamental geometric shapes like circles, squares, triangles, and rectangles in everyday objects.",
+                examples: "<ul><li>Shapes: <i>Circle, Square, Triangle, Rectangle</i></li></ul>"
+            },
+            transport: {
+                title: "Transport",
+                desc: "Learn about different vehicles that help us travel on land, water, and up in the sky.",
+                examples: "<ul><li>Land: <i>Car, Bus, Bicycle, Train</i></li><li>Air/Water: <i>Aeroplane, Ship</i></li></ul>"
+            },
+            food: {
+                title: "Food",
+                desc: "Learn about healthy food items like delicious fruits, vegetables, and daily meals that keep us strong.",
+                examples: "<ul><li>Fruits: <i>Apple, Banana, Orange, Mango</i></li></ul>"
+            },
+            jobs: {
+                title: "Jobs & Profession",
+                desc: "Discover community helpers and different professions that make our society wonderful and safe.",
+                examples: "<ul><li>Helpers: <i>Doctor, Teacher, Police Officer, Firefighter</i></li></ul>"
+            }
+        };
+
+        const questionBank = {
+            abc: [
+                { q: "What letter comes after 'A'?", options: ["B", "C", "D", "Z"], answer: 0 },
+                { q: "Which of these is a vowel letter?", options: ["B", "C", "A", "T"], answer: 2 },
+                { q: "What letter comes before 'C'?", options: ["A", "B", "D", "E"], answer: 1 },
+                { q: "Find the lowercase letter for 'M':", options: ["m", "w", "n", "u"], answer: 0 },
+                { q: "What is the first letter of the alphabet?", options: ["Z", "A", "B", "M"], answer: 1 },
+                { q: "Which letter comes after 'F'?", options: ["E", "G", "H", "I"], answer: 1 },
+                { q: "Find the uppercase letter for 's':", options: ["S", "C", "Z", "X"], answer: 0 },
+                { q: "Which letter is at the very end of the alphabet?", options: ["Y", "X", "Z", "W"], answer: 2 },
+                { q: "What letter comes between 'D' and 'F'?", options: ["C", "E", "G", "H"], answer: 1 },
+                { q: "Which of these is a consonant?", options: ["E", "A", "O", "P"], answer: 3 }
             ],
-            en: [
-                { letter: 'A', word: 'Apple', img: 'https://cdn-icons-png.flaticon.com/512/415/415733.png' },
-                { letter: 'B', word: 'Ball', img: 'https://cdn-icons-png.flaticon.com/512/33/33736.png' },
-                { letter: 'C', word: 'Cat', img: 'https://cdn-icons-png.flaticon.com/512/616/616430.png' },
-                { letter: 'D', word: 'Dog', img: 'https://cdn-icons-png.flaticon.com/512/616/616408.png' },
-                { letter: 'E', word: 'Elephant', img: 'https://cdn-icons-png.flaticon.com/512/3069/3069186.png' },
-                { letter: 'F', word: 'Fish', img: 'https://cdn-icons-png.flaticon.com/512/3069/3069172.png' },
-                { letter: 'G', word: 'Grapes', img: 'https://cdn-icons-png.flaticon.com/512/763/763784.png' },
-                { letter: 'H', word: 'Hat', img: 'https://cdn-icons-png.flaticon.com/512/2584/2584606.png' },
-                { letter: 'I', word: 'Ice Cream', img: 'https://cdn-icons-png.flaticon.com/512/938/938067.png' },
-                { letter: 'J', word: 'Jug', img: 'https://cdn-icons-png.flaticon.com/512/924/924514.png' },
-                { letter: 'K', word: 'Kite', img: 'https://cdn-icons-png.flaticon.com/512/2549/2549903.png' },
-                { letter: 'L', word: 'Lion', img: 'https://cdn-icons-png.flaticon.com/512/616/616554.png' },
-                { letter: 'M', word: 'Monkey', img: 'https://cdn-icons-png.flaticon.com/512/616/616567.png' },
-                { letter: 'N', word: 'Nest', img: 'https://cdn-icons-png.flaticon.com/512/3048/3048386.png' },
-                { letter: 'O', word: 'Orange', img: 'https://cdn-icons-png.flaticon.com/512/1728/1728751.png' },
-                { letter: 'P', word: 'Pen', img: 'https://cdn-icons-png.flaticon.com/512/1250/1250689.png' },
-                { letter: 'Q', word: 'Queen', img: 'https://cdn-icons-png.flaticon.com/512/2355/2355444.png' },
-                { letter: 'R', word: 'Rabbit', img: 'https://cdn-icons-png.flaticon.com/512/3069/3069201.png' },
-                { letter: 'S', word: 'Sun', img: 'https://cdn-icons-png.flaticon.com/512/869/869869.png' },
-                { letter: 'T', word: 'Tree', img: 'https://cdn-icons-png.flaticon.com/512/2933/2933157.png' },
-                { letter: 'U', word: 'Umbrella', img: 'https://cdn-icons-png.flaticon.com/512/1069/1069794.png' },
-                { letter: 'V', word: 'Van', img: 'https://cdn-icons-png.flaticon.com/512/741/741407.png' },
-                { letter: 'W', word: 'Watch', img: 'https://cdn-icons-png.flaticon.com/512/2921/2921222.png' },
-                { letter: 'X', word: 'Xylophone', img: 'https://cdn-icons-png.flaticon.com/512/2748/2748577.png' },
-                { letter: 'Y', word: 'Yacht', img: 'https://cdn-icons-png.flaticon.com/512/2933/2933116.png' },
-                { letter: 'Z', word: 'Zebra', img: 'https://cdn-icons-png.flaticon.com/512/3069/3069189.png' }
+            numeric: [
+                { q: "What number comes after 2?", options: ["1", "3", "4", "5"], answer: 1 },
+                { q: "How many fingers do you have on one hand?", options: ["3", "4", "5", "10"], answer: 2 },
+                { q: "What number comes before 5?", options: ["3", "4", "6", "7"], answer: 1 },
+                { q: "Which number is the biggest?", options: ["2", "8", "4", "6"], answer: 1 },
+                { q: "Count: 🍎 🍎 🍎", options: ["2", "3", "4", "5"], answer: 1 },
+                { q: "What number is written as 'Ten'?", options: ["5", "10", "15", "20"], answer: 1 },
+                { q: "What number comes after 9?", options: ["8", "10", "11", "12"], answer: 1 },
+                { q: "Count: ⭐ ⭐", options: ["1", "2", "3", "4"], answer: 1 },
+                { q: "Which number comes between 6 and 8?", options: ["5", "7", "9", "10"], answer: 1 },
+                { q: "What number comes before 1?", options: ["0", "2", "3", "10"], answer: 0 }
+            ],
+            animal: [
+                { q: "Which animal says 'Meow'?", options: ["Dog", "Cat", "Cow", "Duck"], answer: 1 },
+                { q: "Which animal is known as the King of the Jungle?", options: ["Lion", "Rabbit", "Mouse", "Sheep"], answer: 0 },
+                { q: "Which animal says 'Moo'?", options: ["Goat", "Cow", "Cat", "Bird"], answer: 1 },
+                { q: "Which animal has a very long neck?", options: ["Elephant", "Giraffe", "Monkey", "Frog"], answer: 1 },
+                { q: "Which of these is a pet dog?", options: ["Puppy", "Tiger", "Shark", "Eagle"], answer: 0 },
+                { q: "Which animal hops and loves carrots?", options: ["Rabbit", "Lion", "Fish", "Horse"], answer: 0 },
+                { q: "Which animal lives in water and swims?", options: ["Fish", "Cat", "Dog", "Bird"], answer: 0 },
+                { q: "Which animal says 'Baa Baa'?", options: ["Sheep", "Duck", "Cow", "Chicken"], answer: 0 },
+                { q: "Which animal has black and white stripes?", options: ["Zebra", "Lion", "Bear", "Fox"], answer: 0 },
+                { q: "Which animal swings from trees?", options: ["Monkey", "Fish", "Cow", "Dog"], answer: 0 }
+            ],
+            colour: [
+                { q: "What colour is a ripe banana?", options: ["Red", "Yellow", "Blue", "Black"], answer: 1 },
+                { q: "What colour is fresh grass?", options: ["Green", "Pink", "Orange", "Purple"], answer: 0 },
+                { q: "What colour is a fresh red apple?", options: ["Red", "Blue", "Yellow", "Green"], answer: 0 },
+                { q: "What colour is the clear sky during the day?", options: ["Blue", "Black", "Green", "Pink"], answer: 0 },
+                { q: "Mixing Red and Yellow gives you which colour?", options: ["Orange", "Blue", "Green", "White"], answer: 0 },
+                { q: "What colour is coal or night time?", options: ["Black", "White", "Yellow", "Blue"], answer: 0 },
+                { q: "What colour is snow?", options: ["White", "Red", "Black", "Brown"], answer: 0 },
+                { q: "What colour do you get by mixing Blue and Yellow?", options: ["Green", "Red", "Purple", "Pink"], answer: 0 },
+                { q: "What colour is a carrot?", options: ["Orange", "Blue", "Yellow", "Black"], answer: 0 },
+                { q: "What colour is a sweet purple grape?", options: ["Purple", "Red", "Green", "Yellow"], answer: 0 }
+            ],
+            bodyPart: [
+                { q: "Which body part do you use to see things?", options: ["Eyes", "Nose", "Ears", "Mouth"], answer: 0 },
+                { q: "Which body part do you use to smell flowers?", options: ["Nose", "Hands", "Eyes", "Feet"], answer: 0 },
+                { q: "Which body part do you use to hear music?", options: ["Ears", "Nose", "Mouth", "Eyes"], answer: 0 },
+                { q: "How many fingers do you have on both hands together?", options: ["5", "10", "20", "2"], answer: 1 },
+                { q: "Which body part do you use to walk and run?", options: ["Legs", "Arms", "Ears", "Nose"], answer: 0 },
+                { q: "Which body part do you use to taste delicious food?", options: ["Tongue / Mouth", "Eyes", "Ears", "Hair"], answer: 0 },
+                { q: "What covers our head?", options: ["Hair", "Shoes", "Gloves", "Socks"], answer: 0 },
+                { q: "Which body part do you use to hold a pencil?", options: ["Hands / Fingers", "Feet", "Ears", "Nose"], answer: 0 },
+                { q: "Which part of the face is right in the middle?", options: ["Nose", "Chin", "Forehead", "Cheek"], answer: 0 },
+                { q: "What do we use to smile and speak?", options: ["Mouth", "Eyes", "Ears", "Hair"], answer: 0 }
+            ],
+            shape: [
+                { q: "What shape is a round ball?", options: ["Circle", "Square", "Triangle", "Rectangle"], answer: 0 },
+                { q: "How many equal sides does a square have?", options: ["3", "4", "5", "6"], answer: 1 },
+                { q: "What shape has three sides?", options: ["Triangle", "Circle", "Square", "Rectangle"], answer: 0 },
+                { q: "Which shape has two long sides and two short sides?", options: ["Rectangle", "Circle", "Triangle", "Star"], answer: 0 },
+                { q: "What shape looks like the moon crescent or a ring?", options: ["Circle", "Triangle", "Square", "Oval"], answer: 0 },
+                { q: "A sandwich is often cut into what shape?", options: ["Triangle", "Circle", "Oval", "Star"], answer: 0 },
+                { q: "Which shape has no corners or straight edges?", options: ["Circle", "Square", "Rectangle", "Triangle"], answer: 0 },
+                { q: "A door is usually shaped like a:", options: ["Rectangle", "Circle", "Triangle", "Ball"], answer: 0 },
+                { q: "A chessboard tile is shaped like a:", options: ["Square", "Circle", "Triangle", "Oval"], answer: 0 },
+                { q: "An egg is usually shaped like an:", options: ["Oval", "Square", "Rectangle", "Triangle"], answer: 0 }
+            ],
+            transport: [
+                { q: "Which vehicle runs on railway tracks?", options: ["Train", "Car", "Aeroplane", "Bicycle"], answer: 0 },
+                { q: "Which vehicle flies high up in the sky?", options: ["Aeroplane", "Boat", "Bus", "Car"], answer: 0 },
+                { q: "Which vehicle has two wheels and is powered by pedalling?", options: ["Bicycle", "Truck", "Train", "Ship"], answer: 0 },
+                { q: "Which large vehicle carries many passengers on the road?", options: ["Bus", "Car", "Bicycle", "Scooter"], answer: 0 },
+                { q: "Which vehicle sails on water over the sea?", options: ["Ship / Boat", "Car", "Aeroplane", "Train"], answer: 0 },
+                { q: "What vehicle do police officers use to patrol quickly?", options: ["Police Car", "Bicycle", "Boat", "Train"], answer: 0 },
+                { q: "What vehicle carries sick people to the hospital?", options: ["Ambulance", "Bus", "Taxi", "Bicycle"], answer: 0 },
+                { q: "How many wheels does a standard car have?", options: ["2", "4", "3", "1"], answer: 1 },
+                { q: "Which vehicle has two wheels and an engine?", options: ["Motorcycle", "Bicycle", "Train", "Boat"], answer: 0 },
+                { q: "What vehicle puts out dangerous fires?", options: ["Fire Engine", "Taxi", "Bus", "Bicycle"], answer: 0 }
+            ],
+            food: [
+                { q: "Which of these is a red healthy fruit?", options: ["Apple", "Stone", "Wood", "Paper"], answer: 0 },
+                { q: "Monkeys love to eat which yellow fruit?", options: ["Banana", "Watermelon", "Potato", "Carrot"], answer: 0 },
+                { q: "Which of these is a vegetable?", options: ["Carrot", "Chocolate", "Candy", "Biscuit"], answer: 0 },
+                { q: "What do cows give us to drink that makes us strong?", options: ["Milk", "Juice", "Water", "Soda"], answer: 0 },
+                { q: "Which fruit is round, green or purple, and grows in bunches?", options: ["Grapes", "Apple", "Banana", "Orange"], answer: 0 },
+                { q: "What food is made from flour, baked in an oven, and eaten with butter?", options: ["Bread", "Soup", "Ice", "Rice"], answer: 0 },
+                { q: "Which of these is a sweet yellow citrus fruit?", options: ["Orange / Lemon", "Apple", "Carrot", "Potato"], answer: 0 },
+                { q: "What do we use to make sandwiches?", options: ["Bread", "Stone", "Brick", "Sand"], answer: 0 },
+                { q: "Which of these is a cold sweet treat kids love in hot weather?", options: ["Ice Cream", "Hot Soup", "Rice", "Bread"], answer: 0 },
+                { q: "Watermelon has lots of ________ inside.", options: ["Seeds", "Wood", "Metal", "Plastic"], answer: 0 }
+            ],
+            jobs: [
+                { q: "Who teaches students in a school classroom?", options: ["Teacher", "Doctor", "Pilot", "Firefighter"], answer: 0 },
+                { q: "Who helps sick people and gives medicine?", options: ["Doctor", "Chef", "Driver", "Farmer"], answer: 0 },
+                { q: "Who flies an aeroplane in the sky?", options: ["Pilot", "Teacher", "Chef", "Police"], answer: 0 },
+                { q: "Who grows crops and vegetables on a farm?", options: ["Farmer", "Doctor", "Pilot", "Teacher"], answer: 0 },
+                { q: "Who cooks delicious food in a restaurant kitchen?", options: ["Chef / Cook", "Teacher", "Pilot", "Police"], answer: 0 },
+                { q: "Who keeps our neighbourhood safe and catches bad guys?", options: ["Police Officer", "Teacher", "Chef", "Farmer"], answer: 0 },
+                { q: "Who puts out fires and rescues people?", options: ["Firefighter", "Doctor", "Pilot", "Chef"], answer: 0 },
+                { q: "Who cuts and styles our hair?", options: ["Hairdresser / Barber", "Teacher", "Doctor", "Pilot"], answer: 0 },
+                { q: "Who delivers letters and parcels to our houses?", options: ["Postman", "Chef", "Pilot", "Farmer"], answer: 0 },
+                { q: "Who builds houses and fixes buildings?", options: ["Builder / Carpenter", "Teacher", "Doctor", "Pilot"], answer: 0 }
             ]
         };
 
-        let currentLang = 'ms';
-        let currentIndex = 0;
+        let currentTopic = "";
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedQuestionCount = 10;
+        let userAnswersHistory = [];
 
-        function setLanguage(lang) {
-            currentLang = lang;
-            currentIndex = 0;
-            document.getElementById('language-screen').style.display = 'none';
-            document.getElementById('abc-screen').style.display = 'flex';
+        function showScreen(screenId) {
+            document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            closeSidebar();
+        }
+
+        function toggleSidebar(event) {
+            event.stopPropagation();
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.remove('open');
+        }
+
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const toggleBtn = document.getElementById('mobile-toggle-btn');
+            if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
+                if (!sidebar.contains(event.target) && event.target !== toggleBtn) {
+                    closeSidebar();
+                }
+            }
+        });
+
+        function navigateTo(screenId) {
+            playClickSound();
+            if (screenId === 'scores-screen') {
+                window.loadScoreBoard();
+            }
+            showScreen(screenId);
+        }
+
+        function openLesson(topicKey) {
+            currentTopic = topicKey;
+            const data = lessonData[topicKey];
+            document.getElementById("lesson-title").innerText = data.title;
+            document.getElementById("lesson-desc").innerHTML = data.desc;
+            document.getElementById("lesson-examples").innerHTML = data.examples;
+            showScreen("lesson-screen");
+        }
+
+        function proceedToQuestionCount() {
+            showScreen("count-selection-screen");
+        }
+
+        function startQuizWithCount(count) {
+            selectedQuestionCount = count;
+            const allQ = questionBank[currentTopic] || [];
             
-            document.getElementById('module-title').innerText = (lang === 'ms') ? 'Kenal ABC (BM)' : 'Learn ABC (EN)';
-            updateCard();
-            speakCurrentCard();
+            // Shuffle and slice
+            let shuffled = [...allQ].sort(() => 0.5 - Math.random());
+            currentQuestions = shuffled.slice(0, Math.min(count, shuffled.length));
+            
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswersHistory = [];
+
+            document.getElementById("topic-title").innerText = lessonData[currentTopic].title;
+            document.getElementById("total-q-num").innerText = currentQuestions.length;
+            
+            showScreen("quiz-screen");
+            loadQuestion();
         }
 
-        function goBack() {
-            document.getElementById('abc-screen').style.display = 'none';
-            document.getElementById('language-screen').style.display = 'flex';
+        function loadQuestion() {
+            const qObj = currentQuestions[currentQuestionIndex];
+            document.getElementById("question-num").innerText = currentQuestionIndex + 1;
+            document.getElementById("current-score").innerText = score;
+            document.getElementById("question-text").innerText = qObj.q;
+
+            const optionsContainer = document.getElementById("options-container");
+            optionsContainer.innerHTML = "";
+
+            qObj.options.forEach((opt, idx) => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.innerText = opt;
+                btn.onclick = () => selectOption(idx, qObj.answer, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById("next-btn").style.display = "none";
         }
 
-        function updateCard() {
-            const data = alphabetData[currentLang][currentIndex];
-            document.getElementById('display-letter').innerText = data.letter;
-            document.getElementById('display-img').src = data.img;
-            document.getElementById('display-word').innerText = data.word;
+        function selectOption(selectedIndex, correctIndex, btnElement) {
+            const allBtns = document.querySelectorAll(".option-btn");
+            allBtns.forEach(b => b.style.pointerEvents = "none");
+
+            if (selectedIndex === correctIndex) {
+                btnElement.classList.add("correct");
+                score++;
+                playCorrectSound();
+            } else {
+                btnElement.classList.add("wrong");
+                allBtns[correctIndex].classList.add("correct");
+                playWrongSound();
+            }
+
+            document.getElementById("current-score").innerText = score;
+            document.getElementById("next-btn").style.display = "inline-block";
         }
 
-        function nextLetter() {
-            const max = alphabetData[currentLang].length;
-            currentIndex = (currentIndex + 1) % max;
-            updateCard();
-            speakCurrentCard();
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < currentQuestions.length) {
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
         }
 
-        function prevLetter() {
-            const max = alphabetData[currentLang].length;
-            currentIndex = (currentIndex - 1 + max) % max;
-            updateCard();
-            speakCurrentCard();
+        function finishQuiz() {
+            const totalQ = currentQuestions.length;
+            const percentage = Math.round((score / totalQ) * 100);
+            
+            document.getElementById("final-score").innerText = percentage + "%";
+            
+            const now = new Date();
+            const formattedTime = now.toLocaleString();
+            document.getElementById("completion-time").innerText = `📅 Completed on: ${formattedTime}`;
+
+            let feedback = "Great effort! Keep practicing!";
+            if (percentage === 100) feedback = "🌟 Perfect score! You're a superstar!";
+            else if (percentage >= 80) feedback = "🎉 Amazing job! Wonderful performance!";
+            else if (percentage >= 50) feedback = "👍 Good job! Keep it up!";
+            document.getElementById("feedback-message").innerText = feedback;
+
+            // Save record
+            window.saveSessionRecord(lessonData[currentTopic].title, score, totalQ, formattedTime);
+            showScreen("result-screen");
         }
 
-        function speakCurrentCard() {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const data = alphabetData[currentLang][currentIndex];
-                const textToSpeak = `${data.letter}, ${data.word}`;
-                
-                const utterance = new SpeechSynthesisUtterance(textToSpeak);
-                utterance.lang = (currentLang === 'ms') ? 'ms-MY' : 'en-US';
-                utterance.rate = 0.8; 
-                window.speechSynthesis.speak(utterance);
+        function confirmBackToHome() {
+            if (confirm("Are you sure you want to go back to Home? Your current progress will be lost.")) {
+                navigateTo('home-screen');
             }
         }
     </script>
