@@ -352,6 +352,44 @@
             box-shadow: 0 3px 0 #4a15b8;
         }
 
+        /* SQUARE A-Z GRID STYLING */
+        .az-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+            max-height: 380px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .square-letter-btn {
+            aspect-ratio: 1 / 1;
+            background: linear-gradient(135deg, var(--primary-yellow), #FF9800);
+            border: 3px solid #E65100;
+            border-radius: 15px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.8rem;
+            color: #2C3E50;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 0 #E65100;
+            transition: all 0.15s ease;
+        }
+
+        .square-letter-btn:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(135deg, #FFE082, #FFB300);
+            box-shadow: 0 6px 0 #E65100;
+        }
+
+        .square-letter-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #E65100;
+        }
+
         /* FLASHCARD STYLING FOR ABC */
         .flashcard-box {
             background: #FFF9C4;
@@ -847,13 +885,25 @@
                         <span>Belajar ABC</span>
                         <span style="font-size: 0.85rem; font-weight: 500; opacity: 0.9;">(Bahasa Melayu)</span>
                     </button>
-                    <button class="abc-sub-btn" style="grid-column: span 2; background: linear-gradient(135deg, var(--primary-pink), var(--primary-yellow)); color: var(--text-dark); box-shadow: 0 6px 0 #b33687;" onclick="playClickSound(); startABCTracing()">
+                    <button class="abc-sub-btn" style="grid-column: span 2; background: linear-gradient(135deg, var(--primary-pink), var(--primary-yellow)); color: var(--text-dark); box-shadow: 0 6px 0 #b33687;" onclick="playClickSound(); startABCTracingMenu()">
                         <span>✍️</span>
                         <span>ABC Tracing</span>
-                        <span style="font-size: 0.85rem; font-weight: 700; opacity: 0.9;">(Trace Uppercase & Lowercase A-Z)</span>
+                        <span style="font-size: 0.85rem; font-weight: 700; opacity: 0.9;">(Select Letter A-Z to Trace Uppercase & Lowercase)</span>
                     </button>
                 </div>
                 <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+            </div>
+
+            <!-- ABC TRACING LETTER SELECTION SCREEN (A-Z SQUARE BUTTONS) -->
+            <div id="abc-tracing-menu-screen" class="card">
+                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">Select Letter to Trace 🔠</h2>
+                <p style="color: #666; margin-top: 5px;">Choose a square letter button below (A to Z):</p>
+                
+                <div class="az-grid" id="az-buttons-container">
+                    <!-- Populated dynamically via JS -->
+                </div>
+
+                <button class="action-btn home-btn" style="margin-top: 15px;" onclick="playClickSound(); showScreen('abc-menu-screen')">Back to ABC Menu 🔤</button>
             </div>
 
             <!-- ABC INTERACTIVE FLASHCARD SCREEN -->
@@ -877,13 +927,13 @@
                 </div>
             </div>
 
-            <!-- ABC TRACING SCREEN -->
+            <!-- ABC TRACING SCREEN (UPPERCASE FIRST, THEN LOWERCASE) -->
             <div id="abc-tracing-screen" class="card">
-                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">ABC Tracing ✍️</h2>
-                <p style="color: #666; font-size: 0.9rem;" id="tracing-progress">Letter 1 of 26</p>
+                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;" id="tracing-title-header">ABC Tracing - Uppercase ✍️</h2>
+                <p style="color: #666; font-size: 0.9rem;" id="tracing-step-indicator">Step 1: Trace Uppercase Letter</p>
 
                 <div class="flashcard-box" style="background: #FFF; border: 4px dashed var(--primary-blue);">
-                    <div style="font-size: 1.2rem; font-weight: 700; color: #555; margin-bottom: 5px;" id="tracing-letter-display">A a</div>
+                    <div style="font-size: 1.2rem; font-weight: 700; color: #555; margin-bottom: 5px;" id="tracing-letter-display">A</div>
                     <div style="position: relative; width: 300px; height: 300px; background: #F8FAFC; border-radius: 20px; border: 3px solid #CBD5E1; margin: 10px auto; overflow: hidden; touch-action: none;">
                         <canvas id="tracing-canvas" style="display: block; width: 100%; height: 100%; cursor: crosshair;"></canvas>
                     </div>
@@ -891,9 +941,9 @@
                 </div>
 
                 <div class="flashcard-nav">
-                    <button class="action-btn home-btn" onclick="playClickSound(); prevTracingLetter()" id="prev-tracing-btn">⬅ Prev</button>
+                    <button class="action-btn home-btn" onclick="playClickSound(); showScreen('abc-tracing-menu-screen')">Select Letter 🔠</button>
                     <button class="action-btn home-btn" onclick="playClickSound(); showScreen('abc-menu-screen')">ABC Menu 🔤</button>
-                    <button class="action-btn" style="background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); nextTracingLetter()" id="next-tracing-btn">Next ➡</button>
+                    <button class="action-btn" style="background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); nextTracingStep()" id="next-tracing-btn">Next (Lowercase) ➡</button>
                 </div>
             </div>
 
@@ -1343,7 +1393,7 @@
         // --- ABC DATA & LOGIC ---
         const abcDataEn = [
             { letter: "A", word: "Apple", image: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&q=80" },
-            { letter: "B", word: "Ball", image: "data:image/jpeg;base64,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" },
+            { letter: "B", word: "Ball", image: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxUPDxAPFRUVFRUVDxUPFQ8PDw8PFRUWFhUVFRUYHSggGBolGxUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDg0OFw8QGisdHR0tKy0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLSsrLS0tKystLS0tLS0tLS0tLS0tLf/AABEIAQQAwgMBIgACEQEDEQH/xAAcAAABBQEBAQAAAAAAAAAAAAABAAIDBAUHBgj/xABBEAACAQMBBQUFBAgEBwEAAAABAgADBBEhBQYSMUEHE1FhcSIygZGhQmKx0RQjM0NSgrLBc5Lh8SU1VGNyovAI/8QAGQEAAwEBAQAAAAAAAAAAAAAAAAECAwQF/8QAIBEBAQEAAgMAAwEBAAAAAAAAAAECAxESITEEQVETMv/aAAwDAQACEQMRAD8A42IQIgSJPyUgyKVWScq9XnL2l9Fk5j6S84L00eL8l/9k=" },
             { letter: "C", word: "Cat", image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&q=80" },
             { letter: "D", word: "Dog", image: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400&q=80" },
             { letter: "E", word: "Elephant", image: "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=400&q=80" },
@@ -1456,19 +1506,51 @@
             const textToSpeak = currentABCMode === 'en' ? `${item.letter} for ${item.word}` : `${item.letter} untuk ${item.word}`;
             
             if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); // Stop any ongoing speech
+                window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(textToSpeak);
                 utterance.lang = currentABCMode === 'en' ? 'en-US' : 'ms-MY';
-                utterance.rate = 0.3; // slightly slower for kids
+                utterance.rate = 0.3;
                 window.speechSynthesis.speak(utterance);
             }
         }
 
-        // --- ABC TRACING LOGIC ---
-        let currentTracingIndex = 0;
+        // --- ABC TRACING LOGIC (SELECT LETTER A-Z, UPPERCASE FIRST THEN LOWERCASE) ---
+        let selectedTracingLetter = "A";
+        let tracingStep = 1; // 1 = Uppercase, 2 = Lowercase
         const alphabetList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
         let tracingCanvas, tracingCtx;
         let isDrawing = false;
+
+        function startABCTracingMenu() {
+            showScreen('abc-tracing-menu-screen');
+            renderAZGrid();
+        }
+
+        function renderAZGrid() {
+            const gridContainer = document.getElementById("az-buttons-container");
+            gridContainer.innerHTML = "";
+
+            alphabetList.forEach(letter => {
+                const btn = document.createElement("button");
+                btn.className = "square-letter-btn";
+                btn.innerText = letter;
+                btn.onclick = () => {
+                    playClickSound();
+                    selectLetterForTracing(letter);
+                };
+                gridContainer.appendChild(btn);
+            });
+        }
+
+        function selectLetterForTracing(letter) {
+            selectedTracingLetter = letter;
+            tracingStep = 1; // Mula dengan huruf besar
+            showScreen('abc-tracing-screen');
+            setTimeout(() => {
+                initTracingCanvas();
+                renderTracingLetter();
+            }, 50);
+        }
 
         function initTracingCanvas() {
             tracingCanvas = document.getElementById('tracing-canvas');
@@ -1536,53 +1618,44 @@
 
         function renderTracingLetter() {
             if (!tracingCtx) initTracingCanvas();
-            const letterU = alphabetList[currentTracingIndex];
-            const letterL = letterU.toLowerCase();
             
-            document.getElementById("tracing-progress").innerText = `Letter ${currentTracingIndex + 1} of 26`;
-            document.getElementById("tracing-letter-display").innerText = `${letterU}  ${letterL}`;
+            let displayChar = tracingStep === 1 ? selectedTracingLetter : selectedTracingLetter.toLowerCase();
+            
+            document.getElementById("tracing-title-header").innerText = tracingStep === 1 ? `ABC Tracing - Uppercase (${selectedTracingLetter})` : `ABC Tracing - Lowercase (${displayChar})`;
+            document.getElementById("tracing-step-indicator").innerText = tracingStep === 1 ? `Page 1: Trace Uppercase Letter "${selectedTracingLetter}"` : `Page 2: Trace Lowercase Letter "${displayChar}"`;
+            document.getElementById("tracing-letter-display").innerText = displayChar;
             
             tracingCtx.clearRect(0, 0, tracingCanvas.width, tracingCanvas.height);
             
-            tracingCtx.font = 'bold 90px "Fredoka One", cursive';
+            tracingCtx.font = 'bold 130px "Fredoka One", cursive';
             tracingCtx.fillStyle = '#E2E8F0';
             tracingCtx.textAlign = 'center';
             tracingCtx.textBaseline = 'middle';
-            tracingCtx.fillText(`${letterU} ${letterL}`, tracingCanvas.width / 2, tracingCanvas.height / 2);
+            tracingCtx.fillText(displayChar, tracingCanvas.width / 2, tracingCanvas.height / 2);
 
-            document.getElementById("prev-tracing-btn").style.display = currentTracingIndex === 0 ? "none" : "inline-block";
-            document.getElementById("next-tracing-btn").innerText = currentTracingIndex === alphabetList.length - 1 ? "Finish 🏁" : "Next ➡";
+            const nextBtn = document.getElementById("next-tracing-btn");
+            if (tracingStep === 1) {
+                nextBtn.innerText = "Next (Lowercase) ➡";
+            } else {
+                nextBtn.innerText = "Finish / Choose Letter 🏁";
+            }
         }
 
         function clearTracingCanvas() {
             renderTracingLetter();
         }
 
-        function nextTracingLetter() {
-            if (currentTracingIndex < alphabetList.length - 1) {
-                currentTracingIndex++;
+        function nextTracingStep() {
+            playClickSound();
+            if (tracingStep === 1) {
+                // Pindah ke page huruf kecil
+                tracingStep = 2;
                 renderTracingLetter();
-                playClickSound();
             } else {
-                alert("Awesome! You finished tracing all letters from A to Z! 🎉");
-                showScreen('abc-menu-screen');
+                // Selesai untuk huruf ini, kembali ke menu pemilihan huruf A-Z
+                alert(`Great job tracing letter ${selectedTracingLetter}! 🎉`);
+                showScreen('abc-tracing-menu-screen');
             }
-        }
-
-        function prevTracingLetter() {
-            if (currentTracingIndex > 0) {
-                currentTracingIndex--;
-                renderTracingLetter();
-                playClickSound();
-            }
-        }
-
-        function startABCTracing() {
-            currentTracingIndex = 0;
-            showScreen('abc-tracing-screen');
-            setTimeout(() => {
-                renderTracingLetter();
-            }, 50);
         }
 
         const lessonData = {
