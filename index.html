@@ -300,9 +300,10 @@
         }
 
         .topic-btn img {
-            width: 65px;
-            height: 65px;
-            object-fit: contain;
+            width: 75px;
+            height: 75px;
+            object-fit: cover;
+            border-radius: 12px;
             transition: transform 0.2s ease;
         }
 
@@ -320,7 +321,7 @@
         }
 
         .topic-btn:hover img {
-            transform: scale(1.1);
+            transform: scale(1.08);
         }
 
         .lesson-box {
@@ -700,39 +701,39 @@
 
                 <div class="topic-grid">
                     <button class="topic-btn" onclick="playClickSound(); openLesson('abc')">
-                        <img src="https://img.icons8.com/color/96/ABC.png" alt="ABC">
+                        <img src="https://i.imgur.com/HRl0fWA.jpeg" alt="ABC Character">
                         <span>ABC Character</span>
                     </button>
                     <button class="topic-btn" onclick="playClickSound(); openLesson('numeric')">
-                        <img src="https://img.icons8.com/color/96/1-to-10.png" alt="Numeric">
-                        <span>Numeric</span>
+                        <img src="https://i.imgur.com/Xzib4i8.jpeg" alt="Number">
+                        <span>Number</span>
                     </button>
                     <button class="topic-btn" onclick="playClickSound(); openLesson('animal')">
-                        <img src="https://img.icons8.com/color/96/cute-dog.png" alt="Animal">
+                        <img src="https://i.imgur.com/tXLFggI.jpeg" alt="Animal">
                         <span>Animal</span>
                     </button>
                     <button class="topic-btn" onclick="playClickSound(); openLesson('colour')">
-                        <img src="https://img.icons8.com/color/96/color-palette.png" alt="Colour">
+                        <img src="https://i.imgur.com/jnC0waS.jpeg" alt="Colour">
                         <span>Colour</span>
                     </button>
                     <button class="topic-btn" onclick="playClickSound(); openLesson('bodyPart')">
-                        <img src="https://img.icons8.com/color/96/visible.png" alt="Body Part">
+                        <img src="https://i.imgur.com/GGoBWXE.jpeg" alt="Body Part">
                         <span>Body Part</span>
                     </button>
                     <button class="topic-btn" onclick="playClickSound(); openLesson('shape')">
-                        <img src="https://img.icons8.com/color/96/shapes.png" alt="Shape">
+                        <img src="https://i.imgur.com/Vb2lTb2.jpeg" alt="Shape">
                         <span>Shape</span>
                     </button>
                     <button class="topic-btn" onclick="playClickSound(); openLesson('transport')">
-                        <img src="https://img.icons8.com/color/96/car--v1.png" alt="Transport">
+                        <img src="https://i.imgur.com/ntkuTTn.jpeg" alt="Transport">
                         <span>Transport</span>
                     </button>
                     <button class="topic-btn" onclick="playClickSound(); openLesson('food')">
-                        <img src="https://img.icons8.com/color/96/apple-cart.png" alt="Food">
+                        <img src="https://i.imgur.com/UYeXhEV.jpeg" alt="Food">
                         <span>Food</span>
                     </button>
                     <button class="topic-btn" onclick="playClickSound(); openLesson('jobs')">
-                        <img src="https://img.icons8.com/color/96/doctor-male.png" alt="Jobs">
+                        <img src="https://i.imgur.com/Y9TvZHi.jpeg" alt="Jobs & Profession">
                         <span>Jobs & Profession</span>
                     </button>
                 </div>
@@ -1188,7 +1189,7 @@
                 examples: "<ul><li>Uppercase: <i>A, B, C, D...</i></li><li>Lowercase: <i>a, b, c, d...</i></li></ul>"
             },
             numeric: {
-                title: "Numeric",
+                title: "Number",
                 desc: "Let's count numbers from 1 to 10 and beyond! Counting helps us understand quantity and math basics.",
                 examples: "<ul><li>Numbers: <i>1 (One), 2 (Two), 3 (Three), 4 (Four)...</i></li></ul>"
             },
@@ -1399,7 +1400,6 @@
             selectedQuestionCount = count;
             const allQ = questionBank[currentTopic] || [];
             
-            // Shuffle and slice
             let shuffled = [...allQ].sort(() => 0.5 - Math.random());
             currentQuestions = shuffled.slice(0, Math.min(count, shuffled.length));
             
@@ -1477,7 +1477,6 @@
             else if (percentage >= 50) feedback = "👍 Good job! Keep it up!";
             document.getElementById("feedback-message").innerText = feedback;
 
-            // Save record
             window.saveSessionRecord(lessonData[currentTopic].title, score, totalQ, formattedTime);
             showScreen("result-screen");
         }
