@@ -16,7 +16,7 @@
             --sidebar-bg: rgba(74, 35, 90, 0.95);
             --sidebar-text: #FFFFFF;
             --text-dark: #2C3E50;
-            --white: rgba(255, 255, 255, 0.95);
+            --white: transparent; /* Telus tanpa warna putih */
         }
 
         * {
@@ -56,7 +56,7 @@
             width: 90px;
             height: 90px;
             margin: 0 auto 10px auto;
-            background: #E0F7FA;
+            background: rgba(224, 247, 250, 0.8);
             border-radius: 50%;
             padding: 4px;
             border: 3px dashed var(--primary-green);
@@ -97,7 +97,7 @@
 
         .nav-item {
             padding: 12px 18px;
-            border-radius: 12px;
+            border-radius: 15px;
             font-weight: 700;
             cursor: pointer;
             display: flex;
@@ -106,12 +106,16 @@
             transition: all 0.2s ease;
             color: #ECF0F1;
             text-decoration: none;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         .nav-item:hover, .nav-item.active {
             background-color: var(--primary-pink);
             color: white;
-            transform: translateX(5px);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
         }
 
         .nav-item.whatsapp-btn {
@@ -142,10 +146,11 @@
             color: white;
             border: none;
             padding: 10px 15px;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 1.2rem;
             cursor: pointer;
             z-index: 101;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
         .main-content {
@@ -159,21 +164,27 @@
         }
 
         .container {
-            background-color: var(--white);
-            backdrop-filter: blur(10px);
-            border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            background-color: transparent; /* Buang warna putih sepenuhnya */
+            backdrop-filter: none;
+            border-radius: 0;
+            box-shadow: none;
             width: 100%;
             max-width: 750px;
-            padding: 30px;
+            padding: 10px;
             text-align: center;
-            border: 5px solid var(--primary-yellow);
+            border: none;
             position: relative;
         }
 
         .card {
             display: none;
             animation: fadeIn 0.4s ease-in-out;
+            background: rgba(255, 255, 255, 0.85); /* Efek kaca terapung lutsinar lembut */
+            backdrop-filter: blur(12px);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            border: 4px solid var(--primary-yellow);
         }
 
         .card.active {
@@ -199,7 +210,7 @@
             display: block;
             font-weight: 700;
             margin-bottom: 5px;
-            color: #555;
+            color: #333;
             font-size: 0.9rem;
         }
 
@@ -208,15 +219,17 @@
             padding: 12px 15px;
             font-size: 1rem;
             border: 2px solid var(--primary-blue);
-            border-radius: 12px;
+            border-radius: 15px;
             font-family: 'Quicksand', sans-serif;
             font-weight: 700;
             outline: none;
-            background: #fff;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
         }
 
         .form-input:focus {
             border-color: var(--primary-pink);
+            background: #fff;
         }
 
         .home-header {
@@ -229,7 +242,7 @@
             margin: 0 auto 8px auto;
             border-radius: 50%;
             border: 4px solid var(--primary-yellow);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         }
 
         .home-intro-title {
@@ -237,16 +250,17 @@
             color: #5E17EB;
             font-size: 1.6rem;
             margin-bottom: 5px;
+            text-shadow: 1px 1px 0 rgba(255,255,255,0.8);
         }
 
         .home-intro-subtitle {
             font-size: 0.95rem;
-            color: #555;
+            color: #444;
             font-weight: 700;
         }
 
         .active-profile-badge {
-            background: #E0F7FA;
+            background: rgba(224, 247, 250, 0.9);
             border: 2px dashed var(--primary-blue);
             padding: 8px 15px;
             border-radius: 15px;
@@ -256,6 +270,7 @@
             margin-bottom: 15px;
             font-weight: 700;
             font-size: 0.95rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
         .switch-profile-btn {
@@ -267,12 +282,13 @@
             font-size: 0.8rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 2px 0 #8d5cc4;
+            box-shadow: 0 3px 0 #8d5cc4;
+            transition: all 0.1s;
         }
 
         .switch-profile-btn:active {
-            transform: translateY(1px);
-            box-shadow: none;
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #8d5cc4;
         }
 
         /* TOPIC GRID & SUB-MODULE STYLING */
@@ -284,7 +300,7 @@
         }
 
         .topic-btn {
-            background-color: #FFFFFF;
+            background-color: rgba(255, 255, 255, 0.9);
             border: 3px solid #CBD5E1;
             border-radius: 20px;
             padding: 0;
@@ -294,7 +310,7 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.2s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
             aspect-ratio: 1 / 1;
             position: relative;
         }
@@ -309,7 +325,7 @@
 
         .topic-btn:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             border-color: var(--primary-pink);
         }
 
@@ -334,7 +350,7 @@
             font-family: 'Fredoka One', cursive;
             font-size: 1.3rem;
             cursor: pointer;
-            box-shadow: 0 6px 0 #4a15b8;
+            box-shadow: 0 6px 0 #4a15b8, 0 8px 20px rgba(0,0,0,0.15);
             transition: all 0.2s;
             display: flex;
             flex-direction: column;
@@ -344,7 +360,7 @@
 
         .abc-sub-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 9px 0 #4a15b8;
+            box-shadow: 0 9px 0 #4a15b8, 0 12px 25px rgba(0,0,0,0.2);
         }
 
         .abc-sub-btn:active {
@@ -375,14 +391,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 0 #E65100;
+            box-shadow: 0 4px 0 #E65100, 0 6px 12px rgba(0,0,0,0.1);
             transition: all 0.15s ease;
         }
 
         .square-letter-btn:hover {
             transform: translateY(-3px);
             background: linear-gradient(135deg, #FFE082, #FFB300);
-            box-shadow: 0 6px 0 #E65100;
+            box-shadow: 0 6px 0 #E65100, 0 8px 15px rgba(0,0,0,0.15);
         }
 
         .square-letter-btn:active {
@@ -392,7 +408,7 @@
 
         /* FLASHCARD STYLING FOR ABC */
         .flashcard-box {
-            background: #FFF9C4;
+            background: rgba(255, 249, 196, 0.95);
             border: 4px dashed #FBC02D;
             border-radius: 25px;
             padding: 25px;
@@ -400,7 +416,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
         }
 
         .flashcard-letter {
@@ -419,7 +435,7 @@
             border: 3px solid var(--primary-blue);
             overflow: hidden;
             margin: 15px 0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .flashcard-img-container img {
@@ -444,11 +460,12 @@
             font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 4px 0 #b33687;
+            box-shadow: 0 4px 0 #b33687, 0 6px 15px rgba(0,0,0,0.15);
             display: inline-flex;
             align-items: center;
             gap: 8px;
             margin-top: 10px;
+            transition: all 0.1s;
         }
 
         .sound-btn:active {
@@ -464,12 +481,13 @@
         }
 
         .lesson-box {
-            background: #F0F4F8;
+            background: rgba(240, 244, 248, 0.95);
             border-radius: 18px;
             padding: 20px;
             text-align: left;
             margin: 20px 0;
             border-left: 6px solid var(--primary-purple);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
         }
 
         .lesson-title {
@@ -504,9 +522,10 @@
             align-items: center;
             margin-bottom: 20px;
             font-weight: 700;
-            background: #FFF9C4;
+            background: rgba(255, 249, 196, 0.95);
             padding: 10px 20px;
             border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
         .question-box {
@@ -514,12 +533,13 @@
             font-weight: 700;
             margin: 25px 0;
             padding: 15px;
-            background-color: #F0F4F8;
+            background-color: rgba(240, 244, 248, 0.95);
             border-radius: 15px;
             min-height: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
         }
 
         .options-grid {
@@ -530,20 +550,23 @@
         }
 
         .option-btn {
-            background-color: #FFFFFF;
+            background-color: rgba(255, 255, 255, 0.95);
             border: 3px solid #CBD5E1;
-            padding: 12px;
-            border-radius: 12px;
+            padding: 15px;
+            border-radius: 15px;
             font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
             font-family: 'Quicksand', sans-serif;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
         }
 
         .option-btn:hover {
             border-color: var(--primary-blue);
             background-color: #E0F7FA;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
         }
 
         .option-btn.correct {
@@ -574,19 +597,25 @@
             font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 4px 0 #E65100;
+            box-shadow: 0 5px 0 #E65100, 0 8px 20px rgba(0,0,0,0.15);
             margin: 5px;
             text-decoration: none;
+            transition: all 0.1s;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 0 #E65100, 0 10px 25px rgba(0,0,0,0.2);
         }
 
         .action-btn:active {
-            transform: translateY(2px);
+            transform: translateY(3px);
             box-shadow: 0 2px 0 #E65100;
         }
 
         .login-whatsapp-btn {
             background-color: #25D366;
-            box-shadow: 0 4px 0 #1EBE5D;
+            box-shadow: 0 5px 0 #1EBE5D, 0 8px 20px rgba(0,0,0,0.15);
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -596,6 +625,7 @@
 
         .login-whatsapp-btn:hover {
             background-color: #1EBE5D;
+            box-shadow: 0 7px 0 #1EBE5D, 0 10px 25px rgba(0,0,0,0.2);
         }
 
         .login-whatsapp-btn:active {
@@ -604,7 +634,11 @@
 
         .home-btn {
             background-color: #3498DB;
-            box-shadow: 0 4px 0 #1F618D;
+            box-shadow: 0 5px 0 #1F618D, 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .home-btn:hover {
+            box-shadow: 0 7px 0 #1F618D, 0 10px 25px rgba(0,0,0,0.2);
         }
 
         .home-btn:active {
@@ -613,7 +647,11 @@
 
         .clear-btn {
             background-color: #E74C3C;
-            box-shadow: 0 4px 0 #922B21;
+            box-shadow: 0 5px 0 #922B21, 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .clear-btn:hover {
+            box-shadow: 0 7px 0 #922B21, 0 10px 25px rgba(0,0,0,0.2);
         }
 
         .clear-btn:active {
@@ -625,31 +663,34 @@
             font-family: 'Fredoka One', cursive;
             color: #5E17EB;
             margin: 15px 0;
+            text-shadow: 2px 2px 0 rgba(255,255,255,0.8);
         }
 
         .completion-time {
             font-size: 0.95rem;
-            color: #555;
-            background: #E0F7FA;
+            color: #444;
+            background: rgba(224, 247, 250, 0.9);
             padding: 8px 15px;
-            border-radius: 10px;
+            border-radius: 12px;
             display: inline-block;
             margin-bottom: 15px;
             font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
         .table-container {
             max-height: 300px;
             overflow-y: auto;
             margin-top: 15px;
-            border-radius: 12px;
+            border-radius: 15px;
             border: 2px solid #FFE082;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
         }
 
         .record-table {
             width: 100%;
             border-collapse: collapse;
-            background: #FFFDE7;
+            background: rgba(255, 253, 231, 0.95);
         }
 
         .record-table th, .record-table td {
@@ -666,12 +707,13 @@
         }
 
         .profile-card-details {
-            background: #F0F4F8;
+            background: rgba(240, 244, 248, 0.95);
             padding: 20px;
             border-radius: 15px;
             margin: 15px 0;
             text-align: left;
             font-size: 1rem;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
         }
 
         .profile-card-details p {
@@ -679,11 +721,12 @@
         }
 
         .profile-list-box {
-            background: #FFFFFF;
+            background: rgba(255, 255, 255, 0.9);
             border: 2px solid var(--primary-blue);
-            border-radius: 12px;
+            border-radius: 15px;
             padding: 15px;
             margin-top: 15px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
         }
 
         .question-count-grid {
@@ -702,13 +745,14 @@
             font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 4px 0 #8d5cc4;
+            box-shadow: 0 5px 0 #8d5cc4, 0 8px 20px rgba(0,0,0,0.15);
             transition: all 0.2s;
         }
 
         .count-btn:hover {
             transform: translateY(-2px);
             background-color: #b179ff;
+            box-shadow: 0 7px 0 #8d5cc4, 0 10px 25px rgba(0,0,0,0.2);
         }
 
         .count-btn:active {
@@ -784,9 +828,9 @@
 
             <!-- 1. LOGIN SCREEN -->
             <div id="login-screen" class="card active">
-                <h1 style="font-family: 'Fredoka One', cursive; color: #FF5757; margin-bottom: 10px;">KIDDORA</h1>
+                <h1 style="font-family: 'Fredoka One', cursive; color: #FF5757; margin-bottom: 10px; text-shadow: 1px 1px 0 rgba(255,255,255,0.8);">KIDDORA</h1>
                 <h2>Welcome Back, Kids! 👋</h2>
-                <p style="margin-top: 5px; color: #666;">Log in using your authorized email.</p>
+                <p style="margin-top: 5px; color: #444; font-weight: 700;">Log in using your authorized email.</p>
                 
                 <div class="input-group">
                     <label for="login-email">Email Address</label>
@@ -796,10 +840,10 @@
                     <label for="login-password">Password</label>
                     <input type="password" id="login-password" class="form-input" placeholder="••••••••">
                 </div>
-                <button class="action-btn" style="display:inline-block; width: 100%;" onclick="playClickSound(); handleLogin()">Log In 🚀</button>
+                <button class="action-btn" style="display:inline-block; width: 100%; margin-top: 10px;" onclick="playClickSound(); handleLogin()">Log In 🚀</button>
                 
-                <div style="margin-top: 25px; border-top: 2px dashed #DDD; padding-top: 20px;">
-                    <p style="font-weight: 700; color: #555; margin-bottom: 10px; font-size: 1rem;">Contact Us</p>
+                <div style="margin-top: 25px; border-top: 2px dashed rgba(0,0,0,0.15); padding-top: 20px;">
+                    <p style="font-weight: 700; color: #444; margin-bottom: 10px; font-size: 1rem;">Contact Us</p>
                     <a href="https://wa.me/60196818139" target="_blank" class="action-btn login-whatsapp-btn" onclick="playClickSound()">
                         💬 WhatsApp
                     </a>
@@ -809,14 +853,14 @@
             <!-- 2. PROFILE SELECTION / ADD SCREEN -->
             <div id="profile-selection-screen" class="card">
                 <h2>Who is Learning Today? 🧒👧</h2>
-                <p style="color: #666; margin-top: 5px;">Select a kid profile or add a new one.</p>
+                <p style="color: #444; font-weight: 700; margin-top: 5px;">Select a kid profile or add a new one.</p>
                 
                 <div class="profile-list-box" id="profile-selection-list">
                     <!-- Profile buttons populated dynamically -->
                 </div>
 
-                <div style="margin-top: 20px; border-top: 2px dashed #DDD; padding-top: 15px;">
-                    <h3>Add New Kid Profile</h3>
+                <div style="margin-top: 20px; border-top: 2px dashed rgba(0,0,0,0.15); padding-top: 15px;">
+                    <h3 style="color: #333;">Add New Kid Profile</h3>
                     <div class="input-group">
                         <input type="text" id="new-profile-name" class="form-input" placeholder="Enter kid name..." maxlength="20">
                     </div>
@@ -872,7 +916,7 @@
             <!-- ABC MODULE TOPICS SELECTION SCREEN -->
             <div id="abc-menu-screen" class="card">
                 <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">ABC Modules 🔤</h2>
-                <p style="color: #666; margin-top: 5px;">Choose your preferred language or mode to learn the alphabet!</p>
+                <p style="color: #444; font-weight: 700; margin-top: 5px;">Choose your preferred language or mode to learn the alphabet!</p>
                 
                 <div class="abc-menu-grid">
                     <button class="abc-sub-btn" onclick="playClickSound(); startABC('en')">
@@ -885,7 +929,7 @@
                         <span>Belajar ABC</span>
                         <span style="font-size: 0.85rem; font-weight: 500; opacity: 0.9;">(Bahasa Melayu)</span>
                     </button>
-                    <button class="abc-sub-btn" style="grid-column: span 2; background: linear-gradient(135deg, var(--primary-pink), var(--primary-yellow)); color: var(--text-dark); box-shadow: 0 6px 0 #b33687;" onclick="playClickSound(); startABCTracingMenu()">
+                    <button class="abc-sub-btn" style="grid-column: span 2; background: linear-gradient(135deg, var(--primary-pink), var(--primary-yellow)); color: var(--text-dark); box-shadow: 0 6px 0 #b33687, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); startABCTracingMenu()">
                         <span>✍️</span>
                         <span>ABC Tracing</span>
                         <span style="font-size: 0.85rem; font-weight: 700; opacity: 0.9;">(Select Letter A-Z to Trace Uppercase & Lowercase)</span>
@@ -897,7 +941,7 @@
             <!-- ABC TRACING LETTER SELECTION SCREEN (A-Z SQUARE BUTTONS) -->
             <div id="abc-tracing-menu-screen" class="card">
                 <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">Select Letter to Trace 🔠</h2>
-                <p style="color: #666; margin-top: 5px;">Choose a square letter button below (A to Z):</p>
+                <p style="color: #444; font-weight: 700; margin-top: 5px;">Choose a square letter button below (A to Z):</p>
                 
                 <div class="az-grid" id="az-buttons-container">
                     <!-- Populated dynamically via JS -->
@@ -908,8 +952,8 @@
 
             <!-- ABC INTERACTIVE FLASHCARD SCREEN -->
             <div id="abc-flashcard-screen" class="card">
-                <h2 id="abc-screen-title" style="color: #333; margin-bottom: 5px;">Learn ABC</h2>
-                <p style="color: #666; font-size: 0.9rem;" id="abc-progress-indicator">Letter A of Z</p>
+                <h2 id="abc-screen-title" style="color: #333; margin-bottom: 5px; font-family: 'Fredoka One', cursive;">Learn ABC</h2>
+                <p style="color: #444; font-weight: 700; font-size: 0.9rem;" id="abc-progress-indicator">Letter A of Z</p>
 
                 <div class="flashcard-box">
                     <div class="flashcard-letter" id="abc-letter">A</div>
@@ -923,33 +967,33 @@
                 <div class="flashcard-nav">
                     <button class="action-btn home-btn" onclick="playClickSound(); prevABCLetter()" id="prev-abc-btn">⬅ Prev</button>
                     <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Home 🏠</button>
-                    <button class="action-btn" style="background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); nextABCLetter()" id="next-abc-btn">Next ➡</button>
+                    <button class="action-btn" style="background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); nextABCLetter()" id="next-abc-btn">Next ➡</button>
                 </div>
             </div>
 
             <!-- ABC TRACING SCREEN (UPPERCASE FIRST, THEN LOWERCASE) -->
             <div id="abc-tracing-screen" class="card">
                 <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;" id="tracing-title-header">ABC Tracing - Uppercase ✍️</h2>
-                <p style="color: #666; font-size: 0.9rem;" id="tracing-step-indicator">Step 1: Trace Uppercase Letter</p>
+                <p style="color: #444; font-weight: 700; font-size: 0.9rem;" id="tracing-step-indicator">Step 1: Trace Uppercase Letter</p>
 
-                <div class="flashcard-box" style="background: #FFF; border: 4px dashed var(--primary-blue);">
+                <div class="flashcard-box" style="background: rgba(255,255,255,0.95); border: 4px dashed var(--primary-blue);">
                     <div style="font-size: 1.2rem; font-weight: 700; color: #555; margin-bottom: 5px;" id="tracing-letter-display">A</div>
                     <div style="position: relative; width: 300px; height: 300px; background: #F8FAFC; border-radius: 20px; border: 3px solid #CBD5E1; margin: 10px auto; overflow: hidden; touch-action: none;">
                         <canvas id="tracing-canvas" style="display: block; width: 100%; height: 100%; cursor: crosshair;"></canvas>
                     </div>
-                    <button class="sound-btn" style="background-color: #E74C3C; box-shadow: 0 4px 0 #922B21;" onclick="playClickSound(); clearTracingCanvas()">🔄 Clear / Padam</button>
+                    <button class="sound-btn" style="background-color: #E74C3C; box-shadow: 0 4px 0 #922B21, 0 6px 15px rgba(0,0,0,0.15);" onclick="playClickSound(); clearTracingCanvas()">🔄 Clear / Padam</button>
                 </div>
 
                 <div class="flashcard-nav">
                     <button class="action-btn home-btn" onclick="playClickSound(); showScreen('abc-tracing-menu-screen')">Select Letter 🔠</button>
                     <button class="action-btn home-btn" onclick="playClickSound(); showScreen('abc-menu-screen')">ABC Menu 🔤</button>
-                    <button class="action-btn" style="background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); nextTracingStep()" id="next-tracing-btn">Next (Lowercase) ➡</button>
+                    <button class="action-btn" style="background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); nextTracingStep()" id="next-tracing-btn">Next (Lowercase) ➡</button>
                 </div>
             </div>
 
             <!-- 4. LESSON SCREEN -->
             <div id="lesson-screen" class="card">
-                <h2 style="color: #333;">Lesson Time! 📖</h2>
+                <h2 style="color: #333; font-family: 'Fredoka One', cursive;">Lesson Time! 📖</h2>
                 <div class="lesson-box">
                     <div class="lesson-title" id="lesson-title">Topic Title</div>
                     <div class="lesson-desc" id="lesson-desc">Lesson explanation content goes here...</div>
@@ -958,15 +1002,15 @@
                         <div id="lesson-examples">Examples go here...</div>
                     </div>
                 </div>
-                <button class="action-btn" style="display:inline-block; background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); proceedToQuestionCount()">Choose Questions 🚀</button>
+                <button class="action-btn" style="display:inline-block; background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); proceedToQuestionCount()">Choose Questions 🚀</button>
                 <br>
-                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Home 🏠</button>
+                <button class="action-btn home-btn" style="margin-top: 10px;" onclick="playClickSound(); navigateTo('home-screen')">Home 🏠</button>
             </div>
 
             <!-- SCREEN PILIH BILANGAN SOALAN -->
             <div id="count-selection-screen" class="card">
                 <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">Select Question Count 📝</h2>
-                <p style="color: #666; margin-top: 5px;">How many questions would you like to answer?</p>
+                <p style="color: #444; font-weight: 700; margin-top: 5px;">How many questions would you like to answer?</p>
                 
                 <div class="question-count-grid">
                     <button class="count-btn" onclick="playClickSound(); startQuizWithCount(5)">5 Questions</button>
@@ -978,16 +1022,16 @@
 
             <!-- 5. PROFILES & ACCOUNT MANAGEMENT VIEW -->
             <div id="profile-view-screen" class="card">
-                <h2>Account & Profiles 👤</h2>
+                <h2 style="font-family: 'Fredoka One', cursive; color: #333;">Account & Profiles 👤</h2>
                 <div class="profile-card-details">
                     <p><strong>Account Email:</strong> <span id="acc-email-val" style="color: #5E17EB;">-</span></p>
                     <p><strong>Active Kid Profile:</strong> <span id="active-profile-val" style="color: #FF5757; font-weight: bold;">-</span></p>
                     <p><strong>Level:</strong> Kindergarten Tadika App (KIDDORA)</p>
                 </div>
 
-                <button class="action-btn" style="background-color: var(--primary-purple); box-shadow: 0 4px 0 #8d5cc4; width: 100%; margin-bottom: 15px;" onclick="playClickSound(); showScreen('profile-selection-screen')">Switch / Add Profiles 🔄</button>
+                <button class="action-btn" style="background-color: var(--primary-purple); box-shadow: 0 5px 0 #8d5cc4, 0 8px 20px rgba(0,0,0,0.15); width: 100%; margin-bottom: 15px;" onclick="playClickSound(); showScreen('profile-selection-screen')">Switch / Add Profiles 🔄</button>
                 
-                <div style="background: #FFF9C4; padding: 15px; border-radius: 15px; border: 2px dashed #FBC02D; text-align: left; margin-bottom: 15px;">
+                <div style="background: rgba(255, 249, 196, 0.95); padding: 15px; border-radius: 15px; border: 2px dashed #FBC02D; text-align: left; margin-bottom: 15px; box-shadow: 0 6px 15px rgba(0,0,0,0.08);">
                     <h3 style="color: #D35400; font-size: 1.1rem; margin-bottom: 8px;">🔐 Change Password</h3>
                     <div class="input-group" style="margin: 10px 0;">
                         <label for="current-password-input">Current Password</label>
@@ -997,7 +1041,7 @@
                         <label for="new-password-input">New Password (Min. 6 characters)</label>
                         <input type="password" id="new-password-input" class="form-input" placeholder="Enter new password">
                     </div>
-                    <button class="action-btn" style="background-color: #E67E22; box-shadow: 0 4px 0 #B9770E; width: 100%; margin-top: 5px;" onclick="playClickSound(); handlePasswordChange()">Update Password 🔑</button>
+                    <button class="action-btn" style="background-color: #E67E22; box-shadow: 0 5px 0 #B9770E, 0 8px 20px rgba(0,0,0,0.15); width: 100%; margin-top: 5px;" onclick="playClickSound(); handlePasswordChange()">Update Password 🔑</button>
                 </div>
 
                 <button class="action-btn home-btn" style="width: 100%; margin: 0;" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
@@ -1005,8 +1049,8 @@
 
             <!-- 6. SCORES HISTORY SCREEN -->
             <div id="scores-screen" class="card">
-                <h2 style="color: #333;">🏆 Quiz Attempt History</h2>
-                <p style="color: #666; margin-top: 5px;">Records of every quiz session completed!</p>
+                <h2 style="color: #333; font-family: 'Fredoka One', cursive;">🏆 Quiz Attempt History</h2>
+                <p style="color: #444; font-weight: 700; margin-top: 5px;">Records of every quiz session completed!</p>
                 
                 <div class="table-container">
                     <table class="record-table">
@@ -1052,11 +1096,11 @@
 
             <!-- 8. RESULT SCREEN -->
             <div id="result-screen" class="card">
-                <h2>Awesome Job! 🎉</h2>
-                <p>You have completed the quiz!</p>
+                <h2 style="font-family: 'Fredoka One', cursive; color: #333;">Awesome Job! 🎉</h2>
+                <p style="font-weight: 700; color: #444;">You have completed the quiz!</p>
                 <div class="result-score" id="final-score">0%</div>
                 <div class="completion-time" id="completion-time">📅 Completed on: -</div>
-                <p id="feedback-message" style="font-weight: 700; color: #555;"></p>
+                <p id="feedback-message" style="font-weight: 700; color: #333;"></p>
                 <br>
                 <button class="action-btn home-btn" style="display:inline-block;" onclick="playClickSound(); navigateTo('home-screen')">Back to Menu 🏠</button>
             </div>
@@ -1200,7 +1244,7 @@
                     });
                 } else {
                     window.userProfiles = [];
-                    listContainer.innerHTML = "<p style='color:#777;'>No profiles created yet. Please create one below!</p>";
+                    listContainer.innerHTML = "<p style='color:#555; font-weight:700;'>No profiles created yet. Please create one below!</p>";
                 }
 
                 if (!window.activeProfile) {
@@ -1283,7 +1327,7 @@
                     const profileData = allData.filter(item => item.profile === window.activeProfile);
 
                     if (profileData.length === 0) {
-                        tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">No quiz sessions recorded for ${window.activeProfile} yet!</td></tr>`;
+                        tbody.innerHTML = `<tr><td colspan="4" style="color:#555; padding: 20px; font-weight:700;">No quiz sessions recorded for ${window.activeProfile} yet!</td></tr>`;
                         return;
                     }
 
@@ -1295,15 +1339,15 @@
                             <td style="font-weight:700;">#${sessionNum}</td>
                             <td style="text-transform: capitalize; font-weight:700;">${session.topic}</td>
                             <td style="font-weight:700; color:#5E17EB;">${session.score}</td>
-                            <td style="font-size:0.8rem; color:#555;">${session.time}</td>
+                            <td style="font-size:0.8rem; font-weight:700; color:#444;">${session.time}</td>
                         `;
                         tbody.appendChild(tr);
                     });
                 } else {
-                    tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">No quiz sessions recorded yet! Start a quiz to see your history.</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="4" style="color:#555; padding: 20px; font-weight:700;">No quiz sessions recorded yet! Start a quiz to see your history.</td></tr>`;
                 }
             } catch (err) {
-                tbody.innerHTML = `<tr><td colspan="4" style="color:red;">Error loading history.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" style="color:red; font-weight:700;">Error loading history.</td></tr>`;
             }
         };
 
