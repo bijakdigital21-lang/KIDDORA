@@ -16,7 +16,7 @@
             --sidebar-bg: rgba(74, 35, 90, 0.95);
             --sidebar-text: #FFFFFF;
             --text-dark: #2C3E50;
-            --white: transparent; /* Telus tanpa warna putih */
+            --white: transparent;
         }
 
         * {
@@ -164,7 +164,7 @@
         }
 
         .container {
-            background-color: transparent; /* Buang warna putih sepenuhnya */
+            background-color: transparent;
             backdrop-filter: none;
             border-radius: 0;
             box-shadow: none;
@@ -179,7 +179,7 @@
         .card {
             display: none;
             animation: fadeIn 0.4s ease-in-out;
-            background: rgba(255, 255, 255, 0.85); /* Efek kaca terapung lutsinar lembut */
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
             border-radius: 25px;
             padding: 30px;
@@ -291,7 +291,6 @@
             box-shadow: 0 1px 0 #8d5cc4;
         }
 
-        /* TOPIC GRID & SUB-MODULE STYLING */
         .topic-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -333,7 +332,6 @@
             transform: scale(1.08);
         }
 
-        /* ABC SUB-MENU CONTAINER */
         .abc-menu-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -368,7 +366,6 @@
             box-shadow: 0 3px 0 #4a15b8;
         }
 
-        /* SQUARE A-Z GRID STYLING */
         .az-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
@@ -406,7 +403,6 @@
             box-shadow: 0 2px 0 #E65100;
         }
 
-        /* FLASHCARD STYLING FOR ABC */
         .flashcard-box {
             background: rgba(255, 249, 196, 0.95);
             border: 4px dashed #FBC02D;
@@ -938,14 +934,12 @@
                 <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
-            <!-- ABC TRACING LETTER SELECTION SCREEN (A-Z SQUARE BUTTONS) -->
+            <!-- ABC TRACING LETTER SELECTION SCREEN -->
             <div id="abc-tracing-menu-screen" class="card">
                 <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">Select Letter to Trace 🔠</h2>
                 <p style="color: #444; font-weight: 700; margin-top: 5px;">Choose a square letter button below (A to Z):</p>
                 
-                <div class="az-grid" id="az-buttons-container">
-                    <!-- Populated dynamically via JS -->
-                </div>
+                <div class="az-grid" id="az-buttons-container"></div>
 
                 <button class="action-btn home-btn" style="margin-top: 15px;" onclick="playClickSound(); showScreen('abc-menu-screen')">Back to ABC Menu 🔤</button>
             </div>
@@ -971,7 +965,7 @@
                 </div>
             </div>
 
-            <!-- ABC TRACING SCREEN (UPPERCASE FIRST, THEN LOWERCASE) -->
+            <!-- ABC TRACING SCREEN -->
             <div id="abc-tracing-screen" class="card">
                 <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;" id="tracing-title-header">ABC Tracing - Uppercase ✍️</h2>
                 <p style="color: #444; font-weight: 700; font-size: 0.9rem;" id="tracing-step-indicator">Step 1: Trace Uppercase Letter</p>
@@ -1021,43 +1015,23 @@
             </div>
 
             <!-- 5. PROFILES & ACCOUNT MANAGEMENT VIEW -->
-            <!-- 5. PROFILES & ACCOUNT MANAGEMENT VIEW -->
-<div id="profile-view-screen" class="card">
-    <h2 style="font-family: 'Fredoka One', cursive; color: #333;">Account & Profiles 👤</h2>
-    <div class="profile-card-details">
-        <p><strong>Account Email:</strong> <span id="acc-email-val" style="color: #5E17EB;">-</span></p>
-        <p><strong>Active Kid Profile:</strong> <span id="active-profile-val" style="color: #FF5757; font-weight: bold;">-</span></p>
-        
-    </div>
-
-    <button class="action-btn" style="background-color: var(--primary-purple); box-shadow: 0 5px 0 #8d5cc4, 0 8px 20px rgba(0,0,0,0.15); width: 100%; margin-bottom: 15px;" onclick="playClickSound(); showScreen('profile-selection-screen')">Switch / Add Profiles 🔄</button>
-    
-    <!-- SEKSYEN BARU: EDIT ATAU PADAM PROFIL SEDIA ADA -->
-    <div style="background: rgba(240, 244, 248, 0.95); padding: 15px; border-radius: 15px; border: 2px solid var(--primary-blue); text-align: left; margin-bottom: 15px;">
-        <h3 style="color: #2C3E50; font-size: 1.1rem; margin-bottom: 8px;">✏️ Manage Profiles (Edit / Delete)</h3>
-        <div id="manage-profiles-list" style="max-height: 150px; overflow-y: auto; margin-top: 10px;">
-            <!-- Senarai profil diisi secara dinamik melalui JS -->
-        </div>
-    </div>
-
-    <div style="background: rgba(255, 249, 196, 0.95); padding: 15px; border-radius: 15px; border: 2px dashed #FBC02D; text-align: left; margin-bottom: 15px; box-shadow: 0 6px 15px rgba(0,0,0,0.08);">
-        <h3 style="color: #D35400; font-size: 1.1rem; margin-bottom: 8px;">🔐 Change Password</h3>
-        <div class="input-group" style="margin: 10px 0;">
-            <label for="current-password-input">Current Password</label>
-            <input type="password" id="current-password-input" class="form-input" placeholder="Enter current password">
-        </div>
-        <div class="input-group" style="margin: 10px 0;">
-            <label for="new-password-input">New Password (Min. 6 characters)</label>
-            <input type="password" id="new-password-input" class="form-input" placeholder="Enter new password">
-        </div>
-        <button class="action-btn" style="background-color: #E67E22; box-shadow: 0 5px 0 #B9770E, 0 8px 20px rgba(0,0,0,0.15); width: 100%; margin-top: 5px;" onclick="playClickSound(); handlePasswordChange()">Update Password 🔑</button>
-    </div>
-
-    <button class="action-btn home-btn" style="width: 100%; margin: 0;" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
-</div>
+            <div id="profile-view-screen" class="card">
+                <h2 style="font-family: 'Fredoka One', cursive; color: #333;">Account & Profiles 👤</h2>
+                <div class="profile-card-details">
+                    <p><strong>Account Email:</strong> <span id="acc-email-val" style="color: #5E17EB;">-</span></p>
+                    <p><strong>Active Kid Profile:</strong> <span id="active-profile-val" style="color: #FF5757; font-weight: bold;">-</span></p>
+                </div>
 
                 <button class="action-btn" style="background-color: var(--primary-purple); box-shadow: 0 5px 0 #8d5cc4, 0 8px 20px rgba(0,0,0,0.15); width: 100%; margin-bottom: 15px;" onclick="playClickSound(); showScreen('profile-selection-screen')">Switch / Add Profiles 🔄</button>
                 
+                <!-- SEKSYEN PENGURUSAN PROFIL (EDIT / PADAM) -->
+                <div style="background: rgba(240, 244, 248, 0.95); padding: 15px; border-radius: 15px; border: 2px solid var(--primary-blue); text-align: left; margin-bottom: 15px;">
+                    <h3 style="color: #2C3E50; font-size: 1.1rem; margin-bottom: 8px;">✏️ Manage Profiles (Edit / Delete)</h3>
+                    <div id="manage-profiles-list" style="max-height: 150px; overflow-y: auto; margin-top: 10px;">
+                        <!-- Senarai profil diisi secara dinamik melalui JS -->
+                    </div>
+                </div>
+
                 <div style="background: rgba(255, 249, 196, 0.95); padding: 15px; border-radius: 15px; border: 2px dashed #FBC02D; text-align: left; margin-bottom: 15px; box-shadow: 0 6px 15px rgba(0,0,0,0.08);">
                     <h3 style="color: #D35400; font-size: 1.1rem; margin-bottom: 8px;">🔐 Change Password</h3>
                     <div class="input-group" style="margin: 10px 0;">
@@ -1089,9 +1063,7 @@
                                 <th>Date & Time</th>
                             </tr>
                         </thead>
-                        <tbody id="score-records-body">
-                            <!-- Loaded via JS -->
-                        </tbody>
+                        <tbody id="score-records-body"></tbody>
                     </table>
                 </div>
                 <br>
@@ -1099,7 +1071,7 @@
                 <button class="action-btn clear-btn" onclick="playClickSound(); clearHistory()">Clear History 🗑️</button>
             </div>
 
-            <!-- 7. QUIZ SCREEN (STANDARD MULTIPLE CHOICE) -->
+            <!-- 7. QUIZ SCREEN -->
             <div id="quiz-screen" class="card">
                 <div class="quiz-header">
                     <span id="topic-title">Module</span>
@@ -1107,13 +1079,9 @@
                     <span>Score: <span id="current-score">0</span></span>
                 </div>
 
-                <div id="question-text" class="question-box">
-                    Question content goes here...
-                </div>
+                <div id="question-text" class="question-box">Question content goes here...</div>
 
-                <div id="options-container" class="options-grid">
-                    <!-- Option buttons -->
-                </div>
+                <div id="options-container" class="options-grid"></div>
 
                 <div class="quiz-action-container">
                     <button id="next-btn" class="action-btn" style="display:none;" onclick="playClickSound(); nextQuestion()">Next Question ➔</button>
@@ -1148,7 +1116,7 @@
             updatePassword
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
        
-       import { 
+        import { 
             getDatabase, 
             ref, 
             set, 
@@ -1158,140 +1126,6 @@
             remove,
             update 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-        // Ubah fungsi fetchProfiles() kepada versi ini supaya ia mengemaskini paparan pengurusan profil juga:
-        async function fetchProfiles() {
-            if (!window.currentUserAuth) return;
-            const uid = window.currentUserAuth.uid;
-            const dbRef = ref(db);
-            
-            try {
-                const snapshot = await get(child(dbRef, `users/${uid}/profiles`));
-                const listContainer = document.getElementById("profile-selection-list");
-                const manageContainer = document.getElementById("manage-profiles-list");
-                
-                listContainer.innerHTML = "";
-                if(manageContainer) manageContainer.innerHTML = "";
-
-                if (snapshot.exists()) {
-                    const profilesObj = snapshot.val();
-                    window.userProfiles = Object.entries(profilesObj); // Simpan [profileId, profileName]
-
-                    window.userProfiles.forEach(([profId, profName]) => {
-                        // 1. Butang untuk Skrin Pemilihan Profil
-                        const btn = document.createElement("button");
-                        btn.className = "action-btn";
-                        btn.style.display = "block";
-                        btn.style.width = "100%";
-                        btn.style.margin = "8px 0";
-                        btn.innerText = `👤 ${profName}`;
-                        btn.onclick = () => selectProfile(profName);
-                        listContainer.appendChild(btn);
-
-                        // 2. Senarai untuk Skrin Edit / Padam (Profile View Screen)
-                        if(manageContainer) {
-                            const row = document.createElement("div");
-                            row.style.display = "flex";
-                            row.style.justifyContent = "space-between";
-                            row.style.alignItems = "center";
-                            row.style.marginBottom = "8px";
-                            row.style.background = "#fff";
-                            row.style.padding = "8px 12px";
-                            row.style.borderRadius = "10px";
-                            row.style.border = "1px solid #CBD5E1";
-
-                            const nameSpan = document.createElement("span");
-                            nameSpan.innerText = profName;
-                            nameSpan.style.fontWeight = "700";
-
-                            const btnGroup = document.createElement("div");
-                            btnGroup.style.display = "flex";
-                            btnGroup.style.gap = "5px";
-
-                            // Butang Edit
-                            const editBtn = document.createElement("button");
-                            editBtn.innerText = "✏️ Edit";
-                            editBtn.className = "switch-profile-btn";
-                            editBtn.style.background = "#3498DB";
-                            editBtn.onclick = () => promptEditProfile(profId, profName);
-
-                            // Butang Padam (Delete)
-                            const deleteBtn = document.createElement("button");
-                            deleteBtn.innerText = "🗑️ Delete";
-                            deleteBtn.className = "switch-profile-btn";
-                            deleteBtn.style.background = "#E74C3C";
-                            deleteBtn.onclick = () => promptDeleteProfile(profId, profName);
-
-                            btnGroup.appendChild(editBtn);
-                            btnGroup.appendChild(deleteBtn);
-
-                            row.appendChild(nameSpan);
-                            row.appendChild(btnGroup);
-                            manageContainer.appendChild(row);
-                        }
-                    });
-                } else {
-                    window.userProfiles = [];
-                    listContainer.innerHTML = "<p style='color:#555; font-weight:700;'>No profiles created yet. Please create one below!</p>";
-                    if(manageContainer) manageContainer.innerHTML = "<p style='color:#555; font-weight:700;'>No profiles to manage.</p>";
-                }
-
-                if (!window.activeProfile) {
-                    showScreen("profile-selection-screen");
-                }
-            } catch (err) {
-                console.error("Error fetching profiles:", err);
-            }
-        }
-
-        // Fungsi Prompt & Eksekusi Kemaskini Nama Profil
-        window.promptEditProfile = async function(profileId, oldName) {
-            const newName = prompt(`Enter new name for profile "${oldName}":`, oldName);
-            if (!newName || newName.trim() === "") return;
-
-            const trimmedName = newName.trim();
-            if (!window.currentUserAuth) return;
-            const uid = window.currentUserAuth.uid;
-
-            try {
-                await set(ref(db, `users/${uid}/profiles/${profileId}`), trimmedName);
-                
-                // Jika profil yang diedit sedang aktif sekarang, kemaskini paparan nama aktif
-                if (window.activeProfile === oldName) {
-                    selectProfile(trimmedName);
-                }
-                
-                alert("Profile name updated successfully! 🎉");
-                await fetchProfiles();
-            } catch (err) {
-                alert("Failed to update profile: " + err.message);
-            }
-        };
-
-        // Fungsi Prompt & Eksekusi Padam Profil
-        window.promptDeleteProfile = async function(profileId, profileName) {
-            if (!confirm(`Are you sure you want to delete profile "${profileName}"? All associated data/history might be orphaned.`)) return;
-
-            if (!window.currentUserAuth) return;
-            const uid = window.currentUserAuth.uid;
-
-            try {
-                // Padam profil dari pangkalan data Firebase
-                await remove(ref(db, `users/${uid}/profiles/${profileId}`));
-                
-                alert(`Profile "${profileName}" has been deleted.`);
-                
-                // Jika profil yang dipadam adalah profil aktif, reset activeProfile dan arahkan ke pemilihan profil
-                if (window.activeProfile === profileName) {
-                    window.activeProfile = "";
-                    showScreen("profile-selection-screen");
-                }
-                
-                await fetchProfiles();
-            } catch (err) {
-                alert("Failed to delete profile: " + err.message);
-            }
-        };
 
         const firebaseConfig = {
             apiKey: "AIzaSyDXc06B8WLtqjkG0aScBHrd3L3M-n_5okc",
@@ -1383,6 +1217,7 @@
             }
         };
 
+        // Fungsi fetchProfiles tunggal yang lengkap dengan Edit & Delete
         async function fetchProfiles() {
             if (!window.currentUserAuth) return;
             const uid = window.currentUserAuth.uid;
@@ -1391,11 +1226,16 @@
             try {
                 const snapshot = await get(child(dbRef, `users/${uid}/profiles`));
                 const listContainer = document.getElementById("profile-selection-list");
+                const manageContainer = document.getElementById("manage-profiles-list");
+                
                 listContainer.innerHTML = "";
+                if (manageContainer) manageContainer.innerHTML = "";
 
                 if (snapshot.exists()) {
-                    window.userProfiles = Object.values(snapshot.val());
-                    window.userProfiles.forEach(profName => {
+                    const profilesObj = snapshot.val();
+                    window.userProfiles = Object.entries(profilesObj);
+
+                    window.userProfiles.forEach(([profId, profName]) => {
                         const btn = document.createElement("button");
                         btn.className = "action-btn";
                         btn.style.display = "block";
@@ -1404,10 +1244,50 @@
                         btn.innerText = `👤 ${profName}`;
                         btn.onclick = () => selectProfile(profName);
                         listContainer.appendChild(btn);
+
+                        if (manageContainer) {
+                            const row = document.createElement("div");
+                            row.style.display = "flex";
+                            row.style.justifyContent = "space-between";
+                            row.style.alignItems = "center";
+                            row.style.marginBottom = "8px";
+                            row.style.background = "#fff";
+                            row.style.padding = "8px 12px";
+                            row.style.borderRadius = "10px";
+                            row.style.border = "1px solid #CBD5E1";
+
+                            const nameSpan = document.createElement("span");
+                            nameSpan.innerText = profName;
+                            nameSpan.style.fontWeight = "700";
+
+                            const btnGroup = document.createElement("div");
+                            btnGroup.style.display = "flex";
+                            btnGroup.style.gap = "5px";
+
+                            const editBtn = document.createElement("button");
+                            editBtn.innerText = "✏️ Edit";
+                            editBtn.className = "switch-profile-btn";
+                            editBtn.style.background = "#3498DB";
+                            editBtn.onclick = () => promptEditProfile(profId, profName);
+
+                            const deleteBtn = document.createElement("button");
+                            deleteBtn.innerText = "🗑️ Delete";
+                            deleteBtn.className = "switch-profile-btn";
+                            deleteBtn.style.background = "#E74C3C";
+                            deleteBtn.onclick = () => promptDeleteProfile(profId, profName);
+
+                            btnGroup.appendChild(editBtn);
+                            btnGroup.appendChild(deleteBtn);
+
+                            row.appendChild(nameSpan);
+                            row.appendChild(btnGroup);
+                            manageContainer.appendChild(row);
+                        }
                     });
                 } else {
                     window.userProfiles = [];
                     listContainer.innerHTML = "<p style='color:#555; font-weight:700;'>No profiles created yet. Please create one below!</p>";
+                    if (manageContainer) manageContainer.innerHTML = "<p style='color:#555; font-weight:700;'>No profiles to manage.</p>";
                 }
 
                 if (!window.activeProfile) {
@@ -1417,6 +1297,45 @@
                 console.error("Error fetching profiles:", err);
             }
         }
+
+        window.promptEditProfile = async function(profileId, oldName) {
+            const newName = prompt(`Enter new name for profile "${oldName}":`, oldName);
+            if (!newName || newName.trim() === "") return;
+
+            const trimmedName = newName.trim();
+            if (!window.currentUserAuth) return;
+            const uid = window.currentUserAuth.uid;
+
+            try {
+                await set(ref(db, `users/${uid}/profiles/${profileId}`), trimmedName);
+                if (window.activeProfile === oldName) {
+                    selectProfile(trimmedName);
+                }
+                alert("Profile name updated successfully! 🎉");
+                await fetchProfiles();
+            } catch (err) {
+                alert("Failed to update profile: " + err.message);
+            }
+        };
+
+        window.promptDeleteProfile = async function(profileId, profileName) {
+            if (!confirm(`Are you sure you want to delete profile "${profileName}"? All associated data/history might be orphaned.`)) return;
+
+            if (!window.currentUserAuth) return;
+            const uid = window.currentUserAuth.uid;
+
+            try {
+                await remove(ref(db, `users/${uid}/profiles/${profileId}`));
+                alert(`Profile "${profileName}" has been deleted.`);
+                if (window.activeProfile === profileName) {
+                    window.activeProfile = "";
+                    showScreen("profile-selection-screen");
+                }
+                await fetchProfiles();
+            } catch (err) {
+                alert("Failed to delete profile: " + err.message);
+            }
+        };
 
         window.addNewProfile = async function() {
             const nameInput = document.getElementById("new-profile-name");
@@ -1597,7 +1516,6 @@
             osc.stop(now + 0.25);
         }
 
-        // --- ABC DATA & LOGIC ---
         const abcDataEn = [
             { letter: "A", word: "Apple", image: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&q=80" },
             { letter: "B", word: "Ball", image: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxUPDxAPFRUVFRUVDxUPFQ8PDw8PFRUWFhUVFRUYHSggGBolGxUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDg0OFw8QGisdHR0tKy0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLSsrLS0tKystLS0tLS0tLS0tLS0tLf/AABEIAQQAwgMBIgACEQEDEQH/xAAcAAABBQEBAQAAAAAAAAAAAAABAAIDBAUHBgj/xABBEAACAQMBBQUFBAgEBwEAAAABAgADBBEhBQYSMUEHE1FhcSIygZGhQmKx0RQjM0NSgrLBc5Lh8SU1VGNyovAI/8QAGQEAAwEBAQAAAAAAAAAAAAAAAAECAwQF/8QAIBEBAQEAAgMAAwEBAAAAAAAAAAECAxESITEEQVETMv/aAAwDAQACEQMRAD8A42IQIgSJPyUgyKVWScq9XnL2l9Fk5j6S84L00eL8l/9k=" },
@@ -1639,7 +1557,7 @@
             { letter: "I", word: "Ikan", image: "https://images.unsplash.com/photo-1524704654690-b56c05c78a00?w=400&q=80" },
             { letter: "J", word: "Jam", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjtuxNpYsntoC6QH6rjs-FrTrXYF6ioEzk7Ox0fd8sEQ&s" },
             { letter: "K", word: "Kucing", image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&q=80" },
-            { letter: "L", word: " Lembu", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD80OY9-tSFWY63bgbZ4Np2H9_wz7vfc0-aonwgpttdA&s=10" },
+            { letter: "L", word: "Lembu", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD80OY9-tSFWY63bgbZ4Np2H9_wz7vfc0-aonwgpttdA&s=10" },
             { letter: "M", word: "Monyet", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQp-6uNXDqeZZXN1Ze0rG-_29OMjE9wqcVW-Wi8X4oQ1w&s=10" },
             { letter: "N", word: "Nenas", image: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=400&q=80" },
             { letter: "O", word: "Oren", image: "https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=400&q=80" },
@@ -1656,7 +1574,7 @@
             { letter: "Z", word: "Zirafah", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFURJfb3h9KeTQ2tnK9z0yPJkf6J130IaHY5UNN4-J-g&s=10" }
         ];
 
-        let currentABCMode = 'en'; // 'en' or 'ms'
+        let currentABCMode = 'en';
         let currentABCIndex = 0;
 
         function openABCMenu() {
@@ -1721,9 +1639,8 @@
             }
         }
 
-        // --- ABC TRACING LOGIC (SELECT LETTER A-Z, UPPERCASE FIRST THEN LOWERCASE) ---
         let selectedTracingLetter = "A";
-        let tracingStep = 1; // 1 = Uppercase, 2 = Lowercase
+        let tracingStep = 1;
         const alphabetList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
         let tracingCanvas, tracingCtx;
         let isDrawing = false;
@@ -1751,7 +1668,7 @@
 
         function selectLetterForTracing(letter) {
             selectedTracingLetter = letter;
-            tracingStep = 1; // Mula dengan huruf besar
+            tracingStep = 1;
             showScreen('abc-tracing-screen');
             setTimeout(() => {
                 initTracingCanvas();
@@ -1855,11 +1772,9 @@
         function nextTracingStep() {
             playClickSound();
             if (tracingStep === 1) {
-                // Pindah ke page huruf kecil
                 tracingStep = 2;
                 renderTracingLetter();
             } else {
-                // Selesai untuk huruf ini, kembali ke menu pemilihan huruf A-Z
                 alert(`Great job tracing letter ${selectedTracingLetter}! 🎉`);
                 showScreen('abc-tracing-menu-screen');
             }
