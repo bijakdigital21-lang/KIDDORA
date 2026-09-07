@@ -1434,7 +1434,7 @@
                 window.speechSynthesis.cancel(); // Stop any ongoing speech
                 const utterance = new SpeechSynthesisUtterance(textToSpeak);
                 utterance.lang = currentABCMode === 'en' ? 'en-US' : 'ms-MY';
-                utterance.rate = 0.5; // slightly slower for kids
+                utterance.rate = 0.3; // slightly slower for kids
                 window.speechSynthesis.speak(utterance);
             }
         }
