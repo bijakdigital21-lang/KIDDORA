@@ -275,10 +275,10 @@
             box-shadow: none;
         }
 
-        /* MODUL KOTAK DENGAN IMEJ FULL (BUANG PERKATAAN) */
+        /* MODUL KOTAK DENGAN IMEJ */
         .topic-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
             margin-top: 20px;
         }
@@ -287,23 +287,31 @@
             background-color: #FFFFFF;
             border: 3px solid #CBD5E1;
             border-radius: 20px;
-            padding: 0;
-            overflow: hidden;
+            padding: 15px 10px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 10px;
             cursor: pointer;
             transition: all 0.2s ease;
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            aspect-ratio: 1 / 1;
+            font-family: 'Quicksand', sans-serif;
         }
 
         .topic-btn img {
-            width: 100%;
-            height: 100%;
+            width: 75px;
+            height: 75px;
             object-fit: cover;
-            border-radius: 17px;
+            border-radius: 12px;
             transition: transform 0.2s ease;
+        }
+
+        .topic-btn span {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-align: center;
         }
 
         .topic-btn:hover {
@@ -314,41 +322,6 @@
 
         .topic-btn:hover img {
             transform: scale(1.08);
-        }
-
-        .lesson-box {
-            background: #F0F4F8;
-            border-radius: 18px;
-            padding: 20px;
-            text-align: left;
-            margin: 20px 0;
-            border-left: 6px solid var(--primary-purple);
-        }
-
-        .lesson-title {
-            font-family: 'Fredoka One', cursive;
-            color: #5E17EB;
-            font-size: 1.6rem;
-            margin-bottom: 10px;
-        }
-
-        .lesson-desc {
-            font-size: 1.05rem;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
-
-        .lesson-example {
-            background: #FFFFFF;
-            padding: 12px 15px;
-            border-radius: 12px;
-            border: 2px dashed var(--primary-blue);
-            margin-top: 10px;
-        }
-
-        .lesson-example ul {
-            padding-left: 20px;
-            margin-top: 5px;
         }
 
         .quiz-header {
@@ -692,50 +665,43 @@
                 </div>
 
                 <div class="topic-grid">
-                    <button class="topic-btn" onclick="playClickSound(); openLesson('abc')">
+                    <button class="topic-btn" onclick="playClickSound(); openModule('abc')">
                         <img src="https://i.imgur.com/HRl0fWA.jpeg" alt="ABC Character">
+                        <span>ABC Character</span>
                     </button>
-                    <button class="topic-btn" onclick="playClickSound(); openLesson('numeric')">
+                    <button class="topic-btn" onclick="playClickSound(); openModule('numeric')">
                         <img src="https://i.imgur.com/Xzib4i8.jpeg" alt="Number">
+                        <span>Number</span>
                     </button>
-                    <button class="topic-btn" onclick="playClickSound(); openLesson('animal')">
+                    <button class="topic-btn" onclick="playClickSound(); openModule('animal')">
                         <img src="https://i.imgur.com/tXLFggI.jpeg" alt="Animal">
+                        <span>Animal</span>
                     </button>
-                    <button class="topic-btn" onclick="playClickSound(); openLesson('colour')">
+                    <button class="topic-btn" onclick="playClickSound(); openModule('colour')">
                         <img src="https://i.imgur.com/jnC0waS.jpeg" alt="Colour">
+                        <span>Colour</span>
                     </button>
-                    <button class="topic-btn" onclick="playClickSound(); openLesson('bodyPart')">
+                    <button class="topic-btn" onclick="playClickSound(); openModule('bodyPart')">
                         <img src="https://i.imgur.com/GGoBWXE.jpeg" alt="Body Part">
+                        <span>Body Part</span>
                     </button>
-                    <button class="topic-btn" onclick="playClickSound(); openLesson('shape')">
+                    <button class="topic-btn" onclick="playClickSound(); openModule('shape')">
                         <img src="https://i.imgur.com/Vb2lTb2.jpeg" alt="Shape">
+                        <span>Shape</span>
                     </button>
-                    <button class="topic-btn" onclick="playClickSound(); openLesson('transport')">
+                    <button class="topic-btn" onclick="playClickSound(); openModule('transport')">
                         <img src="https://i.imgur.com/ntkuTTn.jpeg" alt="Transport">
+                        <span>Transport</span>
                     </button>
-                    <button class="topic-btn" onclick="playClickSound(); openLesson('food')">
+                    <button class="topic-btn" onclick="playClickSound(); openModule('food')">
                         <img src="https://i.imgur.com/UYeXhEV.jpeg" alt="Food">
+                        <span>Food</span>
                     </button>
-                    <button class="topic-btn" onclick="playClickSound(); openLesson('jobs')">
+                    <button class="topic-btn" onclick="playClickSound(); openModule('jobs')">
                         <img src="https://i.imgur.com/Y9TvZHi.jpeg" alt="Jobs & Profession">
+                        <span>Jobs & Profession</span>
                     </button>
                 </div>
-            </div>
-
-            <!-- 4. LESSON SCREEN -->
-            <div id="lesson-screen" class="card">
-                <h2 style="color: #333;">Lesson Time! 📖</h2>
-                <div class="lesson-box">
-                    <div class="lesson-title" id="lesson-title">Topic Title</div>
-                    <div class="lesson-desc" id="lesson-desc">Lesson explanation content goes here...</div>
-                    <div class="lesson-example">
-                        <strong>Examples:</strong>
-                        <div id="lesson-examples">Examples go here...</div>
-                    </div>
-                </div>
-                <button class="action-btn" style="display:inline-block; background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); proceedToQuestionCount()">Choose Questions 🚀</button>
-                <br>
-                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Home 🏠</button>
             </div>
 
             <!-- SCREEN PILIH BILANGAN SOALAN -->
@@ -1165,52 +1131,16 @@
             osc.stop(now + 0.25);
         }
 
-        const lessonData = {
-            abc: {
-                title: "ABC Character",
-                desc: "Let's learn the alphabet from A to Z! Recognizing uppercase and lowercase letters is an essential first step for reading.",
-                examples: "<ul><li>Uppercase: <i>A, B, C, D...</i></li><li>Lowercase: <i>a, b, c, d...</i></li></ul>"
-            },
-            numeric: {
-                title: "Number",
-                desc: "Let's count numbers from 1 to 10 and beyond! Counting helps us understand quantity and math basics.",
-                examples: "<ul><li>Numbers: <i>1 (One), 2 (Two), 3 (Three), 4 (Four)...</i></li></ul>"
-            },
-            animal: {
-                title: "Animal",
-                desc: "Discover various animals found around the world, including farm animals, pets, and wild animals!",
-                examples: "<ul><li>Pets & Farm: <i>Cat, Dog, Cow, Duck</i></li><li>Wild: <i>Lion, Elephant, Monkey</i></li></ul>"
-            },
-            colour: {
-                title: "Colour",
-                desc: "Explore vibrant colours all around us! Colors make our world beautiful and full of life.",
-                examples: "<ul><li>Primary colours: <i>Red, Blue, Yellow</i></li><li>Others: <i>Green, Pink, Purple, Orange</i></li></ul>"
-            },
-            bodyPart: {
-                title: "Body Part",
-                desc: "Learn about the different parts of our body and what each part helps us do every day.",
-                examples: "<ul><li>Face: <i>Eyes, Nose, Mouth, Ears</i></li><li>Limbs: <i>Hands, Fingers, Legs, Feet</i></li></ul>"
-            },
-            shape: {
-                title: "Shape",
-                desc: "Identify fundamental geometric shapes like circles, squares, triangles, and rectangles in everyday objects.",
-                examples: "<ul><li>Shapes: <i>Circle, Square, Triangle, Rectangle</i></li></ul>"
-            },
-            transport: {
-                title: "Transport",
-                desc: "Learn about different vehicles that help us travel on land, water, and up in the sky.",
-                examples: "<ul><li>Land: <i>Car, Bus, Bicycle, Train</i></li><li>Air/Water: <i>Aeroplane, Ship</i></li></ul>"
-            },
-            food: {
-                title: "Food",
-                desc: "Learn about healthy food items like delicious fruits, vegetables, and daily meals that keep us strong.",
-                examples: "<ul><li>Fruits: <i>Apple, Banana, Orange, Mango</i></li></ul>"
-            },
-            jobs: {
-                title: "Jobs & Profession",
-                desc: "Discover community helpers and different professions that make our society wonderful and safe.",
-                examples: "<ul><li>Helpers: <i>Doctor, Teacher, Police Officer, Firefighter</i></li></ul>"
-            }
+        const moduleTitles = {
+            abc: "ABC Character",
+            numeric: "Number",
+            animal: "Animal",
+            colour: "Colour",
+            bodyPart: "Body Part",
+            shape: "Shape",
+            transport: "Transport",
+            food: "Food",
+            jobs: "Jobs & Profession"
         };
 
         const questionBank = {
@@ -1366,16 +1296,8 @@
             showScreen(screenId);
         }
 
-        function openLesson(topicKey) {
+        function openModule(topicKey) {
             currentTopic = topicKey;
-            const data = lessonData[topicKey];
-            document.getElementById("lesson-title").innerText = data.title;
-            document.getElementById("lesson-desc").innerHTML = data.desc;
-            document.getElementById("lesson-examples").innerHTML = data.examples;
-            showScreen("lesson-screen");
-        }
-
-        function proceedToQuestionCount() {
             showScreen("count-selection-screen");
         }
 
@@ -1390,7 +1312,7 @@
             score = 0;
             userAnswersHistory = [];
 
-            document.getElementById("topic-title").innerText = lessonData[currentTopic].title;
+            document.getElementById("topic-title").innerText = moduleTitles[currentTopic];
             document.getElementById("total-q-num").innerText = currentQuestions.length;
             
             showScreen("quiz-screen");
@@ -1460,7 +1382,7 @@
             else if (percentage >= 50) feedback = "👍 Good job! Keep it up!";
             document.getElementById("feedback-message").innerText = feedback;
 
-            window.saveSessionRecord(lessonData[currentTopic].title, score, totalQ, formattedTime);
+            window.saveSessionRecord(moduleTitles[currentTopic], score, totalQ, formattedTime);
             showScreen("result-screen");
         }
 
