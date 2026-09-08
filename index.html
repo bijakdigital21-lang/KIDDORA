@@ -1484,6 +1484,139 @@
             osc.stop(now + 0.25);
         }
 
+        const alphabetList = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+        let matchPagesCount = 5;
+        let currentMatchPageIdx = 0;
+        let matchGameData = [];
+        let matchScoreCount = 0;
+        let selectedLowercaseLetter = null;
+        let selectedLowercaseElement = null;
+        let matchedPairsInCurrentPage = 0;
+
+        function openMatchLettersCountScreen() {
+            showScreen('match-count-screen');
+        }
+
+        function startMatchLetters(setCount) {
+            matchPagesCount = setCount;
+            currentMatchPageIdx = 0;
+            matchScoreCount = 0;
+
+            // Generate non-repeating sets of 5 letters each
+            let shuffledAlphabet = [...alphabetList].sort(() => 0.5 - Math.random());
+            matchGameData = [];
+
+            let totalLettersNeeded = setCount * 5;
+            // Ensure we have enough letters (alphabet has 26, so max 5 pages of 5 = 25 letters)
+            let selectedSubset = shuffledAlphabet.slice(0, totalLettersNeeded);
+
+            for (let i = 0; i < setCount; i++) {
+                let pageLetters = selectedSubset.slice(i * 5, (i + 1) * 5);
+                matchGameData.push(pageLetters);
+            }
+
+            showScreen('match-game-screen');
+            loadMatchPage();
+        }
+
+        function loadMatchPage() {
+            matchedPairsInCurrentPage = 0;
+            selectedLowercaseLetter = null;
+            selectedLowercaseElement = null;
+
+            document.getElementById("match-current-page").innerText = currentMatchPageIdx + 1;
+            document.getElementById("match-total-pages").innerText = matchPagesCount;
+            document.getElementById("match-score").innerText = matchScoreCount;
+            document.getElementById("match-next-btn").style.display = "none";
+
+            const currentLetters = matchGameData[currentMatchPageIdx];
+            
+            // Left Column: Lowercase (shuffled so they don't align directly with uppercase)
+            const leftCol = document.getElementById("match-left-column");
+            const rightCol = document.getElementById("match-right-column");
+            leftCol.innerHTML = "";
+            rightCol.innerHTML = "";
+
+            let randomizedLowercase = [...currentLetters].sort(() => 0.5 - Math.random());
+            let randomizedUppercase = [...currentLetters].sort(() => 0.5 - Math.random());
+
+            randomizedLowercase.forEach(letter => {
+                const div = document.createElement("div");
+                div.className = "match-item";
+                div.innerText = letter.toLowerCase();
+                div.onclick = () => selectLowercase(letter, div);
+                leftCol.appendChild(div);
+            });
+
+            randomizedUppercase.forEach(letter => {
+                const div = document.createElement("div");
+                div.className = "match-item";
+                div.innerText = letter;
+                div.onclick = () => selectUppercase(letter, div);
+                rightCol.appendChild(div);
+            });
+        }
+
+        function selectLowercase(letter, element) {
+            if (element.classList.contains("matched")) return;
+            playClickSound();
+
+            if (selectedLowercaseElement) {
+                selectedLowercaseElement.classList.remove("selected");
+            }
+
+            selectedLowercaseLetter = letter;
+            selectedLowercaseElement = element;
+            element.classList.add("selected");
+        }
+
+        function selectUppercase(letter, element) {
+            if (element.classList.contains("matched")) return;
+
+            if (!selectedLowercaseLetter) {
+                playWrongSound();
+                return;
+            }
+
+            if (selectedLowercaseLetter === letter) {
+                // Correct match!
+                playCorrectSound();
+                matchScoreCount++;
+                document.getElementById("match-score").innerText = matchScoreCount;
+
+                selectedLowercaseElement.classList.remove("selected");
+                selectedLowercaseElement.classList.add("matched");
+                element.classList.add("matched");
+
+                selectedLowercaseLetter = null;
+                selectedLowercaseElement = null;
+                matchedPairsInCurrentPage++;
+
+                if (matchedPairsInCurrentPage === 5) {
+                    // Page completed!
+                    if (currentMatchPageIdx < matchPagesCount - 1) {
+                        document.getElementById("match-next-btn").style.display = "inline-block";
+                    } else {
+                        setTimeout(() => {
+                            alert("🌟 Amazing! You have completed all match sets!");
+                            navigateTo('home-screen');
+                        }, 500);
+                    }
+                }
+            } else {
+                // Wrong match!
+                playWrongSound();
+                element.style.background = "#FF6B6B";
+                setTimeout(() => {
+                    element.style.background = "white";
+                }, 400);
+            }
+        }
+
+        function nextMatchPage() {
+            currentMatchPageIdx++;
+            loadMatchPage();
+        }
         const abcDataEn = [
             { letter: "A", word: "Apple", image: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&q=80" },
             { letter: "B", word: "Ball", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzqqP1XNEY7BWJfEGAvXCveg3uEB4nRlKTpVrTp2p9-Q&s=10" },
