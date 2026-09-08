@@ -18,8 +18,7 @@
             --text-dark: #2C3E50;
             --white: transparent;
         }
-
-       * {
+ * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -262,6 +261,37 @@
             font-size: 0.95rem;
             color: #444;
             font-weight: 700;
+        }
+
+        /* BAHAGIAN PILIHAN BAHASA DI HOME */
+        .language-switcher-container {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid var(--primary-purple);
+            padding: 10px 15px;
+            border-radius: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin: 10px 0 15px 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            font-weight: 700;
+        }
+
+        .lang-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: var(--primary-pink);
+            color: white;
+            box-shadow: 0 3px 10px rgba(255,102,196,0.4);
         }
 
         .active-profile-badge {
@@ -724,7 +754,6 @@
             box-shadow: 0 2px 0 #8d5cc4;
         }
 
-        /* Match the Letters styles */
         .match-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -770,7 +799,6 @@
             cursor: default;
         }
 
-        /* Find the Letter (Apple Tree Game) Styles */
         .apple-tree-container {
             position: relative;
             background: linear-gradient(to bottom, #87CEEB, #E0F7FA);
@@ -1006,9 +1034,7 @@
                 <h2>Who is Learning Today? 🧒👧</h2>
                 <p style="color: #444; font-weight: 700; margin-top: 5px;">Select a kid profile or add a new one.</p>
                 
-                <div class="profile-list-box" id="profile-selection-list">
-                    <!-- Profile buttons populated dynamically -->
-                </div>
+                <div class="profile-list-box" id="profile-selection-list"></div>
 
                 <div style="margin-top: 20px; border-top: 2px dashed rgba(0,0,0,0.15); padding-top: 15px;">
                     <h3 style="color: #333;">Add New Kid Profile</h3>
@@ -1030,7 +1056,16 @@
                         <button class="switch-profile-btn" onclick="playClickSound(); showScreen('profile-selection-screen')">Switch 🔄</button>
                     </div>
 
-                    <p class="home-intro-subtitle">Pick a fun module below to start learning!</p>
+                    <!-- BUTTON TUKAR BAHASA DI PAPARAN HOME -->
+                    <div>
+                        <div class="language-switcher-container">
+                            <span>🌐 Language / Bahasa:</span>
+                            <button id="lang-btn-en" class="lang-btn active" onclick="playClickSound(); setGlobalLanguage('en')">English</button>
+                            <button id="lang-btn-ms" class="lang-btn" onclick="playClickSound(); setGlobalLanguage('ms')">Melayu</button>
+                        </div>
+                    </div>
+
+                    <p class="home-intro-subtitle" id="home-subtitle-text">Pick a fun module below to start learning!</p>
                 </div>
 
                 <div class="topic-grid">
@@ -1066,17 +1101,13 @@
 
             <!-- ABC MODULE TOPICS SELECTION SCREEN -->
             <div id="abc-menu-screen" class="card">
-                <h2 style="color: #ffff00; font-family: 'Fredoka One', cursive;">ABC Modules 🔤</h2>
-                <p style="color: #000000; font-weight: 700; margin-top: 5px;">Choose your preferred language or activity to learn the alphabet!</p>
+                <h2 style="color: #ffff00; font-family: 'Fredoka One', cursive;" id="abc-menu-title">ABC Modules 🔤</h2>
+                <p style="color: #000000; font-weight: 700; margin-top: 5px;" id="abc-menu-desc">Choose your preferred activity to learn the alphabet!</p>
                 
                 <div class="abc-menu-grid">
-                    <button class="abc-sub-btn" onclick="playClickSound(); startABC('en')">
-                        <span>🇬🇧</span>
-                        <span>Learn ABC</span>
-                    </button>
-                    <button class="abc-sub-btn" onclick="playClickSound(); startABC('ms')">
-                        <span>🇲🇾</span>
-                        <span>Belajar ABC</span>
+                    <button class="abc-sub-btn" onclick="playClickSound(); startABC()" style="grid-column: span 2;">
+                        <span id="abc-main-icon">🇬🇧 / 🇲🇾</span>
+                        <span id="abc-dynamic-btn-text">Learn ABC / Belajar ABC</span>
                     </button>
                     <button class="abc-sub-btn" onclick="playClickSound(); openMatchLettersCountScreen()">
                         <span>🔠 ➔ 🔤</span>
@@ -1117,9 +1148,7 @@
                 <p style="font-weight: 700; color: #444; margin-bottom: 15px;">Suaikan huruf kecil di sebelah kiri dengan huruf besar di sebelah kanan!</p>
 
                 <div class="match-container">
-                    <!-- Left: Lowercase -->
                     <div class="match-column" id="match-left-column"></div>
-                    <!-- Right: Uppercase -->
                     <div class="match-column" id="match-right-column"></div>
                 </div>
 
@@ -1138,20 +1167,16 @@
                 </div>
                 
                 <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 5px;">
-                    <p id="find-instruction-text" style="font-weight: 700; font-size: 1.1rem; color: #2C3E50;"> Tolong masukkan huruf A ke dalam bakul</p>
+                    <p id="find-instruction-text" style="font-weight: 700; font-size: 1.1rem; color: #2C3E50;">Tolong masukkan huruf A ke dalam bakul</p>
                     <button class="sound-btn" style="padding: 5px 12px; font-size: 0.9rem;" onclick="playFindInstructionAudio()">🔊</button>
                 </div>
 
                 <div class="apple-tree-container">
                     <div class="tree-canopy"></div>
                     <div class="tree-trunk"></div>
-                    <div class="apples-grid" id="apples-grid-container">
-                        <!-- Apple nodes populated dynamically -->
-                    </div>
+                    <div class="apples-grid" id="apples-grid-container"></div>
                     <div class="basket-label">Bakul 🧺</div>
-                    <div class="basket-area" id="basket-area-container">
-                        <!-- Collected apples go here -->
-                    </div>
+                    <div class="basket-area" id="basket-area-container"></div>
                 </div>
 
                 <div class="quiz-action-container" style="margin-top: 15px;">
@@ -1160,7 +1185,7 @@
                 </div>
             </div>
 
-            <!-- ABC INTERACTIVE FLASHCARD SCREEN -->
+            <!-- ABC INTERACTIVE FLASHCARD SCREEN (SATU TOPIK DINAMIK) -->
             <div id="abc-flashcard-screen" class="card">
                 <h2 id="abc-screen-title" style="color: #333; margin-bottom: 5px; font-family: 'Fredoka One', cursive;">Learn ABC</h2>
                 <p style="color: #444; font-weight: 700; font-size: 0.9rem;" id="abc-progress-indicator">Letter A of Z</p>
@@ -1708,6 +1733,32 @@
             osc.stop(now + 0.25);
         }
 
+        // --- SISTEM PEMILIHAN BAHASA GLOBAL (DWI BAHASA DI HOME) ---
+        let currentGlobalLang = 'en'; // Default English
+
+        function setGlobalLanguage(lang) {
+            currentGlobalLang = lang;
+            
+            // Kemaskini state butang di paparan Home
+            document.getElementById("lang-btn-en").classList.remove("active");
+            document.getElementById("lang-btn-ms").classList.remove("active");
+            if(lang === 'en') {
+                document.getElementById("lang-btn-en").classList.add("active");
+                document.getElementById("home-subtitle-text").innerText = "Pick a fun module below to start learning!";
+                document.getElementById("abc-menu-title").innerText = "ABC Modules 🔤";
+                document.getElementById("abc-menu-desc").innerText = "Choose your preferred activity to learn the alphabet!";
+                document.getElementById("abc-main-icon").innerText = "🇬🇧";
+                document.getElementById("abc-dynamic-btn-text").innerText = "Learn ABC";
+            } else {
+                document.getElementById("lang-btn-ms").classList.add("active");
+                document.getElementById("home-subtitle-text").innerText = "Pilih modul menarik di bawah untuk mula belajar!";
+                document.getElementById("abc-menu-title").innerText = "Modul ABC 🔤";
+                document.getElementById("abc-menu-desc").innerText = "Pilih aktiviti kegemaran anda untuk belajar abjad!";
+                document.getElementById("abc-main-icon").innerText = "🇲🇾";
+                document.getElementById("abc-dynamic-btn-text").innerText = "Belajar ABC";
+            }
+        }
+
         const alphabetList = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
         let matchPagesCount = 5;
         let currentMatchPageIdx = 0;
@@ -1836,7 +1887,6 @@
             loadMatchPage();
         }
 
-        // --- FIND THE LETTER LOGIC (APPLE TREE) ---
         let findCurrentRound = 1;
         let totalFindRounds = 5;
         let findScoreCount = 0;
@@ -1851,7 +1901,6 @@
         }
 
         function loadFindRound() {
-            // Pilih huruf target secara rawak daripada A-Z untuk setiap round
             let randomIdx = Math.floor(Math.random() * alphabetList.length);
             targetFindLetter = alphabetList[randomIdx];
 
@@ -1859,22 +1908,18 @@
             document.getElementById("find-score").innerText = findScoreCount;
             document.getElementById("find-next-round-btn").style.display = "none";
 
-            const instructionText = `Masukkan huruf ${targetFindLetter} ke dalam bakul`;
+            const instructionText = currentGlobalLang === 'en' ? `Find and put letter ${targetFindLetter} into the basket` : `Tolong masukkan huruf ${targetFindLetter} ke dalam bakul`;
             document.getElementById("find-instruction-text").innerText = instructionText;
             
-            // Auto sebut soalan guna Audio API
             playFindInstructionAudio();
 
-            // Sediakan 12 buah epal di atas pokok (2 hingga 3 biji mengandungi huruf target)
             let applesContainer = document.getElementById("apples-grid-container");
             let basketContainer = document.getElementById("basket-area-container");
             applesContainer.innerHTML = "";
             basketContainer.innerHTML = "";
 
-            // Tentukan 2 atau 3 biji epal sasaran
             targetApplesRemaining = Math.floor(Math.random() * 2) + 2; 
 
-            // Pilih huruf-huruf lain yang berlainan dari target
             let otherLetters = alphabetList.filter(l => l !== targetFindLetter);
 
             let roundLetters = [];
@@ -1886,7 +1931,6 @@
                 roundLetters.push(randomOther);
             }
 
-            // Shuffle kedudukan epal
             roundLetters.sort(() => 0.5 - Math.random());
 
             roundLetters.forEach((letter) => {
@@ -1903,7 +1947,7 @@
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(textToSpeak);
-                utterance.lang = 'ms-MY';
+                utterance.lang = currentGlobalLang === 'en' ? 'en-US' : 'ms-MY';
                 utterance.rate = 0.9;
                 window.speechSynthesis.speak(utterance);
             }
@@ -1913,14 +1957,12 @@
             if (appleElement.classList.contains("collected")) return;
 
             if (letter === targetFindLetter) {
-                // Betul! Masukkan ke dalam bakul
                 playCorrectSound();
                 findScoreCount += 10;
                 document.getElementById("find-score").innerText = findScoreCount;
 
                 appleElement.classList.add("collected");
 
-                // Tambah visual epal kecil dalam bakul
                 let basketContainer = document.getElementById("basket-area-container");
                 let basketApple = document.createElement("div");
                 basketApple.className = "basket-apple";
@@ -1930,18 +1972,16 @@
                 targetApplesRemaining--;
 
                 if (targetApplesRemaining === 0) {
-                    // Selesai satu round!
                     if (findCurrentRound < totalFindRounds) {
                         document.getElementById("find-next-round-btn").style.display = "inline-block";
                     } else {
                         setTimeout(() => {
-                            alert("🌟 Tahniah! Anda telah berjaya menghabiskan semua misi mencari huruf!");
+                            alert(currentGlobalLang === 'en' ? "🌟 Amazing! You completed all find letter missions!" : "🌟 Tahniah! Anda telah berjaya menghabiskan semua misi mencari huruf!");
                             navigateTo('home-screen');
                         }, 600);
                     }
                 }
             } else {
-                // Salah huruf
                 playWrongSound();
                 appleElement.style.background = "radial-gradient(circle at 35% 35%, #757575, #212121)";
                 setTimeout(() => {
@@ -2013,15 +2053,14 @@
             { letter: "Z", word: "Zirafah", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFURJfb3h9KeTQ2tnK9z0yPJkf6J130IaHY5UNN4-J-g&s=10" }
         ];
 
-        let currentABCMode = 'en';
         let currentABCIndex = 0;
 
         function openABCMenu() {
             showScreen('abc-menu-screen');
         }
 
-        function startABC(mode) {
-            currentABCMode = mode;
+        // Modul ABC disatukan dan automatik bertukar mengikut bahasa global di Home
+        function startABC() {
             currentABCIndex = 0;
             showScreen('abc-flashcard-screen');
             renderABCFlashcard();
@@ -2029,29 +2068,29 @@
         }
 
         function renderABCFlashcard() {
-            const list = currentABCMode === 'en' ? abcDataEn : abcDataMs;
+            const list = currentGlobalLang === 'en' ? abcDataEn : abcDataMs;
             const item = list[currentABCIndex];
             
-            document.getElementById("abc-screen-title").innerText = currentABCMode === 'en' ? "Learn ABC" : "Belajar ABC";
-            document.getElementById("abc-progress-indicator").innerText = `Letter ${item.letter} of Z (${currentABCIndex + 1} / ${list.length})`;
+            document.getElementById("abc-screen-title").innerText = currentGlobalLang === 'en' ? "Learn ABC" : "Belajar ABC";
+            document.getElementById("abc-progress-indicator").innerText = `${currentGlobalLang === 'en' ? 'Letter' : 'Huruf'} ${item.letter} of Z (${currentABCIndex + 1} / ${list.length})`;
             document.getElementById("abc-letter").innerText = item.letter;
             document.getElementById("abc-image").src = item.image;
             
-            const caption = currentABCMode === 'en' ? `${item.letter} for ${item.word}` : `${item.letter} untuk ${item.word}`;
+            const caption = currentGlobalLang === 'en' ? `${item.letter} for ${item.word}` : `${item.letter} untuk ${item.word}`;
             document.getElementById("abc-caption").innerText = caption;
 
             document.getElementById("prev-abc-btn").style.display = currentABCIndex === 0 ? "none" : "inline-block";
-            document.getElementById("next-abc-btn").innerText = currentABCIndex === list.length - 1 ? "Finish 🏁" : "Next ➡";
+            document.getElementById("next-abc-btn").innerText = currentABCIndex === list.length - 1 ? (currentGlobalLang === 'en' ? "Finish 🏁" : "Tamat 🏁") : (currentGlobalLang === 'en' ? "Next ➡" : "Seterusnya ➡");
         }
 
         function nextABCLetter() {
-            const list = currentABCMode === 'en' ? abcDataEn : abcDataMs;
+            const list = currentGlobalLang === 'en' ? abcDataEn : abcDataMs;
             if (currentABCIndex < list.length - 1) {
                 currentABCIndex++;
                 renderABCFlashcard();
                 playABCSound();
             } else {
-                alert(currentABCMode === 'en' ? "Great job completing Learn ABC! 🎉" : "Tahniah! Anda telah tamat Belajar ABC! 🎉");
+                alert(currentGlobalLang === 'en' ? "Great job completing Learn ABC! 🎉" : "Tahniah! Anda telah tamat Belajar ABC! 🎉");
                 navigateTo('home-screen');
             }
         }
@@ -2065,14 +2104,14 @@
         }
 
         function playABCSound() {
-            const list = currentABCMode === 'en' ? abcDataEn : abcDataMs;
+            const list = currentGlobalLang === 'en' ? abcDataEn : abcDataMs;
             const item = list[currentABCIndex];
-            const textToSpeak = currentABCMode === 'en' ? `${item.letter} for ${item.word}` : `${item.letter} untuk ${item.word}`;
+            const textToSpeak = currentGlobalLang === 'en' ? `${item.letter} for ${item.word}` : `${item.letter} untuk ${item.word}`;
             
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(textToSpeak);
-                utterance.lang = currentABCMode === 'en' ? 'en-US' : 'ms-MY';
+                utterance.lang = currentGlobalLang === 'en' ? 'en-US' : 'ms-MY';
                 utterance.rate = 0.3;
                 window.speechSynthesis.speak(utterance);
             }
@@ -2210,64 +2249,25 @@
                 { q: "Who teaches students in a school classroom?", options: ["Teacher", "Doctor", "Pilot", "Firefighter"], answer: 0 },
                 { q: "Who helps sick people and gives medicine?", options: ["Doctor", "Chef", "Driver", "Farmer"], answer: 0 },
                 { q: "Who flies an aeroplane in the sky?", options: ["Pilot", "Teacher", "Chef", "Police"], answer: 0 },
-                { q: "Who grows crops and vegetables on a farm?", options: ["Farmer", "Doctor", "Pilot", "Teacher"], answer: 0 },
-                { q: "Who cooks delicious food in a restaurant kitchen?", options: ["Chef / Cook", "Teacher", "Pilot", "Police"], answer: 0 },
-                { q: "Who keeps our neighbourhood safe and catches bad guys?", options: ["Police Officer", "Teacher", "Chef", "Farmer"], answer: 0 },
-                { q: "Who puts out fires and rescues people?", options: ["Firefighter", "Doctor", "Pilot", "Chef"], answer: 0 },
-                { q: "Who cuts and styles our hair?", options: ["Hairdresser / Barber", "Teacher", "Doctor", "Pilot"], answer: 0 },
-                { q: "Who delivers letters and parcels to our houses?", options: ["Postman", "Chef", "Pilot", "Farmer"], answer: 0 },
-                { q: "Who builds houses and fixes buildings?", options: ["Builder / Carpenter", "Teacher", "Doctor", "Pilot"], answer: 0 }
+                { q: "Who grows crops and vegetables", options: ["Farmer", "Doctor", "Pilot", "Chef"], answer: 0 }
             ]
         };
 
-        let currentTopic = "";
-        let currentQuestions = [];
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let selectedQuestionCount = 10;
-        let userAnswersHistory = [];
-
-        function showScreen(screenId) {
-            document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
-            document.getElementById(screenId).classList.add('active');
-            closeSidebar();
-        }
-
-        function toggleSidebar(event) {
-            event.stopPropagation();
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('open');
-        }
-
-        function closeSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.remove('open');
-        }
-
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const toggleBtn = document.getElementById('mobile-toggle-btn');
-            if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
-                if (!sidebar.contains(event.target) && event.target !== toggleBtn) {
-                    closeSidebar();
-                }
-            }
-        });
-
-        function navigateTo(screenId) {
-            playClickSound();
-            if (screenId === 'scores-screen') {
-                window.loadScoreBoard();
-            }
-            showScreen(screenId);
-        }
+        let currentActiveTopic = "";
+        let currentQuestionList = [];
+        let currentQuestionIdx = 0;
+        let scoreCount = 0;
+        let chosenQuestionCount = 10;
 
         function openLesson(topicKey) {
-            currentTopic = topicKey;
-            const data = lessonData[topicKey];
-            document.getElementById("lesson-title").innerText = data.title;
-            document.getElementById("lesson-desc").innerHTML = data.desc;
-            document.getElementById("lesson-examples").innerHTML = data.examples;
+            currentActiveTopic = topicKey;
+            const lesson = lessonData[topicKey];
+            if (!lesson) return;
+
+            document.getElementById("lesson-title").innerText = lesson.title;
+            document.getElementById("lesson-desc").innerText = lesson.desc;
+            document.getElementById("lesson-examples").innerHTML = lesson.examples;
+
             showScreen("lesson-screen");
         }
 
@@ -2276,95 +2276,137 @@
         }
 
         function startQuizWithCount(count) {
-            selectedQuestionCount = count;
-            const allQ = questionBank[currentTopic] || [];
+            chosenQuestionCount = count;
+            const rawQuestions = questionBank[currentActiveTopic] || [];
             
-            let shuffled = [...allQ].sort(() => 0.5 - Math.random());
-            currentQuestions = shuffled.slice(0, Math.min(count, shuffled.length));
-            
-            currentQuestionIndex = 0;
-            score = 0;
-            userAnswersHistory = [];
+            let shuffled = [...rawQuestions].sort(() => 0.5 - Math.random());
+            currentQuestionList = shuffled.slice(0, count);
 
-            document.getElementById("topic-title").innerText = lessonData[currentTopic].title;
-            document.getElementById("total-q-num").innerText = currentQuestions.length;
-            
+            currentQuestionIdx = 0;
+            scoreCount = 0;
+
+            document.getElementById("topic-title").innerText = currentActiveTopic.toUpperCase();
+            document.getElementById("total-q-num").innerText = currentQuestionList.length;
+
             showScreen("quiz-screen");
             loadQuestion();
         }
 
         function loadQuestion() {
-            const qObj = currentQuestions[currentQuestionIndex];
-            document.getElementById("question-num").innerText = currentQuestionIndex + 1;
-            document.getElementById("current-score").innerText = score;
+            document.getElementById("question-num").innerText = currentQuestionIdx + 1;
+            document.getElementById("current-score").innerText = scoreCount;
+            document.getElementById("next-btn").style.display = "none";
+
+            const qObj = currentQuestionList[currentQuestionIdx];
             document.getElementById("question-text").innerText = qObj.q;
 
             const optionsContainer = document.getElementById("options-container");
             optionsContainer.innerHTML = "";
 
-            qObj.options.forEach((opt, idx) => {
+            qObj.options.forEach((optText, idx) => {
                 const btn = document.createElement("button");
                 btn.className = "option-btn";
-                btn.innerText = opt;
+                btn.innerText = optText;
                 btn.onclick = () => selectOption(idx, qObj.answer, btn);
                 optionsContainer.appendChild(btn);
             });
-
-            document.getElementById("next-btn").style.display = "none";
         }
 
-        function selectOption(selectedIndex, correctIndex, btnElement) {
-            const allBtns = document.querySelectorAll(".option-btn");
-            allBtns.forEach(b => b.style.pointerEvents = "none");
+        function selectOption(selectedIndex, correctIndex, selectedBtn) {
+            const allButtons = document.querySelectorAll(".options-grid .option-btn");
+            allButtons.forEach(btn => btn.disabled = true);
 
             if (selectedIndex === correctIndex) {
-                btnElement.classList.add("correct");
-                score++;
                 playCorrectSound();
+                selectedBtn.classList.add("correct");
+                scoreCount++;
             } else {
-                btnElement.classList.add("wrong");
-                allBtns[correctIndex].classList.add("correct");
                 playWrongSound();
+                selectedBtn.classList.add("wrong");
+                allButtons[correctIndex].classList.add("correct");
             }
 
-            document.getElementById("current-score").innerText = score;
-            document.getElementById("next-btn").style.display = "inline-block";
+            document.getElementById("current-score").innerText = scoreCount;
+
+            if (currentQuestionIdx < currentQuestionList.length - 1) {
+                document.getElementById("next-btn").style.display = "inline-block";
+            } else {
+                setTimeout(finishQuiz, 800);
+            }
         }
 
         function nextQuestion() {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < currentQuestions.length) {
-                loadQuestion();
-            } else {
-                finishQuiz();
-            }
+            currentQuestionIdx++;
+            loadQuestion();
         }
 
         function finishQuiz() {
-            const totalQ = currentQuestions.length;
-            const percentage = Math.round((score / totalQ) * 100);
-            
-            document.getElementById("final-score").innerText = percentage + "%";
+            const totalQ = currentQuestionList.length;
+            const percentage = Math.round((scoreCount / totalQ) * 100);
+
+            document.getElementById("final-score").innerText = `${percentage}%`;
             
             const now = new Date();
             const formattedTime = now.toLocaleString();
             document.getElementById("completion-time").innerText = `📅 Completed on: ${formattedTime}`;
 
-            let feedback = "Great effort! Keep practicing!";
-            if (percentage === 100) feedback = "🌟 Perfect score! You're a superstar!";
-            else if (percentage >= 80) feedback = "🎉 Amazing job! Wonderful performance!";
-            else if (percentage >= 50) feedback = "👍 Good job! Keep it up!";
-            document.getElementById("feedback-message").innerText = feedback;
+            let msg = "";
+            if (percentage === 100) msg = "🌟 Perfect Score! You're a superstar!";
+            else if (percentage >= 70) msg = "🎉 Great job! Keep it up!";
+            else msg = "👍 Good try! Practice makes perfect!";
+            document.getElementById("feedback-message").innerText = msg;
 
-            window.saveSessionRecord(lessonData[currentTopic].title, score, totalQ, formattedTime);
+            saveSessionRecord(currentActiveTopic, scoreCount, totalQ, formattedTime);
             showScreen("result-screen");
         }
 
         function confirmBackToHome() {
-            if (confirm("Are you sure you want to go back to Home? Your current progress will be lost.")) {
+            if (confirm("Are you sure you want to go back to Home? Current quiz progress will be lost.")) {
                 navigateTo('home-screen');
             }
         }
+
+        function navigateTo(screenId, navElement = null) {
+            if (navElement) {
+                document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
+                navElement.classList.add("active");
+            }
+
+            if (screenId === 'scores-screen') {
+                loadScoreBoard();
+            }
+
+            showScreen(screenId);
+            closeSidebar();
+        }
+
+        function showScreen(screenId) {
+            document.querySelectorAll(".card").forEach(card => card.classList.remove("active"));
+            const target = document.getElementById(screenId);
+            if (target) target.classList.add("active");
+            window.scrollTo(0, 0);
+        }
+
+        function toggleSidebar(e) {
+            e.stopPropagation();
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("open");
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.remove("open");
+        }
+
+        document.addEventListener("click", function(event) {
+            const sidebar = document.getElementById("sidebar");
+            const toggleBtn = document.getElementById("mobile-toggle-btn");
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
+                    sidebar.classList.remove("open");
+                }
+            }
+        });
     </script>
 </body>
 </html>
