@@ -18,7 +18,8 @@
             --text-dark: #2C3E50;
             --white: transparent;
         }
- * {
+
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -54,12 +55,13 @@
             height: 100vh;
             left: 0;
             top: 0;
+            overflow-y: auto;
         }
 
         .sidebar-logo {
-            width: 90px;
-            height: 90px;
-            margin: 0 auto 10px auto;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 8px auto;
             background: rgba(224, 247, 250, 0.8);
             border-radius: 50%;
             padding: 4px;
@@ -77,41 +79,85 @@
 
         .sidebar-title {
             font-family: 'Fredoka One', cursive;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: var(--primary-yellow);
             text-align: center;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
 
         .sidebar-subtitle {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-align: center;
             color: #BDC3C7;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
+        }
+
+        /* BAHAGIAN PILIHAN BAHASA DI SIDEBAR */
+        .sidebar-language-container {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid var(--primary-purple);
+            padding: 8px 10px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .sidebar-language-container span {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary-yellow);
+            margin-bottom: 6px;
+        }
+
+        .sidebar-lang-buttons {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: var(--primary-pink);
+            color: white;
+            box-shadow: 0 3px 10px rgba(255,102,196,0.4);
         }
 
         .nav-menu {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
             flex-grow: 1;
         }
 
         .nav-item {
-            padding: 12px 18px;
-            border-radius: 15px;
+            padding: 10px 14px;
+            border-radius: 12px;
             font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             transition: all 0.2s ease;
             color: #ECF0F1;
             text-decoration: none;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(5px);
+            font-size: 0.9rem;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
@@ -261,37 +307,6 @@
             font-size: 0.95rem;
             color: #444;
             font-weight: 700;
-        }
-
-        /* BAHAGIAN PILIHAN BAHASA DI HOME */
-        .language-switcher-container {
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid var(--primary-purple);
-            padding: 10px 15px;
-            border-radius: 15px;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            margin: 10px 0 15px 0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            font-weight: 700;
-        }
-
-        .lang-btn {
-            background: #e2e8f0;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .lang-btn.active {
-            background: var(--primary-pink);
-            color: white;
-            box-shadow: 0 3px 10px rgba(255,102,196,0.4);
         }
 
         .active-profile-badge {
@@ -982,20 +997,29 @@
         <div class="sidebar-title">KIDDORA</div>
         <div class="sidebar-subtitle">Kids Education App</div>
 
+        <!-- BUTTON TUKAR BAHASA DI PANEL MENU SEBELAH KIRI -->
+        <div class="sidebar-language-container">
+            <span>🌐 Language / Bahasa</span>
+            <div class="sidebar-lang-buttons">
+                <button id="lang-btn-en" class="lang-btn active" onclick="playClickSound(); setGlobalLanguage('en')">English</button>
+                <button id="lang-btn-ms" class="lang-btn" onclick="playClickSound(); setGlobalLanguage('ms')">Melayu</button>
+            </div>
+        </div>
+
         <ul class="nav-menu" id="nav-menu" style="display: none;">
-            <li class="nav-item active" onclick="playClickSound(); navigateTo('home-screen', this)">
+            <li class="nav-item active" id="nav-home-text" onclick="playClickSound(); navigateTo('home-screen', this)">
                 📚 Home
             </li>
-            <li class="nav-item" onclick="playClickSound(); navigateTo('profile-view-screen', this)">
+            <li class="nav-item" id="nav-profile-text" onclick="playClickSound(); navigateTo('profile-view-screen', this)">
                 👤 Profiles
             </li>
-            <li class="nav-item" onclick="playClickSound(); navigateTo('scores-screen', this)">
+            <li class="nav-item" id="nav-scores-text" onclick="playClickSound(); navigateTo('scores-screen', this)">
                 🏆 Scores
             </li>
             <a href="https://wa.me/60196818139" target="_blank" class="nav-item whatsapp-btn" onclick="playClickSound(); closeSidebar();">
                 💬 WhatsApp
             </a>
-            <li class="nav-item logout-btn" onclick="playClickSound(); logout()">
+            <li class="nav-item logout-btn" id="nav-logout-text" onclick="playClickSound(); logout()">
                 🚪 Logout
             </li>
         </ul>
@@ -1053,16 +1077,7 @@
                     
                     <div class="active-profile-badge">
                         <span>Profile: <strong id="current-badge-name" style="color: #5E17EB;">-</strong></span>
-                        <button class="switch-profile-btn" onclick="playClickSound(); showScreen('profile-selection-screen')">Switch 🔄</button>
-                    </div>
-
-                    <!-- BUTTON TUKAR BAHASA DI PAPARAN HOME -->
-                    <div>
-                        <div class="language-switcher-container">
-                            <span>🌐 Language / Bahasa:</span>
-                            <button id="lang-btn-en" class="lang-btn active" onclick="playClickSound(); setGlobalLanguage('en')">English</button>
-                            <button id="lang-btn-ms" class="lang-btn" onclick="playClickSound(); setGlobalLanguage('ms')">Melayu</button>
-                        </div>
+                        <button class="switch-profile-btn" id="switch-profile-text-btn" onclick="playClickSound(); showScreen('profile-selection-screen')">Switch 🔄</button>
                     </div>
 
                     <p class="home-intro-subtitle" id="home-subtitle-text">Pick a fun module below to start learning!</p>
@@ -1111,41 +1126,41 @@
                     </button>
                     <button class="abc-sub-btn" onclick="playClickSound(); openMatchLettersCountScreen()">
                         <span>🔠 ➔ 🔤</span>
-                        <span>Match the Letters</span>
+                        <span id="match-letters-menu-text">Match the Letters</span>
                     </button>
                     <button class="abc-sub-btn" onclick="playClickSound(); startFindLetterModule()">
                         <span>🍎 ➔ 🔤</span>
-                        <span>Find the Letter</span>
+                        <span id="find-letter-menu-text">Find the Letter</span>
                     </button>
                 </div>
     
                 <br>
-                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+                <button class="action-btn home-btn" id="abc-back-home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
             <!-- MATCH LETTERS COUNT SELECTION SCREEN -->
             <div id="match-count-screen" class="card">
-                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">Match the Letters 🔠</h2>
-                <p style="color: #444; font-weight: 700; margin-top: 5px;">Select how many pages/sets you want to play:</p>
+                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;" id="match-count-title">Match the Letters 🔠</h2>
+                <p style="color: #444; font-weight: 700; margin-top: 5px;" id="match-count-desc">Select how many pages/sets you want to play:</p>
                 
                 <div class="question-count-grid">
-                    <button class="count-btn" onclick="playClickSound(); startMatchLetters(5)">5 Sets </button>
-                    <button class="count-btn" onclick="playClickSound(); startMatchLetters(10)">10 Sets </button>
-                    <button class="count-btn" onclick="playClickSound(); startMatchLetters(15)">15 Sets </button>
+                    <button class="count-btn" onclick="playClickSound(); startMatchLetters(5)"><span id="set-5-text">5 Sets</span></button>
+                    <button class="count-btn" onclick="playClickSound(); startMatchLetters(10)"><span id="set-10-text">10 Sets</span></button>
+                    <button class="count-btn" onclick="playClickSound(); startMatchLetters(15)"><span id="set-15-text">15 Sets</span></button>
                 </div>
     
                 <br>
-                <button class="action-btn home-btn" onclick="playClickSound(); openABCMenu()">Back ↩️</button>
+                <button class="action-btn home-btn" id="match-count-back-btn" onclick="playClickSound(); openABCMenu()">Back ↩️</button>
             </div>
 
             <!-- MATCH LETTERS GAME SCREEN -->
             <div id="match-game-screen" class="card">
                 <div class="quiz-header">
-                    <span>Match Letters</span>
-                    <span>Page: <span id="match-current-page">1</span>/<span id="match-total-pages">5</span></span>
-                    <span>Score: <span id="match-score">0</span></span>
+                    <span id="match-header-title">Match Letters</span>
+                    <span><span id="match-page-label">Page</span>: <span id="match-current-page">1</span>/<span id="match-total-pages">5</span></span>
+                    <span><span id="match-score-label">Score</span>: <span id="match-score">0</span></span>
                 </div>
-                <p style="font-weight: 700; color: #444; margin-bottom: 15px;">Suaikan huruf kecil di sebelah kiri dengan huruf besar di sebelah kanan!</p>
+                <p id="match-instruction-desc" style="font-weight: 700; color: #444; margin-bottom: 15px;">Suaikan huruf kecil di sebelah kiri dengan huruf besar di sebelah kanan!</p>
 
                 <div class="match-container">
                     <div class="match-column" id="match-left-column"></div>
@@ -1153,17 +1168,17 @@
                 </div>
 
                 <div class="quiz-action-container" style="margin-top: 20px;">
-                    <button id="match-next-btn" class="action-btn" style="display:none; background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); nextMatchPage()">Next Page ➔</button>
-                    <button class="action-btn home-btn" onclick="playClickSound(); confirmBackToHome()">Home 🏠</button>
+                    <button id="match-next-btn" class="action-btn" style="display:none; background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); nextMatchPage()"><span id="match-next-page-text">Next Page ➔</span></button>
+                    <button class="action-btn home-btn" id="match-home-btn" onclick="playClickSound(); confirmBackToHome()">Home 🏠</button>
                 </div>
             </div>
 
             <!-- FIND THE LETTER (APPLE TREE) GAME SCREEN -->
             <div id="find-letter-screen" class="card">
                 <div class="quiz-header">
-                    <span>Find the Letter 🍎</span>
-                    <span>Round: <span id="find-round-num">1</span>/5</span>
-                    <span>Score: <span id="find-score">0</span></span>
+                    <span id="find-header-title">Find the Letter 🍎</span>
+                    <span><span id="find-round-label">Round</span>: <span id="find-round-num">1</span>/5</span>
+                    <span><span id="find-score-label">Score</span>: <span id="find-score">0</span></span>
                 </div>
                 
                 <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 5px;">
@@ -1175,17 +1190,17 @@
                     <div class="tree-canopy"></div>
                     <div class="tree-trunk"></div>
                     <div class="apples-grid" id="apples-grid-container"></div>
-                    <div class="basket-label">Bakul 🧺</div>
+                    <div class="basket-label" id="basket-label-text">Bakul 🧺</div>
                     <div class="basket-area" id="basket-area-container"></div>
                 </div>
 
                 <div class="quiz-action-container" style="margin-top: 15px;">
-                    <button id="find-next-round-btn" class="action-btn" style="display:none; background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); nextFindRound()">Seterusnya ➔</button>
-                     <button class="action-btn home-btn" onclick="playClickSound(); openABCMenu()">Back ↩️</button>
+                    <button id="find-next-round-btn" class="action-btn" style="display:none; background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); nextFindRound()"><span id="find-next-round-text">Seterusnya ➔</span></button>
+                     <button class="action-btn home-btn" id="find-back-btn" onclick="playClickSound(); openABCMenu()">Back ↩️</button>
                 </div>
             </div>
 
-            <!-- ABC INTERACTIVE FLASHCARD SCREEN (SATU TOPIK DINAMIK) -->
+            <!-- ABC INTERACTIVE FLASHCARD SCREEN -->
             <div id="abc-flashcard-screen" class="card">
                 <h2 id="abc-screen-title" style="color: #333; margin-bottom: 5px; font-family: 'Fredoka One', cursive;">Learn ABC</h2>
                 <p style="color: #444; font-weight: 700; font-size: 0.9rem;" id="abc-progress-indicator">Letter A of Z</p>
@@ -1196,105 +1211,105 @@
                         <img id="abc-image" src="" alt="ABC Item">
                     </div>
                     <div class="flashcard-text" id="abc-caption">A for Apple</div>
-                    <button class="sound-btn" onclick="playABCSound()">🔊 Listen / Dengar</button>
+                    <button class="sound-btn" id="abc-sound-btn" onclick="playABCSound()">🔊 Listen / Dengar</button>
                 </div>
 
                 <div class="flashcard-nav">
                     <button class="action-btn home-btn" onclick="playClickSound(); prevABCLetter()" id="prev-abc-btn">⬅ Prev</button>
-                     <button class="action-btn home-btn" onclick="playClickSound(); openABCMenu()">Back ↩️</button>
+                     <button class="action-btn home-btn" id="abc-flash-back-btn" onclick="playClickSound(); openABCMenu()">Back ↩️</button>
                     <button class="action-btn" style="background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); nextABCLetter()" id="next-abc-btn">Next ➡</button>
                 </div>
             </div>
 
             <!-- 4. LESSON SCREEN -->
             <div id="lesson-screen" class="card">
-                <h2 style="color: #333; font-family: 'Fredoka One', cursive;">Lesson Time! 📖</h2>
+                <h2 style="color: #333; font-family: 'Fredoka One', cursive;" id="lesson-main-title">Lesson Time! 📖</h2>
                 <div class="lesson-box">
                     <div class="lesson-title" id="lesson-title">Topic Title</div>
                     <div class="lesson-desc" id="lesson-desc">Lesson explanation content goes here...</div>
                     <div class="lesson-example">
-                        <strong>Examples:</strong>
+                        <strong id="lesson-examples-label">Examples:</strong>
                         <div id="lesson-examples">Examples go here...</div>
                     </div>
                 </div>
-                <button class="action-btn" style="display:inline-block; background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); proceedToQuestionCount()">Choose Questions 🚀</button>
+                <button class="action-btn" id="lesson-choose-q-btn" style="display:inline-block; background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); proceedToQuestionCount()">Choose Questions 🚀</button>
                 <br>
-                <button class="action-btn home-btn" style="margin-top: 10px;" onclick="playClickSound(); navigateTo('home-screen')">Home 🏠</button>
+                <button class="action-btn home-btn" id="lesson-home-btn" style="margin-top: 10px;" onclick="playClickSound(); navigateTo('home-screen')">Home 🏠</button>
             </div>
 
             <!-- SCREEN PILIH BILANGAN SOALAN -->
             <div id="count-selection-screen" class="card">
-                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">Select Question Count 📝</h2>
-                <p style="color: #444; font-weight: 700; margin-top: 5px;">How many questions would you like to answer?</p>
+                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;" id="count-sel-title">Select Question Count 📝</h2>
+                <p style="color: #444; font-weight: 700; margin-top: 5px;" id="count-sel-desc">How many questions would you like to answer?</p>
                 
                 <div class="question-count-grid">
-                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(5)">5 Questions</button>
-                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(10)">10 Questions</button>
+                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(5)"><span id="q-5-text">5 Questions</span></button>
+                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(10)"><span id="q-10-text">10 Questions</span></button>
                 </div>
                 <br>
-                 <button class="action-btn home-btn" onclick="playClickSound(); openABCMenu()">Back ↩️</button>
+                 <button class="action-btn home-btn" id="count-sel-back-btn" onclick="playClickSound(); openABCMenu()">Back ↩️</button>
             </div>
 
             <!-- 5. PROFILES & ACCOUNT MANAGEMENT VIEW -->
             <div id="profile-view-screen" class="card">
-                <h2 style="font-family: 'Fredoka One', cursive; color: #333;">Account & Profiles 👤</h2>
+                <h2 style="font-family: 'Fredoka One', cursive; color: #333;" id="profile-acc-title">Account & Profiles 👤</h2>
                 <div class="profile-card-details">
-                    <p><strong>Account Email:</strong> <span id="acc-email-val" style="color: #5E17EB;">-</span></p>
-                    <p><strong>Active Kid Profile:</strong> <span id="active-profile-val" style="color: #FF5757; font-weight: bold;">-</span></p>
+                    <p><strong id="acc-email-label">Account Email:</strong> <span id="acc-email-val" style="color: #5E17EB;">-</span></p>
+                    <p><strong id="active-kid-label">Active Kid Profile:</strong> <span id="active-profile-val" style="color: #FF5757; font-weight: bold;">-</span></p>
                 </div>
 
-                <button class="action-btn" style="background-color: var(--primary-purple); box-shadow: 0 5px 0 #8d5cc4, 0 8px 20px rgba(0,0,0,0.15); width: 100%; margin-bottom: 15px;" onclick="playClickSound(); showScreen('profile-selection-screen')">Switch / Add Profiles 🔄</button>
+                <button class="action-btn" id="switch-add-prof-btn" style="background-color: var(--primary-purple); box-shadow: 0 5px 0 #8d5cc4, 0 8px 20px rgba(0,0,0,0.15); width: 100%; margin-bottom: 15px;" onclick="playClickSound(); showScreen('profile-selection-screen')">Switch / Add Profiles 🔄</button>
                 
                 <div style="background: rgba(240, 244, 248, 0.95); padding: 15px; border-radius: 15px; border: 2px solid var(--primary-blue); text-align: left; margin-bottom: 15px;">
-                    <h3 style="color: #2C3E50; font-size: 1.1rem; margin-bottom: 8px;">✏️ Manage Profiles (Edit / Delete)</h3>
+                    <h3 style="color: #2C3E50; font-size: 1.1rem; margin-bottom: 8px;" id="manage-prof-title">✏️ Manage Profiles (Edit / Delete)</h3>
                     <div id="manage-profiles-list" style="max-height: 150px; overflow-y: auto; margin-top: 10px;"></div>
                 </div>
 
                 <div style="background: rgba(255, 249, 196, 0.95); padding: 15px; border-radius: 15px; border: 2px dashed #FBC02D; text-align: left; margin-bottom: 15px; box-shadow: 0 6px 15px rgba(0,0,0,0.08);">
-                    <h3 style="color: #D35400; font-size: 1.1rem; margin-bottom: 8px;">🔐 Change Password</h3>
+                    <h3 style="color: #D35400; font-size: 1.1rem; margin-bottom: 8px;" id="change-pass-title">🔐 Change Password</h3>
                     <div class="input-group" style="margin: 10px 0;">
-                        <label for="current-password-input">Current Password</label>
+                        <label for="current-password-input" id="curr-pass-label">Current Password</label>
                         <input type="password" id="current-password-input" class="form-input" placeholder="Enter current password">
                     </div>
                     <div class="input-group" style="margin: 10px 0;">
-                        <label for="new-password-input">New Password (Min. 6 characters)</label>
+                        <label for="new-password-input" id="new-pass-label">New Password (Min. 6 characters)</label>
                         <input type="password" id="new-password-input" class="form-input" placeholder="Enter new password">
                     </div>
-                    <button class="action-btn" style="background-color: #E67E22; box-shadow: 0 5px 0 #B9770E, 0 8px 20px rgba(0,0,0,0.15); width: 100%; margin-top: 5px;" onclick="playClickSound(); handlePasswordChange()">Update Password 🔑</button>
+                    <button class="action-btn" id="update-pass-btn" style="background-color: #E67E22; box-shadow: 0 5px 0 #B9770E, 0 8px 20px rgba(0,0,0,0.15); width: 100%; margin-top: 5px;" onclick="playClickSound(); handlePasswordChange()">Update Password 🔑</button>
                 </div>
 
-                <button class="action-btn home-btn" style="width: 100%; margin: 0;" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+                <button class="action-btn home-btn" id="profile-home-btn" style="width: 100%; margin: 0;" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
             <!-- 6. SCORES HISTORY SCREEN -->
             <div id="scores-screen" class="card">
-                <h2 style="color: #333; font-family: 'Fredoka One', cursive;">🏆 Quiz Attempt History</h2>
-                <p style="color: #444; font-weight: 700; margin-top: 5px;">Records of every quiz session completed!</p>
+                <h2 style="color: #333; font-family: 'Fredoka One', cursive;" id="scores-history-title">🏆 Quiz Attempt History</h2>
+                <p style="color: #444; font-weight: 700; margin-top: 5px;" id="scores-history-desc">Records of every quiz session completed!</p>
                 
                 <div class="table-container">
                     <table class="record-table">
                         <thead>
                             <tr>
-                                <th>No.</th>
-                                <th>Module</th>
-                                <th>Score (%)</th>
-                                <th>Date & Time</th>
+                                <th id="th-no">No.</th>
+                                <th id="th-module">Module</th>
+                                <th id="th-score">Score (%)</th>
+                                <th id="th-date">Date & Time</th>
                             </tr>
                         </thead>
                         <tbody id="score-records-body"></tbody>
                     </table>
                 </div>
                 <br>
-                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
-                <button class="action-btn clear-btn" onclick="playClickSound(); clearHistory()">Clear History 🗑️</button>
+                <button class="action-btn home-btn" id="scores-home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+                <button class="action-btn clear-btn" id="clear-history-btn" onclick="playClickSound(); clearHistory()">Clear History 🗑️</button>
             </div>
 
             <!-- 7. QUIZ SCREEN -->
             <div id="quiz-screen" class="card">
                 <div class="quiz-header">
                     <span id="topic-title">Module</span>
-                    <span>Question: <span id="question-num">1</span>/<span id="total-q-num">10</span></span>
-                    <span>Score: <span id="current-score">0</span></span>
+                    <span><span id="quiz-q-label">Question</span>: <span id="question-num">1</span>/<span id="total-q-num">10</span></span>
+                    <span><span id="quiz-score-label">Score</span>: <span id="current-score">0</span></span>
                 </div>
 
                 <div id="question-text" class="question-box">Question content goes here...</div>
@@ -1302,20 +1317,20 @@
                 <div id="options-container" class="options-grid"></div>
 
                 <div class="quiz-action-container">
-                    <button id="next-btn" class="action-btn" style="display:none;" onclick="playClickSound(); nextQuestion()">Next Question ➔</button>
-                    <button class="action-btn home-btn" onclick="playClickSound(); confirmBackToHome()">Home 🏠</button>
+                    <button id="next-btn" class="action-btn" style="display:none;" onclick="playClickSound(); nextQuestion()"><span id="quiz-next-btn-text">Next Question ➔</span></button>
+                    <button class="action-btn home-btn" id="quiz-home-btn" onclick="playClickSound(); confirmBackToHome()">Home 🏠</button>
                 </div>
             </div>
 
             <!-- 8. RESULT SCREEN -->
             <div id="result-screen" class="card">
-                <h2 style="font-family: 'Fredoka One', cursive; color: #333;">Awesome Job! 🎉</h2>
-                <p style="font-weight: 700; color: #444;">You have completed the quiz!</p>
+                <h2 style="font-family: 'Fredoka One', cursive; color: #333;" id="result-title">Awesome Job! 🎉</h2>
+                <p style="font-weight: 700; color: #444;" id="result-desc">You have completed the quiz!</p>
                 <div class="result-score" id="final-score">0%</div>
                 <div class="completion-time" id="completion-time">📅 Completed on: -</div>
                 <p id="feedback-message" style="font-weight: 700; color: #333;"></p>
                 <br>
-                <button class="action-btn home-btn" style="display:inline-block;" onclick="playClickSound(); navigateTo('home-screen')">Back to Menu 🏠</button>
+                <button class="action-btn home-btn" id="result-menu-btn" style="display:inline-block;" onclick="playClickSound(); navigateTo('home-screen')">Back to Menu 🏠</button>
             </div>
 
         </div>
@@ -1579,35 +1594,12 @@
 
         function selectProfile(profileName) {
             window.activeProfile = profileName;
-            document.getElementById("home-greeting").innerText = `Hi ${profileName}! 👋`;
+            const greetingPrefix = currentGlobalLang === 'en' ? "Hi" : "Hai";
+            document.getElementById("home-greeting").innerText = `${greetingPrefix} ${profileName}! 👋`;
             document.getElementById("active-profile-val").innerText = profileName;
             document.getElementById("current-badge-name").innerText = profileName;
             showScreen("home-screen");
         }
-
-        window.saveSessionRecord = async function(topic, scoreValue, totalQ, formattedTime) {
-            if (!window.currentUserAuth || !window.activeProfile) return;
-            const uid = window.currentUserAuth.uid;
-
-            const percentage = Math.round((scoreValue / totalQ) * 100);
-
-            const sessionData = {
-                profile: window.activeProfile,
-                topic: topic,
-                score: `${percentage}%`,
-                rawScore: `${scoreValue} / ${totalQ}`,
-                time: formattedTime,
-                timestamp: Date.now()
-            };
-
-            try {
-                const historyRef = ref(db, `users/${uid}/history`);
-                const newSessionRef = push(historyRef);
-                await set(newSessionRef, sessionData);
-            } catch (err) {
-                console.error("Failed to save score history:", err);
-            }
-        };
 
         window.loadScoreBoard = async function() {
             const tbody = document.getElementById("score-records-body");
@@ -1733,29 +1725,223 @@
             osc.stop(now + 0.25);
         }
 
-        // --- SISTEM PEMILIHAN BAHASA GLOBAL (DWI BAHASA DI HOME) ---
+        // --- SISTEM PEMILIHAN BAHASA GLOBAL (DWI BAHASA DI SIDEBAR) ---
         let currentGlobalLang = 'en'; // Default English
 
         function setGlobalLanguage(lang) {
             currentGlobalLang = lang;
             
-            // Kemaskini state butang di paparan Home
             document.getElementById("lang-btn-en").classList.remove("active");
             document.getElementById("lang-btn-ms").classList.remove("active");
+
             if(lang === 'en') {
                 document.getElementById("lang-btn-en").classList.add("active");
+                
+                // Sidebar Menu
+                document.getElementById("nav-home-text").innerHTML = "📚 Home";
+                document.getElementById("nav-profile-text").innerHTML = "👤 Profiles";
+                document.getElementById("nav-scores-text").innerHTML = "🏆 Scores";
+                document.getElementById("nav-logout-text").innerHTML = "🚪 Logout";
+
+                // Home Screen
+                const curName = window.activeProfile || "-";
+                document.getElementById("home-greeting").innerText = `Hi ${curName}! 👋`;
+                document.getElementById("switch-profile-text-btn").innerText = "Switch 🔄";
                 document.getElementById("home-subtitle-text").innerText = "Pick a fun module below to start learning!";
+
+                // ABC Menu Screen
                 document.getElementById("abc-menu-title").innerText = "ABC Modules 🔤";
                 document.getElementById("abc-menu-desc").innerText = "Choose your preferred activity to learn the alphabet!";
                 document.getElementById("abc-main-icon").innerText = "🇬🇧";
                 document.getElementById("abc-dynamic-btn-text").innerText = "Learn ABC";
+                document.getElementById("match-letters-menu-text").innerText = "Match the Letters";
+                document.getElementById("find-letter-menu-text").innerText = "Find the Letter";
+                document.getElementById("abc-back-home-btn").innerText = "Back to Home 🏠";
+
+                // Match Count Screen
+                document.getElementById("match-count-title").innerText = "Match the Letters 🔠";
+                document.getElementById("match-count-desc").innerText = "Select how many pages/sets you want to play:";
+                document.getElementById("set-5-text").innerText = "5 Sets";
+                document.getElementById("set-10-text").innerText = "10 Sets";
+                document.getElementById("set-15-text").innerText = "15 Sets";
+                document.getElementById("match-count-back-btn").innerText = "Back ↩️";
+
+                // Match Game Screen
+                document.getElementById("match-header-title").innerText = "Match Letters";
+                document.getElementById("match-page-label").innerText = "Page";
+                document.getElementById("match-score-label").innerText = "Score";
+                document.getElementById("match-instruction-desc").innerText = "Match the lowercase letters on the left with the uppercase letters on the right!";
+                document.getElementById("match-next-page-text").innerText = "Next Page ➔";
+                document.getElementById("match-home-btn").innerText = "Home 🏠";
+
+                // Find Letter Screen
+                document.getElementById("find-header-title").innerText = "Find the Letter 🍎";
+                document.getElementById("find-round-label").innerText = "Round";
+                document.getElementById("find-score-label").innerText = "Score";
+                document.getElementById("basket-label-text").innerText = "Basket 🧺";
+                document.getElementById("find-next-round-text").innerText = "Next Round ➔";
+                document.getElementById("find-back-btn").innerText = "Back ↩️";
+
+                // ABC Flashcard
+                document.getElementById("abc-screen-title").innerText = "Learn ABC";
+                document.getElementById("abc-sound-btn").innerHTML = "🔊 Listen";
+                document.getElementById("prev-abc-btn").innerText = "⬅ Prev";
+                document.getElementById("abc-flash-back-btn").innerText = "Back ↩️";
+                document.getElementById("next-abc-btn").innerText = "Next ➡";
+
+                // Lesson Screen
+                document.getElementById("lesson-main-title").innerText = "Lesson Time! 📖";
+                document.getElementById("lesson-examples-label").innerText = "Examples:";
+                document.getElementById("lesson-choose-q-btn").innerText = "Choose Questions 🚀";
+                document.getElementById("lesson-home-btn").innerText = "Home 🏠";
+
+                // Question Count Screen
+                document.getElementById("count-sel-title").innerText = "Select Question Count 📝";
+                document.getElementById("count-sel-desc").innerText = "How many questions would you like to answer?";
+                document.getElementById("q-5-text").innerText = "5 Questions";
+                document.getElementById("q-10-text").innerText = "10 Questions";
+                document.getElementById("count-sel-back-btn").innerText = "Back ↩️";
+
+                // Profile View Screen
+                document.getElementById("profile-acc-title").innerText = "Account & Profiles 👤";
+                document.getElementById("acc-email-label").innerText = "Account Email:";
+                document.getElementById("active-kid-label").innerText = "Active Kid Profile:";
+                document.getElementById("switch-add-prof-btn").innerText = "Switch / Add Profiles 🔄";
+                document.getElementById("manage-prof-title").innerText = "✏️ Manage Profiles (Edit / Delete)";
+                document.getElementById("change-pass-title").innerText = "🔐 Change Password";
+                document.getElementById("curr-pass-label").innerText = "Current Password";
+                document.getElementById("new-pass-label").innerText = "New Password (Min. 6 characters)";
+                document.getElementById("update-pass-btn").innerText = "Update Password 🔑";
+                document.getElementById("profile-home-btn").innerText = "Back to Home 🏠";
+
+                // Scores Screen
+                document.getElementById("scores-history-title").innerText = "🏆 Quiz Attempt History";
+                document.getElementById("scores-history-desc").innerText = "Records of every quiz session completed!";
+                document.getElementById("th-no").innerText = "No.";
+                document.getElementById("th-module").innerText = "Module";
+                document.getElementById("th-score").innerText = "Score (%)";
+                document.getElementById("th-date").innerText = "Date & Time";
+                document.getElementById("scores-home-btn").innerText = "Back to Home 🏠";
+                document.getElementById("clear-history-btn").innerText = "Clear History 🗑️";
+
+                // Quiz Screen
+                document.getElementById("quiz-q-label").innerText = "Question";
+                document.getElementById("quiz-score-label").innerText = "Score";
+                document.getElementById("quiz-next-btn-text").innerText = "Next Question ➔";
+                document.getElementById("quiz-home-btn").innerText = "Home 🏠";
+
+                // Result Screen
+                document.getElementById("result-title").innerText = "Awesome Job! 🎉";
+                document.getElementById("result-desc").innerText = "You have completed the quiz!";
+                document.getElementById("result-menu-btn").innerText = "Back to Menu 🏠";
+
             } else {
                 document.getElementById("lang-btn-ms").classList.add("active");
+                
+                // Sidebar Menu
+                document.getElementById("nav-home-text").innerHTML = "📚 Utama";
+                document.getElementById("nav-profile-text").innerHTML = "👤 Profil";
+                document.getElementById("nav-scores-text").innerHTML = "🏆 Skor";
+                document.getElementById("nav-logout-text").innerHTML = "🚪 Keluar";
+
+                // Home Screen
+                const curName = window.activeProfile || "-";
+                document.getElementById("home-greeting").innerText = `Hai ${curName}! 👋`;
+                document.getElementById("switch-profile-text-btn").innerText = "Tukar 🔄";
                 document.getElementById("home-subtitle-text").innerText = "Pilih modul menarik di bawah untuk mula belajar!";
+
+                // ABC Menu Screen
                 document.getElementById("abc-menu-title").innerText = "Modul ABC 🔤";
                 document.getElementById("abc-menu-desc").innerText = "Pilih aktiviti kegemaran anda untuk belajar abjad!";
                 document.getElementById("abc-main-icon").innerText = "🇲🇾";
                 document.getElementById("abc-dynamic-btn-text").innerText = "Belajar ABC";
+                document.getElementById("match-letters-menu-text").innerText = "Suaikan Huruf";
+                document.getElementById("find-letter-menu-text").innerText = "Cari Huruf";
+                document.getElementById("abc-back-home-btn").innerText = "Kembali ke Utama 🏠";
+
+                // Match Count Screen
+                document.getElementById("match-count-title").innerText = "Suaikan Huruf 🔠";
+                document.getElementById("match-count-desc").innerText = "Pilih berapa banyak set yang anda mahu mainkan:";
+                document.getElementById("set-5-text").innerText = "5 Set";
+                document.getElementById("set-10-text").innerText = "10 Set";
+                document.getElementById("set-15-text").innerText = "15 Set";
+                document.getElementById("match-count-back-btn").innerText = "Kembali ↩️";
+
+                // Match Game Screen
+                document.getElementById("match-header-title").innerText = "Suaikan Huruf";
+                document.getElementById("match-page-label").innerText = "Halaman";
+                document.getElementById("match-score-label").innerText = "Skor";
+                document.getElementById("match-instruction-desc").innerText = "Suaikan huruf kecil di sebelah kiri dengan huruf besar di sebelah kanan!";
+                document.getElementById("match-next-page-text").innerText = "Halaman Seterusnya ➔";
+                document.getElementById("match-home-btn").innerText = "Utama 🏠";
+
+                // Find Letter Screen
+                document.getElementById("find-header-title").innerText = "Cari Huruf 🍎";
+                document.getElementById("find-round-label").innerText = "Pusingan";
+                document.getElementById("find-score-label").innerText = "Skor";
+                document.getElementById("basket-label-text").innerText = "Bakul 🧺";
+                document.getElementById("find-next-round-text").innerText = "Seterusnya ➔";
+                document.getElementById("find-back-btn").innerText = "Kembali ↩️";
+
+                // ABC Flashcard
+                document.getElementById("abc-screen-title").innerText = "Belajar ABC";
+                document.getElementById("abc-sound-btn").innerHTML = "🔊 Dengar";
+                document.getElementById("prev-abc-btn").innerText = "⬅ Sebelum";
+                document.getElementById("abc-flash-back-btn").innerText = "Kembali ↩️";
+                document.getElementById("next-abc-btn").innerText = "Seterusnya ➡";
+
+                // Lesson Screen
+                document.getElementById("lesson-main-title").innerText = "Masa Pembelajaran! 📖";
+                document.getElementById("lesson-examples-label").innerText = "Contoh:";
+                document.getElementById("lesson-choose-q-btn").innerText = "Pilih Soalan 🚀";
+                document.getElementById("lesson-home-btn").innerText = "Utama 🏠";
+
+                // Question Count Screen
+                document.getElementById("count-sel-title").innerText = "Pilih Bilangan Soalan 📝";
+                document.getElementById("count-sel-desc").innerText = "Berapa banyak soalan yang anda ingin jawab?";
+                document.getElementById("q-5-text").innerText = "5 Soalan";
+                document.getElementById("q-10-text").innerText = "10 Soalan";
+                document.getElementById("count-sel-back-btn").innerText = "Kembali ↩️";
+
+                // Profile View Screen
+                document.getElementById("profile-acc-title").innerText = "Akaun & Profil 👤";
+                document.getElementById("acc-email-label").innerText = "Emel Akaun:";
+                document.getElementById("active-kid-label").innerText = "Profil Aktif:";
+                document.getElementById("switch-add-prof-btn").innerText = "Tukar / Tambah Profil 🔄";
+                document.getElementById("manage-prof-title").innerText = "✏️ Urus Profil (Sunting / Padam)";
+                document.getElementById("change-pass-title").innerText = "🔐 Tukar Kata Laluan";
+                document.getElementById("curr-pass-label").innerText = "Kata Laluan Semasa";
+                document.getElementById("new-pass-label").innerText = "Kata Laluan Baharu (Min. 6 aksara)";
+                document.getElementById("update-pass-btn").innerText = "Kemaskini Kata Laluan 🔑";
+                document.getElementById("profile-home-btn").innerText = "Kembali ke Utama 🏠";
+
+                // Scores Screen
+                document.getElementById("scores-history-title").innerText = "🏆 Sejarah Percubaan Kuiz";
+                document.getElementById("scores-history-desc").innerText = "Rekod bagi setiap sesi kuiz yang telah diselesaikan!";
+                document.getElementById("th-no").innerText = "No.";
+                document.getElementById("th-module").innerText = "Modul";
+                document.getElementById("th-score").innerText = "Skor (%)";
+                document.getElementById("th-date").innerText = "Tarikh & Masa";
+                document.getElementById("scores-home-btn").innerText = "Kembali ke Utama 🏠";
+                document.getElementById("clear-history-btn").innerText = "Kosongkan Sejarah 🗑️";
+
+                // Quiz Screen
+                document.getElementById("quiz-q-label").innerText = "Soalan";
+                document.getElementById("quiz-score-label").innerText = "Skor";
+                document.getElementById("quiz-next-btn-text").innerText = "Soalan Seterusnya ➔";
+                document.getElementById("quiz-home-btn").innerText = "Utama 🏠";
+
+                // Result Screen
+                document.getElementById("result-title").innerText = "Syabas, Hebat! 🎉";
+                document.getElementById("result-desc").innerText = "Anda telah menyiapkan kuiz ini!";
+                document.getElementById("result-menu-btn").innerText = "Kembali ke Menu 🏠";
+            }
+
+            // Kemaskini arahan cari huruf jika sedang dibuka
+            if(document.getElementById("find-letter-screen").classList.contains("active")) {
+                const targetLetter = document.getElementById("find-instruction-text").innerText.slice(-1);
+                const instructionText = currentGlobalLang === 'en' ? `Find and put letter ${targetLetter} into the basket` : `Tolong masukkan huruf ${targetLetter} ke dalam bakul`;
+                document.getElementById("find-instruction-text").innerText = instructionText;
             }
         }
 
@@ -1868,7 +2054,7 @@
                         document.getElementById("match-next-btn").style.display = "inline-block";
                     } else {
                         setTimeout(() => {
-                            alert("🌟 Amazing! You have completed all match sets!");
+                            alert(currentGlobalLang === 'en' ? "🌟 Amazing! You have completed all match sets!" : "🌟 Hebat! Anda telah melengkapkan semua set padanan!");
                             navigateTo('home-screen');
                         }, 500);
                     }
@@ -2059,7 +2245,6 @@
             showScreen('abc-menu-screen');
         }
 
-        // Modul ABC disatukan dan automatik bertukar mengikut bahasa global di Home
         function startABC() {
             currentABCIndex = 0;
             showScreen('abc-flashcard-screen');
@@ -2119,137 +2304,137 @@
 
         const lessonData = {
             numeric: {
-                title: "Number",
-                desc: "Let's count numbers from 1 to 10 and beyond! Counting helps us understand quantity and math basics.",
-                examples: "<ul><li>Numbers: <i>1 (One), 2 (Two), 3 (Three), 4 (Four)...</i></li></ul>"
+                title: "Number / Nombor",
+                desc: "Let's count numbers from 1 to 10 and beyond! Counting helps us understand quantity and math basics. / Mari mengira nombor dari 1 hingga 10 dan seterusnya!",
+                examples: "<ul><li>Numbers / Nombor: <i>1 (One / Satu), 2 (Two / Dua), 3 (Three / Tiga)...</i></li></ul>"
             },
             animal: {
-                title: "Animal",
-                desc: "Discover various animals found around the world, including farm animals, pets, and wild animals!",
-                examples: "<ul><li>Pets & Farm: <i>Cat, Dog, Cow, Duck</i></li><li>Wild: <i>Lion, Elephant, Monkey</i></li></ul>"
+                title: "Animal / Haiwan",
+                desc: "Discover various animals found around the world, including farm animals, pets, and wild animals! / Kenali pelbagai jenis haiwan di sekeliling kita.",
+                examples: "<ul><li>Pets & Farm / Haiwan Peliharaan & Ternakan: <i>Cat/Kucing, Dog/Anjing, Cow/Lembu, Duck/Itik</i></li><li>Wild / Haiwan Liar: <i>Lion/Singa, Elephant/Gajah, Monkey/Monyet</i></li></ul>"
             },
             colour: {
-                title: "Colour",
-                desc: "Explore vibrant colours all around us! Colors make our world beautiful and full of life.",
-                examples: "<ul><li>Primary colours: <i>Red, Blue, Yellow</i></li><li>Others: <i>Green, Pink, Purple, Orange</i></li></ul>"
+                title: "Colour / Warna",
+                desc: "Explore vibrant colours all around us! Colors make our world beautiful and full of life. / Terokai warna-warna ceria di sekeliling kita.",
+                examples: "<ul><li>Primary colours / Warna asas: <i>Red/Merah, Blue/Biru, Yellow/Kuning</i></li><li>Others / Lain-lain: <i>Green/Hijau, Pink/Merah Jambunya, Purple/Ungu</i></li></ul>"
             },
             bodyPart: {
-                title: "Body Part",
-                desc: "Learn about the different parts of our body and what each part helps us do every day.",
-                examples: "<ul><li>Face: <i>Eyes, Nose, Mouth, Ears</i></li><li>Limbs: <i>Hands, Fingers, Legs, Feet</i></li></ul>"
+                title: "Body Part / Anggota Badan",
+                desc: "Learn about the different parts of our body and what each part helps us do every day. / Kenali bahagian anggota badan kita.",
+                examples: "<ul><li>Face / Muka: <i>Eyes/Mata, Nose/Hidung, Mouth/Mulut, Ears/Telinga</i></li><li>Limbs / Tangan & Kaki: <i>Hands/Tangan, Fingers/Jari, Legs/Kaki</i></li></ul>"
             },
             shape: {
-                title: "Shape",
-                desc: "Identify fundamental geometric shapes like circles, squares, triangles, and rectangles in everyday objects.",
-                examples: "<ul><li>Shapes: <i>Circle, Square, Triangle, Rectangle</i></li></ul>"
+                title: "Shape / Bentuk",
+                desc: "Identify fundamental geometric shapes like circles, squares, triangles, and rectangles in everyday objects. / Kenal bentuk geometri asas.",
+                examples: "<ul><li>Shapes / Bentuk: <i>Circle/Bulat, Square/Segi Empat Sama, Triangle/Segi Tiga, Rectangle/Segi Empat Tepat</i></li></ul>"
             },
             transport: {
-                title: "Transport",
-                desc: "Learn about different vehicles that help us travel on land, water, and up in the sky.",
-                examples: "<ul><li>Land: <i>Car, Bus, Bicycle, Train</i></li><li>Air/Water: <i>Aeroplane, Ship</i></li></ul>"
+                title: "Transport / Pengangkutan",
+                desc: "Learn about different vehicles that help us travel on land, water, and up in the sky. / Kenali kenderaan di darat, air, dan udara.",
+                examples: "<ul><li>Land / Darat: <i>Car/Kereta, Bus/Bas, Bicycle/Basikal, Train/Keretapi</i></li><li>Air/Water / Udara/Air: <i>Aeroplane/Kapal Terbang, Ship/Kapal</i></li></ul>"
             },
             food: {
-                title: "Food",
-                desc: "Learn about healthy food items like delicious fruits, vegetables, and daily meals that keep us strong.",
-                examples: "<ul><li>Fruits: <i>Apple, Banana, Orange, Mango</i></li></ul>"
+                title: "Food / Makanan",
+                desc: "Learn about healthy food items like delicious fruits, vegetables, and daily meals that keep us strong. / Ketahui makanan sihat dan berkhasiat.",
+                examples: "<ul><li>Fruits / Buah-buahan: <i>Apple/Epal, Banana/Pisang, Orange/Oren, Mango/Mangga</i></li></ul>"
             },
             jobs: {
-                title: "Jobs & Profession",
-                desc: "Discover community helpers and different professions that make our society wonderful and safe.",
-                examples: "<ul><li>Helpers: <i>Doctor, Teacher, Police Officer, Firefighter</i></li></ul>"
+                title: "Jobs & Profession / Pekerjaan",
+                desc: "Discover community helpers and different professions that make our society wonderful and safe. / Kenali kerjaya dan sumbangan mereka.",
+                examples: "<ul><li>Helpers / Kerjaya: <i>Doctor/Doktor, Teacher/Cikgu, Police/Polis, Firefighter/Bomba</i></li></ul>"
             }
         };
 
         const questionBank = {
             numeric: [
-                { q: "What number comes after 2?", options: ["1", "3", "4", "5"], answer: 1 },
-                { q: "How many fingers do you have on one hand?", options: ["3", "4", "5", "10"], answer: 2 },
-                { q: "What number comes before 5?", options: ["3", "4", "6", "7"], answer: 1 },
-                { q: "Which number is the biggest?", options: ["2", "8", "4", "6"], answer: 1 },
-                { q: "Count: 🍎 🍎 🍎", options: ["2", "3", "4", "5"], answer: 1 },
-                { q: "What number is written as 'Ten'?", options: ["5", "10", "15", "20"], answer: 1 },
-                { q: "What number comes after 9?", options: ["8", "10", "11", "12"], answer: 1 },
-                { q: "Count: ⭐ ⭐", options: ["1", "2", "3", "4"], answer: 1 },
-                { q: "Which number comes between 6 and 8?", options: ["5", "7", "9", "10"], answer: 1 },
-                { q: "What number comes before 1?", options: ["0", "2", "3", "10"], answer: 0 }
+                { q: "What number comes after 2? / Nombor apakah selepas 2?", options: ["1", "3", "4", "5"], answer: 1 },
+                { q: "How many fingers do you have on one hand? / Berapa jari pada sebelah tangan?", options: ["3", "4", "5", "10"], answer: 2 },
+                { q: "What number comes before 5? / Nombor apakah sebelum 5?", options: ["3", "4", "6", "7"], answer: 1 },
+                { q: "Which number is the biggest? / Nombor manakah yang paling besar?", options: ["2", "8", "4", "6"], answer: 1 },
+                { q: "Count: 🍎 🍎 🍎 / Kira:", options: ["2", "3", "4", "5"], answer: 1 },
+                { q: "What number is written as 'Ten' / 'Sepuluh'?", options: ["5", "10", "15", "20"], answer: 1 },
+                { q: "What number comes after 9? / Nombor selepas 9?", options: ["8", "10", "11", "12"], answer: 1 },
+                { q: "Count: ⭐ ⭐ / Kira:", options: ["1", "2", "3", "4"], answer: 1 },
+                { q: "Which number comes between 6 and 8? / Nombor di antara 6 dan 8?", options: ["5", "7", "9", "10"], answer: 1 },
+                { q: "What number comes before 1? / Nombor sebelum 1?", options: ["0", "2", "3", "10"], answer: 0 }
             ],
             animal: [
-                { q: "Which animal says 'Meow'?", options: ["Dog", "Cat", "Cow", "Duck"], answer: 1 },
-                { q: "Which animal is known as the King of the Jungle?", options: ["Lion", "Rabbit", "Mouse", "Sheep"], answer: 0 },
-                { q: "Which animal says 'Moo'?", options: ["Goat", "Cow", "Cat", "Bird"], answer: 1 },
-                { q: "Which animal has a very long neck?", options: ["Elephant", "Giraffe", "Monkey", "Frog"], answer: 1 },
-                { q: "Which of these is a pet dog?", options: ["Puppy", "Tiger", "Shark", "Eagle"], answer: 0 },
-                { q: "Which animal hops and loves carrots?", options: ["Rabbit", "Lion", "Fish", "Horse"], answer: 0 },
-                { q: "Which animal lives in water and swims?", options: ["Fish", "Cat", "Dog", "Bird"], answer: 0 },
-                { q: "Which animal says 'Baa Baa'?", options: ["Sheep", "Duck", "Cow", "Chicken"], answer: 0 },
-                { q: "Which animal has black and white stripes?", options: ["Zebra", "Lion", "Bear", "Fox"], answer: 0 },
-                { q: "Which animal swings from trees?", options: ["Monkey", "Fish", "Cow", "Dog"], answer: 0 }
+                { q: "Which animal says 'Meow'? / Haiwan manakah berbunyi 'Meow'?", options: ["Dog/Anjing", "Cat/Kucing", "Cow/Lembu", "Duck/Itik"], answer: 1 },
+                { q: "Which animal is known as the King of the Jungle? / Raja Rimba?", options: ["Lion/Singa", "Rabbit/Arnab", "Mouse/Tikus", "Sheep/Biri-biri"], answer: 0 },
+                { q: "Which animal says 'Moo'? / Haiwan manakah berbunyi 'Moo'?", options: ["Goat/Kambing", "Cow/Lembu", "Cat/Kucing", "Bird/Burung"], answer: 1 },
+                { q: "Which animal has a very long neck? / Haiwan berleher panjang?", options: ["Elephant/Gajah", "Giraffe/Zirafah", "Monkey/Monyet", "Frog/Katak"], answer: 1 },
+                { q: "Which of these is a pet dog? / Yang manakah anak anjing / anjing?", options: ["Puppy/Anak Anjing", "Tiger/Harimau", "Shark/Jerung", "Eagle/Helang"], answer: 0 },
+                { q: "Which animal hops and loves carrots? / Haiwan melompat suka lobak?", options: ["Rabbit/Arnab", "Lion/Singa", "Fish/Ikan", "Horse/Kuda"], answer: 0 },
+                { q: "Which animal lives in water and swims? / Haiwan hidup di air?", options: ["Fish/Ikan", "Cat/Kucing", "Dog/Anjing", "Bird/Burung"], answer: 0 },
+                { q: "Which animal says 'Baa Baa'? / Haiwan berbunyi 'Baa Baa'?", options: ["Sheep/Biri-biri", "Duck/Itik", "Cow/Lembu", "Chicken/Ayam"], answer: 0 },
+                { q: "Which animal has black and white stripes? / Haiwan berbelang hitam putih?", options: ["Zebra/Zirafah", "Lion/Singa", "Bear/Beruang", "Fox/Musang"], answer: 0 },
+                { q: "Which animal swings from trees? / Haiwan bergayut di pokok?", options: ["Monkey/Monyet", "Fish/Ikan", "Cow/Lembu", "Dog/Anjing"], answer: 0 }
             ],
             colour: [
-                { q: "What colour is a ripe banana?", options: ["Red", "Yellow", "Blue", "Black"], answer: 1 },
-                { q: "What colour is fresh grass?", options: ["Green", "Pink", "Orange", "Purple"], answer: 0 },
-                { q: "What colour is a fresh red apple?", options: ["Red", "Blue", "Yellow", "Green"], answer: 0 },
-                { q: "What colour is the clear sky during the day?", options: ["Blue", "Black", "Green", "Pink"], answer: 0 },
-                { q: "Mixing Red and Yellow gives you which colour?", options: ["Orange", "Blue", "Green", "White"], answer: 0 },
-                { q: "What colour is coal or night time?", options: ["Black", "White", "Yellow", "Blue"], answer: 0 },
-                { q: "What colour is snow?", options: ["White", "Red", "Black", "Brown"], answer: 0 },
-                { q: "What colour do you get by mixing Blue and Yellow?", options: ["Green", "Red", "Purple", "Pink"], answer: 0 },
-                { q: "What colour is a carrot?", options: ["Orange", "Blue", "Yellow", "Black"], answer: 0 },
-                { q: "What colour is a sweet purple grape?", options: ["Purple", "Red", "Green", "Yellow"], answer: 0 }
+                { q: "What colour is a ripe banana? / Apakah warna pisang masak?", options: ["Red/Merah", "Yellow/Kuning", "Blue/Biru", "Black/Hitam"], answer: 1 },
+                { q: "What colour is fresh grass? / Apakah warna rumput segar?", options: ["Green/Hijau", "Pink/Merah Jambu", "Orange/Oren", "Purple/Ungu"], answer: 0 },
+                { q: "What colour is a fresh red apple? / Warna epal merah segar?", options: ["Red/Merah", "Blue/Biru", "Yellow/Kuning", "Green/Hijau"], answer: 0 },
+                { q: "What colour is the clear sky during the day? / Warna langit siang?", options: ["Blue/Biru", "Black/Hitam", "Green/Hijau", "Pink/Merah Jambu"], answer: 0 },
+                { q: "Mixing Red and Yellow gives you which colour? / Campuran Merah & Kuning?", options: ["Orange/Oren", "Blue/Biru", "Green/Hijau", "White/Putih"], answer: 0 },
+                { q: "What colour is coal or night time? / Warna arang atau waktu malam?", options: ["Black/Hitam", "White/Putih", "Yellow/Kuning", "Blue/Biru"], answer: 0 },
+                { q: "What colour is snow? / Apakah warna salji?", options: ["White/Putih", "Red/Merah", "Black/Hitam", "Brown/Coklat"], answer: 0 },
+                { q: "What colour do you get by mixing Blue and Yellow? / Campuran Biru & Kuning?", options: ["Green/Hijau", "Red/Merah", "Purple/Ungu", "Pink/Merah Jambu"], answer: 0 },
+                { q: "What colour is a carrot? / Apakah warna lobak merah?", options: ["Orange/Oren", "Blue/Biru", "Yellow/Kuning", "Black/Hitam"], answer: 0 },
+                { q: "What colour is a sweet purple grape? / Warna buah anggur?", options: ["Purple/Ungu", "Red/Merah", "Green/Hijau", "Yellow/Kuning"], answer: 0 }
             ],
             bodyPart: [
-                { q: "Which body part do you use to see things?", options: ["Eyes", "Nose", "Ears", "Mouth"], answer: 0 },
-                { q: "Which body part do you use to smell flowers?", options: ["Nose", "Hands", "Eyes", "Feet"], answer: 0 },
-                { q: "Which body part do you use to hear music?", options: ["Ears", "Nose", "Mouth", "Eyes"], answer: 0 },
-                { q: "How many fingers do you have on both hands together?", options: ["5", "10", "20", "2"], answer: 1 },
-                { q: "Which body part do you use to walk and run?", options: ["Legs", "Arms", "Ears", "Nose"], answer: 0 },
-                { q: "Which body part do you use to taste delicious food?", options: ["Tongue / Mouth", "Eyes", "Ears", "Hair"], answer: 0 },
-                { q: "What covers our head?", options: ["Hair", "Shoes", "Gloves", "Socks"], answer: 0 },
-                { q: "Which body part do you use to hold a pencil?", options: ["Hands / Fingers", "Feet", "Ears", "Nose"], answer: 0 },
-                { q: "Which part of the face is right in the middle?", options: ["Nose", "Chin", "Forehead", "Cheek"], answer: 0 },
-                { q: "What do we use to smile and speak?", options: ["Mouth", "Eyes", "Ears", "Hair"], answer: 0 }
+                { q: "Which body part do you use to see things? / Bahagian untuk melihat?", options: ["Eyes/Mata", "Nose/Hidung", "Ears/Telinga", "Mouth/Mulut"], answer: 0 },
+                { q: "Which body part do you use to smell flowers? / Bahagian untuk bau bunga?", options: ["Nose/Hidung", "Hands/Tangan", "Eyes/Mata", "Feet/Kaki"], answer: 0 },
+                { q: "Which body part do you use to hear music? / Bahagian untuk mendengar muzik?", options: ["Ears/Telinga", "Nose/Hidung", "Mouth/Mulut", "Eyes/Mata"], answer: 0 },
+                { q: "How many fingers do you have on both hands together? / Jumlah jari kedua belah tangan?", options: ["5", "10", "20", "2"], answer: 1 },
+                { q: "Which body part do you use to walk and run? / Bahagian untuk berjalan dan berlari?", options: ["Legs/Kaki", "Arms/Lengan", "Ears/Telinga", "Nose/Hidung"], answer: 0 },
+                { q: "Which body part do you use to taste delicious food? / Bahagian untuk merasai makanan?", options: ["Tongue/Lidah", "Eyes/Mata", "Ears/Telinga", "Hair/Rambut"], answer: 0 },
+                { q: "What covers our head? / Apakah yang menutup kepala kita?", options: ["Hair/Rambut", "Shoes/Kasut", "Gloves/Sarung Tangan", "Socks/Stoking"], answer: 0 },
+                { q: "Which body part do you use to hold a pencil? / Bahagian untuk memegang pensel?", options: ["Hands/Tangan", "Feet/Kaki", "Ears/Telinga", "Nose/Hidung"], answer: 0 },
+                { q: "Which part of the face is right in the middle? / Bahagian tengah muka?", options: ["Nose/Hidung", "Chin/Dagu", "Forehead/Dahi", "Cheek/Pipi"], answer: 0 },
+                { q: "What do we use to smile and speak? / Untuk senyum dan bercakap?", options: ["Mouth/Mulut", "Eyes/Mata", "Ears/Telinga", "Hair/Rambut"], answer: 0 }
             ],
             shape: [
-                { q: "What shape is a round ball?", options: ["Circle", "Square", "Triangle", "Rectangle"], answer: 0 },
-                { q: "How many equal sides does a square have?", options: ["3", "4", "5", "6"], answer: 1 },
-                { q: "What shape has three sides?", options: ["Triangle", "Circle", "Square", "Rectangle"], answer: 0 },
-                { q: "Which shape has two long sides and two short sides?", options: ["Rectangle", "Circle", "Triangle", "Star"], answer: 0 },
-                { q: "What shape looks like the moon crescent or a ring?", options: ["Circle", "Triangle", "Square", "Oval"], answer: 0 },
-                { q: "A sandwich is often cut into what shape?", options: ["Triangle", "Circle", "Oval", "Star"], answer: 0 },
-                { q: "Which shape has no corners or straight edges?", options: ["Circle", "Square", "Rectangle", "Triangle"], answer: 0 },
-                { q: "A door is usually shaped like a:", options: ["Rectangle", "Circle", "Triangle", "Ball"], answer: 0 },
-                { q: "A chessboard tile is shaped like a:", options: ["Square", "Circle", "Triangle", "Oval"], answer: 0 },
-                { q: "An egg is usually shaped like an:", options: ["Oval", "Square", "Rectangle", "Triangle"], answer: 0 }
+                { q: "What shape is a round ball? / Apakah bentuk bola?", options: ["Circle/Bulat", "Square/Segi Empat", "Triangle/Segi Tiga", "Rectangle/Segi Empat Tepat"], answer: 0 },
+                { q: "How many equal sides does a square have? / Berapa sisi sama bagi segi empat sama?", options: ["3", "4", "5", "6"], answer: 1 },
+                { q: "What shape has three sides? / Bentuk yang mempunyai tiga sisi?", options: ["Triangle/Segi Tiga", "Circle/Bulat", "Square/Segi Empat", "Rectangle/Segi Empat Tepat"], answer: 0 },
+                { q: "Which shape has two long sides and two short sides? / Dua sisi panjang & dua sisi pendek?", options: ["Rectangle/Segi Empat Tepat", "Circle/Bulat", "Triangle/Segi Tiga", "Star/Bintang"], answer: 0 },
+                { q: "What shape looks like an egg? / Bentuk menyerupai telur?", options: ["Oval/Elips", "Triangle/Segi Tiga", "Square/Segi Empat", "Circle/Bulat"], answer: 3 },
+                { q: "A sandwich is often cut into what shape? / Sandwich dipotong bentuk apa?", options: ["Triangle/Segi Tiga", "Circle/Bulat", "Oval/Elips", "Star/Bintang"], answer: 0 },
+                { q: "Which shape has no corners or straight edges? / Tiada bucu atau sisi lurus?", options: ["Circle/Bulat", "Square/Segi Empat", "Rectangle/Segi Empat Tepat", "Triangle/Segi Tiga"], answer: 0 },
+                { q: "A door is usually shaped like a: / Pintu biasanya berbentuk:", options: ["Rectangle/Segi Empat Tepat", "Circle/Bulat", "Triangle/Segi Tiga", "Ball/Bola"], answer: 0 },
+                { q: "A chessboard tile is shaped like a: / Petak papan catur berbentuk:", options: ["Square/Segi Empat Sama", "Circle/Bulat", "Triangle/Segi Tiga", "Oval/Elips"], answer: 0 },
+                { q: "An egg is usually shaped like an: / Sebiji telur berbentuk:", options: ["Oval/Elips", "Square/Segi Empat", "Rectangle/Segi Empat Tepat", "Triangle/Segi Tiga"], answer: 0 }
             ],
             transport: [
-                { q: "Which vehicle runs on railway tracks?", options: ["Train", "Car", "Aeroplane", "Bicycle"], answer: 0 },
-                { q: "Which vehicle flies high up in the sky?", options: ["Aeroplane", "Boat", "Bus", "Car"], answer: 0 },
-                { q: "Which vehicle has two wheels and is powered by pedalling?", options: ["Bicycle", "Truck", "Train", "Ship"], answer: 0 },
-                { q: "Which large vehicle carries many passengers on the road?", options: ["Bus", "Car", "Bicycle", "Scooter"], answer: 0 },
-                { q: "Which vehicle sails on water over the sea?", options: ["Ship / Boat", "Car", "Aeroplane", "Train"], answer: 0 },
-                { q: "What vehicle do police officers use to patrol quickly?", options: ["Police Car", "Bicycle", "Boat", "Train"], answer: 0 },
-                { q: "What vehicle carries sick people to the hospital?", options: ["Ambulance", "Bus", "Taxi", "Bicycle"], answer: 0 },
-                { q: "How many wheels does a standard car have?", options: ["2", "4", "3", "1"], answer: 1 },
-                { q: "Which vehicle has two wheels and an engine?", options: ["Motorcycle", "Bicycle", "Train", "Boat"], answer: 0 },
-                { q: "What vehicle puts out dangerous fires?", options: ["Fire Engine", "Taxi", "Bus", "Bicycle"], answer: 0 }
+                { q: "Which vehicle runs on railway tracks? / Kenderaan atas landasan kereta api?", options: ["Train/Keretapi", "Car/Kereta", "Aeroplane/Kapal Terbang", "Bicycle/Basikal"], answer: 0 },
+                { q: "Which vehicle flies high up in the sky? / Kenderaan terbang di udara?", options: ["Aeroplane/Kapal Terbang", "Boat/Bot", "Bus/Bas", "Car/Kereta"], answer: 0 },
+                { q: "Which vehicle has two wheels and is powered by pedalling? / Kenderaan dua roda dikayuh?", options: ["Bicycle/Basikal", "Truck/Lori", "Train/Keretapi", "Ship/Kapal"], answer: 0 },
+                { q: "Which large vehicle carries many passengers on the road? / Kenderaan besar muat ramai penumpang?", options: ["Bus/Bas", "Car/Kereta", "Bicycle/Basikal", "Scooter/Skuter"], answer: 0 },
+                { q: "Which vehicle sails on water over the sea? / Kenderaan di atas air/laut?", options: ["Ship/Kapal", "Car/Kereta", "Aeroplane/Kapal Terbang", "Train/Keretapi"], answer: 0 },
+                { q: "What vehicle do police officers use to patrol quickly? / Kenderaan polis?", options: ["Police Car/Kereta Polis", "Bicycle/Basikal", "Boat/Bot", "Train/Keretapi"], answer: 0 },
+                { q: "What vehicle carries sick people to the hospital? / Kenderaan bawa orang sakit?", options: ["Ambulance/Ambulans", "Bus/Bas", "Taxi/Teksi", "Bicycle/Basikal"], answer: 0 },
+                { q: "How many wheels does a standard car have? / Berapa roda kereta biasa?", options: ["2", "4", "3", "1"], answer: 1 },
+                { q: "Which vehicle has two wheels and an engine? / Kenderaan dua roda berenjin?", options: ["Motorcycle/Motosikal", "Bicycle/Basikal", "Train/Keretapi", "Boat/Bot"], answer: 0 },
+                { q: "What vehicle puts out dangerous fires? / Kenderaan padam kebakaran?", options: ["Fire Engine/Lori Bomba", "Taxi/Teksi", "Bus/Bas", "Bicycle/Basikal"], answer: 0 }
             ],
             food: [
-                { q: "Which of these is a red healthy fruit?", options: ["Apple", "Stone", "Wood", "Paper"], answer: 0 },
-                { q: "Monkeys love to eat which yellow fruit?", options: ["Banana", "Watermelon", "Potato", "Carrot"], answer: 0 },
-                { q: "Which of these is a vegetable?", options: ["Carrot", "Chocolate", "Candy", "Biscuit"], answer: 0 },
-                { q: "What do cows give us to drink that makes us strong?", options: ["Milk", "Juice", "Water", "Soda"], answer: 0 },
-                { q: "Which fruit is round, green or purple, and grows in bunches?", options: ["Grapes", "Apple", "Banana", "Orange"], answer: 0 },
-                { q: "What food is made from flour, baked in an oven, and eaten with butter?", options: ["Bread", "Soup", "Ice", "Rice"], answer: 0 },
-                { q: "Which of these is a sweet yellow citrus fruit?", options: ["Orange / Lemon", "Apple", "Carrot", "Potato"], answer: 0 },
-                { q: "What do we use to make sandwiches?", options: ["Bread", "Stone", "Brick", "Sand"], answer: 0 },
-                { q: "Which of these is a cold sweet treat kids love in hot weather?", options: ["Ice Cream", "Hot Soup", "Rice", "Bread"], answer: 0 },
-                { q: "Watermelon has lots of ________ inside.", options: ["Seeds", "Wood", "Metal", "Plastic"], answer: 0 }
+                { q: "Which of these is a red healthy fruit? / Buah sihat berwarna merah?", options: ["Apple/Epal", "Stone/Batu", "Wood/Kayu", "Paper/Kertas"], answer: 0 },
+                { q: "Monkeys love to eat which yellow fruit? / Buah kuning kegemaran monyet?", options: ["Banana/Pisang", "Watermelon/Tembikai", "Potato/Ubi", "Carrot/Lobak"], answer: 0 },
+                { q: "Which of these is a vegetable? / Yang manakah sayuran?", options: ["Carrot/Lobak Merah", "Chocolate/Coklat", "Candy/Gula-gula", "Biscuit/Biskut"], answer: 0 },
+                { q: "What do cows give us to drink that makes us strong? / Apa yang lembu berikan untuk diminum?", options: ["Milk/Susu", "Juice/Jus", "Water/Air", "Soda/Air Gas"], answer: 0 },
+                { q: "Which fruit is round, green or purple, and grows in bunches? / Buah gugus bulat hijau/ungu?", options: ["Grapes/Anggur", "Apple/Epal", "Banana/Pisang", "Orange/Oren"], answer: 0 },
+                { q: "What food is made from flour, baked in an oven? / Makanan daripada tepung dibakar?", options: ["Bread/Roti", "Soup/Sup", "Ice/Ais", "Rice/Nasi"], answer: 0 },
+                { q: "Which of these is a sweet yellow citrus fruit? / Buah sitrus kuning manis?", options: ["Orange/Limau", "Apple/Epal", "Carrot/Lobak", "Potato/Ubi"], answer: 0 },
+                { q: "What do we use to make sandwiches? / Apa bahan asas sandwic?", options: ["Bread/Roti", "Stone/Batu", "Brick/Bata", "Sand/Pasir"], answer: 0 },
+                { q: "Which of these is a cold sweet treat kids love? / Makanan sejuk manis disukai kanak-kanak?", options: ["Ice Cream/Aiskrim", "Hot Soup/Sup Panas", "Rice/Nasi", "Bread/Roti"], answer: 0 },
+                { q: "Watermelon has lots of ________ inside. / Tembikai mempunyai banyak ________ di dalam.", options: ["Seeds/Biji", "Wood/Kayu", "Metal/Logam", "Plastic/Plastik"], answer: 0 }
             ],
             jobs: [
-                { q: "Who teaches students in a school classroom?", options: ["Teacher", "Doctor", "Pilot", "Firefighter"], answer: 0 },
-                { q: "Who helps sick people and gives medicine?", options: ["Doctor", "Chef", "Driver", "Farmer"], answer: 0 },
-                { q: "Who flies an aeroplane in the sky?", options: ["Pilot", "Teacher", "Chef", "Police"], answer: 0 },
-                { q: "Who grows crops and vegetables", options: ["Farmer", "Doctor", "Pilot", "Chef"], answer: 0 }
+                { q: "Who teaches students in a school classroom? / Siapa yang mengajar murid di sekolah?", options: ["Teacher/Cikgu", "Doctor/Doktor", "Pilot/Juruterbang", "Firefighter/Bomba"], answer: 0 },
+                { q: "Who helps sick people and gives medicine? / Siapa merawat orang sakit?", options: ["Doctor/Doktor", "Chef/Tukang Masak", "Driver/Pemandu", "Farmer/Petani"], answer: 0 },
+                { q: "Who flies an aeroplane in the sky? / Siapa memandu kapal terbang?", options: ["Pilot/Juruterbang", "Teacher/Cikgu", "Chef/Tukang Masak", "Police/Polis"], answer: 0 },
+                { q: "Who grows crops and vegetables? / Siapa menanam sayuran di ladang?", options: ["Farmer/Petani", "Doctor/Doktor", "Pilot/Juruterbang", "Chef/Tukang Masak"], answer: 0 }
             ]
         };
 
@@ -2351,9 +2536,9 @@
             document.getElementById("completion-time").innerText = `📅 Completed on: ${formattedTime}`;
 
             let msg = "";
-            if (percentage === 100) msg = "🌟 Perfect Score! You're a superstar!";
-            else if (percentage >= 70) msg = "🎉 Great job! Keep it up!";
-            else msg = "👍 Good try! Practice makes perfect!";
+            if (percentage === 100) msg = currentGlobalLang === 'en' ? "🌟 Perfect Score! You're a superstar!" : "🌟 Skor Sempurna! Anda memang hebat!";
+            else if (percentage >= 70) msg = currentGlobalLang === 'en' ? "🎉 Great job! Keep it up!" : "🎉 Syabas! Teruskan kecemerlangan!";
+            else msg = currentGlobalLang === 'en' ? "👍 Good try! Practice makes perfect!" : "👍 Cubaan yang baik! Usaha tangga kejayaan!";
             document.getElementById("feedback-message").innerText = msg;
 
             saveSessionRecord(currentActiveTopic, scoreCount, totalQ, formattedTime);
@@ -2361,7 +2546,8 @@
         }
 
         function confirmBackToHome() {
-            if (confirm("Are you sure you want to go back to Home? Current quiz progress will be lost.")) {
+            const confirmMsg = currentGlobalLang === 'en' ? "Are you sure you want to go back to Home? Current quiz progress will be lost." : "Adakah anda pasti mahu kembali ke Utama? Kemajuan kuiz semasa akan hilang.";
+            if (confirm(confirmMsg)) {
                 navigateTo('home-screen');
             }
         }
