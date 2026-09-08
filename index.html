@@ -725,20 +725,20 @@
         }
 
         /* Match the Letters styles */
-.match-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin: 15px 0;
-}
+        .match-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 15px 0;
+        }
 
-.match-column {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
+        .match-column {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
-.match-item {
+       .match-item {
     background: white;
     border: 3px solid var(--primary-blue);
     border-radius: 20px; /* Disamakan dengan lengkungan flashcard */
@@ -754,24 +754,24 @@
     transition: all 0.2s;
 }
 
-.match-item:hover {
-    transform: scale(1.03);
-    background: #E0F7FA;
-}
+        .match-item:hover {
+            transform: scale(1.03);
+            background: #E0F7FA;
+        }
 
-.match-item.selected {
-    background: var(--primary-yellow);
-    border-color: #FBC02D;
-    transform: scale(1.03);
-}
+        .match-item.selected {
+            background: var(--primary-yellow);
+            border-color: #FBC02D;
+            transform: scale(1.03);
+        }
 
-.match-item.matched {
-    background: var(--primary-green);
-    border-color: #4CAF50;
-    color: white;
-    opacity: 0.7;
-    cursor: default;
-}
+        .match-item.matched {
+            background: var(--primary-green);
+            border-color: #4CAF50;
+            color: white;
+            opacity: 0.7;
+            cursor: default;
+        }
 
         @media (max-width: 768px) {
             body {
