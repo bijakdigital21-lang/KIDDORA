@@ -19,22 +19,19 @@
             --white: transparent;
         }
 
-* {
+html, body {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden; /* Mengelakkan skrin daripada bergerak atau scroll */
+            position: fixed;   /* Menetapkan kedudukan skrin agar tidak beralih */
+            touch-action: none; /* Menutup sebarang gesture sentuhan yang menggerakkan skrin */
+        }
+
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             -webkit-tap-highlight-color: transparent;
-            /* Kekalkan tetapan elak zoom/manipulasi teks, tapi sekat gerakkan bebas */
-            touch-action: manipulation; 
-        }
-
-        html, body {
-            width: 100%;
-            height: 100vh;
-            overflow: hidden; /* Mengunci skrin utama dari bergerak-gerak / scroll */
-            position: fixed;   /* Menetapkan kedudukan skrin agar stabil */
-            /* Menghalang sentuhan meluncur (pan) yang menyebabkan skrin beralih */
-            touch-action: none; 
         }
 
         body {
