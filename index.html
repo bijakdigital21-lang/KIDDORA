@@ -19,10 +19,11 @@
             --white: transparent;
         }
 
-        * {
+       * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            /* Tambahan kod untuk mengelakkan teks terpilih/zoom tak sengaja pada mobile */
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
@@ -35,6 +36,7 @@
             min-height: 100vh;
             display: flex;
             overflow-x: hidden;
+            /* Menetapkan agar skrin tidak boleh di-zoom secara manual/automatik */
             touch-action: pan-x pan-y;
         }
 
@@ -1136,7 +1138,7 @@
                 </div>
                 
                 <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 5px;">
-                    <p id="find-instruction-text" style="font-weight: 700; font-size: 1.1rem; color: #2C3E50;">Sila cari huruf A dan masukkan ke dalam bakul</p>
+                    <p id="find-instruction-text" style="font-weight: 700; font-size: 1.1rem; color: #2C3E50;"> Tolong masukkan huruf A ke dalam bakul</p>
                     <button class="sound-btn" style="padding: 5px 12px; font-size: 0.9rem;" onclick="playFindInstructionAudio()">🔊</button>
                 </div>
 
