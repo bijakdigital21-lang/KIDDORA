@@ -176,7 +176,7 @@
             position: relative;
         }
 
-      .card {
+        .card {
             display: none;
             animation: fadeIn 0.4s ease-in-out;
             background: transparent;
@@ -386,21 +386,29 @@
             margin-bottom: 5px;
         }
 
+        /* Kotak Paparan Gambar Kuantiti yang Besar dan Jelas */
         .flashcard-img-container {
-            width: 200px;
-            height: 200px;
+            width: 100%;
+            min-height: 220px;
+            max-height: 300px;
             background: white;
             border-radius: 20px;
             border: 3px solid var(--primary-blue);
-            overflow: hidden;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 20px;
             margin: 15px 0;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow-y: auto;
         }
 
-        .flashcard-img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .quantity-icon {
+            font-size: 3.2rem;
+            animation: bounce 2s infinite ease-in-out;
+            line-height: 1;
         }
 
         .flashcard-text {
@@ -845,7 +853,8 @@
                     <button class="topic-btn" onclick="playClickSound(); openABCMenu()">
                         <img src="https://i.imgur.com/HRl0fWA.jpeg" alt="ABC Character">
                     </button>
-                    <button class="topic-btn" onclick="playClickSound(); openLesson('numeric')">
+                    <!-- Tombol Number/123 dikemaskini membuka menu pilihan Learn/Belajar 123 -->
+                    <button class="topic-btn" onclick="playClickSound(); openNumberMenu()">
                         <img src="https://i.imgur.com/Xzib4i8.jpeg" alt="Number">
                     </button>
                     <button class="topic-btn" onclick="playClickSound(); openLesson('animal')">
@@ -897,8 +906,8 @@
 
                 <div class="flashcard-box">
                     <div class="flashcard-letter" id="abc-letter">A</div>
-                    <div class="flashcard-img-container">
-                        <img id="abc-image" src="" alt="ABC Item">
+                    <div class="flashcard-img-container" style="display: block;">
+                        <img id="abc-image" src="" alt="ABC Item" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">
                     </div>
                     <div class="flashcard-text" id="abc-caption">A for Apple</div>
                     <button class="sound-btn" onclick="playABCSound()">🔊 Listen / Dengar</button>
@@ -911,7 +920,47 @@
                 </div>
             </div>
 
-            <!-- 4. LESSON SCREEN -->
+            <!-- NUMBER MODULE TOPICS SELECTION SCREEN (Learn 123 & Belajar 123) -->
+            <div id="number-menu-screen" class="card">
+                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">Number Modules 🔢</h2>
+                <p style="color: #ffff00; font-weight: 700; margin-top: 5px;">Choose your preferred language to learn numbers 1 to 20!</p>
+                
+                <div class="abc-menu-grid">
+                    <button class="abc-sub-btn" onclick="playClickSound(); startNumberModule('en')">
+                        <span>🇬🇧</span>
+                        <span>Learn 123 (1-20)</span>
+                    </button>
+                    <button class="abc-sub-btn" onclick="playClickSound(); startNumberModule('ms')">
+                        <span>🇲🇾</span>
+                        <span>Belajar 123 (1-20)</span>
+                    </button>
+                </div>
+                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+            </div>
+
+            <!-- NUMBER INTERACTIVE FLASHCARD SCREEN (1-20 DENGAN IKON BESAR) -->
+            <div id="number-flashcard-screen" class="card">
+                <h2 id="number-screen-title" style="color: #333; margin-bottom: 5px; font-family: 'Fredoka One', cursive;">Learn 123</h2>
+                <p style="color: #444; font-weight: 700; font-size: 0.9rem;" id="number-progress-indicator">Number 1 of 20</p>
+
+                <div class="flashcard-box">
+                    <div class="flashcard-letter" id="number-digit">1</div>
+                    <!-- Paparan ikon yang dijana ikut kuantiti dan bersaiz besar -->
+                    <div class="flashcard-img-container" id="number-icons-container">
+                        <!-- Ikon dijana automatik melalui JS -->
+                    </div>
+                    <div class="flashcard-text" id="number-caption">1 Apple</div>
+                    <button class="sound-btn" onclick="playNumberSound()">🔊 Listen / Dengar</button>
+                </div>
+
+                <div class="flashcard-nav">
+                    <button class="action-btn home-btn" onclick="playClickSound(); prevNumberStep()" id="prev-number-btn">⬅ Prev</button>
+                    <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Home 🏠</button>
+                    <button class="action-btn" style="background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); nextNumberStep()" id="next-number-btn">Next ➡</button>
+                </div>
+            </div>
+
+            <!-- 4. LESSON SCREEN (Untuk topik lain selain Nombor & ABC) -->
             <div id="lesson-screen" class="card">
                 <h2 style="color: #333; font-family: 'Fredoka One', cursive;">Lesson Time! 📖</h2>
                 <div class="lesson-box">
@@ -1143,7 +1192,6 @@
             }
         };
 
-        // Fungsi fetchProfiles tunggal yang lengkap dengan Edit & Delete
         async function fetchProfiles() {
             if (!window.currentUserAuth) return;
             const uid = window.currentUserAuth.uid;
@@ -1565,12 +1613,128 @@
             }
         }
 
+        /* DATA NOMBOR 1-20 (Learn 123 & Belajar 123) DENGAN IKON IKONIK */
+        const numberDataEn = [
+            { num: 1, word: "One Apple", icon: "🍎" },
+            { num: 2, word: "Two Cats", icon: "🐱" },
+            { num: 3, word: "Three Umbrellas", icon: "☂️" },
+            { num: 4, word: "Four Stars", icon: "⭐" },
+            { num: 5, word: "Five Fish", icon: "🐟" },
+            { num: 6, word: "Six Cars", icon: "🚗" },
+            { num: 7, word: "Seven Flowers", icon: "🌸" },
+            { num: 8, word: "Eight Ballons", icon: "🎈" },
+            { num: 9, word: "Nine Candies", icon: "🍬" },
+            { num: 10, word: "Ten Ducks", icon: "🦆" },
+            { num: 11, word: "Eleven Cookies", icon: "🍪" },
+            { num: 12, word: "Twelve Pandas", icon: "🐼" },
+            { num: 13, word: "Thirteen Ice Creams", icon: "🍦" },
+            { num: 14, word: "Fourteen Butterflies", icon: "🦋" },
+            { num: 15, word: "Fifteen Leaves", icon: "🍃" },
+            { num: 16, word: "Sixteen Rockets", icon: "🚀" },
+            { num: 17, word: "Seventeen Suns", icon: "☀️" },
+            { num: 18, word: "Eighteen Gifts", icon: "🎁" },
+            { num: 19, word: "Nineteen Trophies", icon: "🏆" },
+            { num: 20, word: "Twenty Balls", icon: "⚽" }
+        ];
+
+        const numberDataMs = [
+            { num: 1, word: "Satu Epal", icon: "🍎" },
+            { num: 2, word: "Dua Kucing", icon: "🐱" },
+            { num: 3, word: "Tiga Payung", icon: "☂️" },
+            { num: 4, word: "Empat Bintang", icon: "⭐" },
+            { num: 5, word: "Lima Ikan", icon: "🐟" },
+            { num: 6, word: "Enam Kereta", icon: "🚗" },
+            { num: 7, word: "Tujuh Bunga", icon: "🌸" },
+            { num: 8, word: "Lapan Belon", icon: "🎈" },
+            { num: 9, word: "Sembilan Gula-gula", icon: "🍬" },
+            { num: 10, word: "Sepuluh Itik", icon: "🦆" },
+            { num: 11, word: "Sebelas Biskut", icon: "🍪" },
+            { num: 12, word: "Dua Belas Panda", icon: "🐼" },
+            { num: 13, word: "Tiga Belas Ais Krim", icon: "🍦" },
+            { num: 14, word: "Empat Belas Rama-rama", icon: "🦋" },
+            { num: 15, word: "Lima Belas Daun", icon: "🍃" },
+            { num: 16, word: "Enam Belas Roket", icon: "🚀" },
+            { num: 17, word: "Tujuh Belas Matahari", icon: "☀️" },
+            { num: 18, word: "Lapan Belas Hadiah", icon: "🎁" },
+            { num: 19, word: "Sembilan Belas Piala", icon: "🏆" },
+            { num: 20, word: "Dua Puluh Bola", icon: "⚽" }
+        ];
+
+        let currentNumberMode = 'en';
+        let currentNumberIndex = 0;
+
+        function openNumberMenu() {
+            showScreen('number-menu-screen');
+        }
+
+        function startNumberModule(mode) {
+            currentNumberMode = mode;
+            currentNumberIndex = 0;
+            showScreen('number-flashcard-screen');
+            renderNumberFlashcard();
+            playNumberSound();
+        }
+
+        function renderNumberFlashcard() {
+            const list = currentNumberMode === 'en' ? numberDataEn : numberDataMs;
+            const item = list[currentNumberIndex];
+            
+            document.getElementById("number-screen-title").innerText = currentNumberMode === 'en' ? "Learn 123" : "Belajar 123";
+            document.getElementById("number-progress-indicator").innerText = `Number ${item.num} of 20 (${currentNumberIndex + 1} / ${list.length})`;
+            document.getElementById("number-digit").innerText = item.num;
+            
+            // Jana ikon berulang mengikut kuantiti nombor dengan saiz besar
+            const iconsContainer = document.getElementById("number-icons-container");
+            iconsContainer.innerHTML = "";
+            for (let i = 0; i < item.num; i++) {
+                const span = document.createElement("span");
+                span.className = "quantity-icon";
+                span.innerText = item.icon;
+                iconsContainer.appendChild(span);
+            }
+            
+            const caption = currentNumberMode === 'en' ? `${item.num} ${item.word.split(' ').slice(1).join(' ')}` : `${item.num} ${item.word.split(' ').slice(1).join(' ')}`;
+            document.getElementById("number-caption").innerText = caption;
+
+            document.getElementById("prev-number-btn").style.display = currentNumberIndex === 0 ? "none" : "inline-block";
+            document.getElementById("next-number-btn").innerText = currentNumberIndex === list.length - 1 ? "Finish 🏁" : "Next ➡";
+        }
+
+        function nextNumberStep() {
+            const list = currentNumberMode === 'en' ? numberDataEn : numberDataMs;
+            if (currentNumberIndex < list.length - 1) {
+                currentNumberIndex++;
+                renderNumberFlashcard();
+                playNumberSound();
+            } else {
+                alert(currentNumberMode === 'en' ? "Great job completing Learn 123! 🎉" : "Tahniah! Anda telah tamat Belajar 123! 🎉");
+                navigateTo('home-screen');
+            }
+        }
+
+        function prevNumberStep() {
+            if (currentNumberIndex > 0) {
+                currentNumberIndex--;
+                renderNumberFlashcard();
+                playNumberSound();
+            }
+        }
+
+        function playNumberSound() {
+            const list = currentNumberMode === 'en' ? numberDataEn : numberDataMs;
+            const item = list[currentNumberIndex];
+            const textToSpeak = item.word;
+            
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                utterance.lang = currentNumberMode === 'en' ? 'en-US' : 'ms-MY';
+                utterance.rate = 0.3;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
         const lessonData = {
-            numeric: {
-                title: "Number",
-                desc: "Let's count numbers from 1 to 10 and beyond! Counting helps us understand quantity and math basics.",
-                examples: "<ul><li>Numbers: <i>1 (One), 2 (Two), 3 (Three), 4 (Four)...</i></li></ul>"
-            },
             animal: {
                 title: "Animal",
                 desc: "Discover various animals found around the world, including farm animals, pets, and wild animals!",
