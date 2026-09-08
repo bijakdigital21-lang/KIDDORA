@@ -719,6 +719,51 @@
             box-shadow: 0 2px 0 #8d5cc4;
         }
 
+        /* Match the Letters styles */
+        .match-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .match-column {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .match-item {
+            background: white;
+            border: 3px solid var(--primary-blue);
+            border-radius: 15px;
+            padding: 15px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: all 0.2s;
+        }
+
+        .match-item:hover {
+            transform: scale(1.05);
+            background: #E0F7FA;
+        }
+
+        .match-item.selected {
+            background: var(--primary-yellow);
+            border-color: #FBC02D;
+            transform: scale(1.05);
+        }
+
+        .match-item.matched {
+            background: var(--primary-green);
+            border-color: #4CAF50;
+            color: white;
+            opacity: 0.7;
+            cursor: default;
+        }
+
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
@@ -874,8 +919,8 @@
 
             <!-- ABC MODULE TOPICS SELECTION SCREEN -->
             <div id="abc-menu-screen" class="card">
-                <h2 style="color: #ffff00; font-family: 'Fredoka One', cursive;">ABC Modules 🔤</h2>
-                <p style="color: ffff00; font-weight: 700; margin-top: 5px;">Choose your preferred language or mode to learn the alphabet!</p>
+                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">ABC Modules 🔤</h2>
+                <p style="color: #444; font-weight: 700; margin-top: 5px;">Choose your preferred language or activity to learn the alphabet!</p>
                 
                 <div class="abc-menu-grid">
                     <button class="abc-sub-btn" onclick="playClickSound(); startABC('en')">
@@ -887,7 +932,49 @@
                         <span>Belajar ABC</span>
                     </button>
                 </div>
+                <button class="abc-sub-btn" style="width: 100%; margin-bottom: 15px; background: linear-gradient(135deg, #FF66C4, #C38FFF);" onclick="playClickSound(); openMatchLettersCountScreen()">
+                    <span>🔠 ➔ 🔤</span>
+                    <span>Match the Letters</span>
+                </button>
                 <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+            </div>
+
+            <!-- MATCH LETTERS COUNT SELECTION SCREEN -->
+            <div id="match-count-screen" class="card">
+                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">Match the Letters 🔠</h2>
+                <p style="color: #444; font-weight: 700; margin-top: 5px;">Select how many pages/sets you want to play:</p>
+                
+                <div class="question-count-grid">
+                    <button class="count-btn" onclick="playClickSound(); startMatchLetters(5)">5 Sets (5 Pages)</button>
+                    <button class="count-btn" onclick="playClickSound(); startMatchLetters(10)">10 Sets (10 Pages)</button>
+                </div>
+                <div style="margin-top: 10px;">
+                    <button class="count-btn" style="width: 100%;" onclick="playClickSound(); startMatchLetters(15)">15 Sets (15 Pages)</button>
+                </div>
+                <br>
+                <button class="action-btn home-btn" onclick="playClickSound(); openABCMenu()">Back to ABC Menu ↩️</button>
+            </div>
+
+            <!-- MATCH LETTERS GAME SCREEN -->
+            <div id="match-game-screen" class="card">
+                <div class="quiz-header">
+                    <span>Match Letters</span>
+                    <span>Page: <span id="match-current-page">1</span>/<span id="match-total-pages">5</span></span>
+                    <span>Score: <span id="match-score">0</span></span>
+                </div>
+                <p style="font-weight: 700; color: #444; margin-bottom: 15px;">Suaikan huruf kecil di sebelah kiri dengan huruf besar di sebelah kanan!</p>
+
+                <div class="match-container">
+                    <!-- Left: Lowercase -->
+                    <div class="match-column" id="match-left-column"></div>
+                    <!-- Right: Uppercase -->
+                    <div class="match-column" id="match-right-column"></div>
+                </div>
+
+                <div class="quiz-action-container" style="margin-top: 20px;">
+                    <button id="match-next-btn" class="action-btn" style="display:none; background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); nextMatchPage()">Next Page ➔</button>
+                    <button class="action-btn home-btn" onclick="playClickSound(); confirmBackToHome()">Home 🏠</button>
+                </div>
             </div>
 
             <!-- ABC INTERACTIVE FLASHCARD SCREEN -->
@@ -1143,7 +1230,6 @@
             }
         };
 
-        // Fungsi fetchProfiles tunggal yang lengkap dengan Edit & Delete
         async function fetchProfiles() {
             if (!window.currentUserAuth) return;
             const uid = window.currentUserAuth.uid;
@@ -1440,6 +1526,140 @@
             gain.connect(audioCtx.destination);
             osc.start();
             osc.stop(now + 0.25);
+        }
+
+        const alphabetList = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+        let matchPagesCount = 5;
+        let currentMatchPageIdx = 0;
+        let matchGameData = [];
+        let matchScoreCount = 0;
+        let selectedLowercaseLetter = null;
+        let selectedLowercaseElement = null;
+        let matchedPairsInCurrentPage = 0;
+
+        function openMatchLettersCountScreen() {
+            showScreen('match-count-screen');
+        }
+
+        function startMatchLetters(setCount) {
+            matchPagesCount = setCount;
+            currentMatchPageIdx = 0;
+            matchScoreCount = 0;
+
+            // Generate non-repeating sets of 5 letters each
+            let shuffledAlphabet = [...alphabetList].sort(() => 0.5 - Math.random());
+            matchGameData = [];
+
+            let totalLettersNeeded = setCount * 5;
+            // Ensure we have enough letters (alphabet has 26, so max 5 pages of 5 = 25 letters)
+            let selectedSubset = shuffledAlphabet.slice(0, totalLettersNeeded);
+
+            for (let i = 0; i < setCount; i++) {
+                let pageLetters = selectedSubset.slice(i * 5, (i + 1) * 5);
+                matchGameData.push(pageLetters);
+            }
+
+            showScreen('match-game-screen');
+            loadMatchPage();
+        }
+
+        function loadMatchPage() {
+            matchedPairsInCurrentPage = 0;
+            selectedLowercaseLetter = null;
+            selectedLowercaseElement = null;
+
+            document.getElementById("match-current-page").innerText = currentMatchPageIdx + 1;
+            document.getElementById("match-total-pages").innerText = matchPagesCount;
+            document.getElementById("match-score").innerText = matchScoreCount;
+            document.getElementById("match-next-btn").style.display = "none";
+
+            const currentLetters = matchGameData[currentMatchPageIdx];
+            
+            // Left Column: Lowercase (shuffled so they don't align directly with uppercase)
+            const leftCol = document.getElementById("match-left-column");
+            const rightCol = document.getElementById("match-right-column");
+            leftCol.innerHTML = "";
+            rightCol.innerHTML = "";
+
+            let randomizedLowercase = [...currentLetters].sort(() => 0.5 - Math.random());
+            let randomizedUppercase = [...currentLetters].sort(() => 0.5 - Math.random());
+
+            randomizedLowercase.forEach(letter => {
+                const div = document.createElement("div");
+                div.className = "match-item";
+                div.innerText = letter.toLowerCase();
+                div.onclick = () => selectLowercase(letter, div);
+                leftCol.appendChild(div);
+            });
+
+            randomizedUppercase.forEach(letter => {
+                const div = document.createElement("div");
+                div.className = "match-item";
+                div.innerText = letter;
+                div.onclick = () => selectUppercase(letter, div);
+                rightCol.appendChild(div);
+            });
+        }
+
+        function selectLowercase(letter, element) {
+            if (element.classList.contains("matched")) return;
+            playClickSound();
+
+            if (selectedLowercaseElement) {
+                selectedLowercaseElement.classList.remove("selected");
+            }
+
+            selectedLowercaseLetter = letter;
+            selectedLowercaseElement = element;
+            element.classList.add("selected");
+        }
+
+        function selectUppercase(letter, element) {
+            if (element.classList.contains("matched")) return;
+
+            if (!selectedLowercaseLetter) {
+                playWrongSound();
+                return;
+            }
+
+            if (selectedLowercaseLetter === letter) {
+                // Correct match!
+                playCorrectSound();
+                matchScoreCount++;
+                document.getElementById("match-score").innerText = matchScoreCount;
+
+                selectedLowercaseElement.classList.remove("selected");
+                selectedLowercaseElement.classList.add("matched");
+                element.classList.add("matched");
+
+                selectedLowercaseLetter = null;
+                selectedLowercaseElement = null;
+                matchedPairsInCurrentPage++;
+
+                if (matchedPairsInCurrentPage === 5) {
+                    // Page completed!
+                    if (currentMatchPageIdx < matchPagesCount - 1) {
+                        document.getElementById("match-next-btn").style.display = "inline-block";
+                    } else {
+                        setTimeout(() => {
+                            alert("🌟 Amazing! You have completed all match sets!");
+                            navigateTo('home-screen');
+                        }, 500);
+                    }
+                }
+            } else {
+                // Wrong match!
+                playWrongSound();
+                element.style.background = "#FF6B6B";
+                setTimeout(() => {
+                    element.style.background = "white";
+                }, 400);
+            }
+        }
+
+        function nextMatchPage() {
+            currentMatchPageIdx++;
+            loadMatchPage();
         }
 
         const abcDataEn = [
