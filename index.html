@@ -872,10 +872,10 @@
                 </div>
             </div>
 
-            <!-- ABC MODULE TOPICS SELECTION SCREEN -->
+           <!-- ABC MODULE TOPICS SELECTION SCREEN -->
             <div id="abc-menu-screen" class="card">
-                <h2 style="color: #ffff00; font-family: 'Fredoka One', cursive;">ABC Modules 🔤</h2>
-                <p style="color: ffff00; font-weight: 700; margin-top: 5px;">Choose your preferred language or mode to learn the alphabet!</p>
+                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">ABC Modules 🔤</h2>
+                <p style="color: #444; font-weight: 700; margin-top: 5px;">Choose your preferred language or activity to learn the alphabet!</p>
                 
                 <div class="abc-menu-grid">
                     <button class="abc-sub-btn" onclick="playClickSound(); startABC('en')">
@@ -887,7 +887,49 @@
                         <span>Belajar ABC</span>
                     </button>
                 </div>
+                <button class="abc-sub-btn" style="width: 100%; margin-bottom: 15px; background: linear-gradient(135deg, #FF66C4, #C38FFF);" onclick="playClickSound(); openMatchLettersCountScreen()">
+                    <span>🔠 ➔ 🔤</span>
+                    <span>Match the Letters</span>
+                </button>
                 <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+            </div>
+
+            <!-- MATCH LETTERS COUNT SELECTION SCREEN -->
+            <div id="match-count-screen" class="card">
+                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">Match the Letters 🔠</h2>
+                <p style="color: #444; font-weight: 700; margin-top: 5px;">Select how many pages/sets you want to play:</p>
+                
+                <div class="question-count-grid">
+                    <button class="count-btn" onclick="playClickSound(); startMatchLetters(5)">5 Sets (5 Pages)</button>
+                    <button class="count-btn" onclick="playClickSound(); startMatchLetters(10)">10 Sets (10 Pages)</button>
+                </div>
+                <div style="margin-top: 10px;">
+                    <button class="count-btn" style="width: 100%;" onclick="playClickSound(); startMatchLetters(15)">15 Sets (15 Pages)</button>
+                </div>
+                <br>
+                <button class="action-btn home-btn" onclick="playClickSound(); openABCMenu()">Back to ABC Menu ↩️</button>
+            </div>
+
+            <!-- MATCH LETTERS GAME SCREEN -->
+            <div id="match-game-screen" class="card">
+                <div class="quiz-header">
+                    <span>Match Letters</span>
+                    <span>Page: <span id="match-current-page">1</span>/<span id="match-total-pages">5</span></span>
+                    <span>Score: <span id="match-score">0</span></span>
+                </div>
+                <p style="font-weight: 700; color: #444; margin-bottom: 15px;">Suaikan huruf kecil di sebelah kiri dengan huruf besar di sebelah kanan!</p>
+
+                <div class="match-container">
+                    <!-- Left: Lowercase -->
+                    <div class="match-column" id="match-left-column"></div>
+                    <!-- Right: Uppercase -->
+                    <div class="match-column" id="match-right-column"></div>
+                </div>
+
+                <div class="quiz-action-container" style="margin-top: 20px;">
+                    <button id="match-next-btn" class="action-btn" style="display:none; background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); nextMatchPage()">Next Page ➔</button>
+                    <button class="action-btn home-btn" onclick="playClickSound(); confirmBackToHome()">Home 🏠</button>
+                </div>
             </div>
 
             <!-- ABC INTERACTIVE FLASHCARD SCREEN -->
