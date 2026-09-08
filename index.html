@@ -19,11 +19,10 @@
             --white: transparent;
         }
 
-* {
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            /* Tambahan kod untuk mengelakkan teks terpilih/zoom tak sengaja pada mobile */
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
@@ -36,7 +35,6 @@
             min-height: 100vh;
             display: flex;
             overflow-x: hidden;
-            /* Menetapkan agar skrin tidak boleh di-zoom secara manual/automatik */
             touch-action: pan-x pan-y;
         }
 
@@ -181,7 +179,7 @@
             position: relative;
         }
 
-      .card {
+        .card {
             display: none;
             animation: fadeIn 0.4s ease-in-out;
             background: transparent;
@@ -770,6 +768,147 @@
             cursor: default;
         }
 
+        /* Find the Letter (Apple Tree Game) Styles */
+        .apple-tree-container {
+            position: relative;
+            background: linear-gradient(to bottom, #87CEEB, #E0F7FA);
+            border: 4px solid #4CAF50;
+            border-radius: 20px;
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            min-height: 380px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            overflow: hidden;
+        }
+
+        .tree-canopy {
+            position: absolute;
+            top: 10px;
+            width: 320px;
+            height: 220px;
+            background: #4CAF50;
+            border-radius: 50% 50% 40% 40%;
+            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+
+        .tree-trunk {
+            position: absolute;
+            top: 190px;
+            width: 50px;
+            height: 110px;
+            background: #8D5524;
+            border-radius: 5px;
+            z-index: 1;
+        }
+
+        .apples-grid {
+            position: absolute;
+            top: 20px;
+            width: 300px;
+            height: 200px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 5px;
+            z-index: 3;
+            padding: 10px;
+            align-items: center;
+            justify-items: center;
+        }
+
+        .apple-item {
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle at 35% 35%, #FF5252, #C62828);
+            border-radius: 50% 50% 45% 45%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.4rem;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .apple-item::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 22px;
+            width: 6px;
+            height: 8px;
+            background: #795548;
+            border-radius: 2px;
+        }
+
+        .apple-item:hover {
+            transform: scale(1.15);
+        }
+
+        .apple-item.collected {
+            transform: scale(0);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .basket-area {
+            margin-top: 210px;
+            background: #D7CCC8;
+            border: 3px dashed #8D5524;
+            border-radius: 0 0 25px 25px;
+            width: 220px;
+            height: 70px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 8px;
+            align-items: center;
+            justify-content: center;
+            z-index: 4;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .basket-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #5d4037;
+            position: absolute;
+            margin-top: -20px;
+            background: #fff;
+            padding: 2px 8px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .basket-apple {
+            width: 32px;
+            height: 32px;
+            background: radial-gradient(circle at 35% 35%, #FF5252, #C62828);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-family: 'Fredoka One', cursive;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            80% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
@@ -937,11 +1076,15 @@
                         <span>🇲🇾</span>
                         <span>Belajar ABC</span>
                     </button>
-                   <button class="abc-sub-btn" onclick="playClickSound(); openMatchLettersCountScreen()">
-                    <span>🔠 ➔ 🔤</span>
-                    <span>Match the Letters</span>
-                </button>
-                      </div>
+                    <button class="abc-sub-btn" onclick="playClickSound(); openMatchLettersCountScreen()">
+                        <span>🔠 ➔ 🔤</span>
+                        <span>Match the Letters</span>
+                    </button>
+                    <button class="abc-sub-btn" onclick="playClickSound(); startFindLetterModule()">
+                        <span>🍎 ➔ 🔤</span>
+                        <span>Find the Letter</span>
+                    </button>
+                </div>
     
                 <br>
                 <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
@@ -955,7 +1098,7 @@
                 <div class="question-count-grid">
                     <button class="count-btn" onclick="playClickSound(); startMatchLetters(5)">5 Sets </button>
                     <button class="count-btn" onclick="playClickSound(); startMatchLetters(10)">10 Sets </button>
-                    <button class="count-btn" onclick="playClickSound(); startMatchLetters(10)">15 Sets </button>
+                    <button class="count-btn" onclick="playClickSound(); startMatchLetters(15)">15 Sets </button>
                 </div>
     
                 <br>
@@ -980,6 +1123,37 @@
 
                 <div class="quiz-action-container" style="margin-top: 20px;">
                     <button id="match-next-btn" class="action-btn" style="display:none; background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); nextMatchPage()">Next Page ➔</button>
+                    <button class="action-btn home-btn" onclick="playClickSound(); confirmBackToHome()">Home 🏠</button>
+                </div>
+            </div>
+
+            <!-- FIND THE LETTER (APPLE TREE) GAME SCREEN -->
+            <div id="find-letter-screen" class="card">
+                <div class="quiz-header">
+                    <span>Find the Letter 🍎</span>
+                    <span>Round: <span id="find-round-num">1</span>/5</span>
+                    <span>Score: <span id="find-score">0</span></span>
+                </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 5px;">
+                    <p id="find-instruction-text" style="font-weight: 700; font-size: 1.1rem; color: #2C3E50;">Sila cari huruf A dan masukkan ke dalam bakul</p>
+                    <button class="sound-btn" style="padding: 5px 12px; font-size: 0.9rem;" onclick="playFindInstructionAudio()">🔊</button>
+                </div>
+
+                <div class="apple-tree-container">
+                    <div class="tree-canopy"></div>
+                    <div class="tree-trunk"></div>
+                    <div class="apples-grid" id="apples-grid-container">
+                        <!-- Apple nodes populated dynamically -->
+                    </div>
+                    <div class="basket-label">Bakul 🧺</div>
+                    <div class="basket-area" id="basket-area-container">
+                        <!-- Collected apples go here -->
+                    </div>
+                </div>
+
+                <div class="quiz-action-container" style="margin-top: 15px;">
+                    <button id="find-next-round-btn" class="action-btn" style="display:none; background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); nextFindRound()">Seterusnya ➔</button>
                     <button class="action-btn home-btn" onclick="playClickSound(); confirmBackToHome()">Home 🏠</button>
                 </div>
             </div>
@@ -1044,12 +1218,9 @@
 
                 <button class="action-btn" style="background-color: var(--primary-purple); box-shadow: 0 5px 0 #8d5cc4, 0 8px 20px rgba(0,0,0,0.15); width: 100%; margin-bottom: 15px;" onclick="playClickSound(); showScreen('profile-selection-screen')">Switch / Add Profiles 🔄</button>
                 
-                <!-- SEKSYEN PENGURUSAN PROFIL (EDIT / PADAM) -->
                 <div style="background: rgba(240, 244, 248, 0.95); padding: 15px; border-radius: 15px; border: 2px solid var(--primary-blue); text-align: left; margin-bottom: 15px;">
                     <h3 style="color: #2C3E50; font-size: 1.1rem; margin-bottom: 8px;">✏️ Manage Profiles (Edit / Delete)</h3>
-                    <div id="manage-profiles-list" style="max-height: 150px; overflow-y: auto; margin-top: 10px;">
-                        <!-- Senarai profil diisi secara dinamik melalui JS -->
-                    </div>
+                    <div id="manage-profiles-list" style="max-height: 150px; overflow-y: auto; margin-top: 10px;"></div>
                 </div>
 
                 <div style="background: rgba(255, 249, 196, 0.95); padding: 15px; border-radius: 15px; border: 2px dashed #FBC02D; text-align: left; margin-bottom: 15px; box-shadow: 0 6px 15px rgba(0,0,0,0.08);">
@@ -1553,12 +1724,10 @@
             currentMatchPageIdx = 0;
             matchScoreCount = 0;
 
-            // Generate non-repeating sets of 5 letters each
             let shuffledAlphabet = [...alphabetList].sort(() => 0.5 - Math.random());
             matchGameData = [];
 
             let totalLettersNeeded = setCount * 5;
-            // Ensure we have enough letters (alphabet has 26, so max 5 pages of 5 = 25 letters)
             let selectedSubset = shuffledAlphabet.slice(0, totalLettersNeeded);
 
             for (let i = 0; i < setCount; i++) {
@@ -1582,7 +1751,6 @@
 
             const currentLetters = matchGameData[currentMatchPageIdx];
             
-            // Left Column: Lowercase (shuffled so they don't align directly with uppercase)
             const leftCol = document.getElementById("match-left-column");
             const rightCol = document.getElementById("match-right-column");
             leftCol.innerHTML = "";
@@ -1630,7 +1798,6 @@
             }
 
             if (selectedLowercaseLetter === letter) {
-                // Correct match!
                 playCorrectSound();
                 matchScoreCount++;
                 document.getElementById("match-score").innerText = matchScoreCount;
@@ -1644,7 +1811,6 @@
                 matchedPairsInCurrentPage++;
 
                 if (matchedPairsInCurrentPage === 5) {
-                    // Page completed!
                     if (currentMatchPageIdx < matchPagesCount - 1) {
                         document.getElementById("match-next-btn").style.display = "inline-block";
                     } else {
@@ -1655,7 +1821,6 @@
                     }
                 }
             } else {
-                // Wrong match!
                 playWrongSound();
                 element.style.background = "#FF6B6B";
                 setTimeout(() => {
@@ -1667,6 +1832,125 @@
         function nextMatchPage() {
             currentMatchPageIdx++;
             loadMatchPage();
+        }
+
+        // --- FIND THE LETTER LOGIC (APPLE TREE) ---
+        let findCurrentRound = 1;
+        let totalFindRounds = 5;
+        let findScoreCount = 0;
+        let targetFindLetter = "A";
+        let targetApplesRemaining = 0;
+
+        function startFindLetterModule() {
+            findCurrentRound = 1;
+            findScoreCount = 0;
+            showScreen('find-letter-screen');
+            loadFindRound();
+        }
+
+        function loadFindRound() {
+            // Pilih huruf target secara rawak daripada A-Z untuk setiap round
+            let randomIdx = Math.floor(Math.random() * alphabetList.length);
+            targetFindLetter = alphabetList[randomIdx];
+
+            document.getElementById("find-round-num").innerText = findCurrentRound;
+            document.getElementById("find-score").innerText = findScoreCount;
+            document.getElementById("find-next-round-btn").style.display = "none";
+
+            const instructionText = `Sila cari huruf ${targetFindLetter} dan masukkan ke dalam bakul`;
+            document.getElementById("find-instruction-text").innerText = instructionText;
+            
+            // Auto sebut soalan guna Audio API
+            playFindInstructionAudio();
+
+            // Sediakan 12 buah epal di atas pokok (2 hingga 3 biji mengandungi huruf target)
+            let applesContainer = document.getElementById("apples-grid-container");
+            let basketContainer = document.getElementById("basket-area-container");
+            applesContainer.innerHTML = "";
+            basketContainer.innerHTML = "";
+
+            // Tentukan 2 atau 3 biji epal sasaran
+            targetApplesRemaining = Math.floor(Math.random() * 2) + 2; 
+
+            // Pilih huruf-huruf lain yang berlainan dari target
+            let otherLetters = alphabetList.filter(l => l !== targetFindLetter);
+
+            let roundLetters = [];
+            for (let i = 0; i < targetApplesRemaining; i++) {
+                roundLetters.push(targetFindLetter);
+            }
+            while (roundLetters.length < 12) {
+                let randomOther = otherLetters[Math.floor(Math.random() * otherLetters.length)];
+                roundLetters.push(randomOther);
+            }
+
+            // Shuffle kedudukan epal
+            roundLetters.sort(() => 0.5 - Math.random());
+
+            roundLetters.forEach((letter) => {
+                let apple = document.createElement("div");
+                apple.className = "apple-item";
+                apple.innerText = letter;
+                apple.onclick = () => handleAppleClick(apple, letter);
+                applesContainer.appendChild(apple);
+            });
+        }
+
+        function playFindInstructionAudio() {
+            const textToSpeak = document.getElementById("find-instruction-text").innerText;
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                utterance.lang = 'ms-MY';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function handleAppleClick(appleElement, letter) {
+            if (appleElement.classList.contains("collected")) return;
+
+            if (letter === targetFindLetter) {
+                // Betul! Masukkan ke dalam bakul
+                playCorrectSound();
+                findScoreCount += 10;
+                document.getElementById("find-score").innerText = findScoreCount;
+
+                appleElement.classList.add("collected");
+
+                // Tambah visual epal kecil dalam bakul
+                let basketContainer = document.getElementById("basket-area-container");
+                let basketApple = document.createElement("div");
+                basketApple.className = "basket-apple";
+                basketApple.innerText = letter;
+                basketContainer.appendChild(basketApple);
+
+                targetApplesRemaining--;
+
+                if (targetApplesRemaining === 0) {
+                    // Selesai satu round!
+                    if (findCurrentRound < totalFindRounds) {
+                        document.getElementById("find-next-round-btn").style.display = "inline-block";
+                    } else {
+                        setTimeout(() => {
+                            alert("🌟 Tahniah! Anda telah berjaya menghabiskan semua misi mencari huruf!");
+                            navigateTo('home-screen');
+                        }, 600);
+                    }
+                }
+            } else {
+                // Salah huruf
+                playWrongSound();
+                appleElement.style.background = "radial-gradient(circle at 35% 35%, #757575, #212121)";
+                setTimeout(() => {
+                    appleElement.style.background = "radial-gradient(circle at 35% 35%, #FF5252, #C62828)";
+                }, 400);
+            }
+        }
+
+        function nextFindRound() {
+            findCurrentRound++;
+            loadFindRound();
         }
 
         const abcDataEn = [
