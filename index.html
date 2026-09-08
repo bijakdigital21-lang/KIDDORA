@@ -725,49 +725,53 @@
         }
 
         /* Match the Letters styles */
-        .match-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin: 20px 0;
-        }
+.match-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 15px 0;
+}
 
-        .match-column {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+.match-column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
 
-        .match-item {
-            background: white;
-            border: 3px solid var(--primary-blue);
-            border-radius: 15px;
-            padding: 15px;
-            font-family: 'Fredoka One', cursive;
-            font-size: 2rem;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            transition: all 0.2s;
-        }
+.match-item {
+    background: white;
+    border: 3px solid var(--primary-blue);
+    border-radius: 20px; /* Disamakan dengan lengkungan flashcard */
+    width: 100%;
+    height: 90px; /* Menetapkan ketinggian tetap supaya sama saiz */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fredoka One', cursive;
+    font-size: 3rem; /* Saiz huruf diselaraskan */
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: all 0.2s;
+}
 
-        .match-item:hover {
-            transform: scale(1.05);
-            background: #E0F7FA;
-        }
+.match-item:hover {
+    transform: scale(1.03);
+    background: #E0F7FA;
+}
 
-        .match-item.selected {
-            background: var(--primary-yellow);
-            border-color: #FBC02D;
-            transform: scale(1.05);
-        }
+.match-item.selected {
+    background: var(--primary-yellow);
+    border-color: #FBC02D;
+    transform: scale(1.03);
+}
 
-        .match-item.matched {
-            background: var(--primary-green);
-            border-color: #4CAF50;
-            color: white;
-            opacity: 0.7;
-            cursor: default;
-        }
+.match-item.matched {
+    background: var(--primary-green);
+    border-color: #4CAF50;
+    color: white;
+    opacity: 0.7;
+    cursor: default;
+}
 
         @media (max-width: 768px) {
             body {
