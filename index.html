@@ -3340,10 +3340,12 @@
             showScreen(screenId);
         }
 
-        function toggleSidebar(e) {
-            if (e) e.stopPropagation();
-            document.getElementById('sidebar').classList.toggle('open');
-        }
+        function toggleSidebar(event) {
+    if (event) event.stopPropagation();
+    const sidebar = document.getElementById("sidebar");
+    // Toggle kelas 'open' - tutup jika terbuka, buka jika tertutup
+    sidebar.classList.toggle("open");
+}
 
         function closeSidebar() {
             document.getElementById('sidebar').classList.remove('open');
