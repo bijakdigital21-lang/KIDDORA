@@ -800,7 +800,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            width: 180px;
+            width: 130px;
         }
 
         #match-left-column {
@@ -811,30 +811,30 @@
             margin-left: auto;
         }
 
-    .match-item {
-    background: white;
-    border: 3px solid var(--primary-blue);
-    border-radius: 20px;
-    padding: 12px; /* Diubah daripada 10px untuk menambah ruang dalaman */
-    text-align: center;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.3rem; /* Membesarkan sedikit saiz teks */
-    font-weight: bold;
-    cursor: grab;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
-    touch-action: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 90px; /* Diubah daripada 70px kepada 90px supaya kotak lebih tinggi */
-}
+        .match-item {
+            background: white;
+            border: 3px solid var(--primary-blue);
+            border-radius: 20px;
+            padding: 10px;
+            text-align: center;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: grab;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
+            touch-action: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 70px;
+        }
 
         .match-item img {
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
             object-fit: cover;
-            border-radius: 10px;
+            border-radius: 12px;
         }
 
         .match-item:hover {
@@ -1092,18 +1092,18 @@
             }
 
             .match-column {
-                width: 140px;
+                width: 100px;
             }
 
             .match-item {
-                font-size: 1rem;
-                padding: 8px;
-                min-height: 75px;
+                font-size: 0.9rem;
+                padding: 6px;
+                min-height: 60px;
             }
 
             .match-item img {
-                width: 55px;
-                height: 55px;
+                width: 45px;
+                height: 45px;
             }
         }
     </style>
@@ -1286,11 +1286,11 @@
                         <span>🦁 🐘 🦒</span>
                         <span id="learn-animal-btn-text">1) Learn Animal</span>
                     </button>
-                    <button class="abc-sub-btn" style="background: linear-gradient(135deg, #7ED957, #FFDE59);" onclick="playClickSound(); openMatchAnimalCountScreen()">
+                    <button class="abc-sub-btn" style="background: linear-gradient(135deg, #7ED957, #FFDE59);" onclick="playClickSound(); openLearnAnimalCategoryScreen()">
                         <span>🖼️ ➔ 🔤</span>
                         <span id="match-animal-btn-text">2) Match the Animal</span>
                     </button>
-                    <button class="abc-sub-btn" style="background: linear-gradient(135deg, #7ED957, #FFDE59);" onclick="playClickSound(); openFindAnimalCountScreen()">
+                    <button class="abc-sub-btn" style="background: linear-gradient(135deg, #7ED957, #FFDE59);" onclick="playClickSound(); openLearnAnimalCategoryScreen()">
                         <span>🔍 🖼️ 🐶</span>
                         <span id="find-animal-btn-text">3) Find the Animal</span>
                     </button>
