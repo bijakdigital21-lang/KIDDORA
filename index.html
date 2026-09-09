@@ -3374,6 +3374,59 @@ document.addEventListener('DOMContentLoaded', () => {
               });
         }
      });
+        // ==========================================
+        // KONTROL BACKGROUND MUSIC KANAK-KANAK
+        // ==========================================
+        let isMusicPlaying = false;
+        const bgAudio = document.getElementById('bg-music-player');
+        const bgToggleBtn = document.getElementById('bg-music-toggle');
+
+        // Laraskan kelantangan audio (0.1 - 0.3 adalah yang paling sesuai untuk kanak-kanak supaya tidak mengganggu audio lain)
+        if (bgAudio) {
+            bgAudio.volume = 0.2;
+        }
+
+        function toggleBgMusic() {
+            if (!bgAudio) return;
+
+            if (bgAudio.paused) {
+                bgAudio.play().then(() => {
+                    isMusicPlaying = true;
+                    if (bgToggleBtn) {
+                        bgToggleBtn.innerText = "🔊 Sound: ON";
+                        bgToggleBtn.style.background = "var(--primary-green)";
+                    }
+                }).catch(err => {
+                    console.log("Autoplay ditahan oleh pelayar:", err);
+                });
+            } else {
+                bgAudio.pause();
+                isMusicPlaying = false;
+                if (bgToggleBtn) {
+                    bgToggleBtn.innerText = "🔇 Sound: OFF";
+                    bgToggleBtn.style.background = "#E74C3C";
+                }
+            }
+        }
+
+        // Memulakan muzik secara automatik sebaik sahaja pengguna menekan apa-apa pada skrin/app
+        // (Sebab browser moden menyekat audio autoplay sebelum ada sentuhan pengguna)
+        function enableAutoplayOnFirstTouch() {
+            if (bgAudio && bgAudio.paused && !isMusicPlaying) {
+                bgAudio.play().then(() => {
+                    isMusicPlaying = true;
+                    if (bgToggleBtn) {
+                        bgToggleBtn.innerText = "🔊 Sound: ON";
+                        bgToggleBtn.style.background = "var(--primary-green)";
+                    }
+                }).catch(() => {});
+            }
+            window.removeEventListener('click', enableAutoplayOnFirstTouch);
+            window.removeEventListener('touchstart', enableAutoplayOnFirstTouch);
+        }
+
+        window.addEventListener('click', enableAutoplayOnFirstTouch);
+        window.addEventListener('touchstart', enableAutoplayOnFirstTouch);
     </script>
 </body>
 </html>
