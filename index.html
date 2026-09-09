@@ -7,6 +7,7 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
+        
         :root {
             --primary-yellow: #FFDE59;
             --primary-pink: #FF66C4;
@@ -1365,6 +1366,47 @@
                         <div class="match-column" id="match-animal-left-column"></div>
                         <div class="match-column" id="match-animal-right-column"></div>
                     </div>
+                    /* =========================================================
+   GAYA KHAS MATCH THE ANIMAL SAHAJA (MENINGKATKAN SAIZ)
+   ========================================================= */
+
+/* 1. Meluaskan lajur kiri dan kanan supaya kotak lebih lebar */
+#match-animal-left-column,
+#match-animal-right-column {
+    width: 220px !important; /* Saiz asal 130px -> dibesarkan ke 220px */
+}
+
+/* 2. Membesarkan Kotak Suaian (Teks & Gambar) */
+#match-animal-wrapper .match-item {
+    min-height: 120px !important; /* Saiz asal 70px -> dibesarkan ke 120px */
+    padding: 15px !important;     /* Menambah padding dalaman kotak */
+    font-size: 1.5rem !important;  /* Membesarkan teks nama haiwan */
+}
+
+/* 3. Membesarkan Gambar Haiwan sahaja */
+#match-animal-wrapper .match-item img {
+    width: 100px !important;  /* Saiz asal 60px -> dibesarkan ke 100px */
+    height: 100px !important; /* Saiz asal 60px -> dibesarkan ke 100px */
+    border-radius: 15px !important;
+}
+
+/* 4. Pelarasan Responsif untuk Skrin Mobile/Telefon */
+@media (max-width: 768px) {
+    #match-animal-left-column,
+    #match-animal-right-column {
+        width: 150px !important; /* Dibesarkan untuk mobile (asal 100px) */
+    }
+
+    #match-animal-wrapper .match-item {
+        min-height: 90px !important;
+        font-size: 1.1rem !important;
+    }
+
+    #match-animal-wrapper .match-item img {
+        width: 70px !important;  /* Dibesarkan untuk mobile (asal 45px) */
+        height: 70px !important;
+    }
+}
                 </div>
 
                 <div class="quiz-action-container" style="margin-top: 20px;">
