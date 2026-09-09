@@ -1120,6 +1120,8 @@
         </div>
         <div class="sidebar-title">KIDDORA</div>
         <div class="sidebar-subtitle">Kids Education App</div>
+        <!-- OVERLAY / BACKDROP SKRIN BELAKANG -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
         <!-- BUTTON PILIHAN BAHASA -->
         <div class="sidebar-language-container">
@@ -3340,28 +3342,38 @@
             showScreen(screenId);
         }
 
-        function toggleSidebar(event) {
-    if (event) event.stopPropagation();
-    const sidebar = document.getElementById("sidebar");
-    // Toggle kelas 'open' - tutup jika terbuka, buka jika tertutup
-    sidebar.classList.toggle("open");
+        // Fungsi membuka/menutup sidebar
+function toggleSidebar(event) {
+    if (event) event.stopPropagation(); // Elak event bertaut
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    
+    sidebar.classList.toggle('open');
+    if (overlay) {
+        overlay.classList.toggle('active');
+    }
 }
 
-        function closeSidebar() {
-            document.getElementById('sidebar').classList.remove('open');
-        }
+// Fungsi paksa tutup sidebar
+function closeSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    
+    if (sidebar) sidebar.classList.remove('open');
+    if (overlay) overlay.classList.remove('active');
+}
 
-        function toggleBgMusic() {
-            const player = document.getElementById('bg-music-player');
-            const btn = document.getElementById('bg-music-toggle');
-            if (player.paused) {
-                player.play();
-                btn.innerText = "🔊 Sound: ON";
-            } else {
-                player.pause();
-                btn.innerText = "🔇 Sound: OFF";
+// Alternatif tambahan: Boleh juga tutup sidebar apabila pengguna menekan kawasan .main-content
+document.addEventListener('DOMContentLoaded', () => {
+    const mainContent = document.querySelector('.main-content');
+    if (mainContent) {
+        mainContent.addEventListener('click', () => {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar && sidebar.classList.contains('open')) {
+                closeSidebar();
             }
-        }
+        });
+
     </script>
 </body>
 </html>
