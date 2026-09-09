@@ -2276,7 +2276,7 @@
             document.getElementById("abc-letter").innerText = item.letter;
             document.getElementById("abc-image").src = item.image;
             
-            const caption = currentGlobalLang === 'en' ? `${item.letter} for ${item.word}` : `${item.letter} untuk ${item.word}`;
+            const caption = currentGlobalLang === 'en' ? `${item.letter} is for ${item.word}` : `${item.letter} untuk ${item.word}`;
             document.getElementById("abc-caption").innerText = caption;
 
             document.getElementById("prev-abc-btn").style.display = currentABCIndex === 0 ? "none" : "inline-block";
