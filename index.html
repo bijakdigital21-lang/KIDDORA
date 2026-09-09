@@ -2149,7 +2149,7 @@
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(textToSpeak);
                 utterance.lang = currentGlobalLang === 'en' ? 'en-US' : 'ms-MY';
-                utterance.rate = 0.9;
+                utterance.rate = 0.3;
                 window.speechSynthesis.speak(utterance);
             }
         }
@@ -2306,7 +2306,7 @@
         function playABCSound() {
             const list = currentGlobalLang === 'en' ? abcDataEn : abcDataMs;
             const item = list[currentABCIndex];
-            const textToSpeak = currentGlobalLang === 'en' ? `${item.letter} for ${item.word}` : `${item.letter} untuk ${item.word}`;
+            const textToSpeak = currentGlobalLang === 'en' ? `${item.letter} is for ${item.word}` : `${item.letter} untuk ${item.word}`;
             
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
