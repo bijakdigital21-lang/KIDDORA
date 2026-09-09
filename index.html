@@ -23,7 +23,6 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            /* Tambahan kod untuk mengelakkan teks terpilih/zoom tak sengaja pada mobile */
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
@@ -36,7 +35,6 @@
             min-height: 100vh;
             display: flex;
             overflow-x: hidden;
-            /* Menetapkan agar skrin tidak boleh di-zoom secara manual/automatik */
             touch-action: pan-x pan-y;
         }
 
@@ -93,7 +91,6 @@
             margin-bottom: 15px;
         }
 
-        /* BAHAGIAN PILIHAN BAHASA DI SIDEBAR */
         .sidebar-language-container {
             background: rgba(255, 255, 255, 0.15);
             border: 2px solid var(--primary-purple);
@@ -390,15 +387,15 @@
         }
 
         .abc-sub-btn {
-    background: linear-gradient(135deg, #FF66C4, #FFDE59);
-    color: #2C3E50; /* Warna teks */
-    border: none;
-    padding: 30px 20px;
-    border-radius: 20px;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.3rem;
-    cursor: pointer;
-    box-shadow: 0 6px 0 #b33687, 0 8px 20px rgba(0,0,0,0.15);
+            background: linear-gradient(135deg, #FF66C4, #FFDE59);
+            color: #2C3E50;
+            border: none;
+            padding: 30px 20px;
+            border-radius: 20px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #b33687, 0 8px 20px rgba(0,0,0,0.15);
             transition: all 0.2s;
             display: flex;
             flex-direction: column;
@@ -769,48 +766,73 @@
             box-shadow: 0 2px 0 #8d5cc4;
         }
 
-    .match-container {
+        /* --- STIL MATCH THE LETTER (ANJAK KE TEPI & DRAG CANVAS) --- */
+        .match-wrapper {
             position: relative;
-            display: flex;
-            justify-content: space-between; /* Menjarakkan lajur kiri dan kanan */
-            align-items: center;
+            width: 100%;
             margin: 20px 0;
-            padding: 0 10px; /* Tambah padding supaya kotak anjak sikit ke dalam */
-            touch-action: none; /* Mengelakkan skrin scroll semasa pengguna drag garis pada fon bimbit */
+            user-select: none;
+            touch-action: none;
+        }
+
+        .match-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .match-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            width: 100%;
+            position: relative;
+            z-index: 10;
         }
 
         .match-column {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            z-index: 2; /* Supaya kotak huruf berada di atas garis SVG */
+            gap: 15px;
+            width: 120px;
         }
 
-        /* Anjak lajur kiri sikit ke kiri & lajur kanan sikit ke kanan */
         #match-left-column {
-            margin-left: -15px; 
+            margin-right: auto; /* Anjakkan ke paling kiri */
         }
 
         #match-right-column {
-            margin-right: -15px;
+            margin-left: auto; /* Anjakkan ke paling kanan */
         }
 
         .match-item {
             background: white;
             border: 3px solid var(--primary-blue);
             border-radius: 20px;
-            padding: 12px 25px;
-            font-family: 'Comic Sans MS', 'Arial', sans-serif;
-            font-size: 2rem;
+            padding: 15px 0;
+            text-align: center;
+            font-family: 'Fredoka One', cursive;
+            font-size: 2.2rem;
             font-weight: bold;
             cursor: grab;
             box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            transition: transform 0.2s, background 0.2s;
-            user-select: none;
+            transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
+            touch-action: none;
         }
 
-        .match-item:active {
-            cursor: grabbing;
+        .match-item:hover {
+            transform: scale(1.05);
+            background: #E0F7FA;
+        }
+
+        .match-item.selected {
+            background: var(--primary-yellow);
+            border-color: #FBC02D;
+            transform: scale(1.08);
         }
 
         .match-item.matched {
@@ -819,30 +841,6 @@
             color: white;
             opacity: 0.8;
             cursor: default;
-        }
-
-        /* Canvas SVG untuk melukis garis padanan (Drag Line) */
-        #match-svg-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .match-line {
-            stroke: #FF66C4;
-            stroke-width: 5;
-            stroke-linecap: round;
-            stroke-dasharray: 8;
-            animation: dash 1s linear infinite;
-        }
-
-        .match-line.confirmed {
-            stroke: #7ED957;
-            stroke-dasharray: none;
         }
 
         .apple-tree-container {
@@ -1012,6 +1010,15 @@
                 font-size: 0.8rem;
                 padding: 6px;
             }
+
+            .match-column {
+                width: 90px;
+            }
+
+            .match-item {
+                font-size: 1.8rem;
+                padding: 10px 0;
+            }
         }
     </style>
 </head>
@@ -1028,7 +1035,7 @@
         <div class="sidebar-title">KIDDORA</div>
         <div class="sidebar-subtitle">Kids Education App</div>
 
-        <!-- BUTTON TUKAR BAHASA DI PANEL MENU SEBELAH KIRI -->
+        <!-- BUTTON PILIHAN BAHASA -->
         <div class="sidebar-language-container">
             <span>🌐 Language / Bahasa</span>
             <div class="sidebar-lang-buttons">
@@ -1037,7 +1044,7 @@
             </div>
         </div>
 
-        <!-- BUTTON BACKGROUND MUSIC (ON/OFF) -->
+        <!-- BUTTON BACKGROUND MUSIC -->
         <div class="sidebar-language-container" style="border-color: var(--primary-green);">
             <span>🎵 Background Music</span>
             <button id="bg-music-toggle" class="lang-btn" style="width: 100%; padding: 6px; font-size: 0.85rem; background: var(--primary-green);" onclick="toggleBgMusic()">
@@ -1045,9 +1052,7 @@
             </button>
         </div>
 
-        <!-- AUDIO ELEMENT -->
-       <!-- AUDIO ELEMENT -->
-<audio id="bg-music-player" loop prefetch="auto">
+        <audio id="bg-music-player" loop prefetch="auto">
             <source src="https://cdn.pixabay.com/download/audio/2026/08/03/audio_6da439aaa3.mp3?filename=alex-morgan-kids-background-music-579469.mp3" type="audio/mpeg">
         </audio>
 
@@ -1098,7 +1103,7 @@
                 </div>
             </div>
 
-            <!-- 2. PROFILE SELECTION / ADD SCREEN -->
+            <!-- 2. PROFILE SELECTION SCREEN -->
             <div id="profile-selection-screen" class="card">
                 <h2>Who is Learning Today? 🧒👧</h2>
                 <p style="color: #444; font-weight: 700; margin-top: 5px;">Select a kid profile or add a new one.</p>
@@ -1159,7 +1164,7 @@
                 </div>
             </div>
 
-            <!-- ABC MODULE TOPICS SELECTION SCREEN -->
+            <!-- ABC MODULE MENU SCREEN -->
             <div id="abc-menu-screen" class="card">
                 <h2 style="color: #ffff00; font-family: 'Fredoka One', cursive;" id="abc-menu-title">ABC Modules 🔤</h2>
                 <p style="color: #000000; font-weight: 700; margin-top: 5px;" id="abc-menu-desc">Choose your preferred activity to learn the alphabet!</p>
@@ -1183,7 +1188,7 @@
                 <button class="action-btn home-btn" id="abc-back-home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
-            <!-- MATCH LETTERS COUNT SELECTION SCREEN -->
+            <!-- MATCH LETTERS SET SELECTION SCREEN -->
             <div id="match-count-screen" class="card">
                 <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;" id="match-count-title">Match the Letters 🔠</h2>
                 <p style="color: #444; font-weight: 700; margin-top: 5px;" id="match-count-desc">Select how many pages/sets you want to play:</p>
@@ -1199,29 +1204,31 @@
                 <button class="action-btn home-btn" id="match-count-back-btn" onclick="playClickSound(); openABCMenu()">Back ↩️</button>
             </div>
 
-           <!-- MATCH LETTERS GAME SCREEN -->
+            <!-- MATCH LETTERS GAME SCREEN (DRAG & SUAUKAN LINE CANVAS) -->
             <div id="match-game-screen" class="card">
                 <div class="quiz-header">
                     <span id="match-header-title">Match Letters</span>
                     <span><span id="match-page-label">Page</span>: <span id="match-current-page">1</span>/<span id="match-total-pages">5</span></span>
                     <span><span id="match-score-label">Score</span>: <span id="match-score">0</span></span>
                 </div>
-                <p id="match-instruction-desc" style="font-weight: 700; color: #444; margin-bottom: 15px;">Suaikan huruf kecil di sebelah kiri dengan huruf besar di sebelah kanan!</p>
+                <p id="match-instruction-desc" style="font-weight: 700; color: #444; margin-bottom: 15px;">Suaikan huruf kecil di sebelah kiri dengan huruf besar di sebelah kanan dengan menarik garis (drag)!</p>
 
-                <!-- KEMASKINI DI SINI: Tambahkan SVG canvas di dalam match-container -->
-                <div class="match-container" id="match-container-box">
-                    <svg id="match-svg-canvas"></svg>
-                    <div class="match-column" id="match-left-column"></div>
-                    <div class="match-column" id="match-right-column"></div>
+                <!-- CONTAINER INTERAKTIF UNTUK SUAIAKAN KOTAK & LUKIS GARIS -->
+                <div class="match-wrapper" id="match-wrapper">
+                    <canvas id="match-canvas" class="match-canvas"></canvas>
+                    <div class="match-container">
+                        <div class="match-column" id="match-left-column"></div>
+                        <div class="match-column" id="match-right-column"></div>
+                    </div>
                 </div>
 
                 <div class="quiz-action-container" style="margin-top: 20px;">
                     <button id="match-next-btn" class="action-btn" style="display:none; background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); nextMatchPage()"><span id="match-next-page-text">Next Page ➔</span></button>
-                    <button class="action-btn home-btn" id="match-count-back-btn" onclick="playClickSound(); openABCMenu()">Back ↩️</button>
+                    <button class="action-btn home-btn" id="match-home-btn" onclick="playClickSound(); openABCMenu()">Back ↩️</button>
                 </div>
             </div>
 
-            <!-- FIND THE LETTER (APPLE TREE) GAME SCREEN -->
+            <!-- FIND THE LETTER GAME SCREEN -->
             <div id="find-letter-screen" class="card">
                 <div class="quiz-header">
                     <span id="find-header-title">Find the Letter 🍎</span>
@@ -1244,7 +1251,7 @@
 
                 <div class="quiz-action-container" style="margin-top: 15px;">
                     <button id="find-next-round-btn" class="action-btn" style="display:none; background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); nextFindRound()"><span id="find-next-round-text">Next ➔</span></button>
-                     <button class="action-btn home-btn" id="find-back-btn" onclick="playClickSound(); openABCMenu()">Back ↩️</button>
+                    <button class="action-btn home-btn" id="find-back-btn" onclick="playClickSound(); openABCMenu()">Back ↩️</button>
                 </div>
             </div>
 
@@ -1264,12 +1271,12 @@
 
                 <div class="flashcard-nav">
                     <button class="action-btn" style="background-color: #E74C3C; box-shadow: 0 5px 0 #922B21, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); prevABCLetter()" id="prev-abc-btn">⬅ Prev</button>
-                     <button class="action-btn home-btn" id="abc-flash-back-btn" onclick="playClickSound(); openABCMenu()">Back ↩️</button>
+                    <button class="action-btn home-btn" id="abc-flash-back-btn" onclick="playClickSound(); openABCMenu()">Back ↩️</button>
                     <button class="action-btn" style="background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); nextABCLetter()" id="next-abc-btn">Next ➡</button>
                 </div>
             </div>
 
-            <!-- 4. LESSON SCREEN -->
+            <!-- LESSON SCREEN -->
             <div id="lesson-screen" class="card">
                 <h2 style="color: #333; font-family: 'Fredoka One', cursive;" id="lesson-main-title">Lesson Time! 📖</h2>
                 <div class="lesson-box">
@@ -1295,10 +1302,10 @@
                     <button class="count-btn" onclick="playClickSound(); startQuizWithCount(10)"><span id="q-10-text">10 Questions</span></button>
                 </div>
                 <br>
-                 <button class="action-btn home-btn" id="count-sel-back-btn" onclick="playClickSound(); openABCMenu()">Back ↩️</button>
+                <button class="action-btn home-btn" id="count-sel-back-btn" onclick="playClickSound(); openABCMenu()">Back ↩️</button>
             </div>
 
-            <!-- 5. PROFILES & ACCOUNT MANAGEMENT VIEW -->
+            <!-- PROFILES & ACCOUNT MANAGEMENT SCREEN -->
             <div id="profile-view-screen" class="card">
                 <h2 style="font-family: 'Fredoka One', cursive; color: #333;" id="profile-acc-title">Account & Profiles 👤</h2>
                 <div class="profile-card-details">
@@ -1329,7 +1336,7 @@
                 <button class="action-btn home-btn" id="profile-home-btn" style="width: 100%; margin: 0;" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
-            <!-- 6. SCORES HISTORY SCREEN -->
+            <!-- SCORES HISTORY SCREEN -->
             <div id="scores-screen" class="card">
                 <h2 style="color: #333; font-family: 'Fredoka One', cursive;" id="scores-history-title">🏆 Quiz Attempt History</h2>
                 <p style="color: #444; font-weight: 700; margin-top: 5px;" id="scores-history-desc">Records of every quiz session completed!</p>
@@ -1352,7 +1359,7 @@
                 <button class="action-btn clear-btn" id="clear-history-btn" onclick="playClickSound(); clearHistory()">Clear History 🗑️</button>
             </div>
 
-            <!-- 7. QUIZ SCREEN -->
+            <!-- QUIZ SCREEN -->
             <div id="quiz-screen" class="card">
                 <div class="quiz-header">
                     <span id="topic-title">Module</span>
@@ -1370,7 +1377,7 @@
                 </div>
             </div>
 
-            <!-- 8. RESULT SCREEN -->
+            <!-- RESULT SCREEN -->
             <div id="result-screen" class="card">
                 <h2 style="font-family: 'Fredoka One', cursive; color: #333;" id="result-title">Awesome Job! 🎉</h2>
                 <p style="font-weight: 700; color: #444;" id="result-desc">You have completed the quiz!</p>
@@ -1773,8 +1780,7 @@
             osc.stop(now + 0.25);
         }
 
-        // --- SISTEM PEMILIHAN BAHASA GLOBAL (DWI BAHASA DI SIDEBAR) ---
-        let currentGlobalLang = 'en'; // Default English
+        let currentGlobalLang = 'en';
 
         function setGlobalLanguage(lang) {
             currentGlobalLang = lang;
@@ -1785,19 +1791,16 @@
             if(lang === 'en') {
                 document.getElementById("lang-btn-en").classList.add("active");
                 
-                // Sidebar Menu
                 document.getElementById("nav-home-text").innerHTML = "📚 Home";
                 document.getElementById("nav-profile-text").innerHTML = "👤 Profiles";
                 document.getElementById("nav-scores-text").innerHTML = "🏆 Scores";
                 document.getElementById("nav-logout-text").innerHTML = "🚪 Logout";
 
-                // Home Screen
                 const curName = window.activeProfile || "-";
                 document.getElementById("home-greeting").innerText = `Hi ${curName}! 👋`;
                 document.getElementById("switch-profile-text-btn").innerText = "Switch 🔄";
                 document.getElementById("home-subtitle-text").innerText = "Pick a fun module below to start learning!";
 
-                // ABC Menu Screen
                 document.getElementById("abc-menu-title").innerText = "ABC Modules 🔤";
                 document.getElementById("abc-menu-desc").innerText = "Choose your preferred activity to learn the alphabet!";
                 document.getElementById("abc-main-icon").innerText = "🇬🇧";
@@ -1806,7 +1809,6 @@
                 document.getElementById("find-letter-menu-text").innerText = "Find the Letter";
                 document.getElementById("abc-back-home-btn").innerText = "Back to Home 🏠";
 
-                // Match Count Screen
                 document.getElementById("match-count-title").innerText = "Match the Letters 🔠";
                 document.getElementById("match-count-desc").innerText = "Select how many pages/sets you want to play:";
                 document.getElementById("set-5-text").innerText = "5 Sets";
@@ -1814,15 +1816,13 @@
                 document.getElementById("set-15-text").innerText = "15 Sets";
                 document.getElementById("match-count-back-btn").innerText = "Back ↩️";
 
-                // Match Game Screen
                 document.getElementById("match-header-title").innerText = "Match Letters";
                 document.getElementById("match-page-label").innerText = "Page";
                 document.getElementById("match-score-label").innerText = "Score";
-                document.getElementById("match-instruction-desc").innerText = "Match the lowercase letters on the left with the uppercase letters on the right!";
+                document.getElementById("match-instruction-desc").innerText = "Drag a line to match the lowercase letter on the left with the uppercase letter on the right!";
                 document.getElementById("match-next-page-text").innerText = "Next Page ➔";
                 document.getElementById("match-home-btn").innerText = "Home 🏠";
 
-                // Find Letter Screen
                 document.getElementById("find-header-title").innerText = "Find the Letter 🍎";
                 document.getElementById("find-round-label").innerText = "Round";
                 document.getElementById("find-score-label").innerText = "Score";
@@ -1830,27 +1830,23 @@
                 document.getElementById("find-next-round-text").innerText = "Next Round ➔";
                 document.getElementById("find-back-btn").innerText = "Back ↩️";
 
-                // ABC Flashcard
                 document.getElementById("abc-screen-title").innerText = "Learn ABC";
                 document.getElementById("abc-sound-btn").innerHTML = "🔊 Listen";
                 document.getElementById("prev-abc-btn").innerText = "⬅ Prev";
                 document.getElementById("abc-flash-back-btn").innerText = "Back ↩️";
                 document.getElementById("next-abc-btn").innerText = "Next ➡";
 
-                // Lesson Screen
                 document.getElementById("lesson-main-title").innerText = "Lesson Time! 📖";
                 document.getElementById("lesson-examples-label").innerText = "Examples:";
                 document.getElementById("lesson-choose-q-btn").innerText = "Choose Questions 🚀";
                 document.getElementById("lesson-home-btn").innerText = "Home 🏠";
 
-                // Question Count Screen
                 document.getElementById("count-sel-title").innerText = "Select Question Count 📝";
                 document.getElementById("count-sel-desc").innerText = "How many questions would you like to answer?";
                 document.getElementById("q-5-text").innerText = "5 Questions";
                 document.getElementById("q-10-text").innerText = "10 Questions";
                 document.getElementById("count-sel-back-btn").innerText = "Back ↩️";
 
-                // Profile View Screen
                 document.getElementById("profile-acc-title").innerText = "Account & Profiles 👤";
                 document.getElementById("acc-email-label").innerText = "Account Email:";
                 document.getElementById("active-kid-label").innerText = "Active Kid Profile:";
@@ -1862,7 +1858,6 @@
                 document.getElementById("update-pass-btn").innerText = "Update Password 🔑";
                 document.getElementById("profile-home-btn").innerText = "Back to Home 🏠";
 
-                // Scores Screen
                 document.getElementById("scores-history-title").innerText = "🏆 Quiz Attempt History";
                 document.getElementById("scores-history-desc").innerText = "Records of every quiz session completed!";
                 document.getElementById("th-no").innerText = "No.";
@@ -1872,13 +1867,11 @@
                 document.getElementById("scores-home-btn").innerText = "Back to Home 🏠";
                 document.getElementById("clear-history-btn").innerText = "Clear History 🗑️";
 
-                // Quiz Screen
                 document.getElementById("quiz-q-label").innerText = "Question";
                 document.getElementById("quiz-score-label").innerText = "Score";
                 document.getElementById("quiz-next-btn-text").innerText = "Next Question ➔";
                 document.getElementById("quiz-home-btn").innerText = "Home 🏠";
 
-                // Result Screen
                 document.getElementById("result-title").innerText = "Awesome Job! 🎉";
                 document.getElementById("result-desc").innerText = "You have completed the quiz!";
                 document.getElementById("result-menu-btn").innerText = "Back to Menu 🏠";
@@ -1886,19 +1879,16 @@
             } else {
                 document.getElementById("lang-btn-ms").classList.add("active");
                 
-                // Sidebar Menu
                 document.getElementById("nav-home-text").innerHTML = "📚 Utama";
                 document.getElementById("nav-profile-text").innerHTML = "👤 Profil";
                 document.getElementById("nav-scores-text").innerHTML = "🏆 Skor";
                 document.getElementById("nav-logout-text").innerHTML = "🚪 Keluar";
 
-                // Home Screen
                 const curName = window.activeProfile || "-";
                 document.getElementById("home-greeting").innerText = `Hai ${curName}! 👋`;
                 document.getElementById("switch-profile-text-btn").innerText = "Tukar 🔄";
                 document.getElementById("home-subtitle-text").innerText = "Pilih modul menarik di bawah untuk mula belajar!";
 
-                // ABC Menu Screen
                 document.getElementById("abc-menu-title").innerText = "Modul ABC 🔤";
                 document.getElementById("abc-menu-desc").innerText = "Pilih aktiviti kegemaran anda untuk belajar abjad!";
                 document.getElementById("abc-main-icon").innerText = "🇲🇾";
@@ -1907,7 +1897,6 @@
                 document.getElementById("find-letter-menu-text").innerText = "Cari Huruf";
                 document.getElementById("abc-back-home-btn").innerText = "Kembali ke Utama 🏠";
 
-                // Match Count Screen
                 document.getElementById("match-count-title").innerText = "Suaikan Huruf 🔠";
                 document.getElementById("match-count-desc").innerText = "Pilih berapa banyak set yang anda mahu mainkan:";
                 document.getElementById("set-5-text").innerText = "5 Set";
@@ -1915,15 +1904,13 @@
                 document.getElementById("set-15-text").innerText = "15 Set";
                 document.getElementById("match-count-back-btn").innerText = "Kembali ↩️";
 
-                // Match Game Screen
                 document.getElementById("match-header-title").innerText = "Suaikan Huruf";
                 document.getElementById("match-page-label").innerText = "Halaman";
                 document.getElementById("match-score-label").innerText = "Skor";
-                document.getElementById("match-instruction-desc").innerText = "Suaikan huruf kecil di sebelah kiri dengan huruf besar di sebelah kanan!";
+                document.getElementById("match-instruction-desc").innerText = "Tarik garis (drag) untuk menyesuaikan huruf kecil di sebelah kiri dengan huruf besar di sebelah kanan!";
                 document.getElementById("match-next-page-text").innerText = "Halaman Seterusnya ➔";
                 document.getElementById("match-home-btn").innerText = "Utama 🏠";
 
-                // Find Letter Screen
                 document.getElementById("find-header-title").innerText = "Cari Huruf 🍎";
                 document.getElementById("find-round-label").innerText = "Pusingan";
                 document.getElementById("find-score-label").innerText = "Skor";
@@ -1931,27 +1918,23 @@
                 document.getElementById("find-next-round-text").innerText = "Seterusnya ➔";
                 document.getElementById("find-back-btn").innerText = "Kembali ↩️";
 
-                // ABC Flashcard
                 document.getElementById("abc-screen-title").innerText = "Belajar ABC";
                 document.getElementById("abc-sound-btn").innerHTML = "🔊 Dengar";
                 document.getElementById("prev-abc-btn").innerText = "⬅ Sebelum";
                 document.getElementById("abc-flash-back-btn").innerText = "Kembali ↩️";
                 document.getElementById("next-abc-btn").innerText = "Next ➡";
 
-                // Lesson Screen
                 document.getElementById("lesson-main-title").innerText = "Masa Pembelajaran! 📖";
                 document.getElementById("lesson-examples-label").innerText = "Contoh:";
                 document.getElementById("lesson-choose-q-btn").innerText = "Pilih Soalan 🚀";
                 document.getElementById("lesson-home-btn").innerText = "Utama 🏠";
 
-                // Question Count Screen
                 document.getElementById("count-sel-title").innerText = "Pilih Bilangan Soalan 📝";
                 document.getElementById("count-sel-desc").innerText = "Berapa banyak soalan yang anda ingin jawab?";
                 document.getElementById("q-5-text").innerText = "5 Soalan";
                 document.getElementById("q-10-text").innerText = "10 Soalan";
                 document.getElementById("count-sel-back-btn").innerText = "Kembali ↩️";
 
-                // Profile View Screen
                 document.getElementById("profile-acc-title").innerText = "Akaun & Profil 👤";
                 document.getElementById("acc-email-label").innerText = "Emel Akaun:";
                 document.getElementById("active-kid-label").innerText = "Profil Aktif:";
@@ -1963,7 +1946,6 @@
                 document.getElementById("update-pass-btn").innerText = "Kemaskini Kata Laluan 🔑";
                 document.getElementById("profile-home-btn").innerText = "Kembali ke Utama 🏠";
 
-                // Scores Screen
                 document.getElementById("scores-history-title").innerText = "🏆 Sejarah Percubaan Kuiz";
                 document.getElementById("scores-history-desc").innerText = "Rekod bagi setiap sesi kuiz yang telah diselesaikan!";
                 document.getElementById("th-no").innerText = "No.";
@@ -1973,19 +1955,16 @@
                 document.getElementById("scores-home-btn").innerText = "Kembali ke Utama 🏠";
                 document.getElementById("clear-history-btn").innerText = "Kosongkan Sejarah 🗑️";
 
-                // Quiz Screen
                 document.getElementById("quiz-q-label").innerText = "Soalan";
                 document.getElementById("quiz-score-label").innerText = "Skor";
                 document.getElementById("quiz-next-btn-text").innerText = "Soalan Seterusnya ➔";
                 document.getElementById("quiz-home-btn").innerText = "Utama 🏠";
 
-                // Result Screen
                 document.getElementById("result-title").innerText = "Syabas, Hebat! 🎉";
                 document.getElementById("result-desc").innerText = "Anda telah menyiapkan kuiz ini!";
                 document.getElementById("result-menu-btn").innerText = "Kembali ke Menu 🏠";
             }
 
-            // Kemaskini arahan cari huruf jika sedang dibuka
             if(document.getElementById("find-letter-screen").classList.contains("active")) {
                 const targetLetter = document.getElementById("find-instruction-text").innerText.slice(-1);
                 const instructionText = currentGlobalLang === 'en' ? `Find and put letter ${targetLetter} into the basket` : `Tolong masukkan huruf ${targetLetter} ke dalam bakul`;
@@ -1993,13 +1972,18 @@
             }
         }
 
+        // --- SISTEM MATCH THE LETTER (DRAG & SUAUKAN LINE DENGAN CANVAS) ---
         const alphabetList = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
         let matchPagesCount = 5;
         let currentMatchPageIdx = 0;
         let matchGameData = [];
         let matchScoreCount = 0;
-        let selectedLowercaseLetter = null;
-        let selectedLowercaseElement = null;
+
+        let activeDragItem = null;
+        let isDragging = false;
+        let dragCurrentX = 0;
+        let dragCurrentY = 0;
+        let completedLines = []; 
         let matchedPairsInCurrentPage = 0;
 
         function openMatchLettersCountScreen() {
@@ -2023,27 +2007,52 @@
             }
 
             showScreen('match-game-screen');
+            setTimeout(initMatchEvents, 100);
             loadMatchPage();
         }
 
-        function loadMatchPage() {
-        let activeDragLine = null;
-        let draggingFromElement = null;
-        let draggingLetter = null;
+        function resizeCanvas() {
+            const canvas = document.getElementById("match-canvas");
+            const wrapper = document.getElementById("match-wrapper");
+            if (canvas && wrapper) {
+                canvas.width = wrapper.clientWidth;
+                canvas.height = wrapper.clientHeight;
+                redrawCanvas();
+            }
+        }
+
+        window.addEventListener("resize", resizeCanvas);
+
+        function initMatchEvents() {
+            const wrapper = document.getElementById("match-wrapper");
+            if (!wrapper) return;
+
+            wrapper.addEventListener("pointerdown", handlePointerDown);
+            wrapper.addEventListener("pointermove", handlePointerMove);
+            wrapper.addEventListener("pointerup", handlePointerUp);
+            wrapper.addEventListener("pointercancel", handlePointerUp);
+            resizeCanvas();
+        }
+
+        function getItemCenter(element) {
+            const wrapper = document.getElementById("match-wrapper").getBoundingClientRect();
+            const rect = element.getBoundingClientRect();
+            return {
+                x: rect.left + rect.width / 2 - wrapper.left,
+                y: rect.top + rect.height / 2 - wrapper.top
+            };
+        }
 
         function loadMatchPage() {
             matchedPairsInCurrentPage = 0;
-            selectedLowercaseLetter = null;
-            selectedLowercaseElement = null;
+            completedLines = [];
+            activeDragItem = null;
+            isDragging = false;
 
             document.getElementById("match-current-page").innerText = currentMatchPageIdx + 1;
             document.getElementById("match-total-pages").innerText = matchPagesCount;
             document.getElementById("match-score").innerText = matchScoreCount;
             document.getElementById("match-next-btn").style.display = "none";
-
-            // Bersihkan garisan SVG lama
-            const svgCanvas = document.getElementById("match-svg-canvas");
-            svgCanvas.innerHTML = "";
 
             const currentLetters = matchGameData[currentMatchPageIdx];
             
@@ -2060,118 +2069,76 @@
                 div.className = "match-item";
                 div.innerText = letter.toLowerCase();
                 div.dataset.letter = letter;
-
-                // Event Listener untuk tetikus & sentuhan skrin (Mobile Touch / Mouse Drag)
-                div.addEventListener("mousedown", (e) => startMatchDrag(e, letter, div));
-                div.addEventListener("touchstart", (e) => startMatchDrag(e, letter, div), { passive: false });
-
+                div.dataset.side = "left";
                 leftCol.appendChild(div);
             });
 
             randomizedUppercase.forEach(letter => {
                 const div = document.createElement("div");
-                div.className = "match-item match-target-item";
+                div.className = "match-item";
                 div.innerText = letter;
                 div.dataset.letter = letter;
+                div.dataset.side = "right";
                 rightCol.appendChild(div);
             });
+
+            setTimeout(resizeCanvas, 50);
         }
 
-        function getCenterCoords(element) {
-            const containerRect = document.getElementById("match-container-box").getBoundingClientRect();
-            const rect = element.getBoundingClientRect();
-            return {
-                x: rect.left + rect.width / 2 - containerRect.left,
-                y: rect.top + rect.height / 2 - containerRect.top
-            };
+        function handlePointerDown(e) {
+            const target = e.target.closest('.match-item');
+            if (!target || target.classList.contains("matched")) return;
+
+            if (target.dataset.side === "left") {
+                playClickSound();
+                activeDragItem = target;
+                isDragging = true;
+                
+                target.classList.add("selected");
+                
+                const wrapper = document.getElementById("match-wrapper").getBoundingClientRect();
+                dragCurrentX = e.clientX - wrapper.left;
+                dragCurrentY = e.clientY - wrapper.top;
+                
+                redrawCanvas();
+            }
         }
 
-        function startMatchDrag(e, letter, element) {
-            if (element.classList.contains("matched")) return;
+        function handlePointerMove(e) {
+            if (!isDragging || !activeDragItem) return;
             e.preventDefault();
-            playClickSound();
 
-            draggingFromElement = element;
-            draggingLetter = letter;
+            const wrapper = document.getElementById("match-wrapper").getBoundingClientRect();
+            dragCurrentX = e.clientX - wrapper.left;
+            dragCurrentY = e.clientY - wrapper.top;
 
-            const coords = getCenterCoords(element);
-            const svgCanvas = document.getElementById("match-svg-canvas");
-
-            // Cipta elemen garisan baharu semasa drag
-            activeDragLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
-            activeDragLine.setAttribute("x1", coords.x);
-            activeDragLine.setAttribute("y1", coords.y);
-            activeDragLine.setAttribute("x2", coords.x);
-            activeDragLine.setAttribute("y2", coords.y);
-            activeDragLine.setAttribute("class", "match-line");
-
-            svgCanvas.appendChild(activeDragLine);
-
-            const moveHandler = (event) => onMatchDragMove(event);
-            const endHandler = (event) => onMatchDragEnd(event, moveHandler, endHandler);
-
-            window.addEventListener("mousemove", moveHandler);
-                window.addEventListener("touchmove", moveHandler, { passive: false });
-            window.addEventListener("mouseup", endHandler);
-            window.addEventListener("touchend", endHandler);
+            redrawCanvas();
         }
 
-        function onMatchDragMove(e) {
-            if (!activeDragLine) return;
-            if (e.touches) e.preventDefault();
+        function handlePointerUp(e) {
+            if (!isDragging || !activeDragItem) return;
 
-            const containerRect = document.getElementById("match-container-box").getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            const elementUnderPointer = document.elementFromPoint(e.clientX, e.clientY);
+            const targetRightItem = elementUnderPointer ? elementUnderPointer.closest('.match-item') : null;
 
-            activeDragLine.setAttribute("x2", clientX - containerRect.left);
-            activeDragLine.setAttribute("y2", clientY - containerRect.top);
-        }
+            activeDragItem.classList.remove("selected");
 
-        function onMatchDragEnd(e, moveHandler, endHandler) {
-            window.removeEventListener("mousemove", moveHandler);
-            window.removeEventListener("touchmove", moveHandler);
-            window.removeEventListener("mouseup", endHandler);
-            window.removeEventListener("touchend", endHandler);
+            if (targetRightItem && targetRightItem.dataset.side === "right" && !targetRightItem.classList.contains("matched")) {
+                const leftLetter = activeDragItem.dataset.letter;
+                const rightLetter = targetRightItem.dataset.letter;
 
-            if (!activeDragLine) return;
-
-            const clientX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
-            const clientY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
-
-            // Semak jika pengguna melepaskan drag di atas mana-mana kotak huruf besar
-            const targets = document.querySelectorAll(".match-target-item");
-            let targetMatched = null;
-
-            targets.forEach(target => {
-                const rect = target.getBoundingClientRect();
-                if (
-                    clientX >= rect.left &&
-                    clientX <= rect.right &&
-                    clientY >= rect.top &&
-                    clientY <= rect.bottom
-                ) {
-                    targetMatched = target;
-                }
-            });
-
-            if (targetMatched && !targetMatched.classList.contains("matched")) {
-                const targetLetter = targetMatched.dataset.letter;
-
-                if (draggingLetter === targetLetter) {
-                    // Padanan BETUL
+                if (leftLetter === rightLetter) {
                     playCorrectSound();
                     matchScoreCount++;
                     document.getElementById("match-score").innerText = matchScoreCount;
 
-                    draggingFromElement.classList.add("matched");
-                    targetMatched.classList.add("matched");
+                    activeDragItem.classList.add("matched");
+                    targetRightItem.classList.add("matched");
 
-                    // Kunci garisan ke tengah kotak target
-                    const targetCoords = getCenterCoords(targetMatched);
-                    activeDragLine.setAttribute("x2", targetCoords.x);
-                    activeDragLine.setAttribute("y2", targetCoords.y);
-                    activeDragLine.setAttribute("class", "match-line confirmed");
+                    completedLines.push({
+                        from: activeDragItem,
+                        to: targetRightItem
+                    });
 
                     matchedPairsInCurrentPage++;
 
@@ -2186,22 +2153,53 @@
                         }
                     }
                 } else {
-                    // Padanan SALAH
                     playWrongSound();
-                    activeDragLine.remove();
-                    targetMatched.style.background = "#FF6B6B";
+                    targetRightItem.style.backgroundColor = "#FF6B6B";
                     setTimeout(() => {
-                        targetMatched.style.background = "white";
+                        targetRightItem.style.backgroundColor = "white";
                     }, 400);
                 }
-            } else {
-                // Drag dilepaskan di luar kawasan sasaran
-                activeDragLine.remove();
             }
 
-            activeDragLine = null;
-            draggingFromElement = null;
-            draggingLetter = null;
+            activeDragItem = null;
+            isDragging = false;
+            redrawCanvas();
+        }
+
+        function redrawCanvas() {
+            const canvas = document.getElementById("match-canvas");
+            if (!canvas) return;
+            const ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Lukis Garis yang Dah Siap Suaikan
+            completedLines.forEach(line => {
+                const p1 = getItemCenter(line.from);
+                const p2 = getItemCenter(line.to);
+
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = "#7ED957"; 
+                ctx.lineWidth = 6;
+                ctx.lineCap = "round";
+                ctx.stroke();
+            });
+
+            // Lukis Garis Semasa Jari/Tetikus Di-drag
+            if (isDragging && activeDragItem) {
+                const p1 = getItemCenter(activeDragItem);
+
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(dragCurrentX, dragCurrentY);
+                ctx.strokeStyle = "#FF66C4"; 
+                ctx.lineWidth = 5;
+                ctx.lineCap = "round";
+                ctx.setLineDash([8, 6]);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
         }
 
         function nextMatchPage() {
@@ -2209,6 +2207,7 @@
             loadMatchPage();
         }
 
+        // --- GAME FIND THE LETTER (APPLE TREE) ---
         let findCurrentRound = 1;
         let totalFindRounds = 5;
         let findScoreCount = 0;
@@ -2270,7 +2269,7 @@
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(textToSpeak);
                 utterance.lang = currentGlobalLang === 'en' ? 'en-US' : 'ms-MY';
-                utterance.rate = 0.3;
+                utterance.rate = 0.1;
                 window.speechSynthesis.speak(utterance);
             }
         }
@@ -2433,7 +2432,7 @@
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(textToSpeak);
                 utterance.lang = currentGlobalLang === 'en' ? 'en-US' : 'ms-MY';
-                utterance.rate = 0.3;
+                utterance.rate = 0.1;
                 window.speechSynthesis.speak(utterance);
             }
         }
@@ -2468,320 +2467,61 @@
                 title: "Transport / Pengangkutan",
                 desc: "Learn about different vehicles that help us travel on land, water, and up in the sky. / Kenali kenderaan di darat, air, dan udara.",
                 examples: "<ul><li>Land / Darat: <i>Car/Kereta, Bus/Bas, Bicycle/Basikal, Train/Keretapi</i></li><li>Air/Water / Udara/Air: <i>Aeroplane/Kapal Terbang, Ship/Kapal</i></li></ul>"
-            },
-            food: {
-                title: "Food / Makanan",
-                desc: "Learn about healthy food items like delicious fruits, vegetables, and daily meals that keep us strong. / Ketahui makanan sihat dan berkhasiat.",
-                examples: "<ul><li>Fruits / Buah-buahan: <i>Apple/Epal, Banana/Pisang, Orange/Oren, Mango/Mangga</i></li></ul>"
-            },
-            jobs: {
-                title: "Jobs & Profession / Pekerjaan",
-                desc: "Discover community helpers and different professions that make our society wonderful and safe. / Kenali kerjaya dan sumbangan mereka.",
-                examples: "<ul><li>Helpers / Kerjaya: <i>Doctor/Doktor, Teacher/Cikgu, Police/Polis, Firefighter/Bomba</i></li></ul>"
             }
         };
 
-        const questionBank = {
-            numeric: [
-                { q: "What number comes after 2? / Nombor apakah selepas 2?", options: ["1", "3", "4", "5"], answer: 1 },
-                { q: "How many fingers do you have on one hand? / Berapa jari pada sebelah tangan?", options: ["3", "4", "5", "10"], answer: 2 },
-                { q: "What number comes before 5? / Nombor apakah sebelum 5?", options: ["3", "4", "6", "7"], answer: 1 },
-                { q: "Which number is the biggest? / Nombor manakah yang paling besar?", options: ["2", "8", "4", "6"], answer: 1 },
-                { q: "Count: 🍎 🍎 🍎 / Kira:", options: ["2", "3", "4", "5"], answer: 1 },
-                { q: "What number is written as 'Ten' / 'Sepuluh'?", options: ["5", "10", "15", "20"], answer: 1 },
-                { q: "What number comes after 9? / Nombor selepas 9?", options: ["8", "10", "11", "12"], answer: 1 },
-                { q: "Count: ⭐ ⭐ / Kira:", options: ["1", "2", "3", "4"], answer: 1 },
-                { q: "Which number comes between 6 and 8? / Nombor di antara 6 dan 8?", options: ["5", "7", "9", "10"], answer: 1 },
-                { q: "What number comes before 1? / Nombor sebelum 1?", options: ["0", "2", "3", "10"], answer: 0 }
-            ],
-            animal: [
-                { q: "Which animal says 'Meow'? / Haiwan manakah berbunyi 'Meow'?", options: ["Dog/Anjing", "Cat/Kucing", "Cow/Lembu", "Duck/Itik"], answer: 1 },
-                { q: "Which animal is known as the King of the Jungle? / Raja Rimba?", options: ["Lion/Singa", "Rabbit/Arnab", "Mouse/Tikus", "Sheep/Biri-biri"], answer: 0 },
-                { q: "Which animal says 'Moo'? / Haiwan manakah berbunyi 'Moo'?", options: ["Goat/Kambing", "Cow/Lembu", "Cat/Kucing", "Bird/Burung"], answer: 1 },
-                { q: "Which animal has a very long neck? / Haiwan berleher panjang?", options: ["Elephant/Gajah", "Giraffe/Zirafah", "Monkey/Monyet", "Frog/Katak"], answer: 1 },
-                { q: "Which of these is a pet dog? / Yang manakah anak anjing / anjing?", options: ["Puppy/Anak Anjing", "Tiger/Harimau", "Shark/Jerung", "Eagle/Helang"], answer: 0 },
-                { q: "Which animal hops and loves carrots? / Haiwan melompat suka lobak?", options: ["Rabbit/Arnab", "Lion/Singa", "Fish/Ikan", "Horse/Kuda"], answer: 0 },
-                { q: "Which animal lives in water and swims? / Haiwan hidup di air?", options: ["Fish/Ikan", "Cat/Kucing", "Dog/Anjing", "Bird/Burung"], answer: 0 },
-                { q: "Which animal says 'Baa Baa'? / Haiwan berbunyi 'Baa Baa'?", options: ["Sheep/Biri-biri", "Duck/Itik", "Cow/Lembu", "Chicken/Ayam"], answer: 0 },
-                { q: "Which animal has black and white stripes? / Haiwan berbelang hitam putih?", options: ["Zebra/Zirafah", "Lion/Singa", "Bear/Beruang", "Fox/Musang"], answer: 0 },
-                { q: "Which animal swings from trees? / Haiwan bergayut di pokok?", options: ["Monkey/Monyet", "Fish/Ikan", "Cow/Lembu", "Dog/Anjing"], answer: 0 }
-            ],
-            colour: [
-                { q: "What colour is a ripe banana? / Apakah warna pisang masak?", options: ["Red/Merah", "Yellow/Kuning", "Blue/Biru", "Black/Hitam"], answer: 1 },
-                { q: "What colour is fresh grass? / Apakah warna rumput segar?", options: ["Green/Hijau", "Pink/Merah Jambu", "Orange/Oren", "Purple/Ungu"], answer: 0 },
-                { q: "What colour is a fresh red apple? / Warna epal merah segar?", options: ["Red/Merah", "Blue/Biru", "Yellow/Kuning", "Green/Hijau"], answer: 0 },
-                { q: "What colour is the clear sky during the day? / Warna langit siang?", options: ["Blue/Biru", "Black/Hitam", "Green/Hijau", "Pink/Merah Jambu"], answer: 0 },
-                { q: "Mixing Red and Yellow gives you which colour? / Campuran Merah & Kuning?", options: ["Orange/Oren", "Blue/Biru", "Green/Hijau", "White/Putih"], answer: 0 },
-                { q: "What colour is coal or night time? / Warna arang atau waktu malam?", options: ["Black/Hitam", "White/Putih", "Yellow/Kuning", "Blue/Biru"], answer: 0 },
-                { q: "What colour is snow? / Apakah warna salji?", options: ["White/Putih", "Red/Merah", "Black/Hitam", "Brown/Coklat"], answer: 0 },
-                { q: "What colour do you get by mixing Blue and Yellow? / Campuran Biru & Kuning?", options: ["Green/Hijau", "Red/Merah", "Purple/Ungu", "Pink/Merah Jambu"], answer: 0 },
-                { q: "What colour is a carrot? / Apakah warna lobak merah?", options: ["Orange/Oren", "Blue/Biru", "Yellow/Kuning", "Black/Hitam"], answer: 0 },
-                { q: "What colour is a sweet purple grape? / Warna buah anggur?", options: ["Purple/Ungu", "Red/Merah", "Green/Hijau", "Yellow/Kuning"], answer: 0 }
-            ],
-            bodyPart: [
-                { q: "Which body part do you use to see things? / Bahagian untuk melihat?", options: ["Eyes/Mata", "Nose/Hidung", "Ears/Telinga", "Mouth/Mulut"], answer: 0 },
-                { q: "Which body part do you use to smell flowers? / Bahagian untuk bau bunga?", options: ["Nose/Hidung", "Hands/Tangan", "Eyes/Mata", "Feet/Kaki"], answer: 0 },
-                { q: "Which body part do you use to hear music? / Bahagian untuk mendengar muzik?", options: ["Ears/Telinga", "Nose/Hidung", "Mouth/Mulut", "Eyes/Mata"], answer: 0 },
-                { q: "How many fingers do you have on both hands together? / Jumlah jari kedua belah tangan?", options: ["5", "10", "20", "2"], answer: 1 },
-                { q: "Which body part do you use to walk and run? / Bahagian untuk berjalan dan berlari?", options: ["Legs/Kaki", "Arms/Lengan", "Ears/Telinga", "Nose/Hidung"], answer: 0 },
-                { q: "Which body part do you use to taste delicious food? / Bahagian untuk merasai makanan?", options: ["Tongue/Lidah", "Eyes/Mata", "Ears/Telinga", "Hair/Rambut"], answer: 0 },
-                { q: "What covers our head? / Apakah yang menutup kepala kita?", options: ["Hair/Rambut", "Shoes/Kasut", "Gloves/Sarung Tangan", "Socks/Stoking"], answer: 0 },
-                { q: "Which body part do you use to hold a pencil? / Bahagian untuk memegang pensel?", options: ["Hands/Tangan", "Feet/Kaki", "Ears/Telinga", "Nose/Hidung"], answer: 0 },
-                { q: "Which part of the face is right in the middle? / Bahagian tengah muka?", options: ["Nose/Hidung", "Chin/Dagu", "Forehead/Dahi", "Cheek/Pipi"], answer: 0 },
-                { q: "What do we use to smile and speak? / Untuk senyum dan bercakap?", options: ["Mouth/Mulut", "Eyes/Mata", "Ears/Telinga", "Hair/Rambut"], answer: 0 }
-            ],
-            shape: [
-                { q: "What shape is a round ball? / Apakah bentuk bola?", options: ["Circle/Bulat", "Square/Segi Empat", "Triangle/Segi Tiga", "Rectangle/Segi Empat Tepat"], answer: 0 },
-                { q: "How many equal sides does a square have? / Berapa sisi sama bagi segi empat sama?", options: ["3", "4", "5", "6"], answer: 1 },
-                { q: "What shape has three sides? / Bentuk yang mempunyai tiga sisi?", options: ["Triangle/Segi Tiga", "Circle/Bulat", "Square/Segi Empat", "Rectangle/Segi Empat Tepat"], answer: 0 },
-                { q: "Which shape has two long sides and two short sides? / Dua sisi panjang & dua sisi pendek?", options: ["Rectangle/Segi Empat Tepat", "Circle/Bulat", "Triangle/Segi Tiga", "Star/Bintang"], answer: 0 },
-                { q: "What shape looks like an egg? / Bentuk menyerupai telur?", options: ["Oval/Elips", "Triangle/Segi Tiga", "Square/Segi Empat", "Circle/Bulat"], answer: 3 },
-                { q: "A sandwich is often cut into what shape? / Sandwich dipotong bentuk apa?", options: ["Triangle/Segi Tiga", "Circle/Bulat", "Oval/Elips", "Star/Bintang"], answer: 0 },
-                { q: "Which shape has no corners or straight edges? / Tiada bucu atau sisi lurus?", options: ["Circle/Bulat", "Square/Segi Empat", "Rectangle/Segi Empat Tepat", "Triangle/Segi Tiga"], answer: 0 },
-                { q: "A door is usually shaped like a: / Pintu biasanya berbentuk:", options: ["Rectangle/Segi Empat Tepat", "Circle/Bulat", "Triangle/Segi Tiga", "Ball/Bola"], answer: 0 },
-                { q: "A chessboard tile is shaped like a: / Petak papan catur berbentuk:", options: ["Square/Segi Empat Sama", "Circle/Bulat", "Triangle/Segi Tiga", "Oval/Elips"], answer: 0 },
-                { q: "An egg is usually shaped like an: / Sebiji telur berbentuk:", options: ["Oval/Elips", "Square/Segi Empat", "Rectangle/Segi Empat Tepat", "Triangle/Segi Tiga"], answer: 0 }
-            ],
-            transport: [
-                { q: "Which vehicle runs on railway tracks? / Kenderaan atas landasan kereta api?", options: ["Train/Keretapi", "Car/Kereta", "Aeroplane/Kapal Terbang", "Bicycle/Basikal"], answer: 0 },
-                { q: "Which vehicle flies high up in the sky? / Kenderaan terbang di udara?", options: ["Aeroplane/Kapal Terbang", "Boat/Bot", "Bus/Bas", "Car/Kereta"], answer: 0 },
-                { q: "Which vehicle has two wheels and is powered by pedalling? / Kenderaan dua roda dikayuh?", options: ["Bicycle/Basikal", "Truck/Lori", "Train/Keretapi", "Ship/Kapal"], answer: 0 },
-                { q: "Which large vehicle carries many passengers on the road? / Kenderaan besar muat ramai penumpang?", options: ["Bus/Bas", "Car/Kereta", "Bicycle/Basikal", "Scooter/Skuter"], answer: 0 },
-                { q: "Which vehicle sails on water over the sea? / Kenderaan di atas air/laut?", options: ["Ship/Kapal", "Car/Kereta", "Aeroplane/Kapal Terbang", "Train/Keretapi"], answer: 0 },
-                { q: "What vehicle do police officers use to patrol quickly? / Kenderaan polis?", options: ["Police Car/Kereta Polis", "Bicycle/Basikal", "Boat/Bot", "Train/Keretapi"], answer: 0 },
-                { q: "What vehicle carries sick people to the hospital? / Kenderaan bawa orang sakit?", options: ["Ambulance/Ambulans", "Bus/Bas", "Taxi/Teksi", "Bicycle/Basikal"], answer: 0 },
-                { q: "How many wheels does a standard car have? / Berapa roda kereta biasa?", options: ["2", "4", "3", "1"], answer: 1 },
-                { q: "Which vehicle has two wheels and an engine? / Kenderaan dua roda berenjin?", options: ["Motorcycle/Motosikal", "Bicycle/Basikal", "Train/Keretapi", "Boat/Bot"], answer: 0 },
-                { q: "What vehicle puts out dangerous fires? / Kenderaan padam kebakaran?", options: ["Fire Engine/Lori Bomba", "Taxi/Teksi", "Bus/Bas", "Bicycle/Basikal"], answer: 0 }
-            ],
-            food: [
-                { q: "Which of these is a red healthy fruit? / Buah sihat berwarna merah?", options: ["Apple/Epal", "Stone/Batu", "Wood/Kayu", "Paper/Kertas"], answer: 0 },
-                { q: "Monkeys love to eat which yellow fruit? / Buah kuning kegemaran monyet?", options: ["Banana/Pisang", "Watermelon/Tembikai", "Potato/Ubi", "Carrot/Lobak"], answer: 0 },
-                { q: "Which of these is a vegetable? / Yang manakah sayuran?", options: ["Carrot/Lobak Merah", "Chocolate/Coklat", "Candy/Gula-gula", "Biscuit/Biskut"], answer: 0 },
-                { q: "What do cows give us to drink that makes us strong? / Apa yang lembu berikan untuk diminum?", options: ["Milk/Susu", "Juice/Jus", "Water/Air", "Soda/Air Gas"], answer: 0 },
-                { q: "Which fruit is round, green or purple, and grows in bunches? / Buah gugus bulat hijau/ungu?", options: ["Grapes/Anggur", "Apple/Epal", "Banana/Pisang", "Orange/Oren"], answer: 0 },
-                { q: "What food is made from flour, baked in an oven? / Makanan daripada tepung dibakar?", options: ["Bread/Roti", "Soup/Sup", "Ice/Ais", "Rice/Nasi"], answer: 0 },
-                { q: "Which of these is a sweet yellow citrus fruit? / Buah sitrus kuning manis?", options: ["Orange/Limau", "Apple/Epal", "Carrot/Lobak", "Potato/Ubi"], answer: 0 },
-                { q: "What do we use to make sandwiches? / Apa bahan asas sandwic?", options: ["Bread/Roti", "Stone/Batu", "Brick/Bata", "Sand/Pasir"], answer: 0 },
-                { q: "Which of these is a cold sweet treat kids love? / Makanan sejuk manis disukai kanak-kanak?", options: ["Ice Cream/Aiskrim", "Hot Soup/Sup Panas", "Rice/Nasi", "Bread/Roti"], answer: 0 },
-                { q: "Watermelon has lots of ________ inside. / Tembikai mempunyai banyak ________ di dalam.", options: ["Seeds/Biji", "Wood/Kayu", "Metal/Logam", "Plastic/Plastik"], answer: 0 }
-            ],
-            jobs: [
-                { q: "Who teaches students in a school classroom? / Siapa yang mengajar murid di sekolah?", options: ["Teacher/Cikgu", "Doctor/Doktor", "Pilot/Juruterbang", "Firefighter/Bomba"], answer: 0 },
-                { q: "Who helps sick people and gives medicine? / Siapa merawat orang sakit?", options: ["Doctor/Doktor", "Chef/Tukang Masak", "Driver/Pemandu", "Farmer/Petani"], answer: 0 },
-                { q: "Who flies an aeroplane in the sky? / Siapa memandu kapal terbang?", options: ["Pilot/Juruterbang", "Teacher/Cikgu", "Chef/Tukang Masak", "Police/Polis"], answer: 0 },
-                { q: "Who grows crops and vegetables? / Siapa menanam sayuran di ladang?", options: ["Farmer/Petani", "Doctor/Doktor", "Pilot/Juruterbang", "Chef/Tukang Masak"], answer: 0 }
-            ]
-        };
-
-        let currentActiveTopic = "";
-        let currentQuestionList = [];
-        let currentQuestionIdx = 0;
-        let scoreCount = 0;
-        let chosenQuestionCount = 10;
-
-        function openLesson(topicKey) {
-            currentActiveTopic = topicKey;
-            const lesson = lessonData[topicKey];
-            if (!lesson) return;
-
-            document.getElementById("lesson-title").innerText = lesson.title;
-            document.getElementById("lesson-desc").innerText = lesson.desc;
-            document.getElementById("lesson-examples").innerHTML = lesson.examples;
-
-            showScreen("lesson-screen");
-        }
-
-        function proceedToQuestionCount() {
-            showScreen("count-selection-screen");
-        }
-
-        function startQuizWithCount(count) {
-            chosenQuestionCount = count;
-            const rawQuestions = questionBank[currentActiveTopic] || [];
-            
-            let shuffled = [...rawQuestions].sort(() => 0.5 - Math.random());
-            currentQuestionList = shuffled.slice(0, count);
-
-            currentQuestionIdx = 0;
-            scoreCount = 0;
-
-            document.getElementById("topic-title").innerText = currentActiveTopic.toUpperCase();
-            document.getElementById("total-q-num").innerText = currentQuestionList.length;
-
-            showScreen("quiz-screen");
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            document.getElementById("question-num").innerText = currentQuestionIdx + 1;
-            document.getElementById("current-score").innerText = scoreCount;
-            document.getElementById("next-btn").style.display = "none";
-
-            const qObj = currentQuestionList[currentQuestionIdx];
-            document.getElementById("question-text").innerText = qObj.q;
-
-            const optionsContainer = document.getElementById("options-container");
-            optionsContainer.innerHTML = "";
-
-            qObj.options.forEach((optText, idx) => {
-                const btn = document.createElement("button");
-                btn.className = "option-btn";
-                btn.innerText = optText;
-                btn.onclick = () => selectOption(idx, qObj.answer, btn);
-                optionsContainer.appendChild(btn);
-            });
-        }
-
-        function selectOption(selectedIndex, correctIndex, selectedBtn) {
-            const allButtons = document.querySelectorAll(".options-grid .option-btn");
-            allButtons.forEach(btn => btn.disabled = true);
-
-            if (selectedIndex === correctIndex) {
-                playCorrectSound();
-                selectedBtn.classList.add("correct");
-                scoreCount++;
-            } else {
-                playWrongSound();
-                selectedBtn.classList.add("wrong");
-                allButtons[correctIndex].classList.add("correct");
+        function openLesson(topic) {
+            const data = lessonData[topic];
+            if (data) {
+                document.getElementById("lesson-title").innerText = data.title;
+                document.getElementById("lesson-desc").innerText = data.desc;
+                document.getElementById("lesson-examples").innerHTML = data.examples;
+                showScreen("lesson-screen");
             }
-
-            document.getElementById("current-score").innerText = scoreCount;
-
-            if (currentQuestionIdx < currentQuestionList.length - 1) {
-                document.getElementById("next-btn").style.display = "inline-block";
-            } else {
-                setTimeout(finishQuiz, 800);
-            }
-        }
-
-        function nextQuestion() {
-            currentQuestionIdx++;
-            loadQuestion();
-        }
-
-        function finishQuiz() {
-            const totalQ = currentQuestionList.length;
-            const percentage = Math.round((scoreCount / totalQ) * 100);
-
-            document.getElementById("final-score").innerText = `${percentage}%`;
-            
-            const now = new Date();
-            const formattedTime = now.toLocaleString();
-            document.getElementById("completion-time").innerText = `📅 Completed on: ${formattedTime}`;
-
-            let msg = "";
-            if (percentage === 100) msg = currentGlobalLang === 'en' ? "🌟 Perfect Score! You're a superstar!" : "🌟 Skor Sempurna! Anda memang hebat!";
-            else if (percentage >= 70) msg = currentGlobalLang === 'en' ? "🎉 Great job! Keep it up!" : "🎉 Syabas! Teruskan kecemerlangan!";
-            else msg = currentGlobalLang === 'en' ? "👍 Good try! Practice makes perfect!" : "👍 Cubaan yang baik! Usaha tangga kejayaan!";
-            document.getElementById("feedback-message").innerText = msg;
-
-            saveSessionRecord(currentActiveTopic, scoreCount, totalQ, formattedTime);
-            showScreen("result-screen");
-        }
-
-        function confirmBackToHome() {
-            const confirmMsg = currentGlobalLang === 'en' ? "Are you sure you want to go back to Home? Current quiz progress will be lost." : "Adakah anda pasti mahu kembali ke Utama? Kemajuan kuiz semasa akan hilang.";
-            if (confirm(confirmMsg)) {
-                navigateTo('home-screen');
-            }
-        }
-
-        function navigateTo(screenId, navElement = null) {
-            if (navElement) {
-                document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
-                navElement.classList.add("active");
-            }
-
-            if (screenId === 'scores-screen') {
-                loadScoreBoard();
-            }
-
-            showScreen(screenId);
-            closeSidebar();
         }
 
         function showScreen(screenId) {
-            document.querySelectorAll(".card").forEach(card => card.classList.remove("active"));
-            const target = document.getElementById(screenId);
-            if (target) target.classList.add("active");
-            window.scrollTo(0, 0);
+            const screens = document.querySelectorAll('.card');
+            screens.forEach(s => s.classList.remove('active'));
+            const targetScreen = document.getElementById(screenId);
+            if (targetScreen) {
+                targetScreen.classList.add('active');
+            }
+            closeSidebar();
+        }
+
+        function navigateTo(screenId, element) {
+            if (element) {
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach(i => i.classList.remove('active'));
+                element.classList.add('active');
+            }
+            if (screenId === 'scores-screen') {
+                window.loadScoreBoard();
+            }
+            showScreen(screenId);
         }
 
         function toggleSidebar(e) {
-            e.stopPropagation();
-            const sidebar = document.getElementById("sidebar");
-            sidebar.classList.toggle("open");
+            if (e) e.stopPropagation();
+            document.getElementById('sidebar').classList.toggle('open');
         }
 
         function closeSidebar() {
-            const sidebar = document.getElementById("sidebar");
-            sidebar.classList.remove("open");
-        }
-
-        document.addEventListener("click", function(event) {
-            const sidebar = document.getElementById("sidebar");
-            const toggleBtn = document.getElementById("mobile-toggle-btn");
-            if (window.innerWidth <= 768) {
-                if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
-                    sidebar.classList.remove("open");
-                }
-            }
-        });
-        // ==========================================
-        // KONTROL BACKGROUND MUSIC KANAK-KANAK
-        // ==========================================
-        let isMusicPlaying = false;
-        const bgAudio = document.getElementById('bg-music-player');
-        const bgToggleBtn = document.getElementById('bg-music-toggle');
-
-        // Laraskan kelantangan audio (0.1 - 0.3 adalah yang paling sesuai untuk kanak-kanak supaya tidak mengganggu audio lain)
-        if (bgAudio) {
-            bgAudio.volume = 0.2;
+            document.getElementById('sidebar').classList.remove('open');
         }
 
         function toggleBgMusic() {
-            if (!bgAudio) return;
-
-            if (bgAudio.paused) {
-                bgAudio.play().then(() => {
-                    isMusicPlaying = true;
-                    if (bgToggleBtn) {
-                        bgToggleBtn.innerText = "🔊 Sound: ON";
-                        bgToggleBtn.style.background = "var(--primary-green)";
-                    }
-                }).catch(err => {
-                    console.log("Autoplay ditahan oleh pelayar:", err);
-                });
+            const player = document.getElementById('bg-music-player');
+            const btn = document.getElementById('bg-music-toggle');
+            if (player.paused) {
+                player.play();
+                btn.innerText = "🔊 Sound: ON";
             } else {
-                bgAudio.pause();
-                isMusicPlaying = false;
-                if (bgToggleBtn) {
-                    bgToggleBtn.innerText = "🔇 Sound: OFF";
-                    bgToggleBtn.style.background = "#E74C3C";
-                }
+                player.pause();
+                btn.innerText = "🔇 Sound: OFF";
             }
         }
-
-        // Memulakan muzik secara automatik sebaik sahaja pengguna menekan apa-apa pada skrin/app
-        // (Sebab browser moden menyekat audio autoplay sebelum ada sentuhan pengguna)
-        function enableAutoplayOnFirstTouch() {
-            if (bgAudio && bgAudio.paused && !isMusicPlaying) {
-                bgAudio.play().then(() => {
-                    isMusicPlaying = true;
-                    if (bgToggleBtn) {
-                        bgToggleBtn.innerText = "🔊 Sound: ON";
-                        bgToggleBtn.style.background = "var(--primary-green)";
-                    }
-                }).catch(() => {});
-            }
-            window.removeEventListener('click', enableAutoplayOnFirstTouch);
-            window.removeEventListener('touchstart', enableAutoplayOnFirstTouch);
-        }
-
-        window.addEventListener('click', enableAutoplayOnFirstTouch);
-        window.addEventListener('touchstart', enableAutoplayOnFirstTouch);
     </script>
 </body>
 </html>
