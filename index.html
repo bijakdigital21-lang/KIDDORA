@@ -766,7 +766,7 @@
             box-shadow: 0 2px 0 #8d5cc4;
         }
 
-        /* --- STIL MATCH THE LETTER (ANJAK KE TEPI & DRAG CANVAS) --- */
+        /* --- STIL MATCH THE LETTER & ANIMAL --- */
         .match-wrapper {
             position: relative;
             width: 100%;
@@ -798,30 +798,41 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            width: 120px;
+            width: 130px;
         }
 
         #match-left-column {
-            margin-right: auto; /* Anjakkan ke paling kiri */
+            margin-right: auto;
         }
 
         #match-right-column {
-            margin-left: auto; /* Anjakkan ke paling kanan */
+            margin-left: auto;
         }
 
         .match-item {
             background: white;
             border: 3px solid var(--primary-blue);
             border-radius: 20px;
-            padding: 15px 0;
+            padding: 10px;
             text-align: center;
             font-family: 'Fredoka One', cursive;
-            font-size: 2.2rem;
+            font-size: 1.2rem;
             font-weight: bold;
             cursor: grab;
             box-shadow: 0 4px 10px rgba(0,0,0,0.08);
             transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
             touch-action: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 70px;
+        }
+
+        .match-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 12px;
         }
 
         .match-item:hover {
@@ -977,6 +988,73 @@
             animation: popIn 0.3s ease;
         }
 
+        /* STIL KHAS UNTUK FIND ANIMAL GRID (4 GAMBAR) */
+        .find-animal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .animal-img-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 4px solid var(--primary-blue);
+            border-radius: 20px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .animal-img-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 14px;
+        }
+
+        .animal-img-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            border-color: var(--primary-pink);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        /* STIL KATEGORI LEARN ANIMAL */
+        .animal-cat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .animal-cat-btn {
+            background: rgba(255, 255, 255, 0.95);
+            border: 3px solid var(--primary-purple);
+            border-radius: 16px;
+            padding: 15px 10px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1rem;
+            color: #2C3E50;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .animal-cat-btn:hover {
+            transform: translateY(-3px);
+            background: #F3E5F5;
+            border-color: var(--primary-pink);
+        }
+
         @keyframes popIn {
             0% { transform: scale(0); }
             80% { transform: scale(1.2); }
@@ -1012,12 +1090,18 @@
             }
 
             .match-column {
-                width: 90px;
+                width: 100px;
             }
 
             .match-item {
-                font-size: 1.8rem;
-                padding: 10px 0;
+                font-size: 0.9rem;
+                padding: 6px;
+                min-height: 60px;
+            }
+
+            .match-item img {
+                width: 45px;
+                height: 45px;
             }
         }
     </style>
@@ -1140,7 +1224,7 @@
                     <button class="topic-btn" onclick="playClickSound(); openLesson('numeric')">
                         <img src="https://i.imgur.com/Xzib4i8.jpeg" alt="Number">
                     </button>
-                    <button class="topic-btn" onclick="playClickSound(); openLesson('animal')">
+                    <button class="topic-btn" onclick="playClickSound(); openAnimalMenu()">
                         <img src="https://i.imgur.com/tXLFggI.jpeg" alt="Animal">
                     </button>
                     <button class="topic-btn" onclick="playClickSound(); openLesson('colour')">
@@ -1172,7 +1256,7 @@
                 <div class="abc-menu-grid">
                     <button class="abc-sub-btn" onclick="playClickSound(); startABC()">
                         <span id="abc-main-icon">🇬🇧 / 🇲🇾</span>
-                        <span id="abc-dynamic-btn-text">Learn ABC </span>
+                        <span id="abc-dynamic-btn-text">Learn ABC</span>
                     </button>
                     <button class="abc-sub-btn" onclick="playClickSound(); openMatchLettersCountScreen()">
                         <span>🔠 ➔ 🔤</span>
@@ -1186,6 +1270,142 @@
     
                 <br>
                 <button class="action-btn home-btn" id="abc-back-home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+            </div>
+
+            <!-- ANIMAL MODULE MENU SCREEN -->
+            <div id="animal-menu-screen" class="card">
+                <h2 style="color: #7ED957; font-family: 'Fredoka One', cursive;" id="animal-menu-title">Animal Module 🦁</h2>
+                <p style="color: #000000; font-weight: 700; margin-top: 5px;" id="animal-menu-desc">Choose an activity to explore the animal kingdom!</p>
+                
+                <div class="abc-menu-grid">
+                    <button class="abc-sub-btn" style="background: linear-gradient(135deg, #7ED957, #FFDE59);" onclick="playClickSound(); openLearnAnimalCategoryScreen()">
+                        <span>🦁 🐘 🦒</span>
+                        <span id="learn-animal-btn-text">1) Learn Animal</span>
+                    </button>
+                    <button class="abc-sub-btn" style="background: linear-gradient(135deg, #5CE1E6, #FF66C4);" onclick="playClickSound(); openMatchAnimalCountScreen()">
+                        <span>🖼️ ➔ 🔤</span>
+                        <span id="match-animal-btn-text">2) Match the Animal</span>
+                    </button>
+                    <button class="abc-sub-btn" style="background: linear-gradient(135deg, #C38FFF, #FFDE59); grid-column: span 2;" onclick="playClickSound(); openFindAnimalCountScreen()">
+                        <span>🔍 🖼️ 🐶</span>
+                        <span id="find-animal-btn-text">3) Find the Animal</span>
+                    </button>
+                </div>
+    
+                <br>
+                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+            </div>
+
+            <!-- LEARN ANIMAL CATEGORIES SCREEN -->
+            <div id="learn-animal-cat-screen" class="card">
+                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">Learn Animal Categories 🐾</h2>
+                <p style="color: #444; font-weight: 700; margin-top: 5px;">Select a category to learn animal names!</p>
+
+                <div class="animal-cat-grid" id="animal-categories-container">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <br>
+                <button class="action-btn home-btn" onclick="playClickSound(); openAnimalMenu()">Back ↩️</button>
+            </div>
+
+            <!-- LEARN ANIMAL FLASHCARD SCREEN -->
+            <div id="learn-animal-flash-screen" class="card">
+                <h2 id="animal-cat-display-title" style="color: #333; margin-bottom: 5px; font-family: 'Fredoka One', cursive;">Haiwan Ladang</h2>
+                <p style="color: #444; font-weight: 700; font-size: 0.9rem;" id="animal-flash-progress">Animal 1 of 14</p>
+
+                <div class="flashcard-box">
+                    <div class="flashcard-img-container" style="width: 220px; height: 220px;">
+                        <img id="animal-flash-image" src="" alt="Animal Image">
+                    </div>
+                    <div class="flashcard-text" id="animal-flash-name-bm" style="color: #5E17EB; font-size: 2rem;">Lembu</div>
+                    <div style="font-size: 1.3rem; font-weight: 700; color: #777; margin-top: -5px;" id="animal-flash-name-en">Cow</div>
+                    <button class="sound-btn" onclick="playAnimalFlashSound()">🔊 Listen / Dengar</button>
+                </div>
+
+                <div class="flashcard-nav">
+                    <button class="action-btn" style="background-color: #E74C3C; box-shadow: 0 5px 0 #922B21, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); prevAnimalFlash() " id="prev-animal-btn">⬅ Prev</button>
+                    <button class="action-btn home-btn" onclick="playClickSound(); openLearnAnimalCategoryScreen()">Back ↩️</button>
+                    <button class="action-btn" style="background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); nextAnimalFlash()" id="next-animal-btn">Next ➡</button>
+                </div>
+            </div>
+
+            <!-- MATCH ANIMAL SET SELECTION SCREEN -->
+            <div id="match-animal-count-screen" class="card">
+                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">Match the Animal 🖼️</h2>
+                <p style="color: #444; font-weight: 700; margin-top: 5px;">Select how many pages/sets you want to play:</p>
+                
+                <div class="question-count-grid">
+                    <button class="count-btn" onclick="playClickSound(); startMatchAnimal(5)">5 Sets</button>
+                    <button class="count-btn" onclick="playClickSound(); startMatchAnimal(10)">10 Sets</button>
+                    <button class="count-btn" onclick="playClickSound(); startMatchAnimal(15)">15 Sets</button>
+                    <button class="count-btn" onclick="playClickSound(); startMatchAnimal(20)">20 Sets</button>
+                </div>
+    
+                <br>
+                <button class="action-btn home-btn" onclick="playClickSound(); openAnimalMenu()">Back ↩️</button>
+            </div>
+
+            <!-- MATCH ANIMAL GAME SCREEN -->
+            <div id="match-animal-game-screen" class="card">
+                <div class="quiz-header">
+                    <span>Match Animal</span>
+                    <span>Page: <span id="match-animal-current-page">1</span>/<span id="match-animal-total-pages">5</span></span>
+                    <span>Score: <span id="match-animal-score">0</span></span>
+                </div>
+                <p style="font-weight: 700; color: #444; margin-bottom: 15px;" id="match-animal-instruction">Tarik garis (drag) dari Gambar Haiwan ke Nama Haiwan yang betul!</p>
+
+                <div class="match-wrapper" id="match-animal-wrapper">
+                    <canvas id="match-animal-canvas" class="match-canvas"></canvas>
+                    <div class="match-container">
+                        <div class="match-column" id="match-animal-left-column"></div>
+                        <div class="match-column" id="match-animal-right-column"></div>
+                    </div>
+                </div>
+
+                <div class="quiz-action-container" style="margin-top: 20px;">
+                    <button id="match-animal-next-btn" class="action-btn" style="display:none; background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); nextMatchAnimalPage()">Next Page ➔</button>
+                    <button class="action-btn home-btn" onclick="playClickSound(); openAnimalMenu()">Back ↩️</button>
+                </div>
+            </div>
+
+            <!-- FIND ANIMAL SET SELECTION SCREEN -->
+            <div id="find-animal-count-screen" class="card">
+                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">Find the Animal 🔍</h2>
+                <p style="color: #444; font-weight: 700; margin-top: 5px;">Select how many questions you want to play:</p>
+                
+                <div class="question-count-grid">
+                    <button class="count-btn" onclick="playClickSound(); startFindAnimal(5)">5 Sets</button>
+                    <button class="count-btn" onclick="playClickSound(); startFindAnimal(10)">10 Sets</button>
+                    <button class="count-btn" onclick="playClickSound(); startFindAnimal(15)">15 Sets</button>
+                    <button class="count-btn" onclick="playClickSound(); startFindAnimal(20)">20 Sets</button>
+                </div>
+    
+                <br>
+                <button class="action-btn home-btn" onclick="playClickSound(); openAnimalMenu()">Back ↩️</button>
+            </div>
+
+            <!-- FIND ANIMAL GAME SCREEN -->
+            <div id="find-animal-game-screen" class="card">
+                <div class="quiz-header">
+                    <span>Find the Animal</span>
+                    <span>Question: <span id="find-animal-q-num">1</span>/<span id="find-animal-total-q">5</span></span>
+                    <span>Score: <span id="find-animal-score">0</span></span>
+                </div>
+
+                <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px;">
+                    <div id="find-animal-question-text" class="question-box" style="margin: 0; width: 100%;">Yang mana satu Ayam?</div>
+                    <button class="sound-btn" style="padding: 10px; font-size: 1.1rem; margin-top: 0;" onclick="playFindAnimalQuestionAudio()">🔊</button>
+                </div>
+
+                <div class="find-animal-grid" id="find-animal-cards-container">
+                    <!-- 4 Animal Cards will be dynamically inserted -->
+                </div>
+
+                <div class="quiz-action-container">
+                    <button id="find-animal-next-btn" class="action-btn" style="display:none; background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d, 0 8px 20px rgba(0,0,0,0.15);" onclick="playClickSound(); nextFindAnimalQuestion()">Next Question ➔</button>
+                    <button class="action-btn home-btn" onclick="playClickSound(); openAnimalMenu()">Back ↩️</button>
+                </div>
             </div>
 
             <!-- MATCH LETTERS SET SELECTION SCREEN -->
@@ -1445,6 +1665,25 @@
                 showScreen("login-screen");
             }
         });
+
+        window.saveScoreToFirebase = async function(topicName, scorePercentage) {
+            if (!window.currentUserAuth || !window.activeProfile) return;
+            const uid = window.currentUserAuth.uid;
+            const now = new Date();
+            const timeString = now.toLocaleDateString() + " " + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            try {
+                const historyRef = push(ref(db, `users/${uid}/history`));
+                await set(historyRef, {
+                    profile: window.activeProfile,
+                    topic: topicName,
+                    score: scorePercentage + "%",
+                    time: timeString
+                });
+            } catch (err) {
+                console.error("Failed to save score:", err);
+            }
+        };
 
         window.handleLogin = async function() {
             const email = document.getElementById("login-email").value.trim();
@@ -1809,6 +2048,12 @@
                 document.getElementById("find-letter-menu-text").innerText = "Find the Letter";
                 document.getElementById("abc-back-home-btn").innerText = "Back to Home 🏠";
 
+                document.getElementById("animal-menu-title").innerText = "Animal Module 🦁";
+                document.getElementById("animal-menu-desc").innerText = "Choose an activity to explore the animal kingdom!";
+                document.getElementById("learn-animal-btn-text").innerText = "1) Learn Animal";
+                document.getElementById("match-animal-btn-text").innerText = "2) Match the Animal";
+                document.getElementById("find-animal-btn-text").innerText = "3) Find the Animal";
+
                 document.getElementById("match-count-title").innerText = "Match the Letters 🔠";
                 document.getElementById("match-count-desc").innerText = "Select how many pages/sets you want to play:";
                 document.getElementById("set-5-text").innerText = "5 Sets";
@@ -1897,6 +2142,12 @@
                 document.getElementById("find-letter-menu-text").innerText = "Cari Huruf";
                 document.getElementById("abc-back-home-btn").innerText = "Kembali ke Utama 🏠";
 
+                document.getElementById("animal-menu-title").innerText = "Modul Haiwan 🦁";
+                document.getElementById("animal-menu-desc").innerText = "Pilih aktiviti untuk meneroka alam haiwan!";
+                document.getElementById("learn-animal-btn-text").innerText = "1) Belajar Haiwan";
+                document.getElementById("match-animal-btn-text").innerText = "2) Suaikan Haiwan";
+                document.getElementById("find-animal-btn-text").innerText = "3) Cari Haiwan";
+
                 document.getElementById("match-count-title").innerText = "Suaikan Huruf 🔠";
                 document.getElementById("match-count-desc").innerText = "Pilih berapa banyak set yang anda mahu mainkan:";
                 document.getElementById("set-5-text").innerText = "5 Set";
@@ -1972,6 +2223,595 @@
             }
         }
 
+        // --- ANIMAL MODULE DATA & LOGIC ---
+        const animalMasterDatabase = [
+            // 1. Haiwan Ladang
+            { bm: "Lembu", en: "Cow", cat: "Haiwan Ladang", img: "https://images.unsplash.com/photo-1546445317-29f4545f9d52?w=400&q=80" },
+            { bm: "Kambing", en: "Goat", cat: "Haiwan Ladang", img: "https://images.unsplash.com/photo-1524024973431-2ad916746881?w=400&q=80" },
+            { bm: "Biri-biri", en: "Sheep", cat: "Haiwan Ladang", img: "https://images.unsplash.com/photo-1484557052118-f32bd25b45b5?w=400&q=80" },
+            { bm: "Kuda", en: "Horse", cat: "Haiwan Ladang", img: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=400&q=80" },
+            { bm: "Ayam", en: "Chicken", cat: "Haiwan Ladang", img: "https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=400&q=80" },
+            { bm: "Itik", en: "Duck", cat: "Haiwan Ladang", img: "https://images.unsplash.com/photo-1555852095-64e7428df0fa?w=400&q=80" },
+            { bm: "Angsa", en: "Goose", cat: "Haiwan Ladang", img: "https://images.unsplash.com/photo-1539719308119-dc291c11757a?w=400&q=80" },
+            { bm: "Arnab", en: "Rabbit", cat: "Haiwan Ladang", img: "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=400&q=80" },
+            { bm: "Babi", en: "Pig", cat: "Haiwan Ladang", img: "https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=400&q=80" },
+            { bm: "Kerbau", en: "Buffalo", cat: "Haiwan Ladang", img: "https://images.unsplash.com/photo-1551221013-1f7df2b1a134?w=400&q=80" },
+            { bm: "Keldai", en: "Donkey", cat: "Haiwan Ladang", img: "https://images.unsplash.com/photo-1551884170-09fb70a3a2ed?w=400&q=80" },
+            { bm: "Ayam belanda", en: "Turkey", cat: "Haiwan Ladang", img: "https://images.unsplash.com/photo-1574781330855-d0db8cc6a79c?w=400&q=80" },
+            { bm: "Alpaka", en: "Alpaca", cat: "Haiwan Ladang", img: "https://images.unsplash.com/photo-1563281577-a7be47e20db9?w=400&q=80" },
+            { bm: "Llama", en: "Llama", cat: "Haiwan Ladang", img: "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?w=400&q=80" },
+
+            // 2. Haiwan Liar
+            { bm: "Singa", en: "Lion", cat: "Haiwan Liar", img: "https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?w=400&q=80" },
+            { bm: "Harimau", en: "Tiger", cat: "Haiwan Liar", img: "https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?w=400&q=80" },
+            { bm: "Gajah", en: "Elephant", cat: "Haiwan Liar", img: "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=400&q=80" },
+            { bm: "Zirafah", en: "Giraffe", cat: "Haiwan Liar", img: "https://images.unsplash.com/photo-1547721064-da6cfb341d50?w=400&q=80" },
+            { bm: "Badak sumbu", en: "Rhinoceros", cat: "Haiwan Liar", img: "https://images.unsplash.com/photo-1535338454770-8be927b5a00b?w=400&q=80" },
+            { bm: "Kuda belang", en: "Zebra", cat: "Haiwan Liar", img: "https://images.unsplash.com/photo-1501705388883-4ed8a543392c?w=400&q=80" },
+            { bm: "Beruang", en: "Bear", cat: "Haiwan Liar", img: "https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?w=400&q=80" },
+            { bm: "Serigala", en: "Wolf", cat: "Haiwan Liar", img: "https://images.unsplash.com/photo-1564466809058-bf4114d55352?w=400&q=80" },
+            { bm: "Musang", en: "Fox", cat: "Haiwan Liar", img: "https://images.unsplash.com/photo-1474511329673-611b08492021?w=400&q=80" },
+            { bm: "Rusa", en: "Deer", cat: "Haiwan Liar", img: "https://images.unsplash.com/photo-1484406566174-9da000fda645?w=400&q=80" },
+            { bm: "Kanggaru", en: "Kangaroo", cat: "Haiwan Liar", img: "https://images.unsplash.com/photo-1526095179574-86e5458421e3?w=400&q=80" },
+            { bm: "Panda", en: "Panda", cat: "Haiwan Liar", img: "https://images.unsplash.com/photo-1564349683136-77e08dba1ef9?w=400&q=80" },
+            { bm: "Koala", en: "Koala", cat: "Haiwan Liar", img: "https://images.unsplash.com/photo-1459257831348-f0cdd359235f?w=400&q=80" },
+            { bm: "Gorila", en: "Gorilla", cat: "Haiwan Liar", img: "https://images.unsplash.com/photo-1535083783855-76ae62b2914e?w=400&q=80" },
+            { bm: "Cheetah", en: "Cheetah", cat: "Haiwan Liar", img: "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&q=80" },
+            { bm: "Leopard", en: "Leopard", cat: "Haiwan Liar", img: "https://images.unsplash.com/photo-1456926631375-92c8ce872def?w=400&q=80" },
+            { bm: "Hyena", en: "Hyena", cat: "Haiwan Liar", img: "https://images.unsplash.com/photo-1582298538104-fe2e74c27f59?w=400&q=80" },
+            { bm: "Unta", en: "Camel", cat: "Haiwan Liar", img: "https://images.unsplash.com/photo-1558236714-d118743b8059?w=400&q=80" },
+            { bm: "Yak", en: "Yak", cat: "Haiwan Liar", img: "https://images.unsplash.com/photo-1549480017-d76466a4b7e8?w=400&q=80" },
+
+            // 3. Haiwan Hutan
+            { bm: "Monyet", en: "Monkey", cat: "Haiwan Hutan", img: "https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?w=400&q=80" },
+            { bm: "Orang utan", en: "Orangutan", cat: "Haiwan Hutan", img: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=400&q=80" },
+            { bm: "Cimpanzi", en: "Chimpanzee", cat: "Haiwan Hutan", img: "https://images.unsplash.com/photo-1516571748831-5d81767bfa88?w=400&q=80" },
+            { bm: "Jaguar", en: "Jaguar", cat: "Haiwan Hutan", img: "https://images.unsplash.com/photo-1520637836862-246a4e320f77?w=400&q=80" },
+            { bm: "Sloth", en: "Sloth", cat: "Haiwan Hutan", img: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=400&q=80" },
+            { bm: "Tapir", en: "Tapir", cat: "Haiwan Hutan", img: "https://images.unsplash.com/photo-1562911791-c7a97b729ec5?w=400&q=80" },
+            { bm: "Lemur", en: "Lemur", cat: "Haiwan Hutan", img: "https://images.unsplash.com/photo-1563720223185-11003d516935?w=400&q=80" },
+            { bm: "Panda merah", en: "Red Panda", cat: "Haiwan Hutan", img: "https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=400&q=80" },
+            { bm: "Tupai", en: "Squirrel", cat: "Haiwan Hutan", img: "https://images.unsplash.com/photo-1504006833117-8886a355efbf?w=400&q=80" },
+            { bm: "Landak", en: "Porcupine", cat: "Haiwan Hutan", img: "https://images.unsplash.com/photo-1584447128309-b66b7a4d1b63?w=400&q=80" },
+            { bm: "Kelawar", en: "Bat", cat: "Haiwan Hutan", img: "https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?w=400&q=80" },
+
+            // 4. Haiwan Laut & Air
+            { bm: "Ikan", en: "Fish", cat: "Haiwan Laut & Air", img: "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=400&q=80" },
+            { bm: "Jerung", en: "Shark", cat: "Haiwan Laut & Air", img: "https://images.unsplash.com/photo-1560275619-4662e36fa65c?w=400&q=80" },
+            { bm: "Ikan paus", en: "Whale", cat: "Haiwan Laut & Air", img: "https://images.unsplash.com/photo-1568430460464-02c35832a84a?w=400&q=80" },
+            { bm: "Lumba-lumba", en: "Dolphin", cat: "Haiwan Laut & Air", img: "https://images.unsplash.com/photo-1570481662006-a3a1374699e8?w=400&q=80" },
+            { bm: "Sotong", en: "Squid", cat: "Haiwan Laut & Air", img: "https://images.unsplash.com/photo-1545671913-b89ac1b4ac10?w=400&q=80" },
+            { bm: "Kurita", en: "Octopus", cat: "Haiwan Laut & Air", img: "https://images.unsplash.com/photo-1545671913-b89ac1b4ac10?w=400&q=80" },
+            { bm: "Ketam", en: "Crab", cat: "Haiwan Laut & Air", img: "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=400&q=80" },
+            { bm: "Udang", en: "Shrimp", cat: "Haiwan Laut & Air", img: "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=400&q=80" },
+            { bm: "Lobster", en: "Lobster", cat: "Haiwan Laut & Air", img: "https://images.unsplash.com/photo-1551248429-40975aa4de74?w=400&q=80" },
+            { bm: "Obor-obor", en: "Jellyfish", cat: "Haiwan Laut & Air", img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&q=80" },
+            { bm: "Tapak sulaiman", en: "Starfish", cat: "Haiwan Laut & Air", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80" },
+            { bm: "Kuda laut", en: "Seahorse", cat: "Haiwan Laut & Air", img: "https://images.unsplash.com/photo-1533713692156-f70938dc0d54?w=400&q=80" },
+            { bm: "Pari", en: "Stingray", cat: "Haiwan Laut & Air", img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&q=80" },
+            { bm: "Belut", en: "Eel", cat: "Haiwan Laut & Air", img: "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=400&q=80" },
+            { bm: "Kerang", en: "Clam", cat: "Haiwan Laut & Air", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80" },
+            { bm: "Tiram", en: "Oyster", cat: "Haiwan Laut & Air", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80" },
+            { bm: "Anjing laut", en: "Seal", cat: "Haiwan Laut & Air", img: "https://images.unsplash.com/photo-1551248429-40975aa4de74?w=400&q=80" },
+            { bm: "Walrus", en: "Walrus", cat: "Haiwan Laut & Air", img: "https://images.unsplash.com/photo-1551248429-40975aa4de74?w=400&q=80" },
+            { bm: "Penguin", en: "Penguin", cat: "Haiwan Laut & Air", img: "https://images.unsplash.com/photo-1598439210625-5067c578f3f6?w=400&q=80" },
+
+            // 5. Reptilia
+            { bm: "Ular", en: "Snake", cat: "Reptilia", img: "https://images.unsplash.com/photo-1531386151447-fd76ad50012f?w=400&q=80" },
+            { bm: "Buaya", en: "Crocodile", cat: "Reptilia", img: "https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=400&q=80" },
+            { bm: "Aligator", en: "Alligator", cat: "Reptilia", img: "https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=400&q=80" },
+            { bm: "Cicak", en: "Lizard", cat: "Reptilia", img: "https://images.unsplash.com/photo-1504450758481-7338eba7524a?w=400&q=80" },
+            { bm: "Iguana", en: "Iguana", cat: "Reptilia", img: "https://images.unsplash.com/photo-1504450758481-7338eba7524a?w=400&q=80" },
+            { bm: "Bunglon", en: "Chameleon", cat: "Reptilia", img: "https://images.unsplash.com/photo-1504450758481-7338eba7524a?w=400&q=80" },
+            { bm: "Kura-kura", en: "Tortoise", cat: "Reptilia", img: "https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?w=400&q=80" },
+            { bm: "Penyu", en: "Turtle", cat: "Reptilia", img: "https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?w=400&q=80" },
+            { bm: "Komodo", en: "Komodo Dragon", cat: "Reptilia", img: "https://images.unsplash.com/photo-1504450758481-7338eba7524a?w=400&q=80" },
+            { bm: "Tokek", en: "Gecko", cat: "Reptilia", img: "https://images.unsplash.com/photo-1504450758481-7338eba7524a?w=400&q=80" },
+
+            // 6. Serangga
+            { bm: "Semut", en: "Ant", cat: "Serangga", img: "https://images.unsplash.com/photo-1588612166861-1a0e0a526684?w=400&q=80" },
+            { bm: "Lebah", en: "Bee", cat: "Serangga", img: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400&q=80" },
+            { bm: "Rama-rama", en: "Butterfly", cat: "Serangga", img: "https://images.unsplash.com/photo-1551244072-5d12893278ab?w=400&q=80" },
+            { bm: "Kupu-kupu malam", en: "Moth", cat: "Serangga", img: "https://images.unsplash.com/photo-1551244072-5d12893278ab?w=400&q=80" },
+            { bm: "Belalang", en: "Grasshopper", cat: "Serangga", img: "https://images.unsplash.com/photo-1502134249126-9f3755a50d78?w=400&q=80" },
+            { bm: "Jangkrik", en: "Cricket", cat: "Serangga", img: "https://images.unsplash.com/photo-1502134249126-9f3755a50d78?w=400&q=80" },
+            { bm: "Pepatung", en: "Dragonfly", cat: "Serangga", img: "https://images.unsplash.com/photo-1502134249126-9f3755a50d78?w=400&q=80" },
+            { bm: "Nyamuk", en: "Mosquito", cat: "Serangga", img: "https://images.unsplash.com/photo-1588612166861-1a0e0a526684?w=400&q=80" },
+            { bm: "Lalat", en: "Fly", cat: "Serangga", img: "https://images.unsplash.com/photo-1588612166861-1a0e0a526684?w=400&q=80" },
+            { bm: "Lipas", en: "Cockroach", cat: "Serangga", img: "https://images.unsplash.com/photo-1588612166861-1a0e0a526684?w=400&q=80" },
+            { bm: "Kumbang", en: "Beetle", cat: "Serangga", img: "https://images.unsplash.com/photo-1502134249126-9f3755a50d78?w=400&q=80" },
+            { bm: "Kumbang kura-kura", en: "Ladybug", cat: "Serangga", img: "https://images.unsplash.com/photo-1563281577-a7be47e20db9?w=400&q=80" },
+            { bm: "Ulat", en: "Caterpillar", cat: "Serangga", img: "https://images.unsplash.com/photo-1551244072-5d12893278ab?w=400&q=80" },
+            { bm: "Labah-labah", en: "Spider", cat: "Serangga", img: "https://images.unsplash.com/photo-1588612166861-1a0e0a526684?w=400&q=80" },
+            { bm: "Kala jengking", en: "Scorpion", cat: "Serangga", img: "https://images.unsplash.com/photo-1588612166861-1a0e0a526684?w=400&q=80" },
+            { bm: "Cacing", en: "Worm", cat: "Serangga", img: "https://images.unsplash.com/photo-1588612166861-1a0e0a526684?w=400&q=80" },
+            { bm: "Anai-anai", en: "Termite", cat: "Serangga", img: "https://images.unsplash.com/photo-1588612166861-1a0e0a526684?w=400&q=80" },
+            { bm: "Pepijat", en: "Bug", cat: "Serangga", img: "https://images.unsplash.com/photo-1588612166861-1a0e0a526684?w=400&q=80" },
+
+            // 7. Burung
+            { bm: "Burung helang", en: "Eagle", cat: "Burung", img: "https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=400&q=80" },
+            { bm: "Burung hantu", en: "Owl", cat: "Burung", img: "https://images.unsplash.com/photo-1579202673506-ca3ce28943ef?w=400&q=80" },
+            { bm: "Burung kakak tua", en: "Parrot", cat: "Burung", img: "https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=400&q=80" },
+            { bm: "Burung merpati", en: "Pigeon", cat: "Burung", img: "https://images.unsplash.com/photo-1522926193341-e9ffd686c60f?w=400&q=80" },
+            { bm: "Burung gagak", en: "Crow", cat: "Burung", img: "https://images.unsplash.com/photo-1522926193341-e9ffd686c60f?w=400&q=80" },
+            { bm: "Burung pipit", en: "Sparrow", cat: "Burung", img: "https://images.unsplash.com/photo-1522926193341-e9ffd686c60f?w=400&q=80" },
+            { bm: "Burung flamingo", en: "Flamingo", cat: "Burung", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80" },
+            { bm: "Burung merak", en: "Peacock", cat: "Burung", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400&q=80" },
+            { bm: "Burung unta", en: "Ostrich", cat: "Burung", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400&q=80" },
+            { bm: "Burung kenari", en: "Canary", cat: "Burung", img: "https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=400&q=80" },
+            { bm: "Burung pelikan", en: "Pelican", cat: "Burung", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400&q=80" },
+            { bm: "Burung bangau", en: "Stork", cat: "Burung", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400&q=80" },
+            { bm: "Burung camar", en: "Seagull", cat: "Burung", img: "https://images.unsplash.com/photo-1522926193341-e9ffd686c60f?w=400&q=80" },
+            { bm: "Burung toucan", en: "Toucan", cat: "Burung", img: "https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=400&q=80" },
+
+            // 8. Amfibia
+            { bm: "Katak", en: "Frog", cat: "Amfibia", img: "https://images.unsplash.com/photo-1559253664-ca249d4608c6?w=400&q=80" },
+            { bm: "Kodok", en: "Toad", cat: "Amfibia", img: "https://images.unsplash.com/photo-1559253664-ca249d4608c6?w=400&q=80" },
+            { bm: "Salamander", en: "Salamander", cat: "Amfibia", img: "https://images.unsplash.com/photo-1559253664-ca249d4608c6?w=400&q=80" },
+            { bm: "Newt", en: "Newt", cat: "Amfibia", img: "https://images.unsplash.com/photo-1559253664-ca249d4608c6?w=400&q=80" },
+            { bm: "Axolotl", en: "Axolotl", cat: "Amfibia", img: "https://images.unsplash.com/photo-1559253664-ca249d4608c6?w=400&q=80" },
+
+            // 9. Haiwan Peliharaan
+            { bm: "Kucing", en: "Cat", cat: "Haiwan Peliharaan", img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&q=80" },
+            { bm: "Anjing", en: "Dog", cat: "Haiwan Peliharaan", img: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400&q=80" },
+            { bm: "Hamster", en: "Hamster", cat: "Haiwan Peliharaan", img: "https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=400&q=80" },
+            { bm: "Ikan emas", en: "Goldfish", cat: "Haiwan Peliharaan", img: "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=400&q=80" },
+            { bm: "Guinea pig", en: "Guinea Pig", cat: "Haiwan Peliharaan", img: "https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=400&q=80" },
+            { bm: "Ferret", en: "Ferret", cat: "Haiwan Peliharaan", img: "https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=400&q=80" },
+
+            // 10. Haiwan Unik / Menarik
+            { bm: "Platipus", en: "Platypus", cat: "Haiwan Unik / Menarik", img: "https://images.unsplash.com/photo-1563281577-a7be47e20db9?w=400&q=80" },
+            { bm: "Tenggiling", en: "Pangolin", cat: "Haiwan Unik / Menarik", img: "https://images.unsplash.com/photo-1563281577-a7be47e20db9?w=400&q=80" },
+            { bm: "Anteater", en: "Anteater", cat: "Haiwan Unik / Menarik", img: "https://images.unsplash.com/photo-1563281577-a7be47e20db9?w=400&q=80" },
+            { bm: "Meerkat", en: "Meerkat", cat: "Haiwan Unik / Menarik", img: "https://images.unsplash.com/photo-1563281577-a7be47e20db9?w=400&q=80" },
+            { bm: "Narwhal", en: "Narwhal", cat: "Haiwan Unik / Menarik", img: "https://images.unsplash.com/photo-1568430460464-02c35832a84a?w=400&q=80" },
+            { bm: "Capybara", en: "Capybara", cat: "Haiwan Unik / Menarik", img: "https://images.unsplash.com/photo-1563281577-a7be47e20db9?w=400&q=80" },
+            { bm: "Wombat", en: "Wombat", cat: "Haiwan Unik / Menarik", img: "https://images.unsplash.com/photo-1563281577-a7be47e20db9?w=400&q=80" },
+            { bm: "Echidna", en: "Echidna", cat: "Haiwan Unik / Menarik", img: "https://images.unsplash.com/photo-1563281577-a7be47e20db9?w=400&q=80" },
+            { bm: "Armadillo", en: "Armadillo", cat: "Haiwan Unik / Menarik", img: "https://images.unsplash.com/photo-1563281577-a7be47e20db9?w=400&q=80" },
+            { bm: "Aye-aye", en: "Aye-aye", cat: "Haiwan Unik / Menarik", img: "https://images.unsplash.com/photo-1563281577-a7be47e20db9?w=400&q=80" }
+        ];
+
+        const animalCategories = [
+            { id: "Haiwan Ladang", label: "🐮 1. Haiwan Ladang" },
+            { id: "Haiwan Liar", label: "🦁 2. Haiwan Liar" },
+            { id: "Haiwan Hutan", label: "🐒 3. Haiwan Hutan" },
+            { id: "Haiwan Laut & Air", label: "🐠 4. Haiwan Laut & Air" },
+            { id: "Reptilia", label: "🐊 5. Reptilia" },
+            { id: "Serangga", label: "🦋 6. Serangga" },
+            { id: "Burung", label: "🦅 7. Burung" },
+            { id: "Amfibia", label: "🐸 8. Amfibia" },
+            { id: "Haiwan Peliharaan", label: "🐕 9. Haiwan Peliharaan" },
+            { id: "Haiwan Unik / Menarik", label: "🦓 10. Haiwan Unik" }
+        ];
+
+        function openAnimalMenu() {
+            showScreen('animal-menu-screen');
+        }
+
+        // 1. LEARN ANIMAL LOGIC
+        let currentLearnAnimalList = [];
+        let currentLearnAnimalIdx = 0;
+        let currentCategoryTitle = "";
+
+        function openLearnAnimalCategoryScreen() {
+            const container = document.getElementById("animal-categories-container");
+            container.innerHTML = "";
+
+            animalCategories.forEach(cat => {
+                const btn = document.createElement("button");
+                btn.className = "animal-cat-btn";
+                btn.innerText = cat.label;
+                btn.onclick = () => {
+                    playClickSound();
+                    startLearnAnimalCategory(cat.id, cat.label);
+                };
+                container.appendChild(btn);
+            });
+
+            showScreen('learn-animal-cat-screen');
+        }
+
+        function startLearnAnimalCategory(catId, catLabel) {
+            currentCategoryTitle = catLabel;
+            currentLearnAnimalList = animalMasterDatabase.filter(a => a.cat === catId);
+            currentLearnAnimalIdx = 0;
+            showScreen('learn-animal-flash-screen');
+            renderAnimalFlashcard();
+        }
+
+        function renderAnimalFlashcard() {
+            const item = currentLearnAnimalList[currentLearnAnimalIdx];
+            document.getElementById("animal-cat-display-title").innerText = currentCategoryTitle;
+            document.getElementById("animal-flash-progress").innerText = `Animal ${currentLearnAnimalIdx + 1} of ${currentLearnAnimalList.length}`;
+            document.getElementById("animal-flash-image").src = item.img;
+            document.getElementById("animal-flash-name-bm").innerText = item.bm;
+            document.getElementById("animal-flash-name-en").innerText = item.en;
+
+            document.getElementById("prev-animal-btn").style.display = currentLearnAnimalIdx === 0 ? "none" : "inline-block";
+            document.getElementById("next-animal-btn").innerText = currentLearnAnimalIdx === currentLearnAnimalList.length - 1 ? (currentGlobalLang === 'en' ? "Finish 🏁" : "Tamat 🏁") : "Next ➡";
+            
+            playAnimalFlashSound();
+        }
+
+        function playAnimalFlashSound() {
+            const item = currentLearnAnimalList[currentLearnAnimalIdx];
+            const textToSpeak = currentGlobalLang === 'en' ? item.en : item.bm;
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                utterance.lang = currentGlobalLang === 'en' ? 'en-US' : 'ms-MY';
+                utterance.rate = 0.8;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function nextAnimalFlash() {
+            if (currentLearnAnimalIdx < currentLearnAnimalList.length - 1) {
+                currentLearnAnimalIdx++;
+                renderAnimalFlashcard();
+            } else {
+                alert(currentGlobalLang === 'en' ? "Great job completing this category! 🎉" : "Syabas! Anda telah melengkapkan kategori ini! 🎉");
+                openLearnAnimalCategoryScreen();
+            }
+        }
+
+        function prevAnimalFlash() {
+            if (currentLearnAnimalIdx > 0) {
+                currentLearnAnimalIdx--;
+                renderAnimalFlashcard();
+            }
+        }
+
+        // 2. MATCH THE ANIMAL LOGIC
+        let matchAnimalPagesCount = 5;
+        let currentMatchAnimalPageIdx = 0;
+        let matchAnimalGameData = [];
+        let matchAnimalScoreCount = 0;
+
+        let activeDragAnimal = null;
+        let isDraggingAnimal = false;
+        let dragAnimalX = 0;
+        let dragAnimalY = 0;
+        let completedAnimalLines = [];
+        let matchedAnimalPairsInPage = 0;
+
+        function openMatchAnimalCountScreen() {
+            showScreen('match-animal-count-screen');
+        }
+
+        function startMatchAnimal(setCount) {
+            matchAnimalPagesCount = setCount;
+            currentMatchAnimalPageIdx = 0;
+            matchAnimalScoreCount = 0;
+
+            let shuffledList = [...animalMasterDatabase].sort(() => 0.5 - Math.random());
+            matchAnimalGameData = [];
+
+            let totalItemsNeeded = setCount * 4; // 4 items per match page
+            let selectedSubset = shuffledList.slice(0, totalItemsNeeded);
+
+            for (let i = 0; i < setCount; i++) {
+                let pageItems = selectedSubset.slice(i * 4, (i + 1) * 4);
+                matchAnimalGameData.push(pageItems);
+            }
+
+            showScreen('match-animal-game-screen');
+            setTimeout(initMatchAnimalEvents, 100);
+            loadMatchAnimalPage();
+        }
+
+        function resizeAnimalCanvas() {
+            const canvas = document.getElementById("match-animal-canvas");
+            const wrapper = document.getElementById("match-animal-wrapper");
+            if (canvas && wrapper) {
+                canvas.width = wrapper.clientWidth;
+                canvas.height = wrapper.clientHeight;
+                redrawAnimalCanvas();
+            }
+        }
+
+        window.addEventListener("resize", resizeAnimalCanvas);
+
+        function initMatchAnimalEvents() {
+            const wrapper = document.getElementById("match-animal-wrapper");
+            if (!wrapper) return;
+
+            wrapper.addEventListener("pointerdown", handleAnimalPointerDown);
+            wrapper.addEventListener("pointermove", handleAnimalPointerMove);
+            wrapper.addEventListener("pointerup", handleAnimalPointerUp);
+            wrapper.addEventListener("pointercancel", handleAnimalPointerUp);
+            resizeAnimalCanvas();
+        }
+
+        function loadMatchAnimalPage() {
+            matchedAnimalPairsInPage = 0;
+            completedAnimalLines = [];
+            activeDragAnimal = null;
+            isDraggingAnimal = false;
+
+            document.getElementById("match-animal-current-page").innerText = currentMatchAnimalPageIdx + 1;
+            document.getElementById("match-animal-total-pages").innerText = matchAnimalPagesCount;
+            document.getElementById("match-animal-score").innerText = matchAnimalScoreCount;
+            document.getElementById("match-animal-next-btn").style.display = "none";
+
+            const currentItems = matchAnimalGameData[currentMatchAnimalPageIdx];
+            
+            const leftCol = document.getElementById("match-animal-left-column");
+            const rightCol = document.getElementById("match-animal-right-column");
+            leftCol.innerHTML = "";
+            rightCol.innerHTML = "";
+
+            let randomizedLeft = [...currentItems].sort(() => 0.5 - Math.random());
+            let randomizedRight = [...currentItems].sort(() => 0.5 - Math.random());
+
+            randomizedLeft.forEach(item => {
+                const div = document.createElement("div");
+                div.className = "match-item";
+                div.innerHTML = `<img src="${item.img}" alt="${item.bm}">`;
+                div.dataset.id = item.bm;
+                div.dataset.side = "left";
+                leftCol.appendChild(div);
+            });
+
+            randomizedRight.forEach(item => {
+                const div = document.createElement("div");
+                div.className = "match-item";
+                div.innerText = currentGlobalLang === 'en' ? item.en : item.bm;
+                div.dataset.id = item.bm;
+                div.dataset.side = "right";
+                rightCol.appendChild(div);
+            });
+
+            setTimeout(resizeAnimalCanvas, 50);
+        }
+
+        function handleAnimalPointerDown(e) {
+            const target = e.target.closest('.match-item');
+            if (!target || target.classList.contains("matched")) return;
+
+            if (target.dataset.side === "left") {
+                playClickSound();
+                activeDragAnimal = target;
+                isDraggingAnimal = true;
+                target.classList.add("selected");
+                
+                const wrapper = document.getElementById("match-animal-wrapper").getBoundingClientRect();
+                dragAnimalX = e.clientX - wrapper.left;
+                dragAnimalY = e.clientY - wrapper.top;
+                
+                redrawAnimalCanvas();
+            }
+        }
+
+        function handleAnimalPointerMove(e) {
+            if (!isDraggingAnimal || !activeDragAnimal) return;
+            e.preventDefault();
+
+            const wrapper = document.getElementById("match-animal-wrapper").getBoundingClientRect();
+            dragAnimalX = e.clientX - wrapper.left;
+            dragAnimalY = e.clientY - wrapper.top;
+
+            redrawAnimalCanvas();
+        }
+
+        function handleAnimalPointerUp(e) {
+            if (!isDraggingAnimal || !activeDragAnimal) return;
+
+            const elementUnderPointer = document.elementFromPoint(e.clientX, e.clientY);
+            const targetRightItem = elementUnderPointer ? elementUnderPointer.closest('.match-item') : null;
+
+            activeDragAnimal.classList.remove("selected");
+
+            if (targetRightItem && targetRightItem.dataset.side === "right" && !targetRightItem.classList.contains("matched")) {
+                const leftId = activeDragAnimal.dataset.id;
+                const rightId = targetRightItem.dataset.id;
+
+                if (leftId === rightId) {
+                    playCorrectSound();
+                    matchAnimalScoreCount += 10;
+                    document.getElementById("match-animal-score").innerText = matchAnimalScoreCount;
+
+                    activeDragAnimal.classList.add("matched");
+                    targetRightItem.classList.add("matched");
+
+                    completedAnimalLines.push({
+                        from: activeDragAnimal,
+                        to: targetRightItem
+                    });
+
+                    matchedAnimalPairsInPage++;
+
+                    if (matchedAnimalPairsInPage === 4) {
+                        if (currentMatchAnimalPageIdx < matchAnimalPagesCount - 1) {
+                            document.getElementById("match-animal-next-btn").style.display = "inline-block";
+                        } else {
+                            setTimeout(() => {
+                                const finalPercent = 100;
+                                window.saveScoreToFirebase("Match Animal", finalPercent);
+                                alert(currentGlobalLang === 'en' ? "🌟 Amazing! You completed all animal match sets!" : "🌟 Hebat! Anda telah melengkapkan semua set padanan haiwan!");
+                                openAnimalMenu();
+                            }, 500);
+                        }
+                    }
+                } else {
+                    playWrongSound();
+                    targetRightItem.style.backgroundColor = "#FF6B6B";
+                    setTimeout(() => {
+                        targetRightItem.style.backgroundColor = "white";
+                    }, 400);
+                }
+            }
+
+            activeDragAnimal = null;
+            isDraggingAnimal = false;
+            redrawAnimalCanvas();
+        }
+
+        function redrawAnimalCanvas() {
+            const canvas = document.getElementById("match-animal-canvas");
+            if (!canvas) return;
+            const ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            completedAnimalLines.forEach(line => {
+                const p1 = getItemCenter(line.from);
+                const p2 = getItemCenter(line.to);
+
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = "#7ED957"; 
+                ctx.lineWidth = 6;
+                ctx.lineCap = "round";
+                ctx.stroke();
+            });
+
+            if (isDraggingAnimal && activeDragAnimal) {
+                const p1 = getItemCenter(activeDragAnimal);
+
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(dragAnimalX, dragAnimalY);
+                ctx.strokeStyle = "#FF66C4"; 
+                ctx.lineWidth = 5;
+                ctx.lineCap = "round";
+                ctx.setLineDash([8, 6]);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+        }
+
+        function nextMatchAnimalPage() {
+            currentMatchAnimalPageIdx++;
+            loadMatchAnimalPage();
+        }
+
+        // 3. FIND THE ANIMAL LOGIC (NO REPEAT QUESTIONS)
+        let findAnimalTotalQuestions = 5;
+        let findAnimalCurrentIdx = 0;
+        let findAnimalScoreCount = 0;
+        let findAnimalQuestionsList = [];
+
+        function openFindAnimalCountScreen() {
+            showScreen('find-animal-count-screen');
+        }
+
+        function startFindAnimal(qCount) {
+            findAnimalTotalQuestions = qCount;
+            findAnimalCurrentIdx = 0;
+            findAnimalScoreCount = 0;
+
+            // Ensure distinct target animals for the chosen session
+            let shuffledMaster = [...animalMasterDatabase].sort(() => 0.5 - Math.random());
+            findAnimalQuestionsList = [];
+
+            for (let i = 0; i < qCount; i++) {
+                let targetAnimal = shuffledMaster[i];
+                let otherAnimalsPool = animalMasterDatabase.filter(a => a.bm !== targetAnimal.bm);
+                let distractorAnimals = [...otherAnimalsPool].sort(() => 0.5 - Math.random()).slice(0, 3);
+                
+                let options = [targetAnimal, ...distractorAnimals].sort(() => 0.5 - Math.random());
+
+                findAnimalQuestionsList.push({
+                    target: targetAnimal,
+                    options: options
+                });
+            }
+
+            showScreen('find-animal-game-screen');
+            loadFindAnimalQuestion();
+        }
+
+        function loadFindAnimalQuestion() {
+            const currentQ = findAnimalQuestionsList[findAnimalCurrentIdx];
+
+            document.getElementById("find-animal-q-num").innerText = findAnimalCurrentIdx + 1;
+            document.getElementById("find-animal-total-q").innerText = findAnimalTotalQuestions;
+            document.getElementById("find-animal-score").innerText = findAnimalScoreCount;
+            document.getElementById("find-animal-next-btn").style.display = "none";
+
+            const animalName = currentGlobalLang === 'en' ? currentQ.target.en : currentQ.target.bm;
+            const qText = currentGlobalLang === 'en' ? `Which one is the ${animalName}?` : `Yang mana satu ${animalName}?`;
+            document.getElementById("find-animal-question-text").innerText = qText;
+
+            playFindAnimalQuestionAudio();
+
+            const cardsContainer = document.getElementById("find-animal-cards-container");
+            cardsContainer.innerHTML = "";
+
+            currentQ.options.forEach(item => {
+                const card = document.createElement("div");
+                card.className = "animal-img-card";
+                card.innerHTML = `<img src="${item.img}" alt="${item.bm}">`;
+                card.onclick = () => handleFindAnimalClick(card, item, currentQ.target);
+                cardsContainer.appendChild(card);
+            });
+        }
+
+        function playFindAnimalQuestionAudio() {
+            const textToSpeak = document.getElementById("find-animal-question-text").innerText;
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                utterance.lang = currentGlobalLang === 'en' ? 'en-US' : 'ms-MY';
+                utterance.rate = 0.8;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function handleFindAnimalClick(cardElement, selectedItem, targetItem) {
+            const cards = document.querySelectorAll('.animal-img-card');
+            cards.forEach(c => c.style.pointerEvents = "none");
+
+            if (selectedItem.bm === targetItem.bm) {
+                playCorrectSound();
+                cardElement.style.borderColor = "#4CAF50";
+                cardElement.style.backgroundColor = "#E8F5E9";
+                findAnimalScoreCount += 10;
+                document.getElementById("find-animal-score").innerText = findAnimalScoreCount;
+
+                if (findAnimalCurrentIdx < findAnimalTotalQuestions - 1) {
+                    document.getElementById("find-animal-next-btn").style.display = "inline-block";
+                } else {
+                    setTimeout(() => {
+                        const finalPercent = Math.round((findAnimalScoreCount / (findAnimalTotalQuestions * 10)) * 100);
+                        window.saveScoreToFirebase("Find Animal", finalPercent);
+                        alert(currentGlobalLang === 'en' ? `🎉 Awesome job! Quiz finished with score ${finalPercent}%` : `🎉 Tahniah! Anda tamat kuiz dengan skor ${finalPercent}%`);
+                        openAnimalMenu();
+                    }, 800);
+                }
+            } else {
+                playWrongSound();
+                cardElement.style.borderColor = "#E53935";
+                cardElement.style.backgroundColor = "#FFEBEE";
+
+                cards.forEach(c => {
+                    const img = c.querySelector('img');
+                    if (img && img.alt === targetItem.bm) {
+                        c.style.borderColor = "#4CAF50";
+                        c.style.backgroundColor = "#E8F5E9";
+                    }
+                });
+
+                if (findAnimalCurrentIdx < findAnimalTotalQuestions - 1) {
+                    document.getElementById("find-animal-next-btn").style.display = "inline-block";
+                } else {
+                    setTimeout(() => {
+                        const finalPercent = Math.round((findAnimalScoreCount / (findAnimalTotalQuestions * 10)) * 100);
+                        window.saveScoreToFirebase("Find Animal", finalPercent);
+                        alert(currentGlobalLang === 'en' ? `Quiz finished! Score: ${finalPercent}%` : `Kuiz tamat! Skor anda: ${finalPercent}%`);
+                        openAnimalMenu();
+                    }, 1000);
+                }
+            }
+        }
+
+        function nextFindAnimalQuestion() {
+            findAnimalCurrentIdx++;
+            loadFindAnimalQuestion();
+        }
+
         // --- SISTEM MATCH THE LETTER (DRAG & SUAUKAN LINE DENGAN CANVAS) ---
         const alphabetList = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
         let matchPagesCount = 5;
@@ -2035,7 +2875,7 @@
         }
 
         function getItemCenter(element) {
-            const wrapper = document.getElementById("match-wrapper").getBoundingClientRect();
+            const wrapper = element.closest('.match-wrapper').getBoundingClientRect();
             const rect = element.getBoundingClientRect();
             return {
                 x: rect.left + rect.width / 2 - wrapper.left,
@@ -2172,7 +3012,6 @@
             const ctx = canvas.getContext("2d");
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Lukis Garis yang Dah Siap Suaikan
             completedLines.forEach(line => {
                 const p1 = getItemCenter(line.from);
                 const p2 = getItemCenter(line.to);
@@ -2186,7 +3025,6 @@
                 ctx.stroke();
             });
 
-            // Lukis Garis Semasa Jari/Tetikus Di-drag
             if (isDragging && activeDragItem) {
                 const p1 = getItemCenter(activeDragItem);
 
@@ -2317,15 +3155,64 @@
             loadFindRound();
         }
 
-        const abcDataEn = [
+      const abcDataEn = [
             { letter: "A", word: "Apple", image: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&q=80" },
+            { letter: "B", word: "Ball", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzqqP1XNEY7BWJfEGAvXCveg3uEB4nRlKTpVrTp2p9-Q&s=10" },
+            { letter: "C", word: "Cat", image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&q=80" },
+            { letter: "D", word: "Dog", image: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400&q=80" },
+            { letter: "E", word: "Elephant", image: "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=400&q=80" },
+            { letter: "F", word: "Fish", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqHStMH6A2CYnNaGF9t313zq12DR0li-nIs71790kfdg&s=10" },
+            { letter: "G", word: "Giraffe", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSi-DYB1Saa-dvMfeHz396pOyKNjwfxWly--okUiyWrA&s=10" },
+            { letter: "H", word: "Horse", image: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=400&q=80" },
+            { letter: "I", word: "Ice Cream", image: "https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=400&q=80" },
+            { letter: "J", word: "Jacket", image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&q=80" },
+            { letter: "K", word: "Kite", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6L4x73lHVAoFfE-lCtKZwUbIy_6BqLQdppMxBJ_ueMw&s=10" },
+            { letter: "L", word: "Lion", image: "https://cdn.britannica.com/29/150929-050-547070A1/lion-Kenya-Masai-Mara-National-Reserve.jpg" },
+            { letter: "M", word: "Monkey", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfQySG_NXWKVrUKpGwBHPLcJepC9tpqwHptZPED2sZ9Q&s=10" },
+            { letter: "N", word: "Nest", image: "https://th.bing.com/th/id/OIP.jm7sWf4LPgnLseu0aVbYzQHaEK?w=297&h=180&c=7&r=0&o=7&pid=1.7&rm=3" },
+            { letter: "O", word: "Orange", image: "https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=400&q=80" },
+            { letter: "P", word: "Pen", image: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=400&q=80" },
+            { letter: "Q", word: "Queen", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0FELO3LnPMWUBmdPjMoadJD_IvaShvUwdB9Uuog0uaw&s=10" },
+            { letter: "R", word: "Rabbit", image: "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=400&q=80" },
+            { letter: "S", word: "Sun", image: "https://www.astronomytrek.com/wp-content/uploads/2015/10/melissa-van-niekerk-x4NfG61O4B4-unsplash-678x381.jpg" },
+            { letter: "T", word: "Tree", image: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=400&q=80" },
+            { letter: "U", word: "Umbrella", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpzYmB6ekurha1Jx418E31t9vbtMsrA4utEFB3I4Bwzw&s=10" },
+            { letter: "V", word: "Violin", image: "https://images.unsplash.com/photo-1612225330812-01a9c6b355ec?w=400&q=80" },
+            { letter: "W", word: "Watch", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6G-EfCj_rcaR8BIN6Ck10KUy6RpY2XR1esbtZyqP4yA&s=10" },
+            { letter: "X", word: "Xylophone", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjhBAzI0iBxFtTuDqdepDYaHx8OEwdJCqbq5D_ZZYd2Q&s=10" },
+            { letter: "Y", word: "Yacht", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc-7ZXL6L-nCMB8t8j8kQOFIL_q7TXnWy7SoBeVXuXXA&s=10" },
             { letter: "Z", word: "Zebra", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHLc7lKNJcaeuPAz0Mjt57WKweWtOrG94uZiW8x-Juhw&s=10" }
         ];
 
         const abcDataMs = [
             { letter: "A", word: "Ayam", image: "https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=400&q=80" },
+            { letter: "B", word: "Bola", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzqqP1XNEY7BWJfEGAvXCveg3uEB4nRlKTpVrTp2p9-Q&s=10" },
+            { letter: "C", word: "Cicak", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbBGJe6EG0JRKjpIf5BwwnFV4oEYvqC9ISwNGUR0TGrw&s=10" },
+            { letter: "D", word: "Daun", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwUixR05-eA4VS-bTN8Nm3CbDvu8NePFz8-e1m50Y2Uw&s=10" },
+            { letter: "E", word: "Epal", image: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&q=80" },
+            { letter: "F", word: "Feri", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSI9MHiiRA2DHdslVcB0XOcV3yT1YuJAg_qQlaCq_guzg&s=10" },
+            { letter: "G", word: "Gajah", image: "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=400&q=80" },
+            { letter: "H", word: "Harimau", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRrTjSS7Pg6BQMN-vuU3IkRZNsVF7Nt0pFce_9Y6M5nQ&s=10" },
+            { letter: "I", word: "Ikan", image: "https://images.unsplash.com/photo-1524704654690-b56c05c78a00?w=400&q=80" },
+            { letter: "J", word: "Jam", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjtuxNpYsntoC6QH6rjs-FrTrXYF6ioEzk7Ox0fd8sEQ&s" },
+            { letter: "K", word: "Kucing", image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&q=80" },
+            { letter: "L", word: "Lembu", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD80OY9-tSFWY63bgbZ4Np2H9_wz7vfc0-aonwgpttdA&s=10" },
+            { letter: "M", word: "Monyet", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQp-6uNXDqeZZXN1Ze0rG-_29OMjE9wqcVW-Wi8X4oQ1w&s=10" },
+            { letter: "N", word: "Nenas", image: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=400&q=80" },
+            { letter: "O", word: "Oren", image: "https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=400&q=80" },
+            { letter: "P", word: "Paku", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPqNymyKdO69ZaHi434W_n2F2lRV5yStu1zLLMuIza9g&s" },
+            { letter: "Q", word: "Quran", image: "https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=400&q=80" },
+            { letter: "R", word: "Rusa", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP-4ElYYboy4ouKgmYaBWorZHmY1Kfp7muaG1edLzB4Q&s=10" },
+            { letter: "S", word: "Susu", image: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=80" },
+            { letter: "T", word: "Topi", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWSgTDG6SYKebRC_Ghg7FeRBzgOewZMDd7SgZgo4BZjQ&s=10" },
+            { letter: "U", word: "Ular", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQwpAuxfw1cf2J-I4bXcGWErwwoqcpm6jEoLzdI6YsNA&s=10" },
+            { letter: "V", word: "Van", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUe_PL0q1WDP_qdYc3vdWTBGwfIvCt5mCMxJAZYsObLg&s=10" },
+            { letter: "W", word: "Wisel", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpjXyyOzNNLUnfhrjOAtNMBa3wArG_GvMD6qlFGgV_zw&s=10" },
+            { letter: "X", word: "X-ray", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRldYR5r3iTYDnmdITJUUS6Uyy7cgXenayt-ygXZYFog&s=10" },
+            { letter: "Y", word: "Yoyo", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeyVfC2DMsRrnjJyI4FouJ23EylFztN1JSkG9geWOAWg&s=10" },
             { letter: "Z", word: "Zirafah", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFURJfb3h9KeTQ2tnK9z0yPJkf6J130IaHY5UNN4-J-g&s=10" }
         ];
+
 
         let currentABCIndex = 0;
 
@@ -2396,11 +3283,6 @@
                 title: "Number / Nombor",
                 desc: "Let's count numbers from 1 to 10 and beyond! Counting helps us understand quantity and math basics. / Mari mengira nombor dari 1 hingga 10 dan seterusnya!",
                 examples: "<ul><li>Numbers / Nombor: <i>1 (One / Satu), 2 (Two / Dua), 3 (Three / Tiga)...</i></li></ul>"
-            },
-            animal: {
-                title: "Animal / Haiwan",
-                desc: "Discover various animals found around the world, including farm animals, pets, and wild animals! / Kenali pelbagai jenis haiwan di sekeliling kita.",
-                examples: "<ul><li>Pets & Farm / Haiwan Peliharaan & Ternakan: <i>Cat/Kucing, Dog/Anjing, Cow/Lembu, Duck/Itik</i></li><li>Wild / Haiwan Liar: <i>Lion/Singa, Elephant/Gajah, Monkey/Monyet</i></li></ul>"
             },
             colour: {
                 title: "Colour / Warna",
