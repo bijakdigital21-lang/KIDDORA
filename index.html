@@ -2149,7 +2149,7 @@
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(textToSpeak);
                 utterance.lang = currentGlobalLang === 'en' ? 'en-US' : 'ms-MY';
-                utterance.rate = 0.3;
+                utterance.rate = 0.1;
                 window.speechSynthesis.speak(utterance);
             }
         }
@@ -2312,7 +2312,7 @@
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(textToSpeak);
                 utterance.lang = currentGlobalLang === 'en' ? 'en-US' : 'ms-MY';
-                utterance.rate = 0.3;
+                utterance.rate = 0.1;
                 window.speechSynthesis.speak(utterance);
             }
         }
