@@ -800,7 +800,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            width: 130px;
+            width: 180px;
         }
 
         #match-left-column {
@@ -811,30 +811,30 @@
             margin-left: auto;
         }
 
-        .match-item {
-            background: white;
-            border: 3px solid var(--primary-blue);
-            border-radius: 20px;
-            padding: 10px;
-            text-align: center;
-            font-family: 'Fredoka One', cursive;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: grab;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
-            touch-action: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 70px;
-        }
+    .match-item {
+    background: white;
+    border: 3px solid var(--primary-blue);
+    border-radius: 20px;
+    padding: 12px; /* Diubah daripada 10px untuk menambah ruang dalaman */
+    text-align: center;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem; /* Membesarkan sedikit saiz teks */
+    font-weight: bold;
+    cursor: grab;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
+    touch-action: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 90px; /* Diubah daripada 70px kepada 90px supaya kotak lebih tinggi */
+}
 
         .match-item img {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             object-fit: cover;
-            border-radius: 12px;
+            border-radius: 10px;
         }
 
         .match-item:hover {
