@@ -2225,6 +2225,9 @@
                 const instructionText = currentGlobalLang === 'en' ? `Find and put letter ${targetLetter} into the basket` : `Tolong masukkan huruf ${targetLetter} ke dalam bakul`;
                 document.getElementById("find-instruction-text").innerText = instructionText;
             }
+            if (document.getElementById("learn-animal-cat-screen").classList.contains("active")) {
+    openLearnAnimalCategoryScreen();
+}
         }
 
         // --- ANIMAL MODULE DATA & LOGIC ---
@@ -2376,17 +2379,17 @@
         ];
 
         const animalCategories = [
-            { id: "Haiwan Ladang", label: "🐮 Haiwan Ladang" },
-            { id: "Haiwan Liar", label: "🦁 Haiwan Liar" },
-            { id: "Haiwan Hutan", label: "🐒 Haiwan Hutan" },
-            { id: "Haiwan Laut & Air", label: "🐠 Haiwan Laut & Air" },
-            { id: "Reptilia", label: "🐊  Reptilia" },
-            { id: "Serangga", label: "🦋 Serangga" },
-            { id: "Burung", label: "🦅  Burung" },
-            { id: "Amfibia", label: "🐸 Amfibia" },
-            { id: "Haiwan Peliharaan", label: "🐕  Haiwan Peliharaan" },
-            { id: "Haiwan Unik / Menarik", label: "🦓 Haiwan Unik" }
-        ];
+            { id: "Haiwan Ladang", label: "🐮 Haiwan Ladang", label_en: "🐮 Farm Animals" },
+    { id: "Haiwan Liar", label: "🦁 Haiwan Liar", label_en: "🦁 Wild Animals" },
+    { id: "Haiwan Hutan", label: "🐒 Haiwan Hutan", label_en: "🐒 Jungle Animals" },
+    { id: "Haiwan Laut & Air", label: "🐠 Haiwan Laut & Air", label_en: "🐠 Sea & Water Animals" },
+    { id: "Reptilia", label: "🐊 Reptilia", label_en: "🐊 Reptiles" },
+    { id: "Serangga", label: "🦋 Serangga", label_en: "🦋 Insects" },
+    { id: "Burung", label: "🦅 Burung", label_en: "🦅 Birds" },
+    { id: "Amfibia", label: "🐸 Amfibia", label_en: "🐸 Amphibians" },
+    { id: "Haiwan Peliharaan", label: "🐕 Haiwan Peliharaan", label_en: "🐕 Pets" },
+    { id: "Haiwan Unik / Menarik", label: "ZE Haiwan Unik", label_en: "ZE Unique Animals" }
+];
 
         function openAnimalMenu() {
             showScreen('animal-menu-screen');
@@ -2397,23 +2400,27 @@
         let currentLearnAnimalIdx = 0;
         let currentCategoryTitle = "";
 
-        function openLearnAnimalCategoryScreen() {
-            const container = document.getElementById("animal-categories-container");
-            container.innerHTML = "";
+       function openLearnAnimalCategoryScreen() {
+    const container = document.getElementById("animal-categories-container");
+    container.innerHTML = "";
 
-            animalCategories.forEach(cat => {
-                const btn = document.createElement("button");
-                btn.className = "animal-cat-btn";
-                btn.innerText = cat.label;
-                btn.onclick = () => {
-                    playClickSound();
-                    startLearnAnimalCategory(cat.id, cat.label);
-                };
-                container.appendChild(btn);
-            });
+    animalCategories.forEach(cat => {
+        const btn = document.createElement("button");
+        btn.className = "animal-cat-btn";
+        
+        // Pilihan label mengikut bahasa yang dipilih (en atau ms)
+        btn.innerText = (currentGlobalLang === 'en') ? cat.label_en : cat.label;
+        
+        btn.onclick = () => {
+            playClickSound();
+            startLearnAnimalCategory(cat.id);
+        };
+        container.appendChild(btn);
+    });
 
-            showScreen('learn-animal-cat-screen');
-        }
+    showScreen("learn-animal-cat-screen");
+}
+
 
         function startLearnAnimalCategory(catId, catLabel) {
             currentCategoryTitle = catLabel;
