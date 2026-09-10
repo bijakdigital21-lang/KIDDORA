@@ -1423,6 +1423,31 @@
             }
         }
 
+        /* Desktop / tablet landscape: kecilkan Find the Animal sahaja */
+        @media (min-width: 769px) {
+            #find-animal-game-screen {
+                width: min(72vw, 680px);
+            }
+
+            #find-animal-game-screen .find-animal-grid {
+                max-width: 620px;
+                gap: 14px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        /* Skrin sangat lebar: elak gambar membesar berlebihan */
+        @media (min-width: 1200px) {
+            #find-animal-game-screen {
+                width: 650px;
+            }
+
+            #find-animal-game-screen .find-animal-grid {
+                max-width: 600px;
+            }
+        }
+
         /* STIL KATEGORI LEARN ANIMAL */
         .animal-cat-grid {
             display: grid;
