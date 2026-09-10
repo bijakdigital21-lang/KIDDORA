@@ -1054,138 +1054,291 @@
             cursor: default;
         }
 
-        .apple-tree-container {
+        /* =========================================================
+           FIND THE LETTER SAHAJA - POKOK EPAL BESAR + BAKUL
+           Fungsi modul lain dikekalkan.
+        ========================================================== */
+        #find-letter-screen .apple-tree-container {
             position: relative;
-            background: linear-gradient(to bottom, #87CEEB, #E0F7FA);
-            border: 4px solid #4CAF50;
-            border-radius: 20px;
-            padding: 15px;
-            margin: 15px 0;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            min-height: 380px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
+            width: min(100%, 700px);
+            min-height: 650px;
+            margin: 14px auto 18px;
+            padding: 0;
             overflow: hidden;
+            border: 4px solid #76c94f;
+            border-radius: 28px;
+            background:
+                radial-gradient(circle at 9% 10%, rgba(255,255,255,.96) 0 38px, transparent 40px),
+                radial-gradient(circle at 17% 11%, rgba(255,255,255,.9) 0 50px, transparent 52px),
+                radial-gradient(circle at 88% 14%, rgba(255,255,255,.9) 0 45px, transparent 47px),
+                linear-gradient(to bottom, #56c9f5 0 58%, #b9e980 58% 76%, #67c94e 76% 100%);
+            box-shadow: 0 12px 30px rgba(0,0,0,.18);
+            isolation: isolate;
         }
 
-        .tree-canopy {
+        /* bukit / rumput belakang */
+        #find-letter-screen .apple-tree-container::before {
+            content: '';
             position: absolute;
-            top: 10px;
-            width: 320px;
-            height: 220px;
-            background: #4CAF50;
-            border-radius: 50% 50% 40% 40%;
-            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.2);
+            left: -12%;
+            right: -12%;
+            bottom: 0;
+            height: 180px;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse at 20% 100%, #8bd55a 0 38%, transparent 39%),
+                radial-gradient(ellipse at 75% 100%, #72c84e 0 44%, transparent 45%),
+                linear-gradient(#7bd354, #43af3e);
+        }
+
+        /* batang pokok besar */
+        #find-letter-screen .tree-trunk {
+            position: absolute;
+            left: 50%;
+            top: 330px;
+            transform: translateX(-50%);
+            width: 105px;
+            height: 235px;
             z-index: 2;
+            border-radius: 42% 42% 18px 18px;
+            background:
+                linear-gradient(90deg, rgba(87,45,12,.28), transparent 18% 72%, rgba(87,45,12,.25)),
+                repeating-linear-gradient(98deg, #8b4d1f 0 8px, #a9632c 8px 16px, #7b3f16 16px 21px);
+            box-shadow: inset 0 0 18px rgba(70,32,8,.42), 0 8px 10px rgba(0,0,0,.18);
         }
 
-        .tree-trunk {
+        /* dahan kiri dan kanan */
+        #find-letter-screen .tree-trunk::before,
+        #find-letter-screen .tree-trunk::after {
+            content: '';
             position: absolute;
-            top: 190px;
-            width: 50px;
-            height: 110px;
-            background: #8D5524;
-            border-radius: 5px;
-            z-index: 1;
+            top: 18px;
+            width: 145px;
+            height: 34px;
+            border-radius: 30px;
+            background: #8d4b1c;
+            box-shadow: inset 0 0 8px rgba(70,32,8,.35);
         }
+        #find-letter-screen .tree-trunk::before { right: 55px; transform: rotate(-30deg); transform-origin: right center; }
+        #find-letter-screen .tree-trunk::after  { left: 55px; transform: rotate(30deg); transform-origin: left center; }
 
-        .apples-grid {
+        /* kanopi sangat besar seperti gambar rujukan */
+        #find-letter-screen .tree-canopy {
             position: absolute;
+            left: 50%;
             top: 20px;
-            width: 300px;
-            height: 200px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            gap: 5px;
+            transform: translateX(-50%);
+            width: 94%;
+            height: 405px;
             z-index: 3;
-            padding: 10px;
+            border-radius: 48% 52% 44% 46%;
+            background:
+                radial-gradient(circle at 16% 24%, #42b83a 0 72px, transparent 74px),
+                radial-gradient(circle at 31% 17%, #39a934 0 88px, transparent 90px),
+                radial-gradient(circle at 48% 19%, #58c947 0 105px, transparent 107px),
+                radial-gradient(circle at 67% 20%, #43b83a 0 94px, transparent 96px),
+                radial-gradient(circle at 83% 28%, #36a832 0 78px, transparent 80px),
+                radial-gradient(circle at 14% 54%, #2d9e2e 0 92px, transparent 94px),
+                radial-gradient(circle at 35% 53%, #3db23a 0 115px, transparent 117px),
+                radial-gradient(circle at 58% 52%, #2f9f30 0 120px, transparent 122px),
+                radial-gradient(circle at 80% 55%, #45b73c 0 100px, transparent 102px),
+                radial-gradient(circle at 28% 80%, #2f9d2f 0 100px, transparent 102px),
+                radial-gradient(circle at 55% 79%, #3daf37 0 112px, transparent 114px),
+                radial-gradient(circle at 76% 80%, #29932a 0 90px, transparent 92px),
+                #319f31;
+            filter: drop-shadow(0 12px 12px rgba(27,91,22,.28));
+        }
+
+        /* lapisan daun kecil untuk rasa lebih penuh */
+        #find-letter-screen .tree-canopy::after {
+            content: '';
+            position: absolute;
+            inset: 5%;
+            border-radius: inherit;
+            opacity: .5;
+            background-image:
+                radial-gradient(ellipse at 10% 20%, #83dc55 0 9px, transparent 10px),
+                radial-gradient(ellipse at 30% 45%, #68ce49 0 10px, transparent 11px),
+                radial-gradient(ellipse at 55% 28%, #92df58 0 9px, transparent 10px),
+                radial-gradient(ellipse at 76% 42%, #70d24c 0 10px, transparent 11px),
+                radial-gradient(ellipse at 88% 68%, #8bd958 0 9px, transparent 10px),
+                radial-gradient(ellipse at 45% 75%, #67c947 0 10px, transparent 11px);
+            background-size: 95px 80px, 110px 90px, 105px 88px, 92px 82px, 115px 94px, 100px 85px;
+        }
+
+        /* epal disusun merata atas pokok */
+        #find-letter-screen .apples-grid {
+            position: absolute;
+            left: 50%;
+            top: 62px;
+            transform: translateX(-50%);
+            width: 82%;
+            height: 320px;
+            z-index: 6;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 7px 12px;
+            padding: 0;
             align-items: center;
             justify-items: center;
         }
 
-        .apple-item {
-            width: 50px;
-            height: 50px;
-            background: radial-gradient(circle at 35% 35%, #FF5252, #C62828);
-            border-radius: 50% 50% 45% 45%;
+        #find-letter-screen .apple-item {
+            width: 68px;
+            height: 64px;
+            border-radius: 48% 48% 44% 44%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Fredoka One', cursive;
-            font-size: 1.4rem;
-            color: white;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            transition: all 0.2s;
             position: relative;
+            cursor: pointer;
+            user-select: none;
+            font-family: Arial, sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            line-height: 1;
+            color: #fff;
+            text-shadow: -2px -2px 0 #7a1212, 2px -2px 0 #7a1212, -2px 2px 0 #7a1212, 2px 2px 0 #7a1212;
+            background:
+                radial-gradient(circle at 31% 23%, rgba(255,255,255,.95) 0 5px, transparent 7px),
+                radial-gradient(circle at 42% 38%, #ff5a4f 0 27px, #ef2c22 49px, #b91412 100%);
+            border: 2px solid rgba(132,16,12,.48);
+            box-shadow: inset -7px -7px 9px rgba(130,0,0,.2), 0 6px 9px rgba(0,0,0,.28);
+            transition: transform .18s ease, opacity .24s ease, filter .18s ease;
         }
 
-        .apple-item::before {
+        /* tangkai */
+        #find-letter-screen .apple-item::before {
             content: '';
             position: absolute;
-            top: -4px;
-            left: 22px;
+            top: -10px;
+            left: 50%;
             width: 6px;
-            height: 8px;
-            background: #795548;
-            border-radius: 2px;
+            height: 15px;
+            border-radius: 4px;
+            background: #6f3c12;
+            transform: translateX(-50%) rotate(8deg);
+            z-index: -1;
         }
 
-        .apple-item:hover {
-            transform: scale(1.15);
+        /* daun epal */
+        #find-letter-screen .apple-item::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 53%;
+            width: 20px;
+            height: 11px;
+            border-radius: 100% 0 100% 0;
+            background: linear-gradient(135deg, #89d948, #2d9b32);
+            transform: rotate(-18deg);
+            z-index: -1;
         }
 
-        .apple-item.collected {
-            transform: scale(0);
+        #find-letter-screen .apple-item:hover { transform: scale(1.13) rotate(-3deg); filter: brightness(1.05); }
+        #find-letter-screen .apple-item:active { transform: scale(.94); }
+        #find-letter-screen .apple-item.collected {
+            transform: translateY(120px) scale(.15) rotate(18deg);
             opacity: 0;
             pointer-events: none;
         }
 
-        .basket-area {
-            margin-top: 210px;
-            background: #D7CCC8;
-            border: 3px dashed #8D5524;
-            border-radius: 0 0 25px 25px;
-            width: 220px;
-            height: 70px;
+        /* Bakul anyaman besar di bawah pokok */
+        #find-letter-screen .basket-area {
+            position: absolute;
+            left: 50%;
+            bottom: 24px;
+            transform: translateX(-50%);
+            width: 285px;
+            min-height: 108px;
+            z-index: 10;
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
-            padding: 8px;
+            align-content: center;
             align-items: center;
             justify-content: center;
-            z-index: 4;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            gap: 5px;
+            padding: 25px 22px 14px;
+            border: 5px solid #8e4e19;
+            border-radius: 20px 20px 52px 52px;
+            background:
+                repeating-linear-gradient(0deg, rgba(111,54,13,.24) 0 4px, transparent 4px 13px),
+                repeating-linear-gradient(90deg, #d9923e 0 12px, #b96a25 12px 17px, #e1a452 17px 29px);
+            box-shadow: inset 0 0 15px rgba(91,42,10,.3), 0 10px 18px rgba(0,0,0,.25);
         }
 
-        .basket-label {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #5d4037;
+        #find-letter-screen .basket-area::before {
+            content: '';
             position: absolute;
-            margin-top: -20px;
-            background: #fff;
-            padding: 2px 8px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            left: 34px;
+            right: 34px;
+            top: -54px;
+            height: 68px;
+            border: 10px solid #aa641f;
+            border-bottom: none;
+            border-radius: 70px 70px 0 0;
+            z-index: -1;
+            box-shadow: inset 0 0 0 3px #d99745;
         }
 
-        .basket-apple {
-            width: 32px;
-            height: 32px;
-            background: radial-gradient(circle at 35% 35%, #FF5252, #C62828);
-            border-radius: 50%;
+        #find-letter-screen .basket-label {
+            position: absolute;
+            left: 50%;
+            bottom: 70px;
+            transform: translateX(-50%);
+            z-index: 12;
+            margin: 0;
+            padding: 5px 14px;
+            border-radius: 9px;
+            background: #f4c978;
+            border: 2px solid #9b5b1e;
+            box-shadow: 0 3px 6px rgba(0,0,0,.18);
+            color: #66370f;
+            font-size: .9rem;
+            font-weight: 800;
+            pointer-events: none;
+        }
+
+        #find-letter-screen .basket-apple {
+            width: 39px;
+            height: 37px;
+            border-radius: 48% 48% 45% 45%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
-            font-family: 'Fredoka One', cursive;
+            font-family: Arial, sans-serif;
+            font-size: 1.08rem;
+            font-weight: 900;
             color: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            animation: popIn 0.3s ease;
+            text-shadow: 1px 1px 0 #74100f;
+            background: radial-gradient(circle at 35% 28%, #ff685f, #e9241d 70%, #b81311);
+            border: 1px solid #a91613;
+            box-shadow: 0 3px 6px rgba(0,0,0,.2);
+            animation: popIn .3s ease;
+        }
+
+        @media (max-width: 768px) {
+            #find-letter-screen .apple-tree-container { min-height: 600px; border-radius: 22px; }
+            #find-letter-screen .tree-canopy { width: 108%; height: 365px; top: 25px; }
+            #find-letter-screen .tree-trunk { top: 310px; height: 205px; width: 88px; }
+            #find-letter-screen .apples-grid {
+                top: 68px;
+                width: 92%;
+                height: 285px;
+                gap: 4px 5px;
+            }
+            #find-letter-screen .apple-item { width: 54px; height: 51px; font-size: 1.55rem; }
+            #find-letter-screen .basket-area { width: 245px; min-height: 96px; bottom: 20px; }
+            #find-letter-screen .basket-label { bottom: 61px; font-size: .78rem; }
+        }
+
+        @media (max-width: 430px) {
+            #find-letter-screen .apple-tree-container { min-height: 565px; }
+            #find-letter-screen .apples-grid { width: 96%; top: 66px; height: 270px; }
+            #find-letter-screen .apple-item { width: 49px; height: 47px; font-size: 1.38rem; }
+            #find-letter-screen .tree-canopy { height: 345px; }
+            #find-letter-screen .tree-trunk { top: 292px; }
         }
 
         /* STIL KHAS UNTUK FIND ANIMAL GRID (4 GAMBAR) */
@@ -3381,7 +3534,7 @@
             applesContainer.innerHTML = "";
             basketContainer.innerHTML = "";
 
-            targetApplesRemaining = Math.floor(Math.random() * 2) + 2; 
+            targetApplesRemaining = Math.floor(Math.random() * 3) + 3; 
 
             let otherLetters = alphabetList.filter(l => l !== targetFindLetter);
 
@@ -3389,7 +3542,7 @@
             for (let i = 0; i < targetApplesRemaining; i++) {
                 roundLetters.push(targetFindLetter);
             }
-            while (roundLetters.length < 12) {
+            while (roundLetters.length < 20) {
                 let randomOther = otherLetters[Math.floor(Math.random() * otherLetters.length)];
                 roundLetters.push(randomOther);
             }
