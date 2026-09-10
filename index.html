@@ -1486,7 +1486,67 @@
             }
         }
 
-        /* STIL KATEGORI LEARN ANIMAL */
+
+
+        /* FIND THE ANIMAL - POPUP JAWAPAN BETUL APABILA PENGGUNA SALAH */
+        .find-animal-correct-popup {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0,0,0,.38);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .22s ease;
+        }
+
+        .find-animal-correct-popup.show {
+            opacity: 1;
+        }
+
+        .find-animal-popup-card {
+            width: min(82vw, 360px);
+            background: #FFF8E8;
+            border: 5px solid #7ED957;
+            border-radius: 28px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,.35);
+            transform: scale(.55);
+            transition: transform .28s cubic-bezier(.2,1.4,.4,1);
+        }
+
+        .find-animal-correct-popup.show .find-animal-popup-card {
+            transform: scale(1);
+        }
+
+        .find-animal-popup-card img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 3px solid #5CE1E6;
+        }
+
+        .find-animal-popup-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.35rem;
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+
+        .find-animal-popup-name {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.55rem;
+            color: #2C3E50;
+            margin-top: 10px;
+        }
+
+                /* STIL KATEGORI LEARN ANIMAL */
         .animal-cat-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -4063,55 +4123,6 @@
             renderAnimalFlashcard();
         }
 
-        // =========================================================
-        // ANDROID / HUAWEI TTS COMPATIBILITY
-        // Sesetengah Android/Huawei tidak menyediakan voice "ms-MY" walaupun
-        // Web Speech API wujud. Pilih voice Melayu jika ada; jika tiada,
-        // gunakan voice Indonesia (sebutan paling hampir) supaya audio tidak senyap.
-        // =========================================================
-        let kiddoraVoices = [];
-        function refreshKiddoraVoices() {
-            if ('speechSynthesis' in window) kiddoraVoices = window.speechSynthesis.getVoices() || [];
-        }
-        refreshKiddoraVoices();
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.addEventListener?.('voiceschanged', refreshKiddoraVoices);
-            window.speechSynthesis.onvoiceschanged = refreshKiddoraVoices;
-        }
-
-        function applyKiddoraVoice(utterance, langCode) {
-            refreshKiddoraVoices();
-            const wantMalay = langCode === 'ms';
-            const preferred = wantMalay
-                ? ['ms-MY', 'ms', 'id-ID', 'id']
-                : ['en-US', 'en-GB', 'en'];
-
-            let selected = null;
-            for (const code of preferred) {
-                selected = kiddoraVoices.find(v =>
-                    (v.lang || '').toLowerCase() === code.toLowerCase()
-                );
-                if (selected) break;
-            }
-            if (!selected) {
-                for (const code of preferred) {
-                    selected = kiddoraVoices.find(v =>
-                        (v.lang || '').toLowerCase().startsWith(code.toLowerCase().split('-')[0])
-                    );
-                    if (selected) break;
-                }
-            }
-
-            if (selected) {
-                utterance.voice = selected;
-                utterance.lang = selected.lang;
-            } else {
-                // Android/Huawei biasanya lebih konsisten dengan id-ID jika voice ms-MY tiada.
-                utterance.lang = wantMalay ? 'id-ID' : 'en-US';
-            }
-            return utterance;
-        }
-
         function renderAnimalFlashcard() {
             const item = currentLearnAnimalList[currentLearnAnimalIdx];
             document.getElementById("animal-cat-display-title").innerText = currentCategoryTitle;
@@ -4132,7 +4143,7 @@
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(textToSpeak);
-                applyKiddoraVoice(utterance, currentGlobalLang === 'en' ? 'en' : 'ms');
+                utterance.lang = currentGlobalLang === 'en' ? 'en-US' : 'ms-MY';
                 utterance.rate = 0.4;
                 window.speechSynthesis.speak(utterance);
             }
@@ -4280,7 +4291,7 @@
             const textToSpeak = currentGlobalLang === 'en' ? item.en : item.bm;
             window.speechSynthesis.cancel();
             const utterance = new SpeechSynthesisUtterance(textToSpeak);
-            applyKiddoraVoice(utterance, currentGlobalLang === 'en' ? 'en' : 'ms');
+            utterance.lang = currentGlobalLang === 'en' ? 'en-US' : 'ms-MY';
             utterance.rate = 0.4;
             window.speechSynthesis.speak(utterance);
         }
@@ -4473,62 +4484,97 @@
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(textToSpeak);
-                applyKiddoraVoice(utterance, currentGlobalLang === 'en' ? 'en' : 'ms');
+                utterance.lang = currentGlobalLang === 'en' ? 'en-US' : 'ms-MY';
                 utterance.rate = 0.4;
                 window.speechSynthesis.speak(utterance);
             }
         }
 
+        function finishOrAdvanceFindAnimal(delay = 0) {
+            setTimeout(() => {
+                if (findAnimalCurrentIdx < findAnimalTotalQuestions - 1) {
+                    findAnimalCurrentIdx++;
+                    loadFindAnimalQuestion();
+                } else {
+                    const finalPercent = Math.round((findAnimalScoreCount / (findAnimalTotalQuestions * 10)) * 100);
+                    window.saveScoreToFirebase("Find Animal", finalPercent);
+                    alert(currentGlobalLang === 'en'
+                        ? `🎉 Quiz finished! Score: ${finalPercent}%`
+                        : `🎉 Kuiz tamat! Skor anda: ${finalPercent}%`);
+                    openAnimalMenu();
+                }
+            }, delay);
+        }
+
+        function showFindAnimalCorrectPopup(targetItem) {
+            // Buang popup lama sekiranya masih ada
+            const oldPopup = document.getElementById('find-animal-correct-popup');
+            if (oldPopup) oldPopup.remove();
+
+            const popup = document.createElement('div');
+            popup.id = 'find-animal-correct-popup';
+            popup.className = 'find-animal-correct-popup';
+
+            const animalName = currentGlobalLang === 'en' ? targetItem.en : targetItem.bm;
+            popup.innerHTML = `
+                <div class="find-animal-popup-card">
+                    <div class="find-animal-popup-title">${currentGlobalLang === 'en' ? 'Correct answer' : 'Jawapan betul'}</div>
+                    <img src="${targetItem.img}" alt="${targetItem.bm}">
+                    <div class="find-animal-popup-name">${animalName}</div>
+                </div>
+            `;
+
+            document.body.appendChild(popup);
+            requestAnimationFrame(() => popup.classList.add('show'));
+
+            setTimeout(() => {
+                popup.classList.remove('show');
+                setTimeout(() => popup.remove(), 220);
+            }, 2800);
+        }
+
         function handleFindAnimalClick(cardElement, selectedItem, targetItem) {
-            const cards = document.querySelectorAll('.animal-img-card');
+            const cards = document.querySelectorAll('#find-animal-game-screen .animal-img-card');
             cards.forEach(c => c.style.pointerEvents = "none");
+
+            // Butang Next tidak lagi diperlukan untuk aktiviti ini
+            const nextBtn = document.getElementById("find-animal-next-btn");
+            if (nextBtn) nextBtn.style.display = "none";
 
             if (selectedItem.bm === targetItem.bm) {
                 playCorrectSound();
                 cardElement.style.borderColor = "#4CAF50";
-                cardElement.style.backgroundColor = "transparent";
+                cardElement.style.boxShadow = "0 0 0 5px rgba(76,175,80,.20), 0 10px 24px rgba(0,0,0,.16)";
                 findAnimalScoreCount += 10;
                 document.getElementById("find-animal-score").innerText = findAnimalScoreCount;
 
-                if (findAnimalCurrentIdx < findAnimalTotalQuestions - 1) {
-                    document.getElementById("find-animal-next-btn").style.display = "inline-block";
-                } else {
-                    setTimeout(() => {
-                        const finalPercent = Math.round((findAnimalScoreCount / (findAnimalTotalQuestions * 10)) * 100);
-                        window.saveScoreToFirebase("Find Animal", finalPercent);
-                        alert(currentGlobalLang === 'en' ? `🎉 Awesome job! Quiz finished with score ${finalPercent}%` : `🎉 Tahniah! Anda tamat kuiz dengan skor ${finalPercent}%`);
-                        openAnimalMenu();
-                    }, 800);
-                }
+                // Jawapan betul: terus ke soalan seterusnya secara automatik
+                finishOrAdvanceFindAnimal(650);
             } else {
                 playWrongSound();
                 cardElement.style.borderColor = "#E53935";
-                cardElement.style.backgroundColor = "transparent";
+                cardElement.style.boxShadow = "0 0 0 5px rgba(229,57,53,.18), 0 10px 24px rgba(0,0,0,.16)";
 
+                // Tunjukkan juga border hijau pada jawapan sebenar di grid
                 cards.forEach(c => {
                     const img = c.querySelector('img');
                     if (img && img.alt === targetItem.bm) {
                         c.style.borderColor = "#4CAF50";
-                        c.style.backgroundColor = "#E8F5E9";
                     }
                 });
 
-                if (findAnimalCurrentIdx < findAnimalTotalQuestions - 1) {
-                    document.getElementById("find-animal-next-btn").style.display = "inline-block";
-                } else {
-                    setTimeout(() => {
-                        const finalPercent = Math.round((findAnimalScoreCount / (findAnimalTotalQuestions * 10)) * 100);
-                        window.saveScoreToFirebase("Find Animal", finalPercent);
-                        alert(currentGlobalLang === 'en' ? `Quiz finished! Score: ${finalPercent}%` : `Kuiz tamat! Skor anda: ${finalPercent}%`);
-                        openAnimalMenu();
-                    }, 1000);
-                }
+                // Jawapan salah: gambar jawapan betul pop-out di tengah selama 3 saat
+                showFindAnimalCorrectPopup(targetItem);
+                finishOrAdvanceFindAnimal(3000);
             }
         }
 
+        // Dikekalkan untuk compatibility, tetapi aktiviti kini auto-next
         function nextFindAnimalQuestion() {
-            findAnimalCurrentIdx++;
-            loadFindAnimalQuestion();
+            if (findAnimalCurrentIdx < findAnimalTotalQuestions - 1) {
+                findAnimalCurrentIdx++;
+                loadFindAnimalQuestion();
+            }
         }
 
         // --- SISTEM MATCH THE LETTER (DRAG & SUAUKAN LINE DENGAN CANVAS) ---
@@ -4835,7 +4881,7 @@
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(textToSpeak);
-                applyKiddoraVoice(utterance, currentGlobalLang === 'en' ? 'en' : 'ms');
+                utterance.lang = currentGlobalLang === 'en' ? 'en-US' : 'ms-MY';
                 utterance.rate = 0.3;
                 utterance.pitch = 1.1;
                 window.speechSynthesis.speak(utterance);
@@ -5000,7 +5046,7 @@
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(textToSpeak);
-                applyKiddoraVoice(utterance, currentGlobalLang === 'en' ? 'en' : 'ms');
+                utterance.lang = currentGlobalLang === 'en' ? 'en-US' : 'ms-MY';
                 utterance.rate = 0.3;
                 utterance.pitch = 1.1;
                 window.speechSynthesis.speak(utterance);
@@ -5076,7 +5122,7 @@
             document.getElementById('learn123-listen-btn').textContent=t.listen;
             document.getElementById('learn123-back-btn').textContent=t.back;
         }
-        function speakText123(text, rate=.65){ if(!('speechSynthesis' in window))return; speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); applyKiddoraVoice(u, getNum123Lang()==='ms' ? 'ms' : 'en'); u.rate=rate; u.pitch=1.08; speechSynthesis.speak(u); }
+        function speakText123(text, rate=.65){ if(!('speechSynthesis' in window))return; speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang=getNum123Lang()==='ms'?'ms-MY':'en-US'; u.rate=rate; u.pitch=1.08; speechSynthesis.speak(u); }
         function speakLearn123(){ const words=getNum123Words(); speakText123(`${learn123Index}. ${words[learn123Index]}`,.55); }
         function nextLearn123(){ const t=getNum123Text(); if(learn123Index<20){learn123Index++;renderLearn123();speakLearn123();}else{alert(t.learnDone);open123Menu();} }
         function prevLearn123(){ if(learn123Index>1){learn123Index--;renderLearn123();speakLearn123();} }
@@ -5227,7 +5273,7 @@
         ];
         const colourShuffle = a => [...a].sort(()=>Math.random()-.5);
         const colourName = c => currentGlobalLang==='ms' ? c.ms : c.en;
-        function speakColourText(text){ if(!('speechSynthesis' in window)) return; speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); applyKiddoraVoice(u, currentGlobalLang==='ms' ? 'ms' : 'en'); u.rate=.75; speechSynthesis.speak(u); }
+        function speakColourText(text){ if(!('speechSynthesis' in window)) return; speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang=currentGlobalLang==='ms'?'ms-MY':'en-US'; u.rate=.75; speechSynthesis.speak(u); }
         function openColourMenu(){ showScreen('colour-menu-screen'); updateColourLanguage(); }
         function updateColourLanguage(){
             const ms=currentGlobalLang==='ms';
