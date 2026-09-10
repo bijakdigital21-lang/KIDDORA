@@ -859,25 +859,25 @@
 
         /* Anjak kiri & kanan supaya ruang tengah lebih luas untuk tarik garis */
         #match-game-screen #match-left-column {
-            transform: translateX(-45px);
+            transform: translateX(-70px);
         }
         #match-game-screen #match-right-column {
-            transform: translateX(45px);
+            transform: translateX(70px);
         }
 
         #match-game-screen .match-item {
             position: relative;
             font-family: Arial, sans-serif;
-            font-size: 3.8rem !important;
+            font-size: 3.45rem !important;
             font-weight: 700 !important;
-            width: 150px !important;
-            height: 132px !important;
-            min-height: 132px !important;
+            width: 138px !important;
+            height: 120px !important;
+            min-height: 120px !important;
             padding: 0 !important;
             border: none !important;
             background: transparent !important;
             box-shadow: none !important;
-            flex: 0 0 132px !important;
+            flex: 0 0 120px !important;
             overflow: visible;
             isolation: isolate;
         }
@@ -888,8 +888,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 78px;
-            height: 78px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             background: #fffdf5;
             color: #111;
@@ -900,17 +900,17 @@
 
         /* ---------- LEBAH: huruf kecil sebelah kiri ---------- */
         #match-game-screen #match-left-column .match-item {
-            width: 160px !important;
+            width: 146px !important;
         }
 
         #match-game-screen #match-left-column .match-item::before {
             content: '';
             position: absolute;
             z-index: 1;
-            left: 20px;
-            top: 31px;
-            width: 118px;
-            height: 76px;
+            left: 18px;
+            top: 29px;
+            width: 106px;
+            height: 68px;
             border-radius: 55% 48% 50% 55%;
             background:
                 linear-gradient(90deg,
@@ -928,21 +928,21 @@
             content: '';
             position: absolute;
             z-index: 0;
-            left: 13px;
-            top: 2px;
-            width: 58px;
-            height: 54px;
+            left: 12px;
+            top: 4px;
+            width: 51px;
+            height: 47px;
             border-radius: 62% 45% 62% 42%;
             background: rgba(176,236,255,.88);
             border: 3px solid #68bde7;
-            box-shadow: 38px 3px 0 -3px rgba(176,236,255,.88),
-                        39px 3px 0 0 #68bde7;
+            box-shadow: 34px 3px 0 -3px rgba(176,236,255,.88),
+                        35px 3px 0 0 #68bde7;
             transform: rotate(-17deg);
         }
 
         #match-game-screen #match-left-column .match-item .match-letter {
-            margin-left: 42px;
-            margin-top: 29px;
+            margin-left: 38px;
+            margin-top: 28px;
         }
 
         /* Kepala lebah kecil */
@@ -950,10 +950,10 @@
             content: '•  •';
             position: absolute;
             z-index: -1;
-            right: -47px;
-            top: -15px;
-            width: 52px;
-            height: 52px;
+            right: -42px;
+            top: -13px;
+            width: 46px;
+            height: 46px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -972,19 +972,19 @@
             position: absolute;
             z-index: 1;
             left: 7px;
-            top: 0;
-            width: 136px;
-            height: 136px;
+            top: 2px;
+            width: 122px;
+            height: 122px;
             border-radius: 50%;
             background:
-                radial-gradient(circle at 50% 10%, #ff639a 0 24px, transparent 25px),
-                radial-gradient(circle at 79% 23%, #ff639a 0 24px, transparent 25px),
-                radial-gradient(circle at 91% 53%, #ff639a 0 24px, transparent 25px),
-                radial-gradient(circle at 74% 81%, #ff639a 0 24px, transparent 25px),
-                radial-gradient(circle at 43% 91%, #ff639a 0 24px, transparent 25px),
-                radial-gradient(circle at 15% 72%, #ff639a 0 24px, transparent 25px),
-                radial-gradient(circle at 10% 39%, #ff639a 0 24px, transparent 25px),
-                radial-gradient(circle at 27% 15%, #ff639a 0 24px, transparent 25px);
+                radial-gradient(circle at 50% 10%, #ff639a 0 21px, transparent 22px),
+                radial-gradient(circle at 79% 23%, #ff639a 0 21px, transparent 22px),
+                radial-gradient(circle at 91% 53%, #ff639a 0 21px, transparent 22px),
+                radial-gradient(circle at 74% 81%, #ff639a 0 21px, transparent 22px),
+                radial-gradient(circle at 43% 91%, #ff639a 0 21px, transparent 22px),
+                radial-gradient(circle at 15% 72%, #ff639a 0 21px, transparent 22px),
+                radial-gradient(circle at 10% 39%, #ff639a 0 21px, transparent 22px),
+                radial-gradient(circle at 27% 15%, #ff639a 0 21px, transparent 22px);
             filter: drop-shadow(0 6px 6px rgba(0,0,0,.18));
         }
 
@@ -992,20 +992,20 @@
             content: '';
             position: absolute;
             z-index: 0;
-            left: 37px;
-            bottom: -7px;
-            width: 34px;
-            height: 22px;
+            left: 33px;
+            bottom: -4px;
+            width: 30px;
+            height: 19px;
             border-radius: 90% 10% 90% 10%;
             background: #3fbf49;
-            box-shadow: 42px 0 0 #3fbf49;
+            box-shadow: 38px 0 0 #3fbf49;
             transform: rotate(-18deg);
         }
 
         #match-game-screen #match-right-column .match-item .match-letter {
-            margin: 28px auto 0 auto;
-            width: 82px;
-            height: 82px;
+            margin: 27px auto 0 auto;
+            width: 73px;
+            height: 73px;
             background: radial-gradient(circle at 35% 28%, #fff9c8, #ffe87c 72%, #f2c94c 100%);
             border: 3px solid #e2af31;
             font-size: 0.96em;
@@ -1305,8 +1305,8 @@
                 gap: 14px;
             }
 
-            #match-game-screen #match-left-column { transform: translateX(-18px); }
-            #match-game-screen #match-right-column { transform: translateX(18px); }
+            #match-game-screen #match-left-column { transform: translateX(-32px); }
+            #match-game-screen #match-right-column { transform: translateX(32px); }
 
             #match-game-screen .match-item {
                 font-size: 2.8rem !important;
