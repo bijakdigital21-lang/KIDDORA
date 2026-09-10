@@ -1350,40 +1350,77 @@
             #find-letter-screen .tree-trunk { top: 292px; }
         }
 
-        /* STIL KHAS UNTUK FIND ANIMAL GRID (4 GAMBAR) */
-        .find-animal-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin: 20px 0;
+        /* =========================================================
+           FIND THE ANIMAL SAHAJA - GAMBAR BESAR + BORDER ONLY
+           Tiada kotak / ruang putih. Gambar memenuhi border.
+           Fungsi modul lain dikekalkan.
+        ========================================================== */
+        #find-animal-game-screen {
+            width: min(96vw, 920px);
+            margin-left: 50%;
+            transform: translateX(-50%);
         }
 
-        .animal-img-card {
-            background: rgba(255, 255, 255, 0.95);
+        #find-animal-game-screen .find-animal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+            width: 100%;
+            margin: 22px auto 24px;
+        }
+
+        #find-animal-game-screen .animal-img-card {
+            background: transparent !important;
             border: 4px solid var(--primary-blue);
-            border-radius: 20px;
-            padding: 10px;
+            border-radius: 22px;
+            padding: 0 !important;
             cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 7px 16px rgba(0,0,0,0.13);
             aspect-ratio: 1 / 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 100%;
+            min-width: 0;
+            display: block;
             overflow: hidden;
         }
 
-        .animal-img-card img {
+        #find-animal-game-screen .animal-img-card img {
+            display: block;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 14px;
+            object-position: center;
+            border-radius: 17px;
+            margin: 0;
+            padding: 0;
         }
 
-        .animal-img-card:hover {
-            transform: translateY(-4px) scale(1.02);
+        #find-animal-game-screen .animal-img-card:hover {
+            transform: translateY(-4px) scale(1.025);
             border-color: var(--primary-pink);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 11px 22px rgba(0,0,0,0.17);
+        }
+
+        @media (max-width: 768px) {
+            #find-animal-game-screen {
+                width: 100%;
+                margin-left: 0;
+                transform: none;
+            }
+
+            #find-animal-game-screen .find-animal-grid {
+                gap: 12px;
+                margin-top: 18px;
+            }
+
+            #find-animal-game-screen .animal-img-card {
+                border-width: 3px;
+                border-radius: 18px;
+            }
+
+            #find-animal-game-screen .animal-img-card img {
+                border-radius: 14px;
+            }
         }
 
         /* STIL KATEGORI LEARN ANIMAL */
@@ -3433,7 +3470,7 @@
             if (selectedItem.bm === targetItem.bm) {
                 playCorrectSound();
                 cardElement.style.borderColor = "#4CAF50";
-                cardElement.style.backgroundColor = "#E8F5E9";
+                cardElement.style.backgroundColor = "transparent";
                 findAnimalScoreCount += 10;
                 document.getElementById("find-animal-score").innerText = findAnimalScoreCount;
 
@@ -3450,7 +3487,7 @@
             } else {
                 playWrongSound();
                 cardElement.style.borderColor = "#E53935";
-                cardElement.style.backgroundColor = "#FFEBEE";
+                cardElement.style.backgroundColor = "transparent";
 
                 cards.forEach(c => {
                     const img = c.querySelector('img');
