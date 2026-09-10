@@ -1555,6 +1555,185 @@
                 height: 45px;
             }
         }
+    
+
+        /* =========================================================
+           MATCH THE ANIMAL SAHAJA - SUSUNAN BESAR + AUDIO
+           Kiri: gambar haiwan lebih besar, tanpa kotak putih.
+           Kanan: nama haiwan dianjak ke kanan + butang audio.
+           Fungsi modul lain tidak diubah.
+        ========================================================== */
+        #match-animal-game-screen .match-container {
+            width: 100%;
+            justify-content: space-between;
+            align-items: stretch;
+        }
+
+        #match-animal-game-screen .match-column {
+            width: 175px;
+            gap: 18px;
+        }
+
+        #match-animal-game-screen #match-animal-left-column {
+            transform: translateX(-72px);
+        }
+
+        #match-animal-game-screen #match-animal-right-column {
+            transform: translateX(72px);
+        }
+
+        /* Gambar haiwan sahaja: tiada kotak putih, hanya border pada gambar */
+        #match-animal-game-screen #match-animal-left-column .match-item {
+            width: 170px;
+            min-height: 118px;
+            height: 118px;
+            padding: 0;
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            overflow: visible;
+        }
+
+        #match-animal-game-screen #match-animal-left-column .match-item img {
+            width: 112px;
+            height: 112px;
+            object-fit: contain;
+            display: block;
+            border: 4px solid var(--primary-blue);
+            border-radius: 18px;
+            background: transparent;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+            pointer-events: none;
+        }
+
+        /* Nama haiwan di kanan */
+        #match-animal-game-screen #match-animal-right-column .match-item {
+            width: 175px;
+            min-height: 118px;
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.95);
+            border: 3px solid var(--primary-blue);
+            border-radius: 18px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            font-size: 1.22rem;
+            line-height: 1.15;
+        }
+
+        #match-animal-game-screen .match-animal-name {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-align: center;
+            color: #2C3E50;
+            pointer-events: none;
+        }
+
+        #match-animal-game-screen .match-animal-audio-btn {
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 50%;
+            background: var(--primary-pink);
+            color: #fff;
+            font-size: 1.25rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 0 #b33687, 0 5px 10px rgba(0,0,0,0.12);
+            touch-action: manipulation;
+            flex: 0 0 auto;
+        }
+
+        #match-animal-game-screen .match-animal-audio-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #b33687;
+        }
+
+        #match-animal-game-screen #match-animal-left-column .match-item:hover,
+        #match-animal-game-screen #match-animal-left-column .match-item.selected,
+        #match-animal-game-screen #match-animal-left-column .match-item.matched {
+            background: transparent;
+        }
+
+        @media (max-width: 768px) {
+            #match-animal-game-screen .match-column {
+                width: 135px;
+                gap: 15px;
+            }
+
+            #match-animal-game-screen #match-animal-left-column {
+                transform: translateX(-30px);
+            }
+
+            #match-animal-game-screen #match-animal-right-column {
+                transform: translateX(30px);
+            }
+
+            #match-animal-game-screen #match-animal-left-column .match-item {
+                width: 132px;
+                min-height: 102px;
+                height: 102px;
+            }
+
+            #match-animal-game-screen #match-animal-left-column .match-item img {
+                width: 96px;
+                height: 96px;
+                border-width: 3px;
+                border-radius: 15px;
+            }
+
+            #match-animal-game-screen #match-animal-right-column .match-item {
+                width: 135px;
+                min-height: 102px;
+                padding: 8px 7px;
+                gap: 5px;
+            }
+
+            #match-animal-game-screen .match-animal-name {
+                font-size: 1.02rem;
+            }
+
+            #match-animal-game-screen .match-animal-audio-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 430px) {
+            #match-animal-game-screen #match-animal-left-column {
+                transform: translateX(-18px);
+            }
+
+            #match-animal-game-screen #match-animal-right-column {
+                transform: translateX(18px);
+            }
+
+            #match-animal-game-screen .match-column {
+                width: 125px;
+            }
+
+            #match-animal-game-screen #match-animal-left-column .match-item {
+                width: 122px;
+            }
+
+            #match-animal-game-screen #match-animal-left-column .match-item img {
+                width: 92px;
+                height: 92px;
+            }
+
+            #match-animal-game-screen #match-animal-right-column .match-item {
+                width: 125px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -1734,17 +1913,17 @@
                 <p style="color: #000000; font-weight: 700; margin-top: 5px;" id="animal-menu-desc">Choose an activity to explore the animal kingdom!</p>
                 
                 <div class="abc-menu-grid">
-                    <button class="abc-sub-btn abc-image-btn" onclick="playClickSound(); openLearnAnimalCategoryScreen()" aria-label="Learn Animal">
-                        <img src="https://i.imgur.com/yLhIlZr.jpeg" alt="Learn Animal">
-                        <span id="learn-animal-btn-text" style="display:none;">1) Learn Animal</span>
+                    <button class="abc-sub-btn" style="background: linear-gradient(135deg, #7ED957, #FFDE59);" onclick="playClickSound(); openLearnAnimalCategoryScreen()">
+                        <span>🦁 🐘 🦒</span>
+                        <span id="learn-animal-btn-text">1) Learn Animal</span>
                     </button>
-                    <button class="abc-sub-btn abc-image-btn" onclick="playClickSound(); openMatchAnimalCountScreen()" aria-label="Match the Animals">
-                        <img src="https://i.imgur.com/aKbStTW.jpeg" alt="Match the Animals">
-                        <span id="match-animal-btn-text" style="display:none;">2) Match the Animal</span>
+                    <button class="abc-sub-btn" style="background: linear-gradient(135deg, #7ED957, #FFDE59);" onclick="playClickSound(); openMatchAnimalCountScreen()">
+                        <span>🖼️ ➔ 🔤</span>
+                        <span id="match-animal-btn-text">2) Match the Animal</span>
                     </button>
-                    <button class="abc-sub-btn abc-image-btn" onclick="playClickSound(); openFindAnimalCountScreen()" aria-label="Find the Animals">
-                        <img src="https://i.imgur.com/HgSkVGn.jpeg" alt="Find the Animals">
-                        <span id="find-animal-btn-text" style="display:none;">3) Find the Animal</span>
+                    <button class="abc-sub-btn" style="background: linear-gradient(135deg, #7ED957, #FFDE59);" onclick="playClickSound(); openFindAnimalCountScreen()">
+                        <span>🔍 🖼️ 🐶</span>
+                        <span id="find-animal-btn-text">3) Find the Animal</span>
                     </button>
                 </div>
     
@@ -3012,13 +3191,38 @@
             randomizedRight.forEach(item => {
                 const div = document.createElement("div");
                 div.className = "match-item";
-                div.innerText = currentGlobalLang === 'en' ? item.en : item.bm;
+                const animalName = currentGlobalLang === 'en' ? item.en : item.bm;
+                div.innerHTML = `
+                    <span class="match-animal-name">${animalName}</span>
+                    <button type="button" class="match-animal-audio-btn" aria-label="Listen to ${animalName}" title="Listen / Dengar">🔊</button>
+                `;
                 div.dataset.id = item.bm;
                 div.dataset.side = "right";
+
+                const audioBtn = div.querySelector('.match-animal-audio-btn');
+                audioBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
+                audioBtn.addEventListener('pointerup', (e) => e.stopPropagation());
+                audioBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    playMatchAnimalNameAudio(item);
+                });
+
                 rightCol.appendChild(div);
             });
 
             setTimeout(resizeAnimalCanvas, 50);
+        }
+
+        function playMatchAnimalNameAudio(item) {
+            if (!item || !('speechSynthesis' in window)) return;
+
+            const textToSpeak = currentGlobalLang === 'en' ? item.en : item.bm;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(textToSpeak);
+            utterance.lang = currentGlobalLang === 'en' ? 'en-US' : 'ms-MY';
+            utterance.rate = 0.4;
+            window.speechSynthesis.speak(utterance);
         }
 
         function handleAnimalPointerDown(e) {
