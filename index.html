@@ -2130,8 +2130,8 @@
 
             <!-- 123 MODULE MENU SCREEN -->
             <div id="num123-menu-screen" class="card">
-                <h2 style="color:#FFDE59;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #5E17EB;">123 Module 🔢</h2>
-                <p style="color:#111;font-weight:800;margin-top:5px;">Choose a fun number activity!</p>
+                <h2 id="num123-menu-title" style="color:#FFDE59;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #5E17EB;">123 Module 🔢</h2>
+                <p id="num123-menu-desc" style="color:#111;font-weight:800;margin-top:5px;">Choose a fun number activity!</p>
                 <div class="num123-menu-grid">
                     <button class="num123-menu-btn" onclick="playClickSound(); startLearn123()" aria-label="Learn 123">
                         <img src="https://i.imgur.com/ieRpdVr.jpeg" alt="Learn 123">
@@ -2143,44 +2143,44 @@
                         <img src="https://i.imgur.com/TG1VQD3.jpeg" alt="Let's Count">
                     </button>
                 </div>
-                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+                <button class="action-btn home-btn" id="num123-home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
             <!-- LEARN 123 SCREEN -->
             <div id="learn123-screen" class="card">
-                <h2 style="color:#5E17EB;font-family:'Fredoka One',cursive;">Learn 123 🔢</h2>
+                <h2 id="learn123-title" style="color:#5E17EB;font-family:'Fredoka One',cursive;">Learn 123 🔢</h2>
                 <div class="num-progress-pill" id="learn123-progress">Number 1 of 20</div>
                 <div class="learn123-board">
                     <div class="learn123-number" id="learn123-number" onclick="speakLearn123()">1</div>
                     <div class="learn123-word" id="learn123-word">One</div>
                     <div class="learn123-dots" id="learn123-dots"></div>
-                    <button class="sound-btn" onclick="speakLearn123()">🔊 Listen</button>
+                    <button class="sound-btn" id="learn123-listen-btn" onclick="speakLearn123()">🔊 Listen</button>
                 </div>
                 <div class="flashcard-nav">
                     <button class="action-btn" id="learn123-prev" style="background:#E74C3C;box-shadow:0 5px 0 #922B21;" onclick="playClickSound(); prevLearn123()">⬅ Prev</button>
-                    <button class="action-btn home-btn" onclick="playClickSound(); open123Menu()">Back ↩️</button>
+                    <button class="action-btn home-btn" id="learn123-back-btn" onclick="playClickSound(); open123Menu()">Back ↩️</button>
                     <button class="action-btn" id="learn123-next" style="background:var(--primary-green);box-shadow:0 5px 0 #4d9d31;" onclick="playClickSound(); nextLearn123()">Next ➡</button>
                 </div>
             </div>
 
             <!-- MATCH THE NUMBER SCREEN -->
             <div id="match123-screen" class="card">
-                <h2 style="color:#5E17EB;font-family:'Fredoka One',cursive;">Match the Number 🔢</h2>
+                <h2 id="match123-title" style="color:#5E17EB;font-family:'Fredoka One',cursive;">Match the Number 🔢</h2>
                 <div class="num-progress-pill"><span id="match123-progress">Question 1 of 5</span> · ⭐ <span id="match123-score">0</span></div>
-                <p class="match123-tip">Tap the objects to hear counting, then drag the object box to the correct number.</p>
+                <p class="match123-tip" id="match123-tip">Tap the objects to hear counting, then drag the object box to the correct number.</p>
                 <div class="match123-stage">
                     <div class="match123-object-box" id="match123-object-box"></div>
                     <div class="match123-number-list" id="match123-number-list"></div>
                 </div>
-                <button class="action-btn home-btn" onclick="playClickSound(); open123Menu()">Back ↩️</button>
+                <button class="action-btn home-btn" id="match123-back-btn" onclick="playClickSound(); open123Menu()">Back ↩️</button>
             </div>
 
             <!-- LET'S COUNT SCREEN -->
             <div id="lets-count-screen" class="card">
-                <h2 style="color:#5E17EB;font-family:'Fredoka One',cursive;">Let's Count 🍎</h2>
+                <h2 id="count123-title" style="color:#5E17EB;font-family:'Fredoka One',cursive;">Let's Count 🍎</h2>
                 <div class="num-progress-pill"><span id="count123-progress">Question 1 of 10</span> · ⭐ <span id="count123-score">0</span></div>
                 <div class="count123-equation" id="count123-equation">2 + 3 = ?</div>
-                <p style="font-weight:800;color:#444;">Drag the apples into each box. Then choose the answer!</p>
+                <p id="count123-instruction" style="font-weight:800;color:#444;">Drag the apples into each box. Then choose the answer!</p>
                 <div class="count123-workspace">
                     <div class="count123-bank" id="count123-bank"></div>
                     <div class="count123-groups">
@@ -2188,10 +2188,10 @@
                         <div class="count123-dropzone" id="count123-zone-b" data-zone="b"><div class="count123-drop-label" id="count123-label-b">Drag 3 apples here</div></div>
                     </div>
                     <div class="count123-status" id="count123-status"></div>
-                    <button class="count123-reset" onclick="resetCount123Drag()">↻ Reset Apples</button>
+                    <button class="count123-reset" id="count123-reset-btn" onclick="resetCount123Drag()">↻ Reset Apples</button>
                     <div class="count123-answers" id="count123-answers"></div>
                 </div>
-                <button class="action-btn home-btn" onclick="playClickSound(); open123Menu()">Back ↩️</button>
+                <button class="action-btn home-btn" id="count123-back-btn" onclick="playClickSound(); open123Menu()">Back ↩️</button>
             </div>
 
                         <!-- ANIMAL MODULE MENU SCREEN -->
@@ -3136,6 +3136,9 @@
                 document.getElementById("result-desc").innerText = "Anda telah menyiapkan kuiz ini!";
                 document.getElementById("result-menu-btn").innerText = "Kembali ke Menu 🏠";
             }
+
+            // Pastikan Modul Number/123 turut mengikut pilihan bahasa global.
+            updateNumberLanguage();
 
             if(document.getElementById("find-letter-screen").classList.contains("active")) {
                 const targetLetter = document.getElementById("find-instruction-text").innerText.slice(-1);
@@ -4241,26 +4244,69 @@
         /* =========================================================
            JAVASCRIPT MODUL 123
         ========================================================== */
-        const numberWords123 = ['Zero','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen','Twenty'];
+        const numberWords123 = {
+            en: ['Zero','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen','Twenty'],
+            ms: ['Sifar','Satu','Dua','Tiga','Empat','Lima','Enam','Tujuh','Lapan','Sembilan','Sepuluh','Sebelas','Dua belas','Tiga belas','Empat belas','Lima belas','Enam belas','Tujuh belas','Lapan belas','Sembilan belas','Dua puluh']
+        };
+        const num123Text = {
+            en: {
+                menuTitle:'123 Module 🔢', menuDesc:'Choose a fun number activity!', home:'Back to Home 🏠',
+                learnTitle:'Learn 123 🔢', number:'Number', listen:'🔊 Listen', prev:'⬅ Prev', back:'Back ↩️', next:'Next ➡', finish:'Finish 🏁',
+                matchTitle:'Match the Number 🔢', question:'Question', matchTip:'Tap the objects to hear counting, then drag the object box to the correct number.',
+                countTitle:"Let's Count 🍎", countInstruction:'Drag the apples into each box. Then choose the answer!',
+                dragApple:n=>`Drag ${n} apple${n>1?'s':''} here`, fill:'Fill both boxes first.', reset:'↻ Reset Apples',
+                ready:'Great! Now choose the answer below. ✅', firstSecond:(x,a,y,b)=>`First box: ${x}/${a}   •   Second box: ${y}/${b}`,
+                exact:(a,b)=>`Drag exactly ${a} apple${a>1?'s':''} and ${b} apple${b>1?'s':''} first. 🍎`,
+                boxFull:'This box is full', choose:'Great. Now choose the answer.', dragFirst:'Drag the apples first', tryAgain:'Try again', correct:'Correct!',
+                learnDone:'Great job! You learned numbers 1 to 20! 🎉', matchDone:'Excellent! You completed 5 matching questions! 🎉', score:s=>`Great job! Your score is ${s}/100 🎉`
+            },
+            ms: {
+                menuTitle:'Modul 123 🔢', menuDesc:'Pilih aktiviti nombor yang menyeronokkan!', home:'Kembali ke Utama 🏠',
+                learnTitle:'Belajar 123 🔢', number:'Nombor', listen:'🔊 Dengar', prev:'⬅ Sebelum', back:'Kembali ↩️', next:'Seterusnya ➡', finish:'Selesai 🏁',
+                matchTitle:'Suaikan Nombor 🔢', question:'Soalan', matchTip:'Tekan objek untuk dengar kiraan, kemudian seret kotak objek ke nombor yang betul.',
+                countTitle:'Mari Mengira 🍎', countInstruction:'Seret epal ke dalam setiap kotak. Kemudian pilih jawapan!',
+                dragApple:n=>`Seret ${n} biji epal ke sini`, fill:'Isi kedua-dua kotak dahulu.', reset:'↻ Susun Semula Epal',
+                ready:'Bagus! Sekarang pilih jawapan di bawah. ✅', firstSecond:(x,a,y,b)=>`Kotak pertama: ${x}/${a}   •   Kotak kedua: ${y}/${b}`,
+                exact:(a,b)=>`Seret tepat ${a} biji epal dan ${b} biji epal dahulu. 🍎`,
+                boxFull:'Kotak ini sudah penuh', choose:'Bagus. Sekarang pilih jawapan.', dragFirst:'Seret epal dahulu', tryAgain:'Cuba lagi', correct:'Betul!',
+                learnDone:'Syabas! Anda sudah belajar nombor 1 hingga 20! 🎉', matchDone:'Hebat! Anda sudah melengkapkan 5 soalan suaian nombor! 🎉', score:s=>`Syabas! Skor anda ialah ${s}/100 🎉`
+            }
+        };
+        const getNum123Lang = () => currentGlobalLang === 'ms' ? 'ms' : 'en';
+        const getNum123Words = () => numberWords123[getNum123Lang()];
+        const getNum123Text = () => num123Text[getNum123Lang()];
         let learn123Index = 1;
 
-        function open123Menu(){
-            window.speechSynthesis && window.speechSynthesis.cancel();
-            showScreen('num123-menu-screen');
+        function updateNumberLanguage(){
+            const t=getNum123Text();
+            const set=(id,val)=>{const el=document.getElementById(id); if(el)el.textContent=val;};
+            set('num123-menu-title',t.menuTitle); set('num123-menu-desc',t.menuDesc); set('num123-home-btn',t.home);
+            set('learn123-title',t.learnTitle); set('learn123-listen-btn',t.listen); set('learn123-prev',t.prev); set('learn123-back-btn',t.back);
+            set('match123-title',t.matchTitle); set('match123-tip',t.matchTip); set('match123-back-btn',t.back);
+            set('count123-title',t.countTitle); set('count123-instruction',t.countInstruction); set('count123-reset-btn',t.reset); set('count123-back-btn',t.back);
+            if(document.getElementById('learn123-screen')?.classList.contains('active')) renderLearn123();
+            if(document.getElementById('match123-screen')?.classList.contains('active') && match123Questions.length) renderMatch123();
+            if(document.getElementById('lets-count-screen')?.classList.contains('active') && count123Questions.length) renderCount123();
         }
+
+        function open123Menu(){ window.speechSynthesis && window.speechSynthesis.cancel(); updateNumberLanguage(); showScreen('num123-menu-screen'); }
         function startLearn123(){ learn123Index=1; showScreen('learn123-screen'); renderLearn123(); speakLearn123(); }
         function renderLearn123(){
+            const t=getNum123Text(), words=getNum123Words();
             document.getElementById('learn123-number').textContent=learn123Index;
-            document.getElementById('learn123-word').textContent=numberWords123[learn123Index];
-            document.getElementById('learn123-progress').textContent=`Number ${learn123Index} of 20`;
+            document.getElementById('learn123-word').textContent=words[learn123Index];
+            document.getElementById('learn123-progress').textContent=`${t.number} ${learn123Index} / 20`;
             const dots=document.getElementById('learn123-dots'); dots.innerHTML='';
             for(let i=0;i<learn123Index;i++){ const d=document.createElement('span'); d.className='learn123-dot'; dots.appendChild(d); }
             document.getElementById('learn123-prev').style.visibility=learn123Index===1?'hidden':'visible';
-            document.getElementById('learn123-next').textContent=learn123Index===20?'Finish 🏁':'Next ➡';
+            document.getElementById('learn123-prev').textContent=t.prev;
+            document.getElementById('learn123-next').textContent=learn123Index===20?t.finish:t.next;
+            document.getElementById('learn123-listen-btn').textContent=t.listen;
+            document.getElementById('learn123-back-btn').textContent=t.back;
         }
-        function speakText123(text, rate=.65){ if(!('speechSynthesis' in window))return; speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang='en-US'; u.rate=rate; u.pitch=1.08; speechSynthesis.speak(u); }
-        function speakLearn123(){ speakText123(`${learn123Index}. ${numberWords123[learn123Index]}`,.55); }
-        function nextLearn123(){ if(learn123Index<20){learn123Index++;renderLearn123();speakLearn123();}else{alert('Great job! You learned numbers 1 to 20! 🎉');open123Menu();} }
+        function speakText123(text, rate=.65){ if(!('speechSynthesis' in window))return; speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang=getNum123Lang()==='ms'?'ms-MY':'en-US'; u.rate=rate; u.pitch=1.08; speechSynthesis.speak(u); }
+        function speakLearn123(){ const words=getNum123Words(); speakText123(`${learn123Index}. ${words[learn123Index]}`,.55); }
+        function nextLearn123(){ const t=getNum123Text(); if(learn123Index<20){learn123Index++;renderLearn123();speakLearn123();}else{alert(t.learnDone);open123Menu();} }
         function prevLearn123(){ if(learn123Index>1){learn123Index--;renderLearn123();speakLearn123();} }
 
         const match123Objects=[
@@ -4270,31 +4316,17 @@
         ];
         let match123Questions=[],match123Index=0,match123Score=0,match123Locked=false,match123Drag=null,match123Float=null;
         function shuffle123(a){ return [...a].sort(()=>Math.random()-.5); }
-        function buildMatch123Questions(){
-            const counts=shuffle123([1,2,3,4,5,6,7,8,9,10]).slice(0,5);
-            const objs=shuffle123(match123Objects).slice(0,5);
-            return counts.map((count,i)=>({count,...objs[i]}));
-        }
+        function buildMatch123Questions(){ const counts=shuffle123([1,2,3,4,5,6,7,8,9,10]).slice(0,5); const objs=shuffle123(match123Objects).slice(0,5); return counts.map((count,i)=>({count,...objs[i]})); }
         function startMatchNumber(){ match123Questions=buildMatch123Questions(); match123Index=0; match123Score=0; showScreen('match123-screen'); renderMatch123(); }
         function renderMatch123(){
-            match123Locked=false; const q=match123Questions[match123Index];
-            document.getElementById('match123-progress').textContent=`Question ${match123Index+1} of 5`;
+            match123Locked=false; const q=match123Questions[match123Index], t=getNum123Text(), words=getNum123Words();
+            document.getElementById('match123-progress').textContent=`${t.question} ${match123Index+1} / 5`;
             document.getElementById('match123-score').textContent=match123Score;
+            document.getElementById('match123-title').textContent=t.matchTitle; document.getElementById('match123-tip').textContent=t.matchTip; document.getElementById('match123-back-btn').textContent=t.back;
             const box=document.getElementById('match123-object-box'); box.innerHTML=''; box.classList.remove('dragging'); box.dataset.answer=q.count;
             for(let i=1;i<=q.count;i++){
-                const e=document.createElement('span');
-                e.className='match123-emoji';
-                e.textContent=q.emoji;
-                e.title=`${i}`;
-                e.onclick=(ev)=>{
-                    ev.stopPropagation();
-                    // Gerakkan objek setiap kali ditekan supaya jelas objek sedang dikira.
-                    e.classList.remove('counting-move');
-                    void e.offsetWidth; // restart animation jika objek ditekan berulang kali
-                    e.classList.add('counting-move');
-                    e.addEventListener('animationend',()=>e.classList.remove('counting-move'),{once:true});
-                    speakText123(numberWords123[i],.5);
-                };
+                const e=document.createElement('span'); e.className='match123-emoji'; e.textContent=q.emoji; e.title=`${i}`;
+                e.onclick=(ev)=>{ ev.stopPropagation(); e.classList.remove('counting-move'); void e.offsetWidth; e.classList.add('counting-move'); e.addEventListener('animationend',()=>e.classList.remove('counting-move'),{once:true}); speakText123(words[i],.5); };
                 box.appendChild(e);
             }
             const pool=shuffle123([1,2,3,4,5,6,7,8,9,10].filter(n=>n!==q.count)).slice(0,3);
@@ -4302,11 +4334,11 @@
             opts.forEach(n=>{ const b=document.createElement('div');b.className='match123-number-target';b.dataset.number=n;b.textContent=n;b.onclick=()=>checkMatch123Target(b);list.appendChild(b); });
             installMatch123Drag();
         }
-        function speakMatch123Sequence(){ const q=match123Questions[match123Index]; const words=Array.from({length:q.count},(_,i)=>numberWords123[i+1]).join(', '); speakText123(words,.48); }
+        function speakMatch123Sequence(){ const q=match123Questions[match123Index],words=getNum123Words(); const seq=Array.from({length:q.count},(_,i)=>words[i+1]).join(', '); speakText123(seq,.48); }
         function checkMatch123Target(target){
-            if(match123Locked)return; const correct=+document.getElementById('match123-object-box').dataset.answer;
-            if(+target.dataset.number===correct){match123Locked=true;target.classList.add('correct');match123Score+=10;document.getElementById('match123-score').textContent=match123Score;speakText123(`${correct}. Correct!`,.6);setTimeout(()=>{if(match123Index<4){match123Index++;renderMatch123();}else{if(window.saveScoreToFirebase)window.saveScoreToFirebase('Match the Number',100);alert('Excellent! You completed 5 matching questions! 🎉');open123Menu();}},850)}
-            else{target.classList.add('wrong');speakText123('Try again',.7);setTimeout(()=>target.classList.remove('wrong'),550)}
+            if(match123Locked)return; const correct=+document.getElementById('match123-object-box').dataset.answer,t=getNum123Text();
+            if(+target.dataset.number===correct){match123Locked=true;target.classList.add('correct');match123Score+=10;document.getElementById('match123-score').textContent=match123Score;speakText123(`${correct}. ${t.correct}`,.6);setTimeout(()=>{if(match123Index<4){match123Index++;renderMatch123();}else{if(window.saveScoreToFirebase)window.saveScoreToFirebase(getNum123Lang()==='ms'?'Suaikan Nombor':'Match the Number',100);alert(t.matchDone);open123Menu();}},850)}
+            else{target.classList.add('wrong');speakText123(t.tryAgain,.7);setTimeout(()=>target.classList.remove('wrong'),550)}
         }
         function installMatch123Drag(){
             const box=document.getElementById('match123-object-box'); box.onpointerdown=(e)=>{
@@ -4327,10 +4359,11 @@
         let count123Questions=[],count123Index=0,count123Score=0,count123Placed={a:0,b:0},count123DragApple=null,count123FloatApple=null,count123Answered=false;
         function startLetsCount(){count123Questions=shuffle123(count123QuestionBank).slice(0,10);count123Index=0;count123Score=0;showScreen('lets-count-screen');renderCount123();}
         function renderCount123(){
-            count123Placed={a:0,b:0};count123Answered=false; const [a,b]=count123Questions[count123Index];
-            document.getElementById('count123-progress').textContent=`Question ${count123Index+1} of 10`;document.getElementById('count123-score').textContent=count123Score;document.getElementById('count123-equation').textContent=`${a} + ${b} = ?`;
-            document.getElementById('count123-label-a').textContent=`Drag ${a} apple${a>1?'s':''} here`;document.getElementById('count123-label-b').textContent=`Drag ${b} apple${b>1?'s':''} here`;
-            document.getElementById('count123-status').textContent='Fill both boxes first.';
+            count123Placed={a:0,b:0};count123Answered=false; const [a,b]=count123Questions[count123Index],t=getNum123Text();
+            document.getElementById('count123-progress').textContent=`${t.question} ${count123Index+1} / 10`;document.getElementById('count123-score').textContent=count123Score;document.getElementById('count123-equation').textContent=`${a} + ${b} = ?`;
+            document.getElementById('count123-title').textContent=t.countTitle; document.getElementById('count123-instruction').textContent=t.countInstruction; document.getElementById('count123-reset-btn').textContent=t.reset; document.getElementById('count123-back-btn').textContent=t.back;
+            document.getElementById('count123-label-a').textContent=t.dragApple(a);document.getElementById('count123-label-b').textContent=t.dragApple(b);
+            document.getElementById('count123-status').textContent=t.fill;
             ['count123-zone-a','count123-zone-b'].forEach(id=>{const z=document.getElementById(id);z.querySelectorAll('.count123-placed').forEach(x=>x.remove());z.classList.remove('hovered')});
             const bank=document.getElementById('count123-bank');bank.innerHTML='';
             for(let i=0;i<10;i++){const ap=document.createElement('span');ap.className='count123-apple';ap.textContent='🍎';ap.dataset.apple=i;bank.appendChild(ap);installCountAppleDrag(ap);}
@@ -4346,14 +4379,14 @@
         function highlightCountZone(x,y){document.querySelectorAll('.count123-dropzone').forEach(z=>z.classList.remove('hovered'));const z=document.elementFromPoint(x,y)?.closest('.count123-dropzone');if(z)z.classList.add('hovered')}
         function cleanupCountDrag(){count123DragApple=null;count123FloatApple?.remove();count123FloatApple=null;document.querySelectorAll('.count123-dropzone').forEach(z=>z.classList.remove('hovered'))}
         function dropCountApple(ap,zoneKey){
-            const [a,b]=count123Questions[count123Index],limit=zoneKey==='a'?a:b;if(count123Placed[zoneKey]>=limit){speakText123('This box is full',.7);return;}
-            count123Placed[zoneKey]++;ap.classList.add('used');const p=document.createElement('span');p.className='count123-placed';p.textContent='🍎';document.getElementById(`count123-zone-${zoneKey}`).appendChild(p);speakText123(numberWords123[count123Placed[zoneKey]],.52);updateCount123Status();
+            const [a,b]=count123Questions[count123Index],limit=zoneKey==='a'?a:b,t=getNum123Text();if(count123Placed[zoneKey]>=limit){speakText123(t.boxFull,.7);return;}
+            count123Placed[zoneKey]++;ap.classList.add('used');const p=document.createElement('span');p.className='count123-placed';p.textContent='🍎';document.getElementById(`count123-zone-${zoneKey}`).appendChild(p);speakText123(getNum123Words()[count123Placed[zoneKey]],.52);updateCount123Status();
         }
-        function updateCount123Status(){const [a,b]=count123Questions[count123Index];const ready=count123Placed.a===a&&count123Placed.b===b;document.getElementById('count123-status').textContent=ready?'Great! Now choose the answer below. ✅':`First box: ${count123Placed.a}/${a}   •   Second box: ${count123Placed.b}/${b}`;if(ready)speakText123('Great. Now choose the answer.',.72)}
-        function resetCount123Drag(){if(count123Answered)return;const [a,b]=count123Questions[count123Index];count123Placed={a:0,b:0};document.querySelectorAll('.count123-apple').forEach(x=>x.classList.remove('used'));document.querySelectorAll('.count123-placed').forEach(x=>x.remove());document.getElementById('count123-status').textContent='Fill both boxes first.';}
+        function updateCount123Status(){const [a,b]=count123Questions[count123Index],t=getNum123Text();const ready=count123Placed.a===a&&count123Placed.b===b;document.getElementById('count123-status').textContent=ready?t.ready:t.firstSecond(count123Placed.a,a,count123Placed.b,b);if(ready)speakText123(t.choose,.72)}
+        function resetCount123Drag(){if(count123Answered)return;const t=getNum123Text();count123Placed={a:0,b:0};document.querySelectorAll('.count123-apple').forEach(x=>x.classList.remove('used'));document.querySelectorAll('.count123-placed').forEach(x=>x.remove());document.getElementById('count123-status').textContent=t.fill;}
         function answerCount123(btn,n){
-            if(count123Answered)return;const [a,b]=count123Questions[count123Index];if(count123Placed.a!==a||count123Placed.b!==b){document.getElementById('count123-status').textContent=`Drag exactly ${a} apple${a>1?'s':''} and ${b} apple${b>1?'s':''} first. 🍎`;speakText123('Drag the apples first',.7);return;}
-            const ans=a+b;if(n===ans){count123Answered=true;btn.classList.add('correct');count123Score+=10;document.getElementById('count123-score').textContent=count123Score;speakText123(`${a} plus ${b} equals ${ans}. Correct!`,.58);setTimeout(()=>{if(count123Index<count123Questions.length-1){count123Index++;renderCount123();}else{if(window.saveScoreToFirebase)window.saveScoreToFirebase("Let's Count",Math.round(count123Score/10)*10);alert(`Great job! Your score is ${count123Score}/100 🎉`);open123Menu();}},950)}else{btn.classList.add('wrong');speakText123('Try again',.7);setTimeout(()=>btn.classList.remove('wrong'),550)}
+            if(count123Answered)return;const [a,b]=count123Questions[count123Index],t=getNum123Text();if(count123Placed.a!==a||count123Placed.b!==b){document.getElementById('count123-status').textContent=t.exact(a,b);speakText123(t.dragFirst,.7);return;}
+            const ans=a+b;if(n===ans){count123Answered=true;btn.classList.add('correct');count123Score+=10;document.getElementById('count123-score').textContent=count123Score;speakText123(getNum123Lang()==='ms'?`${a} tambah ${b} sama dengan ${ans}. ${t.correct}`:`${a} plus ${b} equals ${ans}. ${t.correct}`,.58);setTimeout(()=>{if(count123Index<count123Questions.length-1){count123Index++;renderCount123();}else{if(window.saveScoreToFirebase)window.saveScoreToFirebase(getNum123Lang()==='ms'?'Mari Mengira':"Let's Count",Math.round(count123Score/10)*10);alert(t.score(count123Score));open123Menu();}},950)}else{btn.classList.add('wrong');speakText123(t.tryAgain,.7);setTimeout(()=>btn.classList.remove('wrong'),550)}
         }
 
 
