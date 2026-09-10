@@ -1886,7 +1886,18 @@
             box-shadow:0 9px 22px rgba(0,0,0,.13);
         }
         .match123-object-box.dragging { transform:scale(1.03); border-color:var(--primary-pink); }
-        .match123-emoji { font-size:clamp(2.8rem,8vw,4.3rem); line-height:1; cursor:pointer; filter:drop-shadow(0 3px 2px rgba(0,0,0,.12)); }
+        .match123-emoji { font-size:clamp(2.8rem,8vw,4.3rem); line-height:1; cursor:pointer; filter:drop-shadow(0 3px 2px rgba(0,0,0,.12)); transform-origin:center bottom; }
+        .match123-emoji.counting-move { animation: match123CountMove .42s ease-out; }
+        @keyframes match123CountMove {
+            0%   { transform: translateY(0) scale(1) rotate(0deg); }
+            28%  { transform: translateY(-14px) scale(1.14) rotate(-7deg); }
+            58%  { transform: translateY(2px) scale(.96) rotate(6deg); }
+            78%  { transform: translateY(-5px) scale(1.05) rotate(-3deg); }
+            100% { transform: translateY(0) scale(1) rotate(0deg); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .match123-emoji.counting-move { animation-duration:.01ms; }
+        }
         .match123-number-list { display:flex; flex-direction:column; gap:12px; }
         .match123-number-target {
             height:62px; border-radius:18px; border:4px solid #C7D2FE; background:white;
@@ -4260,7 +4271,22 @@
             document.getElementById('match123-progress').textContent=`Question ${match123Index+1} of 5`;
             document.getElementById('match123-score').textContent=match123Score;
             const box=document.getElementById('match123-object-box'); box.innerHTML=''; box.classList.remove('dragging'); box.dataset.answer=q.count;
-            for(let i=1;i<=q.count;i++){ const e=document.createElement('span');e.className='match123-emoji';e.textContent=q.emoji;e.title=`${i}`;e.onclick=(ev)=>{ev.stopPropagation();speakText123(numberWords123[i],.5)};box.appendChild(e); }
+            for(let i=1;i<=q.count;i++){
+                const e=document.createElement('span');
+                e.className='match123-emoji';
+                e.textContent=q.emoji;
+                e.title=`${i}`;
+                e.onclick=(ev)=>{
+                    ev.stopPropagation();
+                    // Gerakkan objek setiap kali ditekan supaya jelas objek sedang dikira.
+                    e.classList.remove('counting-move');
+                    void e.offsetWidth; // restart animation jika objek ditekan berulang kali
+                    e.classList.add('counting-move');
+                    e.addEventListener('animationend',()=>e.classList.remove('counting-move'),{once:true});
+                    speakText123(numberWords123[i],.5);
+                };
+                box.appendChild(e);
+            }
             const pool=shuffle123([1,2,3,4,5,6,7,8,9,10].filter(n=>n!==q.count)).slice(0,3);
             const opts=shuffle123([q.count,...pool]); const list=document.getElementById('match123-number-list'); list.innerHTML='';
             opts.forEach(n=>{ const b=document.createElement('div');b.className='match123-number-target';b.dataset.number=n;b.textContent=n;b.onclick=()=>checkMatch123Target(b);list.appendChild(b); });
