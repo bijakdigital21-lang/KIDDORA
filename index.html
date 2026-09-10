@@ -2451,7 +2451,65 @@
             #find-colour-screen .find-colour-chip{height:94px;}
         }
 
-    </style>
+    
+        /* ===== FINAL FIX: POP THE BALLOON - PHONE TRUE CENTER ===== */
+        @media (max-width: 560px) {
+            #pop-balloon-screen.card.active {
+                display: flex !important;
+                flex-direction: column;
+                align-items: center;
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 0 !important;
+                margin: 0 auto !important;
+                transform: none !important;
+            }
+
+            #pop-balloon-screen > h2,
+            #pop-balloon-screen > .colour-progress,
+            #pop-balloon-screen > .action-btn {
+                align-self: center;
+            }
+
+            #pop-balloon-screen .colour-board {
+                width: 100% !important;
+                max-width: 410px !important;
+                margin: 10px auto 12px !important;
+                padding: 12px 10px 14px !important;
+                box-sizing: border-box;
+                align-self: center;
+            }
+
+            #pop-balloon-screen .balloon-field {
+                width: 100% !important;
+                max-width: 380px !important;
+                margin: 10px auto 4px !important;
+                padding: 12px 10px 16px !important;
+                box-sizing: border-box;
+                display: grid !important;
+                grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+                gap: 10px 8px !important;
+                justify-items: center !important;
+                align-items: center !important;
+                justify-content: center !important;
+                align-content: center !important;
+                min-height: 0 !important;
+                height: auto !important;
+                position: relative;
+                left: 0 !important;
+                right: 0 !important;
+                transform: none !important;
+            }
+
+            #pop-balloon-screen .colour-balloon {
+                width: min(100%, 68px) !important;
+                min-height: 78px !important;
+                max-height: 84px !important;
+                justify-self: center !important;
+                margin: 0 auto !important;
+            }
+        }
+</style>
 </head>
 <body>
 
