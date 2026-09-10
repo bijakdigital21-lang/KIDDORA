@@ -2111,6 +2111,121 @@
             .spell-letter-btn { width: 55px; height: 55px; font-size: 1.75rem; }
         }
 
+    
+
+        /* =========================================================
+           ABC TRACING - huruf besar & huruf kecil
+           Kanak-kanak trace terus di atas canvas berpandukan titik.
+        ========================================================== */
+        #abc-tracing-screen {
+            width: min(96vw, 900px);
+            margin-left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .tracing-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 14px auto;
+        }
+
+        .trace-case-btn {
+            border: none;
+            border-radius: 15px;
+            padding: 11px 18px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1rem;
+            cursor: pointer;
+            background: rgba(255,255,255,.95);
+            color: #5E17EB;
+            box-shadow: 0 4px 0 #c4acd9, 0 7px 14px rgba(0,0,0,.12);
+        }
+        .trace-case-btn.active {
+            background: var(--primary-yellow);
+            color: #3f2a08;
+            box-shadow: 0 4px 0 #d6ad20, 0 7px 14px rgba(0,0,0,.12);
+        }
+
+        .tracing-board {
+            background: rgba(255,255,255,.98);
+            border: 5px solid #C38FFF;
+            border-radius: 30px;
+            padding: 14px;
+            box-shadow: 0 12px 28px rgba(0,0,0,.16);
+            margin: 12px auto 18px;
+            width: 100%;
+        }
+
+        .trace-letter-display {
+            font-family: Arial, sans-serif;
+            font-weight: 900;
+            font-size: 1.25rem;
+            color: #5E17EB;
+            margin: 2px 0 10px;
+        }
+
+        .trace-canvas-wrap {
+            position: relative;
+            width: 100%;
+            height: clamp(360px, 58vw, 520px);
+            border-radius: 22px;
+            overflow: hidden;
+            background: #fff;
+            border: 3px solid #ece4ff;
+            touch-action: none;
+        }
+
+        #abc-trace-guide,
+        #abc-trace-draw {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        #abc-trace-guide { pointer-events: none; }
+        #abc-trace-draw { touch-action: none; cursor: crosshair; }
+
+        .trace-nav-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .trace-progress {
+            min-width: 115px;
+            padding: 9px 13px;
+            border-radius: 14px;
+            background: rgba(255,249,196,.96);
+            border: 2px solid #FBC02D;
+            font-weight: 900;
+            color: #5b4600;
+        }
+
+        .trace-clear-btn {
+            background: #FF66C4;
+            box-shadow: 0 5px 0 #b33687, 0 8px 20px rgba(0,0,0,.15);
+        }
+
+        @media (max-width: 768px) {
+            #abc-tracing-screen {
+                width: calc(100vw - 10px);
+                margin-left: 50%;
+                transform: translateX(-50%);
+                padding-left: 0;
+                padding-right: 0;
+            }
+            .tracing-board { padding: 8px; border-radius: 23px; }
+            .trace-canvas-wrap { height: min(112vw, 470px); min-height: 340px; }
+            .trace-case-btn { padding: 10px 13px; font-size: .92rem; }
+        }
+
     </style>
 </head>
 <body>
@@ -2283,6 +2398,11 @@
                         <span style="display:none;">🔊 🔤</span>
                         <span style="display:none;">Spell it Right</span>
                     </button>
+
+                    <button class="abc-sub-btn abc-image-btn" onclick="playClickSound(); startABCTracing()" aria-label="ABC Tracing">
+                        <img src="https://i.imgur.com/Njh66tz.jpeg" alt="ABC Tracing">
+                        <span style="display:none;">ABC Tracing</span>
+                    </button>
                 </div>
     
                 <br>
@@ -2335,7 +2455,37 @@
             </div>
 
 
-            <!-- 123 MODULE MENU SCREEN -->
+
+
+            <!-- ABC TRACING SCREEN -->
+            <div id="abc-tracing-screen" class="card">
+                <h2 style="color:#ffff00;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #5E17EB;">ABC Tracing ✏️</h2>
+                <p style="color:#111;font-weight:800;margin:6px 0 10px;">Trace the dotted letter with your finger or mouse.</p>
+
+                <div class="tracing-toolbar">
+                    <button id="trace-uppercase-btn" class="trace-case-btn active" onclick="setTraceCase('upper')">ABC • Uppercase</button>
+                    <button id="trace-lowercase-btn" class="trace-case-btn" onclick="setTraceCase('lower')">abc • Lowercase</button>
+                </div>
+
+                <div class="tracing-board">
+                    <div id="trace-letter-display" class="trace-letter-display">Uppercase A</div>
+                    <div class="trace-canvas-wrap" id="trace-canvas-wrap">
+                        <canvas id="abc-trace-guide"></canvas>
+                        <canvas id="abc-trace-draw"></canvas>
+                    </div>
+
+                    <div class="trace-nav-row">
+                        <button class="action-btn home-btn" onclick="previousTraceLetter()">⬅ Previous</button>
+                        <div class="trace-progress" id="trace-progress">A • 1 / 26</div>
+                        <button class="action-btn" onclick="nextTraceLetter()">Next ➡</button>
+                        <button class="action-btn trace-clear-btn" onclick="clearTraceDrawing()">🧽 Clear</button>
+                    </div>
+                </div>
+
+                <button class="action-btn home-btn" onclick="playClickSound(); openABCMenu()">Back to ABC 🔤</button>
+            </div>
+
+                        <!-- 123 MODULE MENU SCREEN -->
             <div id="num123-menu-screen" class="card">
                 <h2 id="num123-menu-title" style="color:#FFDE59;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #5E17EB;">123 Module 🔢</h2>
                 <p id="num123-menu-desc" style="color:#111;font-weight:800;margin-top:5px;">Choose a fun number activity!</p>
@@ -4996,6 +5146,193 @@ document.addEventListener('DOMContentLoaded', () => {
                 speakWholeWord('Well done');
             }
         }
+
+
+
+
+        // =========================================================
+        // ABC TRACING
+        // =========================================================
+        let traceLetterIndex = 0;
+        let traceCase = 'upper';
+        let traceDrawing = false;
+        let traceLastPoint = null;
+        let traceResizeTimer = null;
+        const traceAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+        function startABCTracing() {
+            traceLetterIndex = 0;
+            traceCase = 'upper';
+            showScreen('abc-tracing-screen');
+            document.getElementById('trace-uppercase-btn').classList.add('active');
+            document.getElementById('trace-lowercase-btn').classList.remove('active');
+            requestAnimationFrame(() => {
+                setupTraceCanvases();
+                renderTraceLetter();
+            });
+        }
+
+        function setTraceCase(which) {
+            playClickSound();
+            traceCase = which;
+            document.getElementById('trace-uppercase-btn').classList.toggle('active', which === 'upper');
+            document.getElementById('trace-lowercase-btn').classList.toggle('active', which === 'lower');
+            clearTraceDrawing(false);
+            renderTraceLetter();
+        }
+
+        function previousTraceLetter() {
+            playClickSound();
+            traceLetterIndex = (traceLetterIndex - 1 + 26) % 26;
+            clearTraceDrawing(false);
+            renderTraceLetter();
+        }
+
+        function nextTraceLetter() {
+            playClickSound();
+            traceLetterIndex = (traceLetterIndex + 1) % 26;
+            clearTraceDrawing(false);
+            renderTraceLetter();
+        }
+
+        function getTraceLetter() {
+            const l = traceAlphabet[traceLetterIndex];
+            return traceCase === 'upper' ? l : l.toLowerCase();
+        }
+
+        function setupTraceCanvases() {
+            const wrap = document.getElementById('trace-canvas-wrap');
+            const guide = document.getElementById('abc-trace-guide');
+            const draw = document.getElementById('abc-trace-draw');
+            if (!wrap || !guide || !draw) return;
+
+            const rect = wrap.getBoundingClientRect();
+            const dpr = Math.max(1, window.devicePixelRatio || 1);
+            [guide, draw].forEach(c => {
+                c.width = Math.round(rect.width * dpr);
+                c.height = Math.round(rect.height * dpr);
+                c.style.width = rect.width + 'px';
+                c.style.height = rect.height + 'px';
+                const ctx = c.getContext('2d');
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            });
+            attachTraceEvents();
+        }
+
+        function renderTraceLetter() {
+            const guide = document.getElementById('abc-trace-guide');
+            const wrap = document.getElementById('trace-canvas-wrap');
+            if (!guide || !wrap) return;
+            const ctx = guide.getContext('2d');
+            const w = wrap.clientWidth;
+            const h = wrap.clientHeight;
+            ctx.clearRect(0, 0, w, h);
+
+            const letter = getTraceLetter();
+            const fontSize = Math.floor(Math.min(w * 0.74, h * 0.88));
+            ctx.save();
+            ctx.font = `900 ${fontSize}px Arial, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            // very light inside letter, like a tracing worksheet
+            ctx.fillStyle = '#fbfbfb';
+            ctx.strokeStyle = '#d8d8d8';
+            ctx.lineWidth = Math.max(3, fontSize * 0.018);
+            ctx.setLineDash([2, Math.max(9, fontSize * 0.055)]);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.fillText(letter, w / 2, h / 2 + fontSize * 0.035);
+            ctx.strokeText(letter, w / 2, h / 2 + fontSize * 0.035);
+
+            // dotted center guide adds the obvious dot-to-dot look from reference
+            ctx.globalAlpha = .9;
+            ctx.strokeStyle = '#111';
+            ctx.lineWidth = Math.max(4, fontSize * 0.022);
+            ctx.setLineDash([1, Math.max(11, fontSize * 0.06)]);
+            ctx.strokeText(letter, w / 2, h / 2 + fontSize * 0.035);
+            ctx.restore();
+
+            const label = traceCase === 'upper' ? 'Uppercase' : 'Lowercase';
+            document.getElementById('trace-letter-display').innerText = `${label} ${letter}`;
+            document.getElementById('trace-progress').innerText = `${letter} • ${traceLetterIndex + 1} / 26`;
+        }
+
+        function clearTraceDrawing(withSound = true) {
+            if (withSound) playClickSound();
+            const draw = document.getElementById('abc-trace-draw');
+            const wrap = document.getElementById('trace-canvas-wrap');
+            if (!draw || !wrap) return;
+            draw.getContext('2d').clearRect(0, 0, wrap.clientWidth, wrap.clientHeight);
+            traceDrawing = false;
+            traceLastPoint = null;
+        }
+
+        function tracePointFromEvent(e) {
+            const canvas = document.getElementById('abc-trace-draw');
+            const rect = canvas.getBoundingClientRect();
+            return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        }
+
+        function beginTraceStroke(e) {
+            if (e.pointerType === 'mouse' && e.button !== 0) return;
+            e.preventDefault();
+            const canvas = document.getElementById('abc-trace-draw');
+            if (canvas.setPointerCapture) canvas.setPointerCapture(e.pointerId);
+            traceDrawing = true;
+            traceLastPoint = tracePointFromEvent(e);
+
+            const ctx = canvas.getContext('2d');
+            ctx.beginPath();
+            ctx.fillStyle = '#5E17EB';
+            ctx.arc(traceLastPoint.x, traceLastPoint.y, 6, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function moveTraceStroke(e) {
+            if (!traceDrawing) return;
+            e.preventDefault();
+            const canvas = document.getElementById('abc-trace-draw');
+            const point = tracePointFromEvent(e);
+            const ctx = canvas.getContext('2d');
+            ctx.beginPath();
+            ctx.moveTo(traceLastPoint.x, traceLastPoint.y);
+            ctx.lineTo(point.x, point.y);
+            ctx.strokeStyle = '#5E17EB';
+            ctx.lineWidth = Math.max(10, canvas.getBoundingClientRect().width * 0.025);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+            traceLastPoint = point;
+        }
+
+        function endTraceStroke(e) {
+            if (!traceDrawing) return;
+            e.preventDefault();
+            traceDrawing = false;
+            traceLastPoint = null;
+        }
+
+        function attachTraceEvents() {
+            const canvas = document.getElementById('abc-trace-draw');
+            if (!canvas || canvas.dataset.traceReady === '1') return;
+            canvas.dataset.traceReady = '1';
+            canvas.addEventListener('pointerdown', beginTraceStroke, { passive: false });
+            canvas.addEventListener('pointermove', moveTraceStroke, { passive: false });
+            canvas.addEventListener('pointerup', endTraceStroke, { passive: false });
+            canvas.addEventListener('pointercancel', endTraceStroke, { passive: false });
+            canvas.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') endTraceStroke(e); }, { passive: false });
+        }
+
+        window.addEventListener('resize', () => {
+            if (!document.getElementById('abc-tracing-screen')?.classList.contains('active')) return;
+            clearTimeout(traceResizeTimer);
+            traceResizeTimer = setTimeout(() => {
+                setupTraceCanvases();
+                clearTraceDrawing(false);
+                renderTraceLetter();
+            }, 140);
+        });
 
 
         window.addEventListener('click', enableAutoplayOnFirstTouch);
