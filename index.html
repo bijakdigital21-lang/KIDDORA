@@ -847,26 +847,185 @@
             min-height: 82px;
         }
 
-        /* Match the Letter sahaja: huruf lebih besar, Arial Bold dan kotak square */
+        /* =========================================================
+           MATCH THE LETTERS SAHAJA - TEMA LEBAH & BUNGA
+           Kiri = lebah (huruf kecil), kanan = bunga (huruf besar)
+           Fungsi drag / matching lain dikekalkan.
+        ========================================================== */
         #match-game-screen .match-column {
-            width: 145px;
+            width: 160px;
+            gap: 18px;
         }
 
-        /* Match the Letter sahaja: kotak kiri/kanan dianjak keluar */
-        #match-game-screen #match-left-column { transform: translateX(-25px); }
-        #match-game-screen #match-right-column { transform: translateX(25px); }
+        /* Anjak kiri & kanan supaya ruang tengah lebih luas untuk tarik garis */
+        #match-game-screen #match-left-column {
+            transform: translateX(-45px);
+        }
+        #match-game-screen #match-right-column {
+            transform: translateX(45px);
+        }
 
         #match-game-screen .match-item {
+            position: relative;
             font-family: Arial, sans-serif;
-            font-size: 4rem !important;
+            font-size: 3.8rem !important;
             font-weight: 700 !important;
-            width: 145px !important;
-            height: 145px !important;
-            min-height: 145px !important;
-            aspect-ratio: 1 / 1;
+            width: 150px !important;
+            height: 132px !important;
+            min-height: 132px !important;
             padding: 0 !important;
-            border-radius: 16px;
-            flex: 0 0 145px !important;
+            border: none !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            flex: 0 0 132px !important;
+            overflow: visible;
+            isolation: isolate;
+        }
+
+        #match-game-screen .match-item .match-letter {
+            position: relative;
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 78px;
+            height: 78px;
+            border-radius: 50%;
+            background: #fffdf5;
+            color: #111;
+            border: 3px solid rgba(90,55,15,.28);
+            box-shadow: 0 5px 10px rgba(0,0,0,.18), inset 0 2px 7px rgba(255,255,255,.9);
+            line-height: 1;
+        }
+
+        /* ---------- LEBAH: huruf kecil sebelah kiri ---------- */
+        #match-game-screen #match-left-column .match-item {
+            width: 160px !important;
+        }
+
+        #match-game-screen #match-left-column .match-item::before {
+            content: '';
+            position: absolute;
+            z-index: 1;
+            left: 20px;
+            top: 31px;
+            width: 118px;
+            height: 76px;
+            border-radius: 55% 48% 50% 55%;
+            background:
+                linear-gradient(90deg,
+                    #ffd83d 0 18%,
+                    #2c2015 18% 29%,
+                    #ffd83d 29% 47%,
+                    #2c2015 47% 58%,
+                    #ffd83d 58% 100%);
+            border: 4px solid #7b4b12;
+            box-shadow: 0 6px 12px rgba(0,0,0,.22);
+            transform: rotate(-4deg);
+        }
+
+        #match-game-screen #match-left-column .match-item::after {
+            content: '';
+            position: absolute;
+            z-index: 0;
+            left: 13px;
+            top: 2px;
+            width: 58px;
+            height: 54px;
+            border-radius: 62% 45% 62% 42%;
+            background: rgba(176,236,255,.88);
+            border: 3px solid #68bde7;
+            box-shadow: 38px 3px 0 -3px rgba(176,236,255,.88),
+                        39px 3px 0 0 #68bde7;
+            transform: rotate(-17deg);
+        }
+
+        #match-game-screen #match-left-column .match-item .match-letter {
+            margin-left: 42px;
+            margin-top: 29px;
+        }
+
+        /* Kepala lebah kecil */
+        #match-game-screen #match-left-column .match-item .match-letter::before {
+            content: '•  •';
+            position: absolute;
+            z-index: -1;
+            right: -47px;
+            top: -15px;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #ffd83d;
+            border: 4px solid #7b4b12;
+            color: #2b1a0b;
+            font-size: 13px;
+            letter-spacing: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,.18);
+        }
+
+        /* ---------- BUNGA: huruf besar sebelah kanan ---------- */
+        #match-game-screen #match-right-column .match-item::before {
+            content: '';
+            position: absolute;
+            z-index: 1;
+            left: 7px;
+            top: 0;
+            width: 136px;
+            height: 136px;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle at 50% 10%, #ff639a 0 24px, transparent 25px),
+                radial-gradient(circle at 79% 23%, #ff639a 0 24px, transparent 25px),
+                radial-gradient(circle at 91% 53%, #ff639a 0 24px, transparent 25px),
+                radial-gradient(circle at 74% 81%, #ff639a 0 24px, transparent 25px),
+                radial-gradient(circle at 43% 91%, #ff639a 0 24px, transparent 25px),
+                radial-gradient(circle at 15% 72%, #ff639a 0 24px, transparent 25px),
+                radial-gradient(circle at 10% 39%, #ff639a 0 24px, transparent 25px),
+                radial-gradient(circle at 27% 15%, #ff639a 0 24px, transparent 25px);
+            filter: drop-shadow(0 6px 6px rgba(0,0,0,.18));
+        }
+
+        #match-game-screen #match-right-column .match-item::after {
+            content: '';
+            position: absolute;
+            z-index: 0;
+            left: 37px;
+            bottom: -7px;
+            width: 34px;
+            height: 22px;
+            border-radius: 90% 10% 90% 10%;
+            background: #3fbf49;
+            box-shadow: 42px 0 0 #3fbf49;
+            transform: rotate(-18deg);
+        }
+
+        #match-game-screen #match-right-column .match-item .match-letter {
+            margin: 28px auto 0 auto;
+            width: 82px;
+            height: 82px;
+            background: radial-gradient(circle at 35% 28%, #fff9c8, #ffe87c 72%, #f2c94c 100%);
+            border: 3px solid #e2af31;
+            font-size: 0.96em;
+        }
+
+        /* Hover / selected / matched tanpa menghilangkan bentuk lebah & bunga */
+        #match-game-screen .match-item:hover {
+            background: transparent !important;
+            transform: scale(1.04);
+        }
+        #match-game-screen .match-item.selected {
+            background: transparent !important;
+            transform: scale(1.07);
+            filter: drop-shadow(0 0 9px #ffdf45);
+        }
+        #match-game-screen .match-item.matched {
+            background: transparent !important;
+            color: inherit;
+            opacity: .58;
+            filter: drop-shadow(0 0 7px #43c85b);
         }
 
         .match-item img {
@@ -1140,24 +1299,93 @@
                 min-height: 68px;
             }
 
+            /* Match the Letters - saiz khas mobile */
             #match-game-screen .match-column {
-                width: 110px;
+                width: 118px;
+                gap: 14px;
             }
 
-            #match-game-screen #match-left-column { transform: translateX(-12px); }
-            #match-game-screen #match-right-column { transform: translateX(12px); }
+            #match-game-screen #match-left-column { transform: translateX(-18px); }
+            #match-game-screen #match-right-column { transform: translateX(18px); }
 
             #match-game-screen .match-item {
-                font-family: Arial, sans-serif;
-                font-size: 3.2rem !important;
-                font-weight: 700 !important;
-                width: 110px !important;
-                height: 110px !important;
-                min-height: 110px !important;
-                aspect-ratio: 1 / 1;
-                padding: 0 !important;
-                border-radius: 14px;
-                flex: 0 0 110px !important;
+                font-size: 2.8rem !important;
+                width: 118px !important;
+                height: 104px !important;
+                min-height: 104px !important;
+                flex: 0 0 104px !important;
+            }
+
+            #match-game-screen #match-left-column .match-item {
+                width: 122px !important;
+            }
+
+            #match-game-screen .match-item .match-letter {
+                width: 60px;
+                height: 60px;
+            }
+
+            #match-game-screen #match-left-column .match-item::before {
+                left: 14px;
+                top: 27px;
+                width: 92px;
+                height: 59px;
+                border-width: 3px;
+            }
+
+            #match-game-screen #match-left-column .match-item::after {
+                left: 9px;
+                top: 4px;
+                width: 43px;
+                height: 39px;
+                border-width: 2px;
+                box-shadow: 30px 2px 0 -2px rgba(176,236,255,.88),
+                            31px 2px 0 0 #68bde7;
+            }
+
+            #match-game-screen #match-left-column .match-item .match-letter {
+                margin-left: 33px;
+                margin-top: 25px;
+            }
+
+            #match-game-screen #match-left-column .match-item .match-letter::before {
+                right: -37px;
+                top: -11px;
+                width: 40px;
+                height: 40px;
+                border-width: 3px;
+                font-size: 9px;
+                letter-spacing: 3px;
+            }
+
+            #match-game-screen #match-right-column .match-item::before {
+                left: 4px;
+                top: 0;
+                width: 108px;
+                height: 108px;
+                background:
+                    radial-gradient(circle at 50% 10%, #ff639a 0 19px, transparent 20px),
+                    radial-gradient(circle at 79% 23%, #ff639a 0 19px, transparent 20px),
+                    radial-gradient(circle at 91% 53%, #ff639a 0 19px, transparent 20px),
+                    radial-gradient(circle at 74% 81%, #ff639a 0 19px, transparent 20px),
+                    radial-gradient(circle at 43% 91%, #ff639a 0 19px, transparent 20px),
+                    radial-gradient(circle at 15% 72%, #ff639a 0 19px, transparent 20px),
+                    radial-gradient(circle at 10% 39%, #ff639a 0 19px, transparent 20px),
+                    radial-gradient(circle at 27% 15%, #ff639a 0 19px, transparent 20px);
+            }
+
+            #match-game-screen #match-right-column .match-item .match-letter {
+                width: 65px;
+                height: 65px;
+                margin-top: 21px;
+            }
+
+            #match-game-screen #match-right-column .match-item::after {
+                left: 28px;
+                bottom: -4px;
+                width: 27px;
+                height: 18px;
+                box-shadow: 35px 0 0 #3fbf49;
             }
 
             .match-item img {
@@ -2973,18 +3201,28 @@
             randomizedLowercase.forEach(letter => {
                 const div = document.createElement("div");
                 div.className = "match-item";
-                div.innerText = letter.toLowerCase();
                 div.dataset.letter = letter;
                 div.dataset.side = "left";
+
+                const letterSpan = document.createElement("span");
+                letterSpan.className = "match-letter";
+                letterSpan.innerText = letter.toLowerCase();
+                div.appendChild(letterSpan);
+
                 leftCol.appendChild(div);
             });
 
             randomizedUppercase.forEach(letter => {
                 const div = document.createElement("div");
                 div.className = "match-item";
-                div.innerText = letter;
                 div.dataset.letter = letter;
                 div.dataset.side = "right";
+
+                const letterSpan = document.createElement("span");
+                letterSpan.className = "match-letter";
+                letterSpan.innerText = letter;
+                div.appendChild(letterSpan);
+
                 rightCol.appendChild(div);
             });
 
