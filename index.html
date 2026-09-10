@@ -1814,33 +1814,28 @@
             margin: 28px 0;
         }
         .num123-menu-btn {
+            min-height: 165px;
             border: 4px solid rgba(255,255,255,.9);
             border-radius: 26px;
             cursor: pointer;
-            padding: 0;
-            overflow: hidden;
-            background: transparent;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.25rem;
+            color: #2C3E50;
+            padding: 18px 10px;
             box-shadow: 0 8px 0 rgba(69,39,115,.28), 0 12px 24px rgba(0,0,0,.14);
-            transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-            display: block;
-            aspect-ratio: 1 / 1;
-            width: 100%;
+            transition: transform .18s ease, box-shadow .18s ease;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            gap:10px;
         }
-        .num123-menu-btn img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            border-radius: 22px;
-            pointer-events: none;
-            transition: transform .18s ease;
-        }
-        .num123-menu-btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 11px 0 rgba(69,39,115,.28), 0 15px 28px rgba(0,0,0,.18);
-            border-color: var(--primary-pink);
-        }
-        .num123-menu-btn:hover img { transform: scale(1.05); }
+        .num123-menu-btn:nth-child(1){background:linear-gradient(145deg,#fff176,#ffca55)}
+        .num123-menu-btn:nth-child(2){background:linear-gradient(145deg,#8ee7ff,#74c8ff)}
+        .num123-menu-btn:nth-child(3){background:linear-gradient(145deg,#ff9bd5,#d6a7ff)}
+        .num123-menu-btn:hover { transform: translateY(-4px); box-shadow:0 11px 0 rgba(69,39,115,.28),0 15px 28px rgba(0,0,0,.18); }
+        .num123-menu-icon { font-size: 3.7rem; line-height:1; }
+        .num123-menu-small { font-family:'Quicksand',sans-serif; font-size:.84rem; font-weight:800; color:#495057; }
 
         .learn123-board {
             background:rgba(255,255,255,.94);
@@ -1891,7 +1886,18 @@
             box-shadow:0 9px 22px rgba(0,0,0,.13);
         }
         .match123-object-box.dragging { transform:scale(1.03); border-color:var(--primary-pink); }
-        .match123-emoji { font-size:clamp(2.8rem,8vw,4.3rem); line-height:1; cursor:pointer; filter:drop-shadow(0 3px 2px rgba(0,0,0,.12)); }
+        .match123-emoji { font-size:clamp(2.8rem,8vw,4.3rem); line-height:1; cursor:pointer; filter:drop-shadow(0 3px 2px rgba(0,0,0,.12)); transform-origin:center bottom; }
+        .match123-emoji.counting-move { animation: match123CountMove .42s ease-out; }
+        @keyframes match123CountMove {
+            0%   { transform: translateY(0) scale(1) rotate(0deg); }
+            28%  { transform: translateY(-14px) scale(1.14) rotate(-7deg); }
+            58%  { transform: translateY(2px) scale(.96) rotate(6deg); }
+            78%  { transform: translateY(-5px) scale(1.05) rotate(-3deg); }
+            100% { transform: translateY(0) scale(1) rotate(0deg); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .match123-emoji.counting-move { animation-duration:.01ms; }
+        }
         .match123-number-list { display:flex; flex-direction:column; gap:12px; }
         .match123-number-target {
             height:62px; border-radius:18px; border:4px solid #C7D2FE; background:white;
@@ -1931,7 +1937,7 @@
         .num123-floating { position:fixed; z-index:9999; pointer-events:none; transform:translate(-50%,-50%) scale(1.15); font-size:3rem; filter:drop-shadow(0 4px 4px rgba(0,0,0,.25)); }
 
         @media(max-width:700px){
-            .num123-menu-grid{grid-template-columns:1fr;gap:13px}.num123-menu-btn{width:100%;max-width:340px;margin:0 auto}
+            .num123-menu-grid{grid-template-columns:1fr;gap:13px}.num123-menu-btn{min-height:112px;flex-direction:row;text-align:left;padding:13px 18px}.num123-menu-icon{font-size:3rem}
             .match123-stage{grid-template-columns:minmax(0,1fr) 94px;gap:15px}.match123-object-box{min-height:245px;padding:12px}.match123-number-target{height:55px;font-size:2.1rem}
             .count123-groups{grid-template-columns:1fr 1fr;gap:8px}.count123-dropzone{min-height:145px;padding:8px}.count123-answers{grid-template-columns:1fr 1fr}.count123-answer{min-height:58px}
         }
@@ -2117,14 +2123,14 @@
                 <h2 style="color:#FFDE59;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #5E17EB;">123 Module 🔢</h2>
                 <p style="color:#111;font-weight:800;margin-top:5px;">Choose a fun number activity!</p>
                 <div class="num123-menu-grid">
-                    <button class="num123-menu-btn" onclick="playClickSound(); startLearn123()" aria-label="Learn 123">
-                        <img src="https://i.imgur.com/ieRpdVr.jpeg" alt="Learn 123">
+                    <button class="num123-menu-btn" onclick="playClickSound(); startLearn123()">
+                        <span class="num123-menu-icon">1️⃣2️⃣3️⃣</span><span>Learn 123</span><span class="num123-menu-small">Learn numbers 1 to 20</span>
                     </button>
-                    <button class="num123-menu-btn" onclick="playClickSound(); startMatchNumber()" aria-label="Match the Number">
-                        <img src="https://i.imgur.com/AdML2d9.jpeg" alt="Match the Number">
+                    <button class="num123-menu-btn" onclick="playClickSound(); startMatchNumber()">
+                        <span class="num123-menu-icon">🐱 ➜ 3</span><span>Match the Number</span><span class="num123-menu-small">Count & match 1 to 10</span>
                     </button>
-                    <button class="num123-menu-btn" onclick="playClickSound(); startLetsCount()" aria-label="Let's Count">
-                        <img src="https://i.imgur.com/TG1VQD3.jpeg" alt="Let's Count">
+                    <button class="num123-menu-btn" onclick="playClickSound(); startLetsCount()">
+                        <span class="num123-menu-icon">🍎 + 🍎</span><span>Let's Count</span><span class="num123-menu-small">Simple addition up to 10</span>
                     </button>
                 </div>
                 <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
@@ -4265,7 +4271,22 @@
             document.getElementById('match123-progress').textContent=`Question ${match123Index+1} of 5`;
             document.getElementById('match123-score').textContent=match123Score;
             const box=document.getElementById('match123-object-box'); box.innerHTML=''; box.classList.remove('dragging'); box.dataset.answer=q.count;
-            for(let i=1;i<=q.count;i++){ const e=document.createElement('span');e.className='match123-emoji';e.textContent=q.emoji;e.title=`${i}`;e.onclick=(ev)=>{ev.stopPropagation();speakText123(numberWords123[i],.5)};box.appendChild(e); }
+            for(let i=1;i<=q.count;i++){
+                const e=document.createElement('span');
+                e.className='match123-emoji';
+                e.textContent=q.emoji;
+                e.title=`${i}`;
+                e.onclick=(ev)=>{
+                    ev.stopPropagation();
+                    // Gerakkan objek setiap kali ditekan supaya jelas objek sedang dikira.
+                    e.classList.remove('counting-move');
+                    void e.offsetWidth; // restart animation jika objek ditekan berulang kali
+                    e.classList.add('counting-move');
+                    e.addEventListener('animationend',()=>e.classList.remove('counting-move'),{once:true});
+                    speakText123(numberWords123[i],.5);
+                };
+                box.appendChild(e);
+            }
             const pool=shuffle123([1,2,3,4,5,6,7,8,9,10].filter(n=>n!==q.count)).slice(0,3);
             const opts=shuffle123([q.count,...pool]); const list=document.getElementById('match123-number-list'); list.innerHTML='';
             opts.forEach(n=>{ const b=document.createElement('div');b.className='match123-number-target';b.dataset.number=n;b.textContent=n;b.onclick=()=>checkMatch123Target(b);list.appendChild(b); });
