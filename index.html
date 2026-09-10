@@ -1953,6 +1953,127 @@
         }
         @media(max-width:390px){.match123-emoji{font-size:2.45rem}.count123-apple,.count123-placed{font-size:2.15rem}.count123-dropzone{min-height:135px}.card{padding-left:12px;padding-right:12px}}
 
+    
+
+        /* =========================================================
+           SPELL IT RIGHT - ABC MODULE
+           Kindergarten spelling: listen -> scramble -> tap letters
+        ========================================================== */
+        #spell-it-right-screen { width: 100%; }
+        .spell-card {
+            max-width: 620px;
+            margin: 18px auto;
+            padding: 22px;
+            border-radius: 28px;
+            background: rgba(255,255,255,.94);
+            border: 4px solid var(--primary-purple);
+            box-shadow: 0 10px 28px rgba(0,0,0,.16);
+        }
+        .spell-picture {
+            width: 190px;
+            height: 190px;
+            margin: 0 auto 14px;
+            border-radius: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 7.4rem;
+            line-height: 1;
+            background: linear-gradient(145deg,#fff8ca,#dff7ff);
+            border: 4px solid var(--primary-blue);
+            box-shadow: inset 0 3px 10px rgba(255,255,255,.8), 0 6px 15px rgba(0,0,0,.12);
+        }
+        .spell-learning-word {
+            font-family: Arial, sans-serif;
+            font-size: 2.4rem;
+            font-weight: 900;
+            letter-spacing: .32em;
+            color: #5E17EB;
+            min-height: 54px;
+            margin: 6px 0;
+            text-transform: uppercase;
+        }
+        .spell-instruction {
+            font-weight: 800;
+            font-size: 1.02rem;
+            color: #333;
+            min-height: 28px;
+            margin: 5px 0 14px;
+        }
+        .spell-answer-slots {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            min-height: 62px;
+            margin: 15px 0 18px;
+        }
+        .spell-slot {
+            width: 54px;
+            height: 58px;
+            border-radius: 14px;
+            border: 3px dashed #8f66d8;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: #222;
+            text-transform: uppercase;
+        }
+        .spell-letter-bank {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 11px;
+            min-height: 78px;
+            margin: 12px auto 18px;
+        }
+        .spell-letter-btn {
+            width: 64px;
+            height: 64px;
+            border: none;
+            border-radius: 18px;
+            background: linear-gradient(145deg,#FFDE59,#ffb94d);
+            border: 3px solid #e59b21;
+            font-family: Arial, sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: #2C3E50;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #c47d18, 0 7px 13px rgba(0,0,0,.14);
+            transition: transform .12s ease, opacity .2s ease;
+        }
+        .spell-letter-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #c47d18; }
+        .spell-letter-btn.used { opacity: .25; pointer-events: none; transform: scale(.9); }
+        .spell-feedback {
+            min-height: 32px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.25rem;
+            margin: 7px 0;
+        }
+        .spell-topbar {
+            max-width: 620px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px 16px;
+            border-radius: 16px;
+            background: rgba(255,249,196,.95);
+            font-weight: 800;
+        }
+        @media (max-width: 600px) {
+            .spell-card { padding: 16px 12px; border-radius: 22px; }
+            .spell-picture { width: 155px; height: 155px; font-size: 6rem; }
+            .spell-learning-word { font-size: 1.9rem; letter-spacing: .22em; }
+            .spell-slot { width: 46px; height: 51px; font-size: 1.7rem; }
+            .spell-letter-btn { width: 55px; height: 55px; font-size: 1.75rem; }
+        }
+
     </style>
 </head>
 <body>
@@ -2120,12 +2241,48 @@
                         <span style="display:none;">🍎 ➔ 🔤</span>
                         <span id="find-letter-menu-text" style="display:none;">Find the Letter</span>
                     </button>
+                    <button class="abc-sub-btn abc-image-btn" onclick="playClickSound(); startSpellItRight()" aria-label="Spell it Right">
+                        <img src="https://i.imgur.com/T2THSLa.jpeg" alt="Spell it Right">
+                        <span style="display:none;">🔊 🔤</span>
+                        <span style="display:none;">Spell it Right</span>
+                    </button>
                 </div>
     
                 <br>
                 <button class="action-btn home-btn" id="abc-back-home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
+
+
+
+
+            <!-- SPELL IT RIGHT SCREEN -->
+            <div id="spell-it-right-screen" class="card">
+                <h2 style="color:#ffff00;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #5E17EB;">Spell it Right ✏️</h2>
+                <p style="color:#111;font-weight:800;margin:6px 0 14px;">Listen carefully, then spell the word.</p>
+
+                <div class="spell-topbar">
+                    <span>Word <span id="spell-progress">1 / 15</span></span>
+                    <span>⭐ <span id="spell-score">0</span></span>
+                </div>
+
+                <div class="spell-card">
+                    <div id="spell-picture" class="spell-picture" aria-label="word picture">☀️</div>
+                    <div id="spell-learning-word" class="spell-learning-word">S U N</div>
+                    <div id="spell-instruction" class="spell-instruction">Listen: S - U - N</div>
+
+                    <button class="sound-btn" onclick="replaySpellWord()">🔊 Hear again</button>
+
+                    <div id="spell-answer-slots" class="spell-answer-slots"></div>
+                    <div id="spell-letter-bank" class="spell-letter-bank"></div>
+                    <div id="spell-feedback" class="spell-feedback"></div>
+
+                    <button id="spell-next-btn" class="action-btn" style="display:none;" onclick="nextSpellWord()">Next ➡</button>
+                    <button id="spell-retry-btn" class="action-btn" style="display:none;background:#7ED957;box-shadow:0 5px 0 #4fa837;" onclick="resetCurrentSpellAttempt()">Try Again 🔄</button>
+                </div>
+
+                <button class="action-btn home-btn" onclick="playClickSound(); openABCMenu()">Back to ABC 🔤</button>
+            </div>
 
 
             <!-- 123 MODULE MENU SCREEN -->
@@ -4533,6 +4690,211 @@ document.addEventListener('DOMContentLoaded', () => {
             window.removeEventListener('click', enableAutoplayOnFirstTouch);
             window.removeEventListener('touchstart', enableAutoplayOnFirstTouch);
         }
+
+
+
+        // ==========================================
+        // SPELL IT RIGHT - ABC MODULE
+        // ==========================================
+        const spellWords = [
+            { word: 'SUN',  picture: '☀️' },
+            { word: 'CAT',  picture: '🐱' },
+            { word: 'DOG',  picture: '🐶' },
+            { word: 'BUS',  picture: '🚌' },
+            { word: 'HAT',  picture: '🎩' },
+            { word: 'PEN',  picture: '🖊️' },
+            { word: 'CUP',  picture: '🥤' },
+            { word: 'FISH', picture: '🐟' },
+            { word: 'BIRD', picture: '🐦' },
+            { word: 'STAR', picture: '⭐' },
+            { word: 'MOON', picture: '🌙' },
+            { word: 'BOOK', picture: '📘' },
+            { word: 'CAKE', picture: '🎂' },
+            { word: 'BALL', picture: '⚽' },
+            { word: 'DUCK', picture: '🦆' }
+        ];
+
+        let spellIndex = 0;
+        let spellScore = 0;
+        let spellSelected = [];
+        let spellOrder = [];
+        let spellBusy = false;
+
+        function startSpellItRight() {
+            spellIndex = 0;
+            spellScore = 0;
+            showScreen('spell-it-right-screen');
+            loadSpellWord();
+        }
+
+        function loadSpellWord() {
+            const item = spellWords[spellIndex];
+            spellSelected = [];
+            spellBusy = true;
+
+            document.getElementById('spell-progress').innerText = `${spellIndex + 1} / ${spellWords.length}`;
+            document.getElementById('spell-score').innerText = spellScore;
+            document.getElementById('spell-picture').innerText = item.picture;
+            document.getElementById('spell-learning-word').innerText = item.word.split('').join('   ');
+            document.getElementById('spell-instruction').innerText = `Listen: ${item.word.split('').join(' - ')}`;
+            document.getElementById('spell-feedback').innerText = '';
+            document.getElementById('spell-next-btn').style.display = 'none';
+            document.getElementById('spell-retry-btn').style.display = 'none';
+            document.getElementById('spell-answer-slots').innerHTML = '';
+            document.getElementById('spell-letter-bank').innerHTML = '';
+
+            // Show the correct spelling first. After audio finishes, scramble the letters.
+            speakSpelling(item.word, () => {
+                if (document.getElementById('spell-it-right-screen').classList.contains('active')) {
+                    beginSpellAttempt();
+                }
+            });
+        }
+
+        function speakSpelling(word, onDone) {
+            if (!('speechSynthesis' in window)) {
+                setTimeout(() => onDone && onDone(), 1800);
+                return;
+            }
+            window.speechSynthesis.cancel();
+            const letters = word.split('').join(' ... ');
+            const utter = new SpeechSynthesisUtterance(`${word}. ${letters}.`);
+            utter.lang = 'en-US';
+            utter.rate = 0.68;
+            utter.pitch = 1.08;
+            utter.volume = 1;
+            let finished = false;
+            const finish = () => {
+                if (finished) return;
+                finished = true;
+                if (onDone) onDone();
+            };
+            utter.onend = finish;
+            utter.onerror = finish;
+            window.speechSynthesis.speak(utter);
+            // Fallback for browsers that do not reliably fire onend.
+            setTimeout(finish, Math.max(2400, word.length * 650));
+        }
+
+        function replaySpellWord() {
+            const item = spellWords[spellIndex];
+            speakSpelling(item.word);
+        }
+
+        function shuffleSpellLetters(word) {
+            const original = word.split('').map((letter, index) => ({ letter, index }));
+            let shuffled = [...original];
+            let tries = 0;
+            do {
+                shuffled.sort(() => Math.random() - 0.5);
+                tries++;
+            } while (word.length > 2 && shuffled.map(x => x.letter).join('') === word && tries < 12);
+            return shuffled;
+        }
+
+        function beginSpellAttempt() {
+            const item = spellWords[spellIndex];
+            spellBusy = false;
+            spellSelected = [];
+            spellOrder = shuffleSpellLetters(item.word);
+            document.getElementById('spell-learning-word').innerText = '';
+            document.getElementById('spell-instruction').innerText = 'Tap the letters in the correct order.';
+            document.getElementById('spell-feedback').innerText = '';
+            renderSpellSlots();
+            renderSpellLetterBank();
+        }
+
+        function renderSpellSlots() {
+            const item = spellWords[spellIndex];
+            const wrap = document.getElementById('spell-answer-slots');
+            wrap.innerHTML = '';
+            item.word.split('').forEach((_, i) => {
+                const slot = document.createElement('div');
+                slot.className = 'spell-slot';
+                slot.innerText = spellSelected[i] ? spellSelected[i].letter : '';
+                wrap.appendChild(slot);
+            });
+        }
+
+        function renderSpellLetterBank() {
+            const bank = document.getElementById('spell-letter-bank');
+            bank.innerHTML = '';
+            spellOrder.forEach((obj, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'spell-letter-btn';
+                btn.innerText = obj.letter;
+                btn.dataset.spellIdx = idx;
+                btn.onclick = () => chooseSpellLetter(idx, btn);
+                bank.appendChild(btn);
+            });
+        }
+
+        function chooseSpellLetter(idx, btn) {
+            if (spellBusy || btn.classList.contains('used')) return;
+            playClickSound();
+            btn.classList.add('used');
+            spellSelected.push({ ...spellOrder[idx], buttonIndex: idx });
+            renderSpellSlots();
+
+            const item = spellWords[spellIndex];
+            if (spellSelected.length === item.word.length) checkSpellAnswer();
+        }
+
+        function checkSpellAnswer() {
+            spellBusy = true;
+            const item = spellWords[spellIndex];
+            const answer = spellSelected.map(x => x.letter).join('');
+            const feedback = document.getElementById('spell-feedback');
+
+            if (answer === item.word) {
+                spellScore++;
+                document.getElementById('spell-score').innerText = spellScore;
+                feedback.innerText = `✅ Great job! ${item.word}`;
+                feedback.style.color = '#2e9c43';
+                if (typeof playCorrectSound === 'function') playCorrectSound();
+                speakWholeWord(item.word);
+                document.getElementById('spell-next-btn').style.display = 'inline-block';
+            } else {
+                feedback.innerText = '❌ Try again!';
+                feedback.style.color = '#e53935';
+                if (typeof playWrongSound === 'function') playWrongSound();
+                document.getElementById('spell-retry-btn').style.display = 'inline-block';
+            }
+        }
+
+        function speakWholeWord(word) {
+            if (!('speechSynthesis' in window)) return;
+            const utter = new SpeechSynthesisUtterance(word);
+            utter.lang = 'en-US';
+            utter.rate = 0.78;
+            utter.pitch = 1.05;
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utter);
+        }
+
+        function resetCurrentSpellAttempt() {
+            document.getElementById('spell-retry-btn').style.display = 'none';
+            beginSpellAttempt();
+        }
+
+        function nextSpellWord() {
+            playClickSound();
+            if (spellIndex < spellWords.length - 1) {
+                spellIndex++;
+                loadSpellWord();
+            } else {
+                const feedback = document.getElementById('spell-feedback');
+                feedback.style.color = '#5E17EB';
+                feedback.innerText = `🎉 Finished! Score: ${spellScore} / ${spellWords.length}`;
+                document.getElementById('spell-next-btn').style.display = 'none';
+                document.getElementById('spell-learning-word').innerText = 'WELL DONE!';
+                document.getElementById('spell-instruction').innerText = 'You completed Spell it Right!';
+                document.getElementById('spell-letter-bank').innerHTML = '';
+                document.getElementById('spell-answer-slots').innerHTML = '';
+                speakWholeWord('Well done');
+            }
+        }
+
 
         window.addEventListener('click', enableAutoplayOnFirstTouch);
         window.addEventListener('touchstart', enableAutoplayOnFirstTouch);
