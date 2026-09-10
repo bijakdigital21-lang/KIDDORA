@@ -2348,6 +2348,40 @@
             .trace-case-btn { padding: 10px 13px; font-size: .92rem; }
         }
 
+    
+
+        /* =========================================================
+           COLOUR MODULE
+        ========================================================== */
+        .colour-menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:30px 0}
+        .colour-menu-btn{padding:0;border:0;border-radius:20px;overflow:hidden;aspect-ratio:1/1;background:transparent;cursor:pointer;box-shadow:0 6px 15px rgba(0,0,0,.14);transition:.2s}
+        .colour-menu-btn:hover{transform:translateY(-4px) scale(1.02)}
+        .colour-menu-btn img{width:100%;height:100%;object-fit:cover;display:block;border-radius:20px}
+        .colour-board{background:#fff8df;border:3px solid #ffd768;border-radius:24px;padding:20px;margin:18px auto;max-width:650px;box-shadow:0 8px 20px rgba(0,0,0,.10)}
+        .colour-progress{display:inline-block;background:rgba(255,255,255,.94);border:2px solid var(--primary-purple);border-radius:999px;padding:7px 14px;font-weight:900;margin:8px 0}
+        .learn-colour-swatch{width:min(62vw,290px);height:min(62vw,290px);max-height:290px;margin:14px auto;border:6px solid white;border-radius:28px;box-shadow:0 8px 22px rgba(0,0,0,.20)}
+        .learn-colour-name{font-family:'Fredoka One',cursive;font-size:2.2rem;color:#2C3E50;margin:8px 0}
+        .balloon-field{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:end;margin:20px auto;max-width:650px;padding:18px;background:#fff3d6;border-radius:26px}
+        .colour-balloon{position:relative;width:100%;aspect-ratio:.82/1;border:0;border-radius:50% 50% 48% 48%;cursor:pointer;box-shadow:inset -10px -12px 18px rgba(0,0,0,.14),0 8px 12px rgba(0,0,0,.16);transition:.16s}
+        .colour-balloon::after{content:'';position:absolute;left:50%;bottom:-13px;transform:translateX(-50%);border-left:8px solid transparent;border-right:8px solid transparent;border-top:15px solid currentColor}
+        .colour-balloon:hover{transform:translateY(-4px) scale(1.04)}
+        .colour-balloon.popped{animation:colourPop .28s forwards;pointer-events:none}
+        @keyframes colourPop{to{transform:scale(1.35);opacity:0}}
+        .colour-question{font-family:'Fredoka One',cursive;font-size:1.55rem;color:#5E17EB;margin:8px 0}
+        .colour-match-wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,12vw,120px);max-width:650px;margin:20px auto;padding:18px;background:#fff3d6;border-radius:26px}
+        .colour-match-col{display:flex;flex-direction:column;gap:13px}
+        .colour-word-item,.colour-swatch-item{min-height:72px;border:3px solid var(--primary-blue);border-radius:18px;background:white;font-weight:900;font-size:1.15rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;transition:.2s}
+        .colour-word-item:hover,.colour-swatch-item:hover{transform:scale(1.03);border-color:var(--primary-pink)}
+        .colour-word-item.selected{background:#fff3a6;border-color:#f0bd20}
+        .colour-word-item.matched,.colour-swatch-item.matched{opacity:1;border-color:#48a92c;box-shadow:0 0 0 3px rgba(126,217,87,.28)}
+        .colour-swatch-chip{width:100%;height:48px;border-radius:12px;border:2px solid rgba(0,0,0,.15)}
+        .find-colour-options{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:580px;margin:18px auto}
+        .find-colour-option{background:white;border:4px solid #d8e1ea;border-radius:22px;padding:12px;cursor:pointer;transition:.18s}
+        .find-colour-option:hover{transform:translateY(-3px);border-color:var(--primary-pink)}
+        .find-colour-chip{height:115px;border-radius:16px;border:2px solid rgba(0,0,0,.16)}
+        .find-colour-option.correct{border-color:#4CAF50;background:#e9ffe0}.find-colour-option.wrong{border-color:#E53935;background:#ffe4e4}
+        @media(max-width:560px){.colour-menu-grid{gap:12px}.balloon-field{grid-template-columns:repeat(3,1fr);gap:12px;padding:12px}.colour-match-wrap{gap:18px;padding:12px}.colour-word-item,.colour-swatch-item{min-height:66px;padding:7px;font-size:1rem}.find-colour-chip{height:100px}}
+
     </style>
 </head>
 <body>
@@ -2473,7 +2507,7 @@
                     <button class="topic-btn" onclick="playClickSound(); openAnimalMenu()">
                         <img src="https://i.imgur.com/tXLFggI.jpeg" alt="Animal">
                     </button>
-                    <button class="topic-btn" onclick="playClickSound(); openLesson('colour')">
+                    <button class="topic-btn" onclick="playClickSound(); openColourMenu()">
                         <img src="https://i.imgur.com/jnC0waS.jpeg" alt="Colour">
                     </button>
                     <button class="topic-btn" onclick="playClickSound(); openLesson('bodyPart')">
@@ -2688,7 +2722,70 @@
                 <button class="action-btn home-btn" id="find123-back-btn" onclick="playClickSound(); open123Menu()">Back ↩️</button>
             </div>
 
-                        <!-- ANIMAL MODULE MENU SCREEN -->
+            
+
+            <!-- COLOUR MODULE MENU SCREEN -->
+            <div id="colour-menu-screen" class="card">
+                <h2 id="colour-menu-title" style="color:#FFDE59;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #5E17EB;">Colour Module 🎨</h2>
+                <p id="colour-menu-desc" style="color:#111;font-weight:800;margin-top:5px;">Choose a fun colour activity!</p>
+                <div class="colour-menu-grid">
+                    <button class="colour-menu-btn" onclick="playClickSound(); startLearnColour()" aria-label="Learn Colour"><img src="https://i.imgur.com/IDy8xfB.jpeg" alt="Learn Colour"></button>
+                    <button class="colour-menu-btn" onclick="playClickSound(); startPopBalloon()" aria-label="Pop the Balloon"><img src="https://i.imgur.com/8IJqqXN.jpeg" alt="Pop the Balloon"></button>
+                    <button class="colour-menu-btn" onclick="playClickSound(); startMatchColour()" aria-label="Match the Colour"><img src="https://i.imgur.com/gcLU4jh.jpeg" alt="Match the Colour"></button>
+                    <button class="colour-menu-btn" onclick="playClickSound(); startFindColour()" aria-label="Find the Colour"><img src="https://i.imgur.com/1tkkVaG.jpeg" alt="Find the Colour"></button>
+                </div>
+                <button class="action-btn home-btn" id="colour-home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+            </div>
+
+            <div id="learn-colour-screen" class="card">
+                <h2 id="learn-colour-title" style="color:#5E17EB;font-family:'Fredoka One',cursive;">Learn Colour 🎨</h2>
+                <div class="colour-progress" id="learn-colour-progress">Colour 1 of 10</div>
+                <div class="colour-board">
+                    <div id="learn-colour-swatch" class="learn-colour-swatch"></div>
+                    <div id="learn-colour-name" class="learn-colour-name">Red</div>
+                    <button id="learn-colour-listen" class="sound-btn" onclick="speakLearnColour()">🔊 Listen</button>
+                </div>
+                <div class="flashcard-nav">
+                    <button class="action-btn" id="learn-colour-prev" style="background:#E74C3C;box-shadow:0 5px 0 #922B21;" onclick="playClickSound(); prevLearnColour()">⬅ Prev</button>
+                    <button class="action-btn home-btn" id="learn-colour-back" onclick="playClickSound(); openColourMenu()">Back ↩️</button>
+                    <button class="action-btn" id="learn-colour-next" style="background:var(--primary-green);box-shadow:0 5px 0 #4d9d31;" onclick="playClickSound(); nextLearnColour()">Next ➡</button>
+                </div>
+            </div>
+
+            <div id="pop-balloon-screen" class="card">
+                <h2 id="pop-balloon-title" style="color:#5E17EB;font-family:'Fredoka One',cursive;">Pop the Balloon 🎈</h2>
+                <div class="colour-progress"><span id="pop-balloon-progress">Question 1 / 10</span> · ⭐ <span id="pop-balloon-score">0</span></div>
+                <div class="colour-board">
+                    <div id="pop-balloon-question" class="colour-question">Pop the red balloon!</div>
+                    <button id="pop-balloon-listen" class="sound-btn" onclick="speakPopBalloonQuestion()">🔊 Listen</button>
+                    <div id="balloon-field" class="balloon-field"></div>
+                </div>
+                <button class="action-btn home-btn" id="pop-balloon-back" onclick="playClickSound(); openColourMenu()">Back ↩️</button>
+            </div>
+
+            <div id="match-colour-screen" class="card">
+                <h2 id="match-colour-title" style="color:#5E17EB;font-family:'Fredoka One',cursive;">Match the Colour 🎨</h2>
+                <div class="colour-progress"><span id="match-colour-progress">Set 1 / 2</span> · ⭐ <span id="match-colour-score">0</span></div>
+                <p id="match-colour-instruction" style="font-weight:800;color:#444;">Tap a colour word, then match it with the correct colour.</p>
+                <div class="colour-match-wrap">
+                    <div id="colour-match-left" class="colour-match-col"></div>
+                    <div id="colour-match-right" class="colour-match-col"></div>
+                </div>
+                <button class="action-btn home-btn" id="match-colour-back" onclick="playClickSound(); openColourMenu()">Back ↩️</button>
+            </div>
+
+            <div id="find-colour-screen" class="card">
+                <h2 id="find-colour-title" style="color:#5E17EB;font-family:'Fredoka One',cursive;">Find the Colour 🔎</h2>
+                <div class="colour-progress"><span id="find-colour-progress">Question 1 / 10</span> · ⭐ <span id="find-colour-score">0</span></div>
+                <div class="colour-board">
+                    <div id="find-colour-question" class="colour-question">Which one is red?</div>
+                    <button id="find-colour-listen" class="sound-btn" onclick="speakFindColourQuestion()">🔊 Listen</button>
+                    <div id="find-colour-options" class="find-colour-options"></div>
+                </div>
+                <button class="action-btn home-btn" id="find-colour-back" onclick="playClickSound(); openColourMenu()">Back ↩️</button>
+            </div>
+
+            <!-- ANIMAL MODULE MENU SCREEN -->
             <div id="animal-menu-screen" class="card">
                 <h2 style="color: #7ED957; font-family: 'Fredoka One', cursive;" id="animal-menu-title">Animal Module 🦁</h2>
                 <p style="color: #000000; font-weight: 700; margin-top: 5px;" id="animal-menu-desc">Choose an activity to explore the animal kingdom!</p>
@@ -3438,6 +3535,7 @@
 
         function setGlobalLanguage(lang) {
             currentGlobalLang = lang;
+            setTimeout(()=>{ if(typeof updateColourLanguage === 'function') updateColourLanguage(); },0);
             
             document.getElementById("lang-btn-en").classList.remove("active");
             document.getElementById("lang-btn-ms").classList.remove("active");
@@ -4936,6 +5034,63 @@
         }
 
 
+
+
+        // =========================================================
+        // COLOUR MODULE DATA & LOGIC
+        // =========================================================
+        const colourItems = [
+            {en:'Red',ms:'Merah',hex:'#F44336'}, {en:'Blue',ms:'Biru',hex:'#2196F3'},
+            {en:'Yellow',ms:'Kuning',hex:'#FFEB3B'}, {en:'Green',ms:'Hijau',hex:'#4CAF50'},
+            {en:'Orange',ms:'Oren',hex:'#FF9800'}, {en:'Purple',ms:'Ungu',hex:'#9C27B0'},
+            {en:'Pink',ms:'Merah Jambu',hex:'#FF69B4'}, {en:'Brown',ms:'Coklat',hex:'#795548'},
+            {en:'Black',ms:'Hitam',hex:'#212121'}, {en:'White',ms:'Putih',hex:'#FFFFFF'}
+        ];
+        const colourShuffle = a => [...a].sort(()=>Math.random()-.5);
+        const colourName = c => currentGlobalLang==='ms' ? c.ms : c.en;
+        function speakColourText(text){ if(!('speechSynthesis' in window)) return; speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang=currentGlobalLang==='ms'?'ms-MY':'en-US'; u.rate=.75; speechSynthesis.speak(u); }
+        function openColourMenu(){ showScreen('colour-menu-screen'); updateColourLanguage(); }
+        function updateColourLanguage(){
+            const ms=currentGlobalLang==='ms';
+            const set=(id,en,bm)=>{const e=document.getElementById(id);if(e)e.innerText=ms?bm:en};
+            set('colour-menu-title','Colour Module 🎨','Modul Warna 🎨'); set('colour-menu-desc','Choose a fun colour activity!','Pilih aktiviti warna yang menyeronokkan!'); set('colour-home-btn','Back to Home 🏠','Kembali ke Utama 🏠');
+            set('learn-colour-title','Learn Colour 🎨','Belajar Warna 🎨'); set('learn-colour-listen','🔊 Listen','🔊 Dengar'); set('learn-colour-prev','⬅ Prev','⬅ Sebelum'); set('learn-colour-next','Next ➡','Seterusnya ➡'); set('learn-colour-back','Back ↩️','Kembali ↩️');
+            set('pop-balloon-title','Pop the Balloon 🎈','Pecahkan Belon 🎈'); set('pop-balloon-listen','🔊 Listen','🔊 Dengar'); set('pop-balloon-back','Back ↩️','Kembali ↩️');
+            set('match-colour-title','Match the Colour 🎨','Suaikan Warna 🎨'); set('match-colour-instruction','Tap a colour word, then match it with the correct colour.','Tekan perkataan warna, kemudian suaikan dengan warna yang betul.'); set('match-colour-back','Back ↩️','Kembali ↩️');
+            set('find-colour-title','Find the Colour 🔎','Cari Warna 🔎'); set('find-colour-listen','🔊 Listen','🔊 Dengar'); set('find-colour-back','Back ↩️','Kembali ↩️');
+            if(document.getElementById('learn-colour-screen')?.classList.contains('active')) renderLearnColour();
+            if(document.getElementById('pop-balloon-screen')?.classList.contains('active')) renderPopBalloon();
+            if(document.getElementById('match-colour-screen')?.classList.contains('active')) renderMatchColourSet();
+            if(document.getElementById('find-colour-screen')?.classList.contains('active')) renderFindColour();
+        }
+
+        let learnColourIndex=0;
+        function startLearnColour(){learnColourIndex=0;showScreen('learn-colour-screen');updateColourLanguage();renderLearnColour();speakLearnColour()}
+        function renderLearnColour(){const c=colourItems[learnColourIndex];document.getElementById('learn-colour-swatch').style.background=c.hex;document.getElementById('learn-colour-name').innerText=colourName(c);document.getElementById('learn-colour-progress').innerText=(currentGlobalLang==='ms'?'Warna ':'Colour ')+(learnColourIndex+1)+' / '+colourItems.length}
+        function speakLearnColour(){speakColourText(colourName(colourItems[learnColourIndex]))}
+        function prevLearnColour(){learnColourIndex=(learnColourIndex-1+colourItems.length)%colourItems.length;renderLearnColour();speakLearnColour()}
+        function nextLearnColour(){learnColourIndex=(learnColourIndex+1)%colourItems.length;renderLearnColour();speakLearnColour()}
+
+        let popOrder=[],popIndex=0,popScore=0,popLocked=false;
+        function startPopBalloon(){popOrder=colourShuffle(colourItems);popIndex=0;popScore=0;document.getElementById('pop-balloon-score').innerText='0';showScreen('pop-balloon-screen');updateColourLanguage();renderPopBalloon();setTimeout(speakPopBalloonQuestion,180)}
+        function popQuestionText(c){return currentGlobalLang==='ms'?`Pecahkan belon berwarna ${c.ms}!`:`Pop the ${c.en.toLowerCase()} balloon!`}
+        function renderPopBalloon(){if(!popOrder.length)return;popLocked=false;const target=popOrder[popIndex];document.getElementById('pop-balloon-progress').innerText=(currentGlobalLang==='ms'?'Soalan ':'Question ')+(popIndex+1)+' / '+popOrder.length;document.getElementById('pop-balloon-question').innerText=popQuestionText(target);const choices=colourShuffle([target,...colourShuffle(colourItems.filter(c=>c!==target)).slice(0,7)]);const field=document.getElementById('balloon-field');field.innerHTML='';choices.forEach(c=>{const b=document.createElement('button');b.className='colour-balloon';b.style.background=c.hex;b.style.color=c.hex;b.setAttribute('aria-label',colourName(c));b.onclick=()=>answerPopBalloon(b,c,target);field.appendChild(b)})}
+        function speakPopBalloonQuestion(){if(popOrder.length)speakColourText(popQuestionText(popOrder[popIndex]))}
+        function answerPopBalloon(btn,c,target){if(popLocked)return;if(c===target){popLocked=true;btn.classList.add('popped');playCorrectSound();popScore+=10;document.getElementById('pop-balloon-score').innerText=popScore;setTimeout(()=>{popIndex++;if(popIndex<popOrder.length){renderPopBalloon();speakPopBalloonQuestion()}else{if(window.saveScoreToFirebase)window.saveScoreToFirebase(currentGlobalLang==='ms'?'Pecahkan Belon':'Pop the Balloon',100);alert(currentGlobalLang==='ms'?'Tahniah! Semua belon berjaya dipecahkan! 🎉':'Great job! You popped all the correct balloons! 🎉');openColourMenu()}},500)}else{playWrongSound();btn.animate([{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}],{duration:220})}}
+
+        let matchColourSets=[],matchColourSetIndex=0,matchColourScore=0,matchSelected=null,matchDone=new Set();
+        function startMatchColour(){matchColourSets=[];const shuffled=colourShuffle(colourItems);for(let i=0;i<shuffled.length;i+=5)matchColourSets.push(shuffled.slice(i,i+5));matchColourSetIndex=0;matchColourScore=0;matchDone=new Set();showScreen('match-colour-screen');updateColourLanguage();renderMatchColourSet()}
+        function renderMatchColourSet(){if(!matchColourSets.length)return;matchSelected=null;matchDone=new Set();document.getElementById('match-colour-progress').innerText=(currentGlobalLang==='ms'?'Set ':'Set ')+(matchColourSetIndex+1)+' / '+matchColourSets.length;document.getElementById('match-colour-score').innerText=matchColourScore;const set=matchColourSets[matchColourSetIndex],left=document.getElementById('colour-match-left'),right=document.getElementById('colour-match-right');left.innerHTML='';right.innerHTML='';set.forEach((c,i)=>{const b=document.createElement('button');b.className='colour-word-item';b.dataset.key=c.en;b.innerHTML=`<span>${colourName(c)}</span><span>🔊</span>`;b.onclick=()=>{if(matchDone.has(c.en))return;left.querySelectorAll('.selected').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');matchSelected=c;speakColourText(colourName(c))};left.appendChild(b)});colourShuffle(set).forEach(c=>{const b=document.createElement('button');b.className='colour-swatch-item';b.dataset.key=c.en;b.innerHTML=`<span class="colour-swatch-chip" style="background:${c.hex}"></span>`;b.onclick=()=>answerMatchColour(b,c);right.appendChild(b)})}
+        function answerMatchColour(btn,c){if(!matchSelected||matchDone.has(c.en))return;if(matchSelected.en===c.en){playCorrectSound();matchDone.add(c.en);matchColourScore+=10;document.getElementById('match-colour-score').innerText=matchColourScore;document.querySelector(`#colour-match-left [data-key="${c.en}"]`)?.classList.add('matched');document.querySelector(`#colour-match-left [data-key="${c.en}"]`)?.classList.remove('selected');btn.classList.add('matched');matchSelected=null;if(matchDone.size===matchColourSets[matchColourSetIndex].length)setTimeout(()=>{matchColourSetIndex++;if(matchColourSetIndex<matchColourSets.length)renderMatchColourSet();else{if(window.saveScoreToFirebase)window.saveScoreToFirebase(currentGlobalLang==='ms'?'Suaikan Warna':'Match the Colour',100);alert(currentGlobalLang==='ms'?'Tahniah! Semua warna berjaya disuaikan! 🎉':'Great job! All colours matched! 🎉');openColourMenu()}},550)}else{playWrongSound();btn.animate([{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}],{duration:220})}}
+
+        let findColourOrder=[],findColourIndex=0,findColourScore=0,findColourLocked=false;
+        function startFindColour(){findColourOrder=colourShuffle(colourItems);findColourIndex=0;findColourScore=0;document.getElementById('find-colour-score').innerText='0';showScreen('find-colour-screen');updateColourLanguage();renderFindColour();setTimeout(speakFindColourQuestion,180)}
+        function findColourQuestionText(c){return currentGlobalLang==='ms'?`Yang mana satu warna ${c.ms}?`:`Which one is ${c.en.toLowerCase()}?`}
+        function renderFindColour(){if(!findColourOrder.length)return;findColourLocked=false;const target=findColourOrder[findColourIndex];document.getElementById('find-colour-progress').innerText=(currentGlobalLang==='ms'?'Soalan ':'Question ')+(findColourIndex+1)+' / '+findColourOrder.length;document.getElementById('find-colour-question').innerText=findColourQuestionText(target);const choices=colourShuffle([target,...colourShuffle(colourItems.filter(c=>c!==target)).slice(0,3)]),box=document.getElementById('find-colour-options');box.innerHTML='';choices.forEach(c=>{const b=document.createElement('button');b.className='find-colour-option';b.innerHTML=`<div class="find-colour-chip" style="background:${c.hex}"></div>`;b.onclick=()=>answerFindColour(b,c,target);box.appendChild(b)})}
+        function speakFindColourQuestion(){if(findColourOrder.length)speakColourText(findColourQuestionText(findColourOrder[findColourIndex]))}
+        function answerFindColour(btn,c,target){if(findColourLocked)return;if(c===target){findColourLocked=true;btn.classList.add('correct');playCorrectSound();findColourScore+=10;document.getElementById('find-colour-score').innerText=findColourScore;setTimeout(()=>{findColourIndex++;if(findColourIndex<findColourOrder.length){renderFindColour();speakFindColourQuestion()}else{if(window.saveScoreToFirebase)window.saveScoreToFirebase(currentGlobalLang==='ms'?'Cari Warna':'Find the Colour',100);alert(currentGlobalLang==='ms'?'Tahniah! Semua warna dijawab dengan betul! 🎉':'Great job! You found all the colours! 🎉');openColourMenu()}},650)}else{btn.classList.add('wrong');playWrongSound();setTimeout(()=>btn.classList.remove('wrong'),450)}}
+
+
         const lessonData = {
             numeric: {
                 title: "Number / Nombor",
@@ -4990,6 +5145,9 @@
                 'match123-screen',
                 'lets-count-screen',
                 'find123-screen',
+                'pop-balloon-screen',
+                'match-colour-screen',
+                'find-colour-screen',
                 'match-animal-game-screen',
                 'find-animal-game-screen',
                 'match-game-screen',
