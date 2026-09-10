@@ -1558,9 +1558,11 @@
     
 
         /* =========================================================
-           MATCH THE ANIMAL SAHAJA - SUSUNAN BESAR + AUDIO
-           Kiri: gambar haiwan lebih besar, tanpa kotak putih.
-           Kanan: nama haiwan dianjak ke kanan + butang audio.
+           MATCH THE ANIMAL SAHAJA - PERKATAAN KIRI, GAMBAR KANAN
+           Kiri: nama haiwan + butang audio.
+           Kanan: gambar haiwan besar dan penuh dalam border.
+           Kedua-dua bahagian menggunakan tinggi baris yang sama supaya
+           kedudukan kelihatan stabil dan sebaris.
            Fungsi modul lain tidak diubah.
         ========================================================== */
         #match-animal-game-screen .match-container {
@@ -1570,10 +1572,11 @@
         }
 
         #match-animal-game-screen .match-column {
-            width: 175px;
+            width: 185px;
             gap: 18px;
         }
 
+        /* Anjak kedua-dua kolum ke tepi untuk beri ruang matching di tengah */
         #match-animal-game-screen #match-animal-left-column {
             transform: translateX(-95px);
         }
@@ -1582,35 +1585,11 @@
             transform: translateX(95px);
         }
 
-        /* Gambar haiwan sahaja: tiada kotak putih, hanya border pada gambar */
+        /* KIRI: perkataan + audio */
         #match-animal-game-screen #match-animal-left-column .match-item {
             width: 185px;
-            min-height: 135px;
             height: 135px;
-            padding: 0;
-            background: transparent;
-            border: none;
-            border-radius: 0;
-            box-shadow: none;
-            overflow: visible;
-        }
-
-        #match-animal-game-screen #match-animal-left-column .match-item img {
-            width: 132px;
-            height: 132px;
-            object-fit: cover;
-            display: block;
-            border: 4px solid var(--primary-blue);
-            border-radius: 18px;
-            background: transparent;
-            box-shadow: 0 5px 12px rgba(0,0,0,0.12);
-            pointer-events: none;
-        }
-
-        /* Nama haiwan di kanan */
-        #match-animal-game-screen #match-animal-right-column .match-item {
-            width: 175px;
-            min-height: 118px;
+            min-height: 135px;
             padding: 10px 12px;
             background: rgba(255,255,255,0.95);
             border: 3px solid var(--primary-blue);
@@ -1656,15 +1635,43 @@
             box-shadow: 0 2px 0 #b33687;
         }
 
-        #match-animal-game-screen #match-animal-left-column .match-item:hover,
-        #match-animal-game-screen #match-animal-left-column .match-item.selected,
-        #match-animal-game-screen #match-animal-left-column .match-item.matched {
+        /* KANAN: gambar haiwan, penuh dalam border */
+        #match-animal-game-screen #match-animal-right-column .match-item {
+            width: 185px;
+            height: 135px;
+            min-height: 135px;
+            padding: 0;
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            overflow: visible;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #match-animal-game-screen #match-animal-right-column .match-item img {
+            width: 135px;
+            height: 135px;
+            object-fit: cover;
+            display: block;
+            border: 4px solid var(--primary-blue);
+            border-radius: 18px;
+            background: transparent;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+            pointer-events: none;
+        }
+
+        #match-animal-game-screen #match-animal-right-column .match-item:hover,
+        #match-animal-game-screen #match-animal-right-column .match-item.selected,
+        #match-animal-game-screen #match-animal-right-column .match-item.matched {
             background: transparent;
         }
 
         @media (max-width: 768px) {
             #match-animal-game-screen .match-column {
-                width: 135px;
+                width: 142px;
                 gap: 15px;
             }
 
@@ -1676,24 +1683,23 @@
                 transform: translateX(42px);
             }
 
-            #match-animal-game-screen #match-animal-left-column .match-item {
-                width: 142px;
-                min-height: 116px;
-                height: 116px;
-            }
-
-            #match-animal-game-screen #match-animal-left-column .match-item img {
-                width: 112px;
-                height: 112px;
-                border-width: 3px;
-                border-radius: 15px;
-            }
-
+            #match-animal-game-screen #match-animal-left-column .match-item,
             #match-animal-game-screen #match-animal-right-column .match-item {
-                width: 135px;
-                min-height: 102px;
+                width: 142px;
+                height: 116px;
+                min-height: 116px;
+            }
+
+            #match-animal-game-screen #match-animal-left-column .match-item {
                 padding: 8px 7px;
                 gap: 5px;
+            }
+
+            #match-animal-game-screen #match-animal-right-column .match-item img {
+                width: 116px;
+                height: 116px;
+                border-width: 3px;
+                border-radius: 15px;
             }
 
             #match-animal-game-screen .match-animal-name {
@@ -1717,20 +1723,19 @@
             }
 
             #match-animal-game-screen .match-column {
-                width: 125px;
-            }
-
-            #match-animal-game-screen #match-animal-left-column .match-item {
                 width: 130px;
             }
 
-            #match-animal-game-screen #match-animal-left-column .match-item img {
-                width: 106px;
-                height: 106px;
+            #match-animal-game-screen #match-animal-left-column .match-item,
+            #match-animal-game-screen #match-animal-right-column .match-item {
+                width: 130px;
+                height: 110px;
+                min-height: 110px;
             }
 
-            #match-animal-game-screen #match-animal-right-column .match-item {
-                width: 125px;
+            #match-animal-game-screen #match-animal-right-column .match-item img {
+                width: 110px;
+                height: 110px;
             }
         }
 
@@ -1988,7 +1993,7 @@
                     <span>Page: <span id="match-animal-current-page">1</span>/<span id="match-animal-total-pages">5</span></span>
                     <span>Score: <span id="match-animal-score">0</span></span>
                 </div>
-                <p style="font-weight: 700; color: #444; margin-bottom: 15px;" id="match-animal-instruction">Tarik garis (drag) dari Gambar Haiwan ke Nama Haiwan yang betul!</p>
+                <p style="font-weight: 700; color: #444; margin-bottom: 15px;" id="match-animal-instruction">Tarik garis (drag) dari Nama Haiwan ke Gambar Haiwan yang betul!</p>
 
                 <div class="match-wrapper" id="match-animal-wrapper">
                     <canvas id="match-animal-canvas" class="match-canvas"></canvas>
@@ -3179,16 +3184,8 @@
             let randomizedLeft = [...currentItems].sort(() => 0.5 - Math.random());
             let randomizedRight = [...currentItems].sort(() => 0.5 - Math.random());
 
+            // KIRI: perkataan + audio (bahagian yang boleh mula drag)
             randomizedLeft.forEach(item => {
-                const div = document.createElement("div");
-                div.className = "match-item";
-                div.innerHTML = `<img src="${item.img}" alt="${item.bm}">`;
-                div.dataset.id = item.bm;
-                div.dataset.side = "left";
-                leftCol.appendChild(div);
-            });
-
-            randomizedRight.forEach(item => {
                 const div = document.createElement("div");
                 div.className = "match-item";
                 const animalName = currentGlobalLang === 'en' ? item.en : item.bm;
@@ -3197,7 +3194,7 @@
                     <button type="button" class="match-animal-audio-btn" aria-label="Listen to ${animalName}" title="Listen / Dengar">🔊</button>
                 `;
                 div.dataset.id = item.bm;
-                div.dataset.side = "right";
+                div.dataset.side = "left";
 
                 const audioBtn = div.querySelector('.match-animal-audio-btn');
                 audioBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
@@ -3208,6 +3205,16 @@
                     playMatchAnimalNameAudio(item);
                 });
 
+                leftCol.appendChild(div);
+            });
+
+            // KANAN: gambar haiwan (sasaran matching)
+            randomizedRight.forEach(item => {
+                const div = document.createElement("div");
+                div.className = "match-item";
+                div.innerHTML = `<img src="${item.img}" alt="${item.bm}">`;
+                div.dataset.id = item.bm;
+                div.dataset.side = "right";
                 rightCol.appendChild(div);
             });
 
