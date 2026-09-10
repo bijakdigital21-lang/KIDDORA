@@ -2384,9 +2384,9 @@
 
     
         /* ===== COLOUR MODULE SIZE + MATCHING IMPROVEMENTS ===== */
-        #pop-balloon-screen .colour-board{max-width:780px;padding:26px 24px 32px;}
-        #pop-balloon-screen .balloon-field{max-width:740px;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;padding:24px;min-height:430px;align-items:center;}
-        #pop-balloon-screen .colour-balloon{min-height:120px;max-height:155px;justify-self:stretch;}
+        #pop-balloon-screen .colour-board{max-width:700px;padding:20px 18px 24px;}
+        #pop-balloon-screen .balloon-field{max-width:660px;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;padding:16px;min-height:360px;align-items:center;}
+        #pop-balloon-screen .colour-balloon{width:82%;min-height:82px;max-height:105px;justify-self:center;}
 
         #match-colour-screen .colour-match-wrapper{max-width:720px;margin:22px auto;min-height:520px;padding:16px 0;}
         #match-colour-screen .colour-match-container{width:100%;justify-content:space-between;align-items:stretch;}
@@ -2409,9 +2409,9 @@
         #find-colour-screen .find-colour-chip{height:145px;border-radius:18px;}
 
         @media(max-width:560px){
-            #pop-balloon-screen .colour-board{width:calc(100vw - 18px);padding:18px 10px 24px;}
-            #pop-balloon-screen .balloon-field{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:14px;min-height:520px;width:100%;}
-            #pop-balloon-screen .colour-balloon{min-height:105px;max-height:135px;}
+            #pop-balloon-screen .colour-board{width:calc(100vw - 14px);padding:12px 7px 16px;}
+            #pop-balloon-screen .balloon-field{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px 7px;padding:9px;min-height:350px;width:100%;margin:12px auto;}
+            #pop-balloon-screen .colour-balloon{width:84%;min-height:70px;max-height:88px;}
 
             #match-colour-screen .colour-match-wrapper{width:100%;min-height:500px;padding:8px 0;}
             #match-colour-screen .colour-match-col{width:132px;gap:15px;}
@@ -5124,9 +5124,9 @@
         let popOrder=[],popIndex=0,popScore=0,popLocked=false;
         function startPopBalloon(){popOrder=colourShuffle(colourItems);popIndex=0;popScore=0;document.getElementById('pop-balloon-score').innerText='0';showScreen('pop-balloon-screen');updateColourLanguage();renderPopBalloon();setTimeout(speakPopBalloonQuestion,180)}
         function popQuestionText(c){return currentGlobalLang==='ms'?`Pecahkan belon berwarna ${c.ms}!`:`Pop the ${c.en.toLowerCase()} balloon!`}
-        function renderPopBalloon(){if(!popOrder.length)return;popLocked=false;const target=popOrder[popIndex];document.getElementById('pop-balloon-progress').innerText=(currentGlobalLang==='ms'?'Soalan ':'Question ')+(popIndex+1)+' / '+popOrder.length;document.getElementById('pop-balloon-question').innerText=popQuestionText(target);const distractorPool=colourItems.filter(c=>c!==target);const distractors=[];while(distractors.length<11){distractors.push(distractorPool[Math.floor(Math.random()*distractorPool.length)])}const choices=colourShuffle([target,...distractors]);const field=document.getElementById('balloon-field');field.innerHTML='';choices.forEach(c=>{const b=document.createElement('button');b.className='colour-balloon';b.style.background=c.hex;b.style.color=c.hex;b.setAttribute('aria-label',colourName(c));b.onclick=()=>answerPopBalloon(b,c,target);field.appendChild(b)})}
+        function renderPopBalloon(){if(!popOrder.length)return;popLocked=false;const target=popOrder[popIndex];const targetCount=3+Math.floor(Math.random()*2);document.getElementById('pop-balloon-progress').innerText=(currentGlobalLang==='ms'?'Soalan ':'Question ')+(popIndex+1)+' / '+popOrder.length;document.getElementById('pop-balloon-question').innerText=popQuestionText(target);const distractorPool=colourItems.filter(c=>c!==target);const choices=Array(targetCount).fill(target);while(choices.length<20){choices.push(distractorPool[Math.floor(Math.random()*distractorPool.length)])}const shuffled=colourShuffle(choices);const field=document.getElementById('balloon-field');field.dataset.remaining=String(targetCount);field.innerHTML='';shuffled.forEach(c=>{const b=document.createElement('button');b.className='colour-balloon';b.style.background=c.hex;b.style.color=c.hex;b.setAttribute('aria-label',colourName(c));b.onclick=()=>answerPopBalloon(b,c,target);field.appendChild(b)})}
         function speakPopBalloonQuestion(){if(popOrder.length)speakColourText(popQuestionText(popOrder[popIndex]))}
-        function answerPopBalloon(btn,c,target){if(popLocked)return;if(c===target){popLocked=true;btn.classList.add('popped');playCorrectSound();popScore+=10;document.getElementById('pop-balloon-score').innerText=popScore;setTimeout(()=>{popIndex++;if(popIndex<popOrder.length){renderPopBalloon();speakPopBalloonQuestion()}else{if(window.saveScoreToFirebase)window.saveScoreToFirebase(currentGlobalLang==='ms'?'Pecahkan Belon':'Pop the Balloon',100);alert(currentGlobalLang==='ms'?'Tahniah! Semua belon berjaya dipecahkan! 🎉':'Great job! You popped all the correct balloons! 🎉');openColourMenu()}},500)}else{playWrongSound();btn.animate([{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}],{duration:220})}}
+        function answerPopBalloon(btn,c,target){if(popLocked||btn.classList.contains('popped'))return;if(c===target){btn.classList.add('popped');playCorrectSound();popScore+=10;document.getElementById('pop-balloon-score').innerText=popScore;const field=document.getElementById('balloon-field');const remaining=Math.max(0,(parseInt(field.dataset.remaining||'1',10)-1));field.dataset.remaining=String(remaining);if(remaining===0){popLocked=true;setTimeout(()=>{popIndex++;if(popIndex<popOrder.length){renderPopBalloon();speakPopBalloonQuestion()}else{if(window.saveScoreToFirebase)window.saveScoreToFirebase(currentGlobalLang==='ms'?'Pecahkan Belon':'Pop the Balloon',popScore);alert(currentGlobalLang==='ms'?'Tahniah! Semua belon berjaya dipecahkan! 🎉':'Great job! You popped all the correct balloons! 🎉');openColourMenu()}},500)}}else{playWrongSound();btn.animate([{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}],{duration:220})}}
 
         let matchColourSets=[],matchColourSetIndex=0,matchColourScore=0,matchDone=new Set();
         let activeDragColour=null,isDraggingColour=false,dragColourX=0,dragColourY=0,completedColourLines=[];
