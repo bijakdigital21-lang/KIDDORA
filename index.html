@@ -415,6 +415,23 @@
             box-shadow: 0 3px 0 #4a15b8;
         }
 
+        /* ABC menu image buttons - visual only, functions remain unchanged */
+        .abc-sub-btn.abc-image-btn {
+            padding: 0;
+            overflow: hidden;
+            background: transparent;
+            aspect-ratio: 1 / 1;
+        }
+
+        .abc-sub-btn.abc-image-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 20px;
+            pointer-events: none;
+        }
+
         .flashcard-box {
             background: rgba(255, 249, 196, 0.95);
             border: 4px dashed #FBC02D;
@@ -1258,17 +1275,20 @@
                 <p style="color: #000000; font-weight: 700; margin-top: 5px;" id="abc-menu-desc">Choose your preferred activity to learn the alphabet!</p>
                 
                 <div class="abc-menu-grid">
-                    <button class="abc-sub-btn" onclick="playClickSound(); startABC()">
-                        <span id="abc-main-icon">🇬🇧 / 🇲🇾</span>
-                        <span id="abc-dynamic-btn-text">Learn ABC</span>
+                    <button class="abc-sub-btn abc-image-btn" onclick="playClickSound(); startABC()" aria-label="Learn ABC">
+                        <img src="https://i.imgur.com/fyaaTIo.jpeg" alt="Learn ABC">
+                        <span id="abc-main-icon" style="display:none;">🇬🇧 / 🇲🇾</span>
+                        <span id="abc-dynamic-btn-text" style="display:none;">Learn ABC</span>
                     </button>
-                    <button class="abc-sub-btn" onclick="playClickSound(); openMatchLettersCountScreen()">
-                        <span>🔠 ➔ 🔤</span>
-                        <span id="match-letters-menu-text">Match the Letters</span>
+                    <button class="abc-sub-btn abc-image-btn" onclick="playClickSound(); openMatchLettersCountScreen()" aria-label="Match the Letters">
+                        <img src="https://i.imgur.com/6TJk4XH.jpeg" alt="Match the Letters">
+                        <span style="display:none;">🔠 ➔ 🔤</span>
+                        <span id="match-letters-menu-text" style="display:none;">Match the Letters</span>
                     </button>
-                    <button class="abc-sub-btn" onclick="playClickSound(); startFindLetterModule()">
-                        <span>🍎 ➔ 🔤</span>
-                        <span id="find-letter-menu-text">Find the Letter</span>
+                    <button class="abc-sub-btn abc-image-btn" onclick="playClickSound(); startFindLetterModule()" aria-label="Find the Letter">
+                        <img src="https://i.imgur.com/d1wtdH5.jpeg" alt="Find the Letter">
+                        <span style="display:none;">🍎 ➔ 🔤</span>
+                        <span id="find-letter-menu-text" style="display:none;">Find the Letter</span>
                     </button>
                 </div>
     
