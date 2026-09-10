@@ -383,13 +383,21 @@
 
         /* Kotak khas: Learn ABC & Learn Animal dibesarkan sedikit */
         .topic-btn.topic-btn-featured {
-            transform: scale(1.08);
+            transform: scale(1.15);
             z-index: 2;
-            box-shadow: 0 9px 22px rgba(0,0,0,0.18);
+            box-shadow: 0 10px 24px rgba(0,0,0,0.20);
+        }
+
+        .topic-btn.topic-btn-featured img {
+            transform: scale(1.04);
         }
 
         .topic-btn.topic-btn-featured:hover {
-            transform: translateY(-5px) scale(1.12);
+            transform: translateY(-5px) scale(1.19);
+        }
+
+        .topic-btn.topic-btn-featured:hover img {
+            transform: scale(1.10);
         }
 
         .abc-menu-grid {
@@ -1117,13 +1125,17 @@
                 height: 45px;
             }
 
-            /* Sedikit lebih kecil pada skrin telefon supaya tidak bertindih */
+            /* Learn ABC & Learn Animal sedikit lebih besar pada telefon */
             .topic-btn.topic-btn-featured {
-                transform: scale(1.05);
+                transform: scale(1.10);
+            }
+
+            .topic-btn.topic-btn-featured img {
+                transform: scale(1.03);
             }
 
             .topic-btn.topic-btn-featured:hover {
-                transform: translateY(-3px) scale(1.08);
+                transform: translateY(-3px) scale(1.13);
             }
         }
     </style>
