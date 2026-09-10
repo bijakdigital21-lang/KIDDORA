@@ -1977,12 +1977,36 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 7.4rem;
-            line-height: 1;
-            background: linear-gradient(145deg,#fff8ca,#dff7ff);
+            overflow: hidden;
+            background: #fff;
             border: 4px solid var(--primary-blue);
             box-shadow: inset 0 3px 10px rgba(255,255,255,.8), 0 6px 15px rgba(0,0,0,.12);
         }
+        .spell-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .spell-count-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 560px;
+            margin: 16px auto 20px;
+        }
+        .spell-count-btn {
+            border: none;
+            border-radius: 16px;
+            padding: 14px 8px;
+            background: linear-gradient(145deg,#C38FFF,#8c63e8);
+            color: #fff;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.15rem;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #6844bd, 0 7px 15px rgba(0,0,0,.13);
+        }
+        .spell-count-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #6844bd; }
         .spell-learning-word {
             font-family: Arial, sans-serif;
             font-size: 2.4rem;
@@ -2068,7 +2092,8 @@
         }
         @media (max-width: 600px) {
             .spell-card { padding: 16px 12px; border-radius: 22px; }
-            .spell-picture { width: 155px; height: 155px; font-size: 6rem; }
+            .spell-picture { width: 155px; height: 155px; }
+            .spell-count-grid { grid-template-columns: repeat(2, 1fr); }
             .spell-learning-word { font-size: 1.9rem; letter-spacing: .22em; }
             .spell-slot { width: 46px; height: 51px; font-size: 1.7rem; }
             .spell-letter-btn { width: 55px; height: 55px; font-size: 1.75rem; }
@@ -2261,24 +2286,37 @@
                 <h2 style="color:#ffff00;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #5E17EB;">Spell it Right ✏️</h2>
                 <p style="color:#111;font-weight:800;margin:6px 0 14px;">Listen carefully, then spell the word.</p>
 
-                <div class="spell-topbar">
-                    <span>Word <span id="spell-progress">1 / 15</span></span>
-                    <span>⭐ <span id="spell-score">0</span></span>
+                <div id="spell-count-selection" class="spell-card">
+                    <h3 style="font-family:'Fredoka One',cursive;color:#5E17EB;font-size:1.45rem;">Choose Number of Questions</h3>
+                    <p style="font-weight:800;margin-top:6px;">How many words do you want to spell?</p>
+                    <div class="spell-count-grid">
+                        <button class="spell-count-btn" onclick="beginSpellSession(5)">5</button>
+                        <button class="spell-count-btn" onclick="beginSpellSession(10)">10</button>
+                        <button class="spell-count-btn" onclick="beginSpellSession(15)">15</button>
+                        <button class="spell-count-btn" onclick="beginSpellSession(20)">20</button>
+                    </div>
                 </div>
 
-                <div class="spell-card">
-                    <div id="spell-picture" class="spell-picture" aria-label="word picture">☀️</div>
-                    <div id="spell-learning-word" class="spell-learning-word">S U N</div>
-                    <div id="spell-instruction" class="spell-instruction">Listen: S - U - N</div>
+                <div id="spell-game-area" style="display:none;">
+                    <div class="spell-topbar">
+                        <span>Word <span id="spell-progress">1 / 5</span></span>
+                        <span>⭐ <span id="spell-score">0</span></span>
+                    </div>
 
-                    <button class="sound-btn" onclick="replaySpellWord()">🔊 Hear again</button>
+                    <div class="spell-card">
+                        <div id="spell-picture" class="spell-picture" aria-label="word picture"><img src="" alt=""></div>
+                        <div id="spell-learning-word" class="spell-learning-word"></div>
+                        <div id="spell-instruction" class="spell-instruction"></div>
 
-                    <div id="spell-answer-slots" class="spell-answer-slots"></div>
-                    <div id="spell-letter-bank" class="spell-letter-bank"></div>
-                    <div id="spell-feedback" class="spell-feedback"></div>
+                        <button class="sound-btn" onclick="replaySpellWord()">🔊 Hear again</button>
 
-                    <button id="spell-next-btn" class="action-btn" style="display:none;" onclick="nextSpellWord()">Next ➡</button>
-                    <button id="spell-retry-btn" class="action-btn" style="display:none;background:#7ED957;box-shadow:0 5px 0 #4fa837;" onclick="resetCurrentSpellAttempt()">Try Again 🔄</button>
+                        <div id="spell-answer-slots" class="spell-answer-slots"></div>
+                        <div id="spell-letter-bank" class="spell-letter-bank"></div>
+                        <div id="spell-feedback" class="spell-feedback"></div>
+
+                        <button id="spell-next-btn" class="action-btn" style="display:none;" onclick="nextSpellWord()">Next ➡</button>
+                        <button id="spell-retry-btn" class="action-btn" style="display:none;background:#7ED957;box-shadow:0 5px 0 #4fa837;" onclick="resetCurrentSpellAttempt()">Try Again 🔄</button>
+                    </div>
                 </div>
 
                 <button class="action-btn home-btn" onclick="playClickSound(); openABCMenu()">Back to ABC 🔤</button>
@@ -4697,44 +4735,84 @@ document.addEventListener('DOMContentLoaded', () => {
         // SPELL IT RIGHT - ABC MODULE
         // ==========================================
         const spellWords = [
-            { word: 'SUN',  picture: '☀️' },
-            { word: 'CAT',  picture: '🐱' },
-            { word: 'DOG',  picture: '🐶' },
-            { word: 'BUS',  picture: '🚌' },
-            { word: 'HAT',  picture: '🎩' },
-            { word: 'PEN',  picture: '🖊️' },
-            { word: 'CUP',  picture: '🥤' },
-            { word: 'FISH', picture: '🐟' },
-            { word: 'BIRD', picture: '🐦' },
-            { word: 'STAR', picture: '⭐' },
-            { word: 'MOON', picture: '🌙' },
-            { word: 'BOOK', picture: '📘' },
-            { word: 'CAKE', picture: '🎂' },
-            { word: 'BALL', picture: '⚽' },
-            { word: 'DUCK', picture: '🦆' }
+            { word: 'SUN',   image: 'https://loremflickr.com/500/500/sun,sky' },
+            { word: 'CAT',   image: 'https://loremflickr.com/500/500/cat' },
+            { word: 'DOG',   image: 'https://loremflickr.com/500/500/dog' },
+            { word: 'BUS',   image: 'https://loremflickr.com/500/500/bus' },
+            { word: 'HAT',   image: 'https://loremflickr.com/500/500/hat' },
+            { word: 'PEN',   image: 'https://loremflickr.com/500/500/pen' },
+            { word: 'CUP',   image: 'https://loremflickr.com/500/500/cup' },
+            { word: 'FISH',  image: 'https://loremflickr.com/500/500/fish' },
+            { word: 'BIRD',  image: 'https://loremflickr.com/500/500/bird' },
+            { word: 'STAR',  image: 'https://loremflickr.com/500/500/star,night' },
+            { word: 'MOON',  image: 'https://loremflickr.com/500/500/moon,night' },
+            { word: 'BOOK',  image: 'https://loremflickr.com/500/500/book' },
+            { word: 'CAKE',  image: 'https://loremflickr.com/500/500/cake' },
+            { word: 'BALL',  image: 'https://loremflickr.com/500/500/ball' },
+            { word: 'DUCK',  image: 'https://loremflickr.com/500/500/duck' },
+            { word: 'APPLE', image: 'https://loremflickr.com/500/500/apple,fruit' },
+            { word: 'CAR',   image: 'https://loremflickr.com/500/500/car' },
+            { word: 'TREE',  image: 'https://loremflickr.com/500/500/tree' },
+            { word: 'SHOE',  image: 'https://loremflickr.com/500/500/shoe' },
+            { word: 'MILK',  image: 'https://loremflickr.com/500/500/milk' }
         ];
 
+        let spellSessionWords = [];
         let spellIndex = 0;
         let spellScore = 0;
         let spellSelected = [];
         let spellOrder = [];
         let spellBusy = false;
 
+        function shuffleSpellItems(items) {
+            const arr = [...items];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
         function startSpellItRight() {
+            window.speechSynthesis?.cancel();
             spellIndex = 0;
             spellScore = 0;
+            spellSessionWords = [];
             showScreen('spell-it-right-screen');
+            document.getElementById('spell-count-selection').style.display = 'block';
+            document.getElementById('spell-game-area').style.display = 'none';
+        }
+
+        function beginSpellSession(questionCount) {
+            playClickSound();
+            // Shuffle once, then slice: guarantees random order + no repeated word in one session.
+            spellSessionWords = shuffleSpellItems(spellWords).slice(0, Math.min(questionCount, spellWords.length));
+            spellIndex = 0;
+            spellScore = 0;
+            document.getElementById('spell-count-selection').style.display = 'none';
+            document.getElementById('spell-game-area').style.display = 'block';
             loadSpellWord();
         }
 
+        function getCurrentSpellItem() {
+            return spellSessionWords[spellIndex];
+        }
+
         function loadSpellWord() {
-            const item = spellWords[spellIndex];
+            const item = getCurrentSpellItem();
+            if (!item) return;
             spellSelected = [];
             spellBusy = true;
 
-            document.getElementById('spell-progress').innerText = `${spellIndex + 1} / ${spellWords.length}`;
+            document.getElementById('spell-progress').innerText = `${spellIndex + 1} / ${spellSessionWords.length}`;
             document.getElementById('spell-score').innerText = spellScore;
-            document.getElementById('spell-picture').innerText = item.picture;
+            const picture = document.getElementById('spell-picture');
+            picture.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = item.image;
+            img.alt = item.word.toLowerCase();
+            img.loading = 'eager';
+            picture.appendChild(img);
             document.getElementById('spell-learning-word').innerText = item.word.split('').join('   ');
             document.getElementById('spell-instruction').innerText = `Listen: ${item.word.split('').join(' - ')}`;
             document.getElementById('spell-feedback').innerText = '';
@@ -4743,29 +4821,21 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('spell-answer-slots').innerHTML = '';
             document.getElementById('spell-letter-bank').innerHTML = '';
 
-            // Show the correct spelling first. After audio finishes, scramble the letters.
             speakSpelling(item.word, () => {
-                if (document.getElementById('spell-it-right-screen').classList.contains('active')) {
-                    beginSpellAttempt();
-                }
+                if (document.getElementById('spell-it-right-screen').classList.contains('active')) beginSpellAttempt();
             });
         }
 
         function speakSpelling(word, onDone) {
-            // Spell It Right: sebut perkataan dahulu, berhenti, kemudian eja satu-satu.
-            // Audio dibuat secara berasingan supaya jeda konsisten pada phone, iPad dan laptop.
             if (!('speechSynthesis' in window)) {
                 setTimeout(() => onDone && onDone(), 3500);
                 return;
             }
-
             window.speechSynthesis.cancel();
             const synth = window.speechSynthesis;
             const letters = word.split('');
-            let cancelled = false;
 
             function speakPart(text, rate, callback) {
-                if (cancelled) return;
                 const utter = new SpeechSynthesisUtterance(text);
                 utter.lang = 'en-US';
                 utter.rate = rate;
@@ -4776,35 +4846,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 synth.speak(utter);
             }
 
-            // Guna lowercase untuk memastikan SUN/CAT/DOG disebut sebagai perkataan,
-            // bukan dibaca sebagai singkatan oleh sesetengah browser.
             speakPart(word.toLowerCase(), 0.58, () => {
-                // Jeda lebih panjang selepas sebut perkataan.
                 setTimeout(() => {
                     let i = 0;
-
                     function speakNextLetter() {
                         if (i >= letters.length) {
-                            // Jeda pendek selepas huruf terakhir sebelum latihan bermula.
                             setTimeout(() => onDone && onDone(), 650);
                             return;
                         }
-
                         speakPart(letters[i], 0.50, () => {
                             i++;
-                            // Jeda antara setiap huruf: S ... U ... N
                             setTimeout(speakNextLetter, 600);
                         });
                     }
-
                     speakNextLetter();
                 }, 950);
             });
         }
 
         function replaySpellWord() {
-            const item = spellWords[spellIndex];
-            speakSpelling(item.word);
+            const item = getCurrentSpellItem();
+            if (item) speakSpelling(item.word);
         }
 
         function shuffleSpellLetters(word) {
@@ -4812,14 +4874,15 @@ document.addEventListener('DOMContentLoaded', () => {
             let shuffled = [...original];
             let tries = 0;
             do {
-                shuffled.sort(() => Math.random() - 0.5);
+                shuffled = shuffleSpellItems(original);
                 tries++;
             } while (word.length > 2 && shuffled.map(x => x.letter).join('') === word && tries < 12);
             return shuffled;
         }
 
         function beginSpellAttempt() {
-            const item = spellWords[spellIndex];
+            const item = getCurrentSpellItem();
+            if (!item) return;
             spellBusy = false;
             spellSelected = [];
             spellOrder = shuffleSpellLetters(item.word);
@@ -4831,7 +4894,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function renderSpellSlots() {
-            const item = spellWords[spellIndex];
+            const item = getCurrentSpellItem();
             const wrap = document.getElementById('spell-answer-slots');
             wrap.innerHTML = '';
             item.word.split('').forEach((_, i) => {
@@ -4861,17 +4924,15 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('used');
             spellSelected.push({ ...spellOrder[idx], buttonIndex: idx });
             renderSpellSlots();
-
-            const item = spellWords[spellIndex];
+            const item = getCurrentSpellItem();
             if (spellSelected.length === item.word.length) checkSpellAnswer();
         }
 
         function checkSpellAnswer() {
             spellBusy = true;
-            const item = spellWords[spellIndex];
+            const item = getCurrentSpellItem();
             const answer = spellSelected.map(x => x.letter).join('');
             const feedback = document.getElementById('spell-feedback');
-
             if (answer === item.word) {
                 spellScore++;
                 document.getElementById('spell-score').innerText = spellScore;
@@ -4890,9 +4951,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function speakWholeWord(word) {
             if (!('speechSynthesis' in window)) return;
-            const utter = new SpeechSynthesisUtterance(word);
+            const utter = new SpeechSynthesisUtterance(word.toLowerCase());
             utter.lang = 'en-US';
-            utter.rate = 0.78;
+            utter.rate = 0.72;
             utter.pitch = 1.05;
             window.speechSynthesis.cancel();
             window.speechSynthesis.speak(utter);
@@ -4905,13 +4966,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function nextSpellWord() {
             playClickSound();
-            if (spellIndex < spellWords.length - 1) {
+            if (spellIndex < spellSessionWords.length - 1) {
                 spellIndex++;
                 loadSpellWord();
             } else {
                 const feedback = document.getElementById('spell-feedback');
                 feedback.style.color = '#5E17EB';
-                feedback.innerText = `🎉 Finished! Score: ${spellScore} / ${spellWords.length}`;
+                feedback.innerText = `🎉 Finished! Score: ${spellScore} / ${spellSessionWords.length}`;
                 document.getElementById('spell-next-btn').style.display = 'none';
                 document.getElementById('spell-learning-word').innerText = 'WELL DONE!';
                 document.getElementById('spell-instruction').innerText = 'You completed Spell it Right!';
