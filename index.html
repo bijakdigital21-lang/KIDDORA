@@ -1058,9 +1058,17 @@
            FIND THE LETTER SAHAJA - POKOK EPAL BESAR + BAKUL
            Fungsi modul lain dikekalkan.
         ========================================================== */
+        #find-letter-screen {
+            width: min(96vw, 980px);
+            margin-left: 50%;
+            transform: translateX(-50%);
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
         #find-letter-screen .apple-tree-container {
             position: relative;
-            width: min(100%, 700px);
+            width: min(100%, 940px);
             min-height: 650px;
             margin: 14px auto 18px;
             padding: 0;
@@ -1128,7 +1136,7 @@
             left: 50%;
             top: 20px;
             transform: translateX(-50%);
-            width: 94%;
+            width: 96%;
             height: 405px;
             z-index: 3;
             border-radius: 48% 52% 44% 46%;
@@ -1172,7 +1180,7 @@
             left: 50%;
             top: 62px;
             transform: translateX(-50%);
-            width: 82%;
+            width: 88%;
             height: 320px;
             z-index: 6;
             display: grid;
@@ -1319,6 +1327,7 @@
         }
 
         @media (max-width: 768px) {
+            #find-letter-screen { width: 100%; margin-left: 0; transform: none; padding-left: 0; padding-right: 0; }
             #find-letter-screen .apple-tree-container { min-height: 600px; border-radius: 22px; }
             #find-letter-screen .tree-canopy { width: 108%; height: 365px; top: 25px; }
             #find-letter-screen .tree-trunk { top: 310px; height: 205px; width: 88px; }
@@ -1912,7 +1921,6 @@
                     <div class="tree-canopy"></div>
                     <div class="tree-trunk"></div>
                     <div class="apples-grid" id="apples-grid-container"></div>
-                    <div class="basket-label" id="basket-label-text">Bakul 🧺</div>
                     <div class="basket-area" id="basket-area-container"></div>
                 </div>
 
@@ -2518,7 +2526,7 @@
                 document.getElementById("find-header-title").innerText = "Find the Letter 🍎";
                 document.getElementById("find-round-label").innerText = "Round";
                 document.getElementById("find-score-label").innerText = "Score";
-                document.getElementById("basket-label-text").innerText = "Basket 🧺";
+                if(document.getElementById("basket-label-text")) document.getElementById("basket-label-text").innerText = "Basket 🧺";
                 document.getElementById("find-next-round-text").innerText = "Next Round ➔";
                 document.getElementById("find-back-btn").innerText = "Back ↩️";
 
@@ -2612,7 +2620,7 @@
                 document.getElementById("find-header-title").innerText = "Cari Huruf 🍎";
                 document.getElementById("find-round-label").innerText = "Pusingan";
                 document.getElementById("find-score-label").innerText = "Skor";
-                document.getElementById("basket-label-text").innerText = "Bakul 🧺";
+                if(document.getElementById("basket-label-text")) document.getElementById("basket-label-text").innerText = "Bakul 🧺";
                 document.getElementById("find-next-round-text").innerText = "Seterusnya ➔";
                 document.getElementById("find-back-btn").innerText = "Kembali ↩️";
 
