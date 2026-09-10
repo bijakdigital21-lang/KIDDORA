@@ -40,6 +40,31 @@
             touch-action: pan-x pan-y;
         }
 
+
+        /* =========================================================
+           BLUR BACKGROUND UNTUK PAPARAN AKTIVITI / LATIHAN SAHAJA
+           Kandungan aktiviti kekal tajam; hanya gambar paling belakang dikaburkan.
+        ========================================================== */
+        body.activity-bg-blur {
+            position: relative;
+            isolation: isolate;
+            background: transparent !important;
+        }
+
+        body.activity-bg-blur::before {
+            content: '';
+            position: fixed;
+            inset: -18px;
+            z-index: -1;
+            pointer-events: none;
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)),
+                url('https://i.imgur.com/Zjx17K5.jpeg') no-repeat center center;
+            background-size: cover;
+            filter: blur(10px);
+            transform: scale(1.04);
+        }
+
         .sidebar {
             width: 250px;
             background-color: var(--sidebar-bg);
@@ -4792,6 +4817,22 @@
             if (targetScreen) {
                 targetScreen.classList.add('active');
             }
+
+            // Blur gambar background PALING BELAKANG hanya semasa aktiviti/latihan.
+            // Menu, profile, pilihan soalan, flashcard/pelajaran dan result kekal background asal.
+            const activityScreens = new Set([
+                'spell-it-right-screen',
+                'abc-tracing-screen',
+                'match123-screen',
+                'lets-count-screen',
+                'match-animal-game-screen',
+                'find-animal-game-screen',
+                'match-game-screen',
+                'find-letter-screen',
+                'quiz-screen'
+            ]);
+            document.body.classList.toggle('activity-bg-blur', activityScreens.has(screenId));
+
             closeSidebar();
         }
 
