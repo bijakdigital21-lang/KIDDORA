@@ -2382,6 +2382,53 @@
         .find-colour-option.correct{border-color:#4CAF50;background:#e9ffe0}.find-colour-option.wrong{border-color:#E53935;background:#ffe4e4}
         @media(max-width:560px){.colour-menu-grid{gap:12px}.balloon-field{grid-template-columns:repeat(3,1fr);gap:12px;padding:12px}.colour-match-wrap{gap:18px;padding:12px}.colour-word-item,.colour-swatch-item{min-height:66px;padding:7px;font-size:1rem}.find-colour-chip{height:100px}}
 
+    
+        /* ===== COLOUR MODULE SIZE + MATCHING IMPROVEMENTS ===== */
+        #pop-balloon-screen .colour-board{max-width:780px;padding:26px 24px 32px;}
+        #pop-balloon-screen .balloon-field{max-width:740px;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;padding:24px;min-height:430px;align-items:center;}
+        #pop-balloon-screen .colour-balloon{min-height:120px;max-height:155px;justify-self:stretch;}
+
+        #match-colour-screen .colour-match-wrapper{max-width:720px;margin:22px auto;min-height:520px;padding:16px 0;}
+        #match-colour-screen .colour-match-container{width:100%;justify-content:space-between;align-items:stretch;}
+        #match-colour-screen .colour-match-col{width:185px;gap:18px;}
+        #match-colour-screen #colour-match-left{transform:translateX(-70px);}
+        #match-colour-screen #colour-match-right{transform:translateX(70px);}
+        #match-colour-screen .colour-word-item,#match-colour-screen .colour-swatch-item{width:185px;height:92px;min-height:92px;padding:10px 12px;border:3px solid var(--primary-blue);border-radius:18px;background:rgba(255,255,255,.96);box-shadow:0 4px 10px rgba(0,0,0,.08);}
+        #match-colour-screen .colour-word-item{flex-direction:column;gap:6px;}
+        #match-colour-screen .match-colour-name{font-family:'Fredoka One',cursive;font-size:1.25rem;pointer-events:none;}
+        #match-colour-screen .match-colour-audio-btn{width:38px;height:38px;border:0;border-radius:50%;background:var(--primary-pink);color:#fff;font-size:1.05rem;box-shadow:0 4px 0 #b33687;cursor:pointer;touch-action:manipulation;}
+        #match-colour-screen .colour-swatch-item{padding:7px;}
+        #match-colour-screen .colour-swatch-chip{width:100%;height:100%;min-height:70px;border-radius:13px;border:2px solid rgba(0,0,0,.15);pointer-events:none;}
+        #match-colour-screen .match-item.matched{opacity:1!important;filter:none!important;cursor:default;}
+        #match-colour-screen .match-item.selected{background:#fff3a6;border-color:#f0bd20;transform:scale(1.05);}
+
+        #find-colour-screen .colour-board{max-width:760px;padding:28px 24px 30px;}
+        #find-colour-screen #find-colour-question{min-height:100px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;background:#fff;border:3px solid #ffd768;border-radius:22px;padding:20px;margin-bottom:14px;}
+        #find-colour-screen .find-colour-options{max-width:700px;gap:20px;margin:24px auto;}
+        #find-colour-screen .find-colour-option{min-height:175px;padding:14px;border-radius:24px;}
+        #find-colour-screen .find-colour-chip{height:145px;border-radius:18px;}
+
+        @media(max-width:560px){
+            #pop-balloon-screen .colour-board{width:calc(100vw - 18px);padding:18px 10px 24px;}
+            #pop-balloon-screen .balloon-field{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:14px;min-height:520px;width:100%;}
+            #pop-balloon-screen .colour-balloon{min-height:105px;max-height:135px;}
+
+            #match-colour-screen .colour-match-wrapper{width:100%;min-height:500px;padding:8px 0;}
+            #match-colour-screen .colour-match-col{width:132px;gap:15px;}
+            #match-colour-screen #colour-match-left{transform:translateX(-26px);}
+            #match-colour-screen #colour-match-right{transform:translateX(26px);}
+            #match-colour-screen .colour-word-item,#match-colour-screen .colour-swatch-item{width:132px;height:84px;min-height:84px;padding:7px;}
+            #match-colour-screen .match-colour-name{font-size:1rem;}
+            #match-colour-screen .match-colour-audio-btn{width:34px;height:34px;font-size:.95rem;}
+            #match-colour-screen .colour-swatch-chip{min-height:64px;}
+
+            #find-colour-screen .colour-board{width:calc(100vw - 18px);padding:20px 10px 24px;}
+            #find-colour-screen #find-colour-question{min-height:115px;font-size:1.65rem;padding:18px 12px;}
+            #find-colour-screen .find-colour-options{width:100%;gap:12px;margin:20px auto;}
+            #find-colour-screen .find-colour-option{min-height:160px;padding:10px;border-width:4px;}
+            #find-colour-screen .find-colour-chip{height:135px;}
+        }
+
     </style>
 </head>
 <body>
@@ -2766,10 +2813,13 @@
             <div id="match-colour-screen" class="card">
                 <h2 id="match-colour-title" style="color:#5E17EB;font-family:'Fredoka One',cursive;">Match the Colour 🎨</h2>
                 <div class="colour-progress"><span id="match-colour-progress">Set 1 / 2</span> · ⭐ <span id="match-colour-score">0</span></div>
-                <p id="match-colour-instruction" style="font-weight:800;color:#444;">Tap a colour word, then match it with the correct colour.</p>
-                <div class="colour-match-wrap">
-                    <div id="colour-match-left" class="colour-match-col"></div>
-                    <div id="colour-match-right" class="colour-match-col"></div>
+                <p id="match-colour-instruction" style="font-weight:800;color:#444;">Drag a colour word to the correct colour.</p>
+                <div class="match-wrapper colour-match-wrapper" id="colour-match-wrapper">
+                    <canvas id="colour-match-canvas" class="match-canvas"></canvas>
+                    <div class="match-container colour-match-container">
+                        <div id="colour-match-left" class="match-column colour-match-col"></div>
+                        <div id="colour-match-right" class="match-column colour-match-col"></div>
+                    </div>
                 </div>
                 <button class="action-btn home-btn" id="match-colour-back" onclick="playClickSound(); openColourMenu()">Back ↩️</button>
             </div>
@@ -5074,14 +5124,106 @@
         let popOrder=[],popIndex=0,popScore=0,popLocked=false;
         function startPopBalloon(){popOrder=colourShuffle(colourItems);popIndex=0;popScore=0;document.getElementById('pop-balloon-score').innerText='0';showScreen('pop-balloon-screen');updateColourLanguage();renderPopBalloon();setTimeout(speakPopBalloonQuestion,180)}
         function popQuestionText(c){return currentGlobalLang==='ms'?`Pecahkan belon berwarna ${c.ms}!`:`Pop the ${c.en.toLowerCase()} balloon!`}
-        function renderPopBalloon(){if(!popOrder.length)return;popLocked=false;const target=popOrder[popIndex];document.getElementById('pop-balloon-progress').innerText=(currentGlobalLang==='ms'?'Soalan ':'Question ')+(popIndex+1)+' / '+popOrder.length;document.getElementById('pop-balloon-question').innerText=popQuestionText(target);const choices=colourShuffle([target,...colourShuffle(colourItems.filter(c=>c!==target)).slice(0,7)]);const field=document.getElementById('balloon-field');field.innerHTML='';choices.forEach(c=>{const b=document.createElement('button');b.className='colour-balloon';b.style.background=c.hex;b.style.color=c.hex;b.setAttribute('aria-label',colourName(c));b.onclick=()=>answerPopBalloon(b,c,target);field.appendChild(b)})}
+        function renderPopBalloon(){if(!popOrder.length)return;popLocked=false;const target=popOrder[popIndex];document.getElementById('pop-balloon-progress').innerText=(currentGlobalLang==='ms'?'Soalan ':'Question ')+(popIndex+1)+' / '+popOrder.length;document.getElementById('pop-balloon-question').innerText=popQuestionText(target);const distractorPool=colourItems.filter(c=>c!==target);const distractors=[];while(distractors.length<11){distractors.push(distractorPool[Math.floor(Math.random()*distractorPool.length)])}const choices=colourShuffle([target,...distractors]);const field=document.getElementById('balloon-field');field.innerHTML='';choices.forEach(c=>{const b=document.createElement('button');b.className='colour-balloon';b.style.background=c.hex;b.style.color=c.hex;b.setAttribute('aria-label',colourName(c));b.onclick=()=>answerPopBalloon(b,c,target);field.appendChild(b)})}
         function speakPopBalloonQuestion(){if(popOrder.length)speakColourText(popQuestionText(popOrder[popIndex]))}
         function answerPopBalloon(btn,c,target){if(popLocked)return;if(c===target){popLocked=true;btn.classList.add('popped');playCorrectSound();popScore+=10;document.getElementById('pop-balloon-score').innerText=popScore;setTimeout(()=>{popIndex++;if(popIndex<popOrder.length){renderPopBalloon();speakPopBalloonQuestion()}else{if(window.saveScoreToFirebase)window.saveScoreToFirebase(currentGlobalLang==='ms'?'Pecahkan Belon':'Pop the Balloon',100);alert(currentGlobalLang==='ms'?'Tahniah! Semua belon berjaya dipecahkan! 🎉':'Great job! You popped all the correct balloons! 🎉');openColourMenu()}},500)}else{playWrongSound();btn.animate([{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}],{duration:220})}}
 
-        let matchColourSets=[],matchColourSetIndex=0,matchColourScore=0,matchSelected=null,matchDone=new Set();
-        function startMatchColour(){matchColourSets=[];const shuffled=colourShuffle(colourItems);for(let i=0;i<shuffled.length;i+=5)matchColourSets.push(shuffled.slice(i,i+5));matchColourSetIndex=0;matchColourScore=0;matchDone=new Set();showScreen('match-colour-screen');updateColourLanguage();renderMatchColourSet()}
-        function renderMatchColourSet(){if(!matchColourSets.length)return;matchSelected=null;matchDone=new Set();document.getElementById('match-colour-progress').innerText=(currentGlobalLang==='ms'?'Set ':'Set ')+(matchColourSetIndex+1)+' / '+matchColourSets.length;document.getElementById('match-colour-score').innerText=matchColourScore;const set=matchColourSets[matchColourSetIndex],left=document.getElementById('colour-match-left'),right=document.getElementById('colour-match-right');left.innerHTML='';right.innerHTML='';set.forEach((c,i)=>{const b=document.createElement('button');b.className='colour-word-item';b.dataset.key=c.en;b.innerHTML=`<span>${colourName(c)}</span><span>🔊</span>`;b.onclick=()=>{if(matchDone.has(c.en))return;left.querySelectorAll('.selected').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');matchSelected=c;speakColourText(colourName(c))};left.appendChild(b)});colourShuffle(set).forEach(c=>{const b=document.createElement('button');b.className='colour-swatch-item';b.dataset.key=c.en;b.innerHTML=`<span class="colour-swatch-chip" style="background:${c.hex}"></span>`;b.onclick=()=>answerMatchColour(b,c);right.appendChild(b)})}
-        function answerMatchColour(btn,c){if(!matchSelected||matchDone.has(c.en))return;if(matchSelected.en===c.en){playCorrectSound();matchDone.add(c.en);matchColourScore+=10;document.getElementById('match-colour-score').innerText=matchColourScore;document.querySelector(`#colour-match-left [data-key="${c.en}"]`)?.classList.add('matched');document.querySelector(`#colour-match-left [data-key="${c.en}"]`)?.classList.remove('selected');btn.classList.add('matched');matchSelected=null;if(matchDone.size===matchColourSets[matchColourSetIndex].length)setTimeout(()=>{matchColourSetIndex++;if(matchColourSetIndex<matchColourSets.length)renderMatchColourSet();else{if(window.saveScoreToFirebase)window.saveScoreToFirebase(currentGlobalLang==='ms'?'Suaikan Warna':'Match the Colour',100);alert(currentGlobalLang==='ms'?'Tahniah! Semua warna berjaya disuaikan! 🎉':'Great job! All colours matched! 🎉');openColourMenu()}},550)}else{playWrongSound();btn.animate([{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}],{duration:220})}}
+        let matchColourSets=[],matchColourSetIndex=0,matchColourScore=0,matchDone=new Set();
+        let activeDragColour=null,isDraggingColour=false,dragColourX=0,dragColourY=0,completedColourLines=[];
+        let colourMatchEventsBound=false;
+
+        function startMatchColour(){
+            matchColourSets=[];
+            const shuffled=colourShuffle(colourItems);
+            for(let i=0;i<shuffled.length;i+=5) matchColourSets.push(shuffled.slice(i,i+5));
+            matchColourSetIndex=0; matchColourScore=0; matchDone=new Set(); completedColourLines=[];
+            showScreen('match-colour-screen'); updateColourLanguage();
+            initMatchColourEvents(); renderMatchColourSet();
+        }
+
+        function initMatchColourEvents(){
+            const wrapper=document.getElementById('colour-match-wrapper');
+            if(!wrapper || colourMatchEventsBound) return;
+            wrapper.addEventListener('pointerdown',handleColourPointerDown);
+            wrapper.addEventListener('pointermove',handleColourPointerMove);
+            wrapper.addEventListener('pointerup',handleColourPointerUp);
+            wrapper.addEventListener('pointercancel',handleColourPointerUp);
+            colourMatchEventsBound=true;
+            window.addEventListener('resize',resizeColourCanvas);
+        }
+
+        function renderMatchColourSet(){
+            if(!matchColourSets.length)return;
+            matchDone=new Set(); completedColourLines=[]; activeDragColour=null; isDraggingColour=false;
+            document.getElementById('match-colour-progress').innerText='Set '+(matchColourSetIndex+1)+' / '+matchColourSets.length;
+            document.getElementById('match-colour-score').innerText=matchColourScore;
+            const set=matchColourSets[matchColourSetIndex],left=document.getElementById('colour-match-left'),right=document.getElementById('colour-match-right');
+            left.innerHTML=''; right.innerHTML='';
+
+            colourShuffle(set).forEach(c=>{
+                const div=document.createElement('div');
+                div.className='match-item colour-word-item';
+                div.dataset.key=c.en; div.dataset.side='left';
+                div.innerHTML=`<span class="match-colour-name">${colourName(c)}</span><button type="button" class="match-colour-audio-btn" aria-label="Listen">🔊</button>`;
+                const audio=div.querySelector('.match-colour-audio-btn');
+                audio.addEventListener('pointerdown',e=>e.stopPropagation());
+                audio.addEventListener('pointerup',e=>e.stopPropagation());
+                audio.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();speakColourText(colourName(c));});
+                left.appendChild(div);
+            });
+
+            colourShuffle(set).forEach(c=>{
+                const div=document.createElement('div');
+                div.className='match-item colour-swatch-item';
+                div.dataset.key=c.en; div.dataset.side='right';
+                div.innerHTML=`<span class="colour-swatch-chip" style="background:${c.hex}"></span>`;
+                right.appendChild(div);
+            });
+            setTimeout(resizeColourCanvas,60);
+        }
+
+        function resizeColourCanvas(){
+            const canvas=document.getElementById('colour-match-canvas'),wrapper=document.getElementById('colour-match-wrapper');
+            if(canvas&&wrapper){canvas.width=wrapper.clientWidth;canvas.height=wrapper.clientHeight;redrawColourCanvas();}
+        }
+
+        function handleColourPointerDown(e){
+            const target=e.target.closest('.match-item');
+            if(!target || target.classList.contains('matched') || target.dataset.side!=='left') return;
+            playClickSound(); activeDragColour=target; isDraggingColour=true; target.classList.add('selected');
+            const r=document.getElementById('colour-match-wrapper').getBoundingClientRect();
+            dragColourX=e.clientX-r.left; dragColourY=e.clientY-r.top; redrawColourCanvas();
+        }
+        function handleColourPointerMove(e){
+            if(!isDraggingColour||!activeDragColour)return; e.preventDefault();
+            const r=document.getElementById('colour-match-wrapper').getBoundingClientRect();
+            dragColourX=e.clientX-r.left; dragColourY=e.clientY-r.top; redrawColourCanvas();
+        }
+        function handleColourPointerUp(e){
+            if(!isDraggingColour||!activeDragColour)return;
+            const under=document.elementFromPoint(e.clientX,e.clientY);
+            const target=under?under.closest('.match-item'):null;
+            activeDragColour.classList.remove('selected');
+            if(target && target.dataset.side==='right' && !target.classList.contains('matched')){
+                if(activeDragColour.dataset.key===target.dataset.key){
+                    playCorrectSound(); matchColourScore+=10; document.getElementById('match-colour-score').innerText=matchColourScore;
+                    activeDragColour.classList.add('matched'); target.classList.add('matched'); matchDone.add(activeDragColour.dataset.key);
+                    completedColourLines.push({from:activeDragColour,to:target});
+                    if(matchDone.size===matchColourSets[matchColourSetIndex].length){
+                        setTimeout(()=>{matchColourSetIndex++;if(matchColourSetIndex<matchColourSets.length){renderMatchColourSet()}else{if(window.saveScoreToFirebase)window.saveScoreToFirebase(currentGlobalLang==='ms'?'Suaikan Warna':'Match the Colour',100);alert(currentGlobalLang==='ms'?'Tahniah! Semua warna berjaya disuaikan! 🎉':'Great job! All colours matched! 🎉');openColourMenu()}},550);
+                    }
+                }else{
+                    playWrongSound(); target.animate([{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}],{duration:220});
+                }
+            }
+            activeDragColour=null; isDraggingColour=false; redrawColourCanvas();
+        }
+        function redrawColourCanvas(){
+            const canvas=document.getElementById('colour-match-canvas'); if(!canvas)return;
+            const ctx=canvas.getContext('2d'); ctx.clearRect(0,0,canvas.width,canvas.height);
+            completedColourLines.forEach(line=>{const p1=getItemCenter(line.from),p2=getItemCenter(line.to);ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(p2.x,p2.y);ctx.strokeStyle='#7ED957';ctx.lineWidth=6;ctx.lineCap='round';ctx.stroke();});
+            if(isDraggingColour&&activeDragColour){const p1=getItemCenter(activeDragColour);ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(dragColourX,dragColourY);ctx.strokeStyle='#FF66C4';ctx.lineWidth=5;ctx.lineCap='round';ctx.setLineDash([8,6]);ctx.stroke();ctx.setLineDash([]);}
+        }
 
         let findColourOrder=[],findColourIndex=0,findColourScore=0,findColourLocked=false;
         function startFindColour(){findColourOrder=colourShuffle(colourItems);findColourIndex=0;findColourScore=0;document.getElementById('find-colour-score').innerText='0';showScreen('find-colour-screen');updateColourLanguage();renderFindColour();setTimeout(speakFindColourQuestion,180)}
