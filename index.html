@@ -4846,22 +4846,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 synth.speak(utter);
             }
 
-            speakPart(word.toLowerCase(), 0.58, () => {
-                setTimeout(() => {
-                    let i = 0;
-                    function speakNextLetter() {
-                        if (i >= letters.length) {
-                            setTimeout(() => onDone && onDone(), 650);
-                            return;
-                        }
-                        speakPart(letters[i], 0.50, () => {
-                            i++;
-                            setTimeout(speakNextLetter, 600);
-                        });
-                    }
-                    speakNextLetter();
-                }, 950);
-            });
+            // Spell huruf sahaja. Gunakan lowercase untuk elakkan TTS menyebut
+            // "capital C", "capital A" dan sebagainya.
+            let i = 0;
+            function speakNextLetter() {
+                if (i >= letters.length) {
+                    setTimeout(() => onDone && onDone(), 650);
+                    return;
+                }
+                speakPart(letters[i].toLowerCase(), 0.50, () => {
+                    i++;
+                    setTimeout(speakNextLetter, 600);
+                });
+            }
+            speakNextLetter();
         }
 
         function replaySpellWord() {
