@@ -1049,8 +1049,9 @@
         #match-game-screen .match-item.matched {
             background: transparent !important;
             color: inherit;
-            opacity: .58;
-            filter: drop-shadow(0 0 7px #43c85b);
+            opacity: 1 !important;
+            filter: none !important;
+            cursor: default;
         }
 
         .match-item img {
@@ -1766,6 +1767,30 @@
         #match-animal-game-screen #match-animal-right-column .match-item.selected,
         #match-animal-game-screen #match-animal-right-column .match-item.matched {
             background: transparent;
+        }
+
+        /* Selepas Match the Animals berjaya: kekalkan warna/gambar asal, tanpa fade/blur */
+        #match-animal-game-screen .match-item.matched {
+            opacity: 1 !important;
+            filter: none !important;
+            color: inherit !important;
+            cursor: default;
+        }
+
+        #match-animal-game-screen #match-animal-left-column .match-item.matched {
+            background: rgba(255,255,255,0.95) !important;
+            border-color: var(--primary-blue) !important;
+        }
+
+        #match-animal-game-screen #match-animal-right-column .match-item.matched {
+            background: transparent !important;
+            border-color: transparent !important;
+        }
+
+        #match-animal-game-screen #match-animal-right-column .match-item.matched img {
+            opacity: 1 !important;
+            filter: none !important;
+            border-color: var(--primary-blue) !important;
         }
 
         @media (max-width: 768px) {
