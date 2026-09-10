@@ -381,6 +381,17 @@
             transform: scale(1.08);
         }
 
+        /* Kotak khas: Learn ABC & Learn Animal dibesarkan sedikit */
+        .topic-btn.topic-btn-featured {
+            transform: scale(1.08);
+            z-index: 2;
+            box-shadow: 0 9px 22px rgba(0,0,0,0.18);
+        }
+
+        .topic-btn.topic-btn-featured:hover {
+            transform: translateY(-5px) scale(1.12);
+        }
+
         .abc-menu-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1105,6 +1116,15 @@
                 width: 45px;
                 height: 45px;
             }
+
+            /* Sedikit lebih kecil pada skrin telefon supaya tidak bertindih */
+            .topic-btn.topic-btn-featured {
+                transform: scale(1.05);
+            }
+
+            .topic-btn.topic-btn-featured:hover {
+                transform: translateY(-3px) scale(1.08);
+            }
         }
     </style>
 </head>
@@ -1222,13 +1242,13 @@
                 </div>
 
                 <div class="topic-grid">
-                    <button class="topic-btn" onclick="playClickSound(); openABCMenu()">
+                    <button class="topic-btn topic-btn-featured" onclick="playClickSound(); openABCMenu()">
                         <img src="https://i.imgur.com/HRl0fWA.jpeg" alt="ABC Character">
                     </button>
                     <button class="topic-btn" onclick="playClickSound(); openLesson('numeric')">
                         <img src="https://i.imgur.com/Xzib4i8.jpeg" alt="Number">
                     </button>
-                    <button class="topic-btn" onclick="playClickSound(); openAnimalMenu()">
+                    <button class="topic-btn topic-btn-featured" onclick="playClickSound(); openAnimalMenu()">
                         <img src="https://i.imgur.com/tXLFggI.jpeg" alt="Animal">
                     </button>
                     <button class="topic-btn" onclick="playClickSound(); openLesson('colour')">
