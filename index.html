@@ -381,17 +381,6 @@
             transform: scale(1.08);
         }
 
-        /* Kotak khas: Learn ABC & Learn Animal dibesarkan sedikit */
-        .topic-btn.topic-btn-featured {
-            transform: scale(1.08);
-            z-index: 2;
-            box-shadow: 0 9px 22px rgba(0,0,0,0.18);
-        }
-
-        .topic-btn.topic-btn-featured:hover {
-            transform: translateY(-5px) scale(1.12);
-        }
-
         .abc-menu-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1116,15 +1105,6 @@
                 width: 45px;
                 height: 45px;
             }
-
-            /* Sedikit lebih kecil pada skrin telefon supaya tidak bertindih */
-            .topic-btn.topic-btn-featured {
-                transform: scale(1.05);
-            }
-
-            .topic-btn.topic-btn-featured:hover {
-                transform: translateY(-3px) scale(1.08);
-            }
         }
     </style>
 </head>
@@ -1242,13 +1222,13 @@
                 </div>
 
                 <div class="topic-grid">
-                    <button class="topic-btn topic-btn-featured" onclick="playClickSound(); openABCMenu()">
+                    <button class="topic-btn" onclick="playClickSound(); openABCMenu()">
                         <img src="https://i.imgur.com/HRl0fWA.jpeg" alt="ABC Character">
                     </button>
                     <button class="topic-btn" onclick="playClickSound(); openLesson('numeric')">
                         <img src="https://i.imgur.com/Xzib4i8.jpeg" alt="Number">
                     </button>
-                    <button class="topic-btn topic-btn-featured" onclick="playClickSound(); openAnimalMenu()">
+                    <button class="topic-btn" onclick="playClickSound(); openAnimalMenu()">
                         <img src="https://i.imgur.com/tXLFggI.jpeg" alt="Animal">
                     </button>
                     <button class="topic-btn" onclick="playClickSound(); openLesson('colour')">
@@ -2329,10 +2309,10 @@
             { bm: "Cicak", en: "Lizard", cat: "Reptilia", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDu_DOFeLIPE9LY7gRE6HrFwMCdJwtJ8r1SOnBxft14w&s=10" },
             { bm: "Iguana", en: "Iguana", cat: "Reptilia", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIub8Op0iyPqRGiNm9cNCGW0qZxm5m3wJ_6F0LoYspMg&s=10" },
             { bm: "Bunglon", en: "Chameleon", cat: "Reptilia", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq3Gu8nb9kO4UwTxhskCsC3eq58Fq2Kugnffga6gBV7A&s=10" },
-            { bm: "Kura-kura", en: "Tortoise", cat: "Reptilia", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTF8XeGQk9gTzu-fQ-dpe8d5VH3Q0o58QupCjma0yRZPw&s=10" },
+            { bm: "Kura-kura", en: "Tortoise", cat: "Reptilia", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKa8NXAHRC4nHiNsUWspDXiI3dZpegXfSimGyrI-R7Ag&s=10" },
             { bm: "Penyu", en: "Turtle", cat: "Reptilia", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFc883nfgp8YbNBVjw3cMMXwXQMZM9OL9JAjZcgLneAw&s=10" },
             { bm: "Komodo", en: "Komodo Dragon", cat: "Reptilia", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDYhSMdQHmEuPWyRjULjDJ9Th8-NjnrtbZtaPBEC_WiA&s=10" },
-            { bm: "Tokek", en: "Gecko", cat: "Reptilia", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvG9I6IuADhrHT521QxkoR_71G8ixcqchKDfwGvTfmaQ&s=10" },
+            { bm: "Tokek", en: "Gecko", cat: "Reptilia", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs3XlW1zwSIhN2-2TiQL3Q3kJEu4MXF5rwEHeM9giqrQ&s=10" },
 
             // 6. Serangga
             { bm: "Semut", en: "Ant", cat: "Serangga", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpfqBUIndN_tpMM3c1aKscz0pbHLDB-9jW3p84U0XdMg&s=10" },
@@ -2465,7 +2445,7 @@
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(textToSpeak);
                 utterance.lang = currentGlobalLang === 'en' ? 'en-US' : 'ms-MY';
-                utterance.rate = 0.7;
+                utterance.rate = 0.4;
                 window.speechSynthesis.speak(utterance);
             }
         }
@@ -2779,7 +2759,7 @@
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(textToSpeak);
                 utterance.lang = currentGlobalLang === 'en' ? 'en-US' : 'ms-MY';
-                utterance.rate = 0.7;
+                utterance.rate = 0.4;
                 window.speechSynthesis.speak(utterance);
             }
         }
@@ -3131,7 +3111,8 @@
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(textToSpeak);
                 utterance.lang = currentGlobalLang === 'en' ? 'en-US' : 'ms-MY';
-                utterance.rate = 0.7;
+                utterance.rate = 0.3;
+                utterance.pitch = 1.1;
                 window.speechSynthesis.speak(utterance);
             }
         }
@@ -3295,7 +3276,8 @@
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(textToSpeak);
                 utterance.lang = currentGlobalLang === 'en' ? 'en-US' : 'ms-MY';
-                utterance.rate = 0.7;
+                utterance.rate = 0.3;
+                utterance.pitch = 1.1;
                 window.speechSynthesis.speak(utterance);
             }
         }
