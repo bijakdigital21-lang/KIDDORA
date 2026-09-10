@@ -4752,28 +4752,54 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function speakSpelling(word, onDone) {
+            // Spell It Right: sebut perkataan dahulu, berhenti, kemudian eja satu-satu.
+            // Audio dibuat secara berasingan supaya jeda konsisten pada phone, iPad dan laptop.
             if (!('speechSynthesis' in window)) {
-                setTimeout(() => onDone && onDone(), 1800);
+                setTimeout(() => onDone && onDone(), 3500);
                 return;
             }
+
             window.speechSynthesis.cancel();
-            const letters = word.split('').join(' ... ');
-            const utter = new SpeechSynthesisUtterance(`${word}. ${letters}.`);
-            utter.lang = 'en-US';
-            utter.rate = 0.68;
-            utter.pitch = 1.08;
-            utter.volume = 1;
-            let finished = false;
-            const finish = () => {
-                if (finished) return;
-                finished = true;
-                if (onDone) onDone();
-            };
-            utter.onend = finish;
-            utter.onerror = finish;
-            window.speechSynthesis.speak(utter);
-            // Fallback for browsers that do not reliably fire onend.
-            setTimeout(finish, Math.max(2400, word.length * 650));
+            const synth = window.speechSynthesis;
+            const letters = word.split('');
+            let cancelled = false;
+
+            function speakPart(text, rate, callback) {
+                if (cancelled) return;
+                const utter = new SpeechSynthesisUtterance(text);
+                utter.lang = 'en-US';
+                utter.rate = rate;
+                utter.pitch = 1.05;
+                utter.volume = 1;
+                utter.onend = () => callback && callback();
+                utter.onerror = () => callback && callback();
+                synth.speak(utter);
+            }
+
+            // Guna lowercase untuk memastikan SUN/CAT/DOG disebut sebagai perkataan,
+            // bukan dibaca sebagai singkatan oleh sesetengah browser.
+            speakPart(word.toLowerCase(), 0.58, () => {
+                // Jeda lebih panjang selepas sebut perkataan.
+                setTimeout(() => {
+                    let i = 0;
+
+                    function speakNextLetter() {
+                        if (i >= letters.length) {
+                            // Jeda pendek selepas huruf terakhir sebelum latihan bermula.
+                            setTimeout(() => onDone && onDone(), 650);
+                            return;
+                        }
+
+                        speakPart(letters[i], 0.50, () => {
+                            i++;
+                            // Jeda antara setiap huruf: S ... U ... N
+                            setTimeout(speakNextLetter, 600);
+                        });
+                    }
+
+                    speakNextLetter();
+                }, 950);
+            });
         }
 
         function replaySpellWord() {
