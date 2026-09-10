@@ -1409,15 +1409,19 @@
 
         @media (max-width: 768px) {
             #find-animal-game-screen {
-                width: 100%;
-                margin-left: 0;
-                transform: none;
+                width: calc(100vw - 12px);
+                max-width: none;
+                margin-left: 50%;
+                transform: translateX(-50%);
+                padding-left: 0;
+                padding-right: 0;
             }
 
             #find-animal-game-screen .find-animal-grid {
-                gap: 12px;
+                width: 100%;
+                gap: 8px;
                 margin-top: 18px;
-                padding: 12px;
+                padding: 8px;
                 border-radius: 22px;
             }
 
