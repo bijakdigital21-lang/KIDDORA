@@ -4354,7 +4354,11 @@
 
                     if (matchedAnimalPairsInPage === 4) {
                         if (currentMatchAnimalPageIdx < matchAnimalPagesCount - 1) {
-                            document.getElementById("match-animal-next-btn").style.display = "inline-block";
+                            // Auto terus ke set soalan seterusnya selepas semua 4 padanan betul.
+                            // Sedikit delay supaya pengguna sempat nampak padanan terakhir yang betul.
+                            setTimeout(() => {
+                                nextMatchAnimalPage();
+                            }, 700);
                         } else {
                             setTimeout(() => {
                                 const finalPercent = 100;
@@ -4758,20 +4762,13 @@
                     matchedPairsInCurrentPage++;
 
                     if (matchedPairsInCurrentPage === 5) {
-                        // Auto ke set/soalan seterusnya tanpa perlu tekan butang Next.
-                        const matchNextBtn = document.getElementById("match-next-btn");
-                        if (matchNextBtn) matchNextBtn.style.display = "none";
-
                         if (currentMatchPageIdx < matchPagesCount - 1) {
-                            setTimeout(() => {
-                                currentMatchPageIdx++;
-                                loadMatchPage();
-                            }, 700);
+                            document.getElementById("match-next-btn").style.display = "inline-block";
                         } else {
                             setTimeout(() => {
                                 alert(currentGlobalLang === 'en' ? "🌟 Amazing! You have completed all match sets!" : "🌟 Hebat! Anda telah melengkapkan semua set padanan!");
                                 navigateTo('home-screen');
-                            }, 700);
+                            }, 500);
                         }
                     }
                 } else {
@@ -4914,20 +4911,13 @@
                 targetApplesRemaining--;
 
                 if (targetApplesRemaining === 0) {
-                    // Auto ke round/soalan seterusnya tanpa perlu tekan butang Next.
-                    const findNextBtn = document.getElementById("find-next-round-btn");
-                    if (findNextBtn) findNextBtn.style.display = "none";
-
                     if (findCurrentRound < totalFindRounds) {
-                        setTimeout(() => {
-                            findCurrentRound++;
-                            loadFindRound();
-                        }, 700);
+                        document.getElementById("find-next-round-btn").style.display = "inline-block";
                     } else {
                         setTimeout(() => {
                             alert(currentGlobalLang === 'en' ? "🌟 Amazing! You completed all find letter missions!" : "🌟 Tahniah! Anda telah berjaya menghabiskan semua misi mencari huruf!");
                             navigateTo('home-screen');
-                        }, 700);
+                        }, 600);
                     }
                 }
             } else {
@@ -5800,13 +5790,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 feedback.style.color = '#2e9c43';
                 if (typeof playCorrectSound === 'function') playCorrectSound();
                 speakWholeWord(item.word);
-
-                // Jawapan betul: auto ke perkataan/soalan seterusnya.
-                const spellNextBtn = document.getElementById('spell-next-btn');
-                if (spellNextBtn) spellNextBtn.style.display = 'none';
-                setTimeout(() => {
-                    nextSpellWord();
-                }, 1400);
+                document.getElementById('spell-next-btn').style.display = 'inline-block';
             } else {
                 feedback.innerText = '❌ Try again!';
                 feedback.style.color = '#e53935';
