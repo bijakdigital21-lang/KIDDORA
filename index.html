@@ -2414,9 +2414,11 @@
            COLOUR MODULE
         ========================================================== */
         .colour-menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:30px 0}
-        .colour-menu-btn{padding:0;border:0;border-radius:20px;overflow:hidden;aspect-ratio:1/1;background:transparent;cursor:pointer;box-shadow:0 6px 15px rgba(0,0,0,.14);transition:.2s}
-        .colour-menu-btn:hover{transform:translateY(-4px) scale(1.02)}
-        .colour-menu-btn img{width:100%;height:100%;object-fit:cover;display:block;border-radius:20px}
+        .colour-menu-btn{border:none;padding:0;border-radius:20px;cursor:pointer;overflow:hidden;background:transparent;aspect-ratio:1/1;box-shadow:0 6px 0 #b33687,0 8px 20px rgba(0,0,0,.15);transition:all .2s;display:flex;align-items:center;justify-content:center}
+        .colour-menu-btn img{width:100%;height:100%;object-fit:cover;display:block;border-radius:20px;pointer-events:none;transition:transform .2s ease}
+        .colour-menu-btn:hover{transform:translateY(-3px);box-shadow:0 9px 0 #4a15b8,0 12px 25px rgba(0,0,0,.2)}
+        .colour-menu-btn:hover img{transform:scale(1.04)}
+        .colour-menu-btn:active{transform:translateY(3px);box-shadow:0 3px 0 #4a15b8}
         .colour-board{background:#fff8df;border:3px solid #ffd768;border-radius:24px;padding:20px;margin:18px auto;max-width:650px;box-shadow:0 8px 20px rgba(0,0,0,.10)}
         .colour-progress{display:inline-block;background:rgba(255,255,255,.94);border:2px solid var(--primary-purple);border-radius:999px;padding:7px 14px;font-weight:900;margin:8px 0}
         .learn-colour-swatch{width:min(62vw,290px);height:min(62vw,290px);max-height:290px;margin:14px auto;border:6px solid white;border-radius:28px;box-shadow:0 8px 22px rgba(0,0,0,.20)}
@@ -2426,28 +2428,7 @@
         .colour-balloon::after{content:'';position:absolute;left:50%;bottom:-13px;transform:translateX(-50%);border-left:8px solid transparent;border-right:8px solid transparent;border-top:15px solid currentColor}
         .colour-balloon:hover{transform:translateY(-4px) scale(1.04)}
         .colour-balloon.popped{animation:colourPop .28s forwards;pointer-events:none}
-        @keyframes colourPop{
-            0%{transform:scale(1);opacity:1}
-            35%{transform:scale(1.18);opacity:1}
-            100%{transform:scale(.15);opacity:0}
-        }
-
-        /* Pop the Balloon: serpihan / burst bila belon pecah */
-        #pop-balloon-screen .balloon-burst{
-            position:fixed;
-            width:10px;
-            height:10px;
-            border-radius:50%;
-            pointer-events:none;
-            z-index:9999;
-            transform:translate(-50%,-50%);
-            animation:balloonBurstPiece .48s ease-out forwards;
-            box-shadow:0 0 0 2px rgba(255,255,255,.35);
-        }
-        @keyframes balloonBurstPiece{
-            0%{opacity:1;transform:translate(-50%,-50%) scale(1)}
-            100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(.35) rotate(220deg)}
-        }
+        @keyframes colourPop{to{transform:scale(1.35);opacity:0}}
         .colour-question{font-family:'Fredoka One',cursive;font-size:1.55rem;color:#5E17EB;margin:8px 0}
         .colour-match-wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,12vw,120px);max-width:650px;margin:20px auto;padding:18px;background:#fff3d6;border-radius:26px}
         .colour-match-col{display:flex;flex-direction:column;gap:13px}
@@ -5326,55 +5307,7 @@
         function popQuestionText(c){return currentGlobalLang==='ms'?`Pecahkan belon berwarna ${c.ms}!`:`Pop the ${c.en.toLowerCase()} balloon!`}
         function renderPopBalloon(){if(!popOrder.length)return;popLocked=false;const target=popOrder[popIndex];const targetCount=3+Math.floor(Math.random()*2);document.getElementById('pop-balloon-progress').innerText=(currentGlobalLang==='ms'?'Soalan ':'Question ')+(popIndex+1)+' / '+popOrder.length;document.getElementById('pop-balloon-question').innerText=popQuestionText(target);const distractorPool=colourItems.filter(c=>c!==target);const choices=Array(targetCount).fill(target);while(choices.length<20){choices.push(distractorPool[Math.floor(Math.random()*distractorPool.length)])}const shuffled=colourShuffle(choices);const field=document.getElementById('balloon-field');field.dataset.remaining=String(targetCount);field.innerHTML='';shuffled.forEach(c=>{const b=document.createElement('button');b.className='colour-balloon';b.style.background=c.hex;b.style.color=c.hex;b.setAttribute('aria-label',colourName(c));b.onclick=()=>answerPopBalloon(b,c,target);field.appendChild(b)})}
         function speakPopBalloonQuestion(){if(popOrder.length)speakColourText(popQuestionText(popOrder[popIndex]))}
-        function playBalloonPopSound(){
-            try{
-                const AudioCtx=window.AudioContext||window.webkitAudioContext;
-                if(!AudioCtx)return;
-                if(!window.__kiddoraPopAudioCtx)window.__kiddoraPopAudioCtx=new AudioCtx();
-                const ctx=window.__kiddoraPopAudioCtx;
-                if(ctx.state==='suspended')ctx.resume();
-                const now=ctx.currentTime;
-                const buffer=ctx.createBuffer(1,Math.floor(ctx.sampleRate*.09),ctx.sampleRate);
-                const data=buffer.getChannelData(0);
-                for(let i=0;i<data.length;i++){
-                    const decay=1-(i/data.length);
-                    data[i]=(Math.random()*2-1)*decay*decay;
-                }
-                const source=ctx.createBufferSource();
-                source.buffer=buffer;
-                const filter=ctx.createBiquadFilter();
-                filter.type='highpass';
-                filter.frequency.setValueAtTime(500,now);
-                const gain=ctx.createGain();
-                gain.gain.setValueAtTime(.55,now);
-                gain.gain.exponentialRampToValueAtTime(.01,now+.09);
-                source.connect(filter);filter.connect(gain);gain.connect(ctx.destination);
-                source.start(now);
-            }catch(e){}
-        }
-
-        function createBalloonBurst(btn,colour){
-            const r=btn.getBoundingClientRect();
-            const cx=r.left+r.width/2, cy=r.top+r.height/2;
-            const pieces=12;
-            for(let i=0;i<pieces;i++){
-                const p=document.createElement('span');
-                p.className='balloon-burst';
-                p.style.left=cx+'px';
-                p.style.top=cy+'px';
-                p.style.background=colour;
-                const angle=(Math.PI*2/pieces)*i+(Math.random()*.35);
-                const dist=32+Math.random()*48;
-                p.style.setProperty('--dx',(Math.cos(angle)*dist)+'px');
-                p.style.setProperty('--dy',(Math.sin(angle)*dist)+'px');
-                p.style.width=(6+Math.random()*7)+'px';
-                p.style.height=(6+Math.random()*7)+'px';
-                document.body.appendChild(p);
-                setTimeout(()=>p.remove(),520);
-            }
-        }
-
-        function answerPopBalloon(btn,c,target){if(popLocked||btn.classList.contains('popped'))return;if(c===target){createBalloonBurst(btn,c.hex);playBalloonPopSound();btn.classList.add('popped');popScore+=10;document.getElementById('pop-balloon-score').innerText=popScore;const field=document.getElementById('balloon-field');const remaining=Math.max(0,(parseInt(field.dataset.remaining||'1',10)-1));field.dataset.remaining=String(remaining);if(remaining===0){popLocked=true;setTimeout(()=>{popIndex++;if(popIndex<popOrder.length){renderPopBalloon();speakPopBalloonQuestion()}else{if(window.saveScoreToFirebase)window.saveScoreToFirebase(currentGlobalLang==='ms'?'Pecahkan Belon':'Pop the Balloon',popScore);alert(currentGlobalLang==='ms'?'Tahniah! Semua belon berjaya dipecahkan! 🎉':'Great job! You popped all the correct balloons! 🎉');openColourMenu()}},500)}}else{playWrongSound();btn.animate([{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}],{duration:220})}}
+        function answerPopBalloon(btn,c,target){if(popLocked||btn.classList.contains('popped'))return;if(c===target){btn.classList.add('popped');playCorrectSound();popScore+=10;document.getElementById('pop-balloon-score').innerText=popScore;const field=document.getElementById('balloon-field');const remaining=Math.max(0,(parseInt(field.dataset.remaining||'1',10)-1));field.dataset.remaining=String(remaining);if(remaining===0){popLocked=true;setTimeout(()=>{popIndex++;if(popIndex<popOrder.length){renderPopBalloon();speakPopBalloonQuestion()}else{if(window.saveScoreToFirebase)window.saveScoreToFirebase(currentGlobalLang==='ms'?'Pecahkan Belon':'Pop the Balloon',popScore);alert(currentGlobalLang==='ms'?'Tahniah! Semua belon berjaya dipecahkan! 🎉':'Great job! You popped all the correct balloons! 🎉');openColourMenu()}},500)}}else{playWrongSound();btn.animate([{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}],{duration:220})}}
 
         let matchColourSets=[],matchColourSetIndex=0,matchColourScore=0,matchDone=new Set();
         let activeDragColour=null,isDraggingColour=false,dragColourX=0,dragColourY=0,completedColourLines=[];
