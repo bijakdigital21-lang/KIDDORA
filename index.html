@@ -2661,12 +2661,62 @@
             #choose-body-screen .find-body-grid{max-width:600px}
         }
 
-    </style>
+    
+        /* =========================================================
+           BACKGROUND MUSIC - IKON SPEAKER SENTIASA KELIHATAN
+           Fixed pada setiap paparan tanpa mengubah fungsi app lain.
+        ========================================================== */
+        #bg-music-toggle {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 100000;
+            width: 46px;
+            height: 46px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.92);
+            color: #2C3E50;
+            font-size: 1.35rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 14px rgba(0,0,0,0.22);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+            padding: 0;
+            line-height: 1;
+        }
+
+        #bg-music-toggle:hover {
+            transform: scale(1.07);
+            box-shadow: 0 7px 18px rgba(0,0,0,0.26);
+        }
+
+        #bg-music-toggle:active {
+            transform: scale(.95);
+        }
+
+        @media (max-width: 768px) {
+            #bg-music-toggle {
+                top: 15px;
+                right: 15px;
+                width: 43px;
+                height: 43px;
+                font-size: 1.22rem;
+            }
+        }
+</style>
 </head>
 <body>
 
     <!-- MOBILE TOGGLE BUTTON -->
     <button class="mobile-toggle" id="mobile-toggle-btn" onclick="toggleSidebar(event)">☰</button>
+
+    <!-- BACKGROUND MUSIC: IKON SPEAKER SENTIASA ADA PADA SETIAP PAPARAN -->
+    <button id="bg-music-toggle" type="button" aria-label="Turn background music on or off" title="Background Music" onclick="toggleBgMusic()">🔊</button>
 
     <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
@@ -2685,14 +2735,6 @@
                 <button id="lang-btn-en" class="lang-btn active" onclick="playClickSound(); setGlobalLanguage('en')">English</button>
                 <button id="lang-btn-ms" class="lang-btn" onclick="playClickSound(); setGlobalLanguage('ms')">Melayu</button>
             </div>
-        </div>
-
-       <!-- BUTTON BACKGROUND MUSIC (ON/OFF) -->
-        <div class="sidebar-language-container" style="border-color: var(--primary-green);">
-            <span>🎵 Background Music</span>
-            <button id="bg-music-toggle" class="lang-btn" style="width: 100%; padding: 6px; font-size: 0.85rem; background: var(--primary-green);" onclick="toggleBgMusic()">
-                🔊 Sound: ON
-            </button>
         </div>
 
         <!-- AUDIO ELEMENT -->
@@ -5808,8 +5850,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 bgAudio.play().then(() => {
                     isMusicPlaying = true;
                     if (bgToggleBtn) {
-                        bgToggleBtn.innerText = "🔊 Sound: ON";
-                        bgToggleBtn.style.background = "var(--primary-green)";
+                        bgToggleBtn.innerText = "🔊";
+                        bgToggleBtn.setAttribute('aria-label', 'Turn background music off');
+                        bgToggleBtn.title = 'Music ON';
                     }
                 }).catch(err => {
                     console.log("Autoplay ditahan oleh pelayar:", err);
@@ -5818,8 +5861,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 bgAudio.pause();
                 isMusicPlaying = false;
                 if (bgToggleBtn) {
-                    bgToggleBtn.innerText = "🔇 Sound: OFF";
-                    bgToggleBtn.style.background = "#E74C3C";
+                    bgToggleBtn.innerText = "🔇";
+                    bgToggleBtn.setAttribute('aria-label', 'Turn background music on');
+                    bgToggleBtn.title = 'Music OFF';
                 }
             }
         }
@@ -5831,8 +5875,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 bgAudio.play().then(() => {
                     isMusicPlaying = true;
                     if (bgToggleBtn) {
-                        bgToggleBtn.innerText = "🔊 Sound: ON";
-                        bgToggleBtn.style.background = "var(--primary-green)";
+                        bgToggleBtn.innerText = "🔊";
+                        bgToggleBtn.setAttribute('aria-label', 'Turn background music off');
+                        bgToggleBtn.title = 'Music ON';
                     }
                 }).catch(() => {});
             }
