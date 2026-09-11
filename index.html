@@ -2583,17 +2583,99 @@
         .body-menu-btn:active{transform:translateY(3px);box-shadow:0 3px 0 #4a15b8}
         .body-learn-card{background:#FFF3D6;border:4px solid var(--primary-blue);border-radius:26px;padding:18px;box-shadow:0 8px 22px rgba(0,0,0,.12);max-width:520px;margin:18px auto}
         .body-learn-visual{width:min(100%,360px);aspect-ratio:1/1;margin:8px auto 14px;border-radius:22px;overflow:hidden;background:#fff}.body-learn-visual img{width:100%;height:100%;object-fit:cover;display:block}.body-learn-name{font-family:'Fredoka One',cursive;font-size:2rem;color:#5E17EB}.body-learn-desc{font-weight:800;color:#444;margin-top:7px}
-        #choose-body-screen{width:min(98vw,1080px);margin-left:50%;transform:translateX(-50%)}
-        #choose-body-screen .find-body-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%;margin:18px auto 24px;background:#FFF3D6;padding:16px;border-radius:28px;box-shadow:0 8px 20px rgba(0,0,0,.10)}
-        #choose-body-screen .body-img-card{background:transparent!important;border:4px solid var(--primary-blue);border-radius:22px;padding:0!important;cursor:pointer;box-shadow:0 7px 16px rgba(0,0,0,.13);aspect-ratio:1/1;width:100%;min-width:0;display:block;overflow:hidden;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
-        #choose-body-screen .body-img-card:hover{transform:translateY(-4px) scale(1.025);border-color:var(--primary-pink);box-shadow:0 11px 22px rgba(0,0,0,.17)}
-        #choose-body-screen .body-choice-img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;border-radius:17px;margin:0;padding:0}
+        /* CHOOSE THE BODY PART - saiz pilihan disamakan 1:1 dengan Find the Animal */
+        #choose-body-screen {
+            width: min(98vw, 1080px);
+            margin-left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #choose-body-screen .find-body-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            width: 100%;
+            margin: 18px auto 24px;
+            background: #FFF3D6;
+            padding: 16px;
+            border-radius: 28px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.10);
+        }
+
+        #choose-body-screen .body-img-card {
+            background: transparent !important;
+            border: 4px solid var(--primary-blue);
+            border-radius: 22px;
+            padding: 0 !important;
+            cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 7px 16px rgba(0,0,0,0.13);
+            aspect-ratio: 1 / 1;
+            width: 100%;
+            min-width: 0;
+            display: block;
+            overflow: hidden;
+        }
+
+        #choose-body-screen .body-choice-img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 17px;
+            margin: 0;
+            padding: 0;
+        }
+
+        #choose-body-screen .body-img-card:hover {
+            transform: translateY(-4px) scale(1.025);
+            border-color: var(--primary-pink);
+            box-shadow: 0 11px 22px rgba(0,0,0,0.17);
+        }
         .body-progress{font-weight:800;background:#FFF9C4;border-radius:14px;padding:9px 15px;display:inline-block;margin-top:8px}.body-question{font-family:'Fredoka One',cursive;font-size:1.45rem;background:rgba(240,244,248,.96);border-radius:16px;padding:15px;margin:15px auto 8px;max-width:620px}
         .label-body-board{background:#FFF3D6;border-radius:26px;padding:16px;box-shadow:0 8px 22px rgba(0,0,0,.12);max-width:680px;margin:15px auto}.label-stage{position:relative;width:min(100%,520px);aspect-ratio:4/5;margin:auto;background:#fff;border:3px solid #F1C27D;border-radius:24px;overflow:hidden}
         .label-person-svg{position:absolute;inset:4% 18%;width:64%;height:92%}.body-drop{position:absolute;width:25%;min-height:38px;border:2px dashed #5CE1E6;background:rgba(255,255,255,.93);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:900;padding:3px;z-index:3}.body-drop.over{background:#E0F7FA;transform:scale(1.04)}.body-drop.correct{border-style:solid;border-color:#4CAF50;background:#DFF7DF;color:#25722a}
         .body-label-bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px auto 4px;max-width:680px}.body-drag-label{background:#fff;border:3px solid var(--primary-purple);border-radius:12px;padding:8px 11px;font-weight:900;cursor:grab;box-shadow:0 4px 8px rgba(0,0,0,.1);touch-action:none}.body-drag-label.selected{background:var(--primary-yellow);transform:scale(1.06)}.body-drag-label.used{opacity:.28;pointer-events:none}
-        @media(max-width:768px){#choose-body-screen{width:calc(100vw - 12px)}#choose-body-screen .find-body-grid{padding:8px;gap:8px}.body-menu-grid{grid-template-columns:1fr 1fr;gap:13px}.label-body-board{padding:8px}.body-drop{width:27%;font-size:.58rem;min-height:31px}.body-drag-label{font-size:.8rem;padding:7px 9px}}
-        @media(min-width:769px){#choose-body-screen{width:min(72vw,680px)}#choose-body-screen .find-body-grid{max-width:620px}}
+        @media(max-width:768px){
+            #choose-body-screen{
+                width:calc(100vw - 12px);
+                max-width:none;
+                margin-left:50%;
+                transform:translateX(-50%);
+                padding-left:0;
+                padding-right:0;
+            }
+            #choose-body-screen .find-body-grid{
+                width:100%;
+                gap:8px;
+                margin-top:18px;
+                padding:8px;
+                border-radius:22px;
+            }
+            #choose-body-screen .body-img-card{
+                border-width:3px;
+                border-radius:18px;
+            }
+            #choose-body-screen .body-choice-img{border-radius:14px}
+            .body-menu-grid{grid-template-columns:1fr 1fr;gap:13px}
+            .label-body-board{padding:8px}
+            .body-drop{width:27%;font-size:.58rem;min-height:31px}
+            .body-drag-label{font-size:.8rem;padding:7px 9px}
+        }
+        @media(min-width:769px){
+            #choose-body-screen{width:min(72vw,680px)}
+            #choose-body-screen .find-body-grid{
+                max-width:620px;
+                gap:14px;
+                margin-left:auto;
+                margin-right:auto;
+            }
+        }
+        @media(min-width:1200px){
+            #choose-body-screen{width:650px}
+            #choose-body-screen .find-body-grid{max-width:600px}
+        }
 
     </style>
 </head>
