@@ -5600,7 +5600,75 @@
         function chooseBodyQuestionText(p){return currentGlobalLang==='ms'?`Yang mana satu ${p.ms.toLowerCase()}?`:`Which one is the ${p.en.toLowerCase()}?`}
         function renderChooseBody(){chooseBodyLocked=false;const target=chooseBodyOrder[chooseBodyIndex];document.getElementById('choose-body-progress').innerText=`${currentGlobalLang==='ms'?'Soalan':'Question'} ${chooseBodyIndex+1} / ${chooseBodyOrder.length}`;document.getElementById('choose-body-question').innerText=chooseBodyQuestionText(target);const choices=bodyShuffle([target,...bodyShuffle(bodyParts.filter(x=>x.id!==target.id)).slice(0,3)]);const box=document.getElementById('choose-body-options');box.innerHTML='';choices.forEach(p=>{const b=document.createElement('button');b.className='body-img-card';b.innerHTML=`<img class="body-choice-img" src="${p.img}" alt="${bodyText(p)}">`;b.onclick=()=>answerChooseBody(b,p,target);box.appendChild(b)})}
         function speakChooseBodyQuestion(){if(chooseBodyOrder.length)speakBody(chooseBodyQuestionText(chooseBodyOrder[chooseBodyIndex]))}
-        function answerChooseBody(btn,p,target){if(chooseBodyLocked)return;const cards=[...document.querySelectorAll('#choose-body-screen .body-img-card')];if(p.id===target.id){chooseBodyLocked=true;playCorrectSound();btn.style.borderColor='#4CAF50';chooseBodyScore+=10;document.getElementById('choose-body-score').innerText=chooseBodyScore;cards.forEach(c=>c.style.pointerEvents='none');setTimeout(()=>{chooseBodyIndex++;if(chooseBodyIndex<chooseBodyOrder.length){renderChooseBody();speakChooseBodyQuestion()}else{if(window.saveScoreToFirebase)window.saveScoreToFirebase(currentGlobalLang==='ms'?'Pilih Anggota Badan':'Choose the Body Part',chooseBodyScore);alert(currentGlobalLang==='ms'?'Tahniah! Semua soalan selesai! 🎉':'Great job! You completed all questions! 🎉');openBodyPartMenu()}},650)}else{playWrongSound();btn.style.borderColor='#E53935';setTimeout(()=>btn.style.borderColor='',500)}}
+
+        // Choose the Body Part: maju automatik dan kembali ke menu Body Part selepas 10 soalan
+        function finishOrAdvanceChooseBody(delay=0){
+            setTimeout(()=>{
+                if(chooseBodyIndex<chooseBodyOrder.length-1){
+                    chooseBodyIndex++;
+                    renderChooseBody();
+                    speakChooseBodyQuestion();
+                }else{
+                    if(window.saveScoreToFirebase)window.saveScoreToFirebase(currentGlobalLang==='ms'?'Pilih Anggota Badan':'Choose the Body Part',chooseBodyScore);
+                    openBodyPartMenu();
+                }
+            },delay);
+        }
+
+        // Pop-out gambar jawapan betul - konsep sama seperti Find the Animal
+        function showChooseBodyCorrectPopup(target){
+            const oldPopup=document.getElementById('choose-body-correct-popup');
+            if(oldPopup)oldPopup.remove();
+
+            const popup=document.createElement('div');
+            popup.id='choose-body-correct-popup';
+            popup.className='find-animal-correct-popup';
+            popup.innerHTML=`
+                <div class="find-animal-popup-card">
+                    <div class="find-animal-popup-title">${currentGlobalLang==='ms'?'Jawapan betul':'Correct answer'}</div>
+                    <img src="${target.img}" alt="${bodyText(target)}">
+                    <div class="find-animal-popup-name">${bodyText(target)}</div>
+                </div>
+            `;
+
+            document.body.appendChild(popup);
+            requestAnimationFrame(()=>popup.classList.add('show'));
+            setTimeout(()=>{
+                popup.classList.remove('show');
+                setTimeout(()=>popup.remove(),220);
+            },2800);
+        }
+
+        function answerChooseBody(btn,p,target){
+            if(chooseBodyLocked)return;
+            chooseBodyLocked=true;
+
+            const cards=[...document.querySelectorAll('#choose-body-screen .body-img-card')];
+            cards.forEach(c=>c.style.pointerEvents='none');
+
+            if(p.id===target.id){
+                playCorrectSound();
+                btn.style.borderColor='#4CAF50';
+                btn.style.boxShadow='0 0 0 5px rgba(76,175,80,.20), 0 10px 24px rgba(0,0,0,.16)';
+                chooseBodyScore+=10;
+                document.getElementById('choose-body-score').innerText=chooseBodyScore;
+                finishOrAdvanceChooseBody(650);
+            }else{
+                playWrongSound();
+                btn.style.borderColor='#E53935';
+                btn.style.boxShadow='0 0 0 5px rgba(229,57,53,.18), 0 10px 24px rgba(0,0,0,.16)';
+
+                // Tanda pilihan sebenar dengan border hijau
+                cards.forEach(c=>{
+                    const img=c.querySelector('img');
+                    if(img&&img.src===target.img)c.style.borderColor='#4CAF50';
+                });
+
+                // Jawapan salah: paparkan gambar jawapan yang betul selama 3 saat
+                showChooseBodyCorrectPopup(target);
+                finishOrAdvanceChooseBody(3000);
+            }
+        }
         const labelBodyIds=['head','eye','ear','nose','mouth','arm','hand','leg','knee','foot'];let selectedBodyLabel=null,labelBodyDone=new Set();
         function startLabelBodyPart(){labelBodyDone=new Set();selectedBodyLabel=null;document.getElementById('label-body-score').innerText='0';document.querySelectorAll('#label-body-screen .body-drop').forEach(z=>{z.innerHTML='';z.classList.remove('correct','over')});showScreen('label-body-screen');updateBodyLanguage();renderBodyLabelBank(false);setupBodyDropZones()}
         function renderBodyLabelBank(preserve=false){const bank=document.getElementById('body-label-bank');if(!bank)return;bank.innerHTML='';bodyShuffle(labelBodyIds).forEach(id=>{if(preserve&&labelBodyDone.has(id))return;const p=bodyParts.find(x=>x.id===id),d=document.createElement('div');d.className='body-drag-label';d.draggable=true;d.dataset.part=id;d.innerText=bodyText(p);d.addEventListener('dragstart',e=>e.dataTransfer.setData('text/plain',id));d.onclick=()=>{document.querySelectorAll('.body-drag-label').forEach(x=>x.classList.remove('selected'));selectedBodyLabel=id;d.classList.add('selected')};bank.appendChild(d)})}
