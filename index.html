@@ -2708,40 +2708,6 @@
                 font-size: 1.22rem;
             }
         }
-
-
-        /* ===== MATCH THE BODY PART: same sizing/format as Match the Animal ===== */
-        #match-body-game-screen .match-container{width:100%;justify-content:space-between;align-items:stretch}
-        #match-body-game-screen .match-column{width:185px;gap:18px}
-        #match-body-game-screen #match-body-left-column{transform:translateX(-95px)}
-        #match-body-game-screen #match-body-right-column{transform:translateX(95px)}
-        #match-body-game-screen #match-body-left-column .match-item{width:185px;height:135px;min-height:135px;padding:10px 12px;background:rgba(255,255,255,.95);border:3px solid var(--primary-blue);border-radius:18px;box-shadow:0 4px 10px rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;font-size:1.22rem;line-height:1.15}
-        #match-body-game-screen .match-body-name{font-family:'Fredoka One',cursive;font-size:1.3rem;font-weight:700;text-align:center;color:#2C3E50;pointer-events:none}
-        #match-body-game-screen .match-body-audio-btn{width:42px;height:42px;border:none;border-radius:50%;background:var(--primary-pink);color:#fff;font-size:1.25rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 4px 0 #b33687,0 5px 10px rgba(0,0,0,.12);touch-action:manipulation;flex:0 0 auto}
-        #match-body-game-screen .match-body-audio-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #b33687}
-        #match-body-game-screen #match-body-right-column .match-item{width:185px;height:135px;min-height:135px;padding:0;background:transparent;border:none;border-radius:0;box-shadow:none;overflow:visible;display:flex;align-items:center;justify-content:center}
-        #match-body-game-screen #match-body-right-column .match-item img{width:135px;height:135px;object-fit:cover;display:block;border:4px solid var(--primary-blue);border-radius:18px;background:#fff;box-shadow:0 4px 10px rgba(0,0,0,.10);pointer-events:none}
-        #match-body-game-screen .match-item.matched{opacity:1!important;filter:none!important}
-        #match-body-game-screen #match-body-left-column .match-item.matched{background:var(--primary-green)!important;border-color:#4CAF50!important;color:white}
-        #match-body-game-screen #match-body-right-column .match-item.matched img{border-color:#4CAF50;box-shadow:0 0 0 4px rgba(126,217,87,.25),0 4px 10px rgba(0,0,0,.10)}
-        @media(max-width:768px){
-            #match-body-game-screen .match-column{width:128px;gap:14px}
-            #match-body-game-screen #match-body-left-column{transform:translateX(-12px)}
-            #match-body-game-screen #match-body-right-column{transform:translateX(12px)}
-            #match-body-game-screen #match-body-left-column .match-item{width:128px;height:105px;min-height:105px;padding:7px 8px;font-size:1rem}
-            #match-body-game-screen .match-body-name{font-size:1.05rem}
-            #match-body-game-screen .match-body-audio-btn{width:36px;height:36px;font-size:1.05rem}
-            #match-body-game-screen #match-body-right-column .match-item{width:128px;height:105px;min-height:105px}
-            #match-body-game-screen #match-body-right-column .match-item img{width:105px;height:105px;border-width:3px;border-radius:15px}
-        }
-        @media(max-width:430px){
-            #match-body-game-screen .match-column{width:115px;gap:12px}
-            #match-body-game-screen #match-body-left-column{transform:translateX(-5px)}
-            #match-body-game-screen #match-body-right-column{transform:translateX(5px)}
-            #match-body-game-screen #match-body-left-column .match-item{width:115px;height:96px;min-height:96px}
-            #match-body-game-screen #match-body-right-column .match-item{width:115px;height:96px;min-height:96px}
-            #match-body-game-screen #match-body-right-column .match-item img{width:96px;height:96px}
-        }
 </style>
 </head>
 <body>
@@ -3153,9 +3119,6 @@
                     <button class="body-menu-btn" onclick="playClickSound(); startChooseBodyPart()" aria-label="Choose the Body Part">
                         <img src="https://i.imgur.com/cOFXTxN.jpeg" alt="Choose the Body Part">
                     </button>
-                    <button class="body-menu-btn" onclick="playClickSound(); openMatchBodyCountScreen()" aria-label="Match the Body Part">
-                        <img src="https://i.imgur.com/zFSPyNc.jpeg" alt="Match the Body Part">
-                    </button>
                     <button class="body-menu-btn" onclick="playClickSound(); startLabelBodyPart()" aria-label="Label the Body Part">
                         <img src="https://i.imgur.com/a2fnp6s.jpeg" alt="Label the Body Part">
                     </button>
@@ -3176,41 +3139,6 @@
                 <div class="body-question" id="choose-body-question">Which one is the nose?</div><button class="sound-btn" id="choose-body-listen" onclick="speakChooseBodyQuestion()">🔊 Listen</button>
                 <div class="find-body-grid" id="choose-body-options"></div>
                 <button class="action-btn home-btn" onclick="playClickSound(); openBodyPartMenu()">Back ↩️</button>
-            </div>
-
-            <!-- MATCH THE BODY PART SET SELECTION SCREEN -->
-            <div id="match-body-count-screen" class="card">
-                <h2 id="match-body-count-title" style="color:#5E17EB;font-family:'Fredoka One',cursive;">Match the Body Part 🧩</h2>
-                <p id="match-body-count-desc" style="color:#444;font-weight:700;margin-top:5px;">Select how many pages/sets you want to play:</p>
-                <div class="question-count-grid">
-                    <button class="count-btn" onclick="playClickSound(); startMatchBody(5)">5</button>
-                    <button class="count-btn" onclick="playClickSound(); startMatchBody(10)">10</button>
-                    <button class="count-btn" onclick="playClickSound(); startMatchBody(15)">15</button>
-                    <button class="count-btn" onclick="playClickSound(); startMatchBody(20)">20</button>
-                </div>
-                <br>
-                <button class="action-btn home-btn" id="match-body-count-back" onclick="playClickSound(); openBodyPartMenu()">Back ↩️</button>
-            </div>
-
-            <!-- MATCH THE BODY PART GAME SCREEN -->
-            <div id="match-body-game-screen" class="card">
-                <div class="quiz-header">
-                    <span id="match-body-header-title">Match Body Part</span>
-                    <span><span id="match-body-page-label">Page</span>: <span id="match-body-current-page">1</span>/<span id="match-body-total-pages">5</span></span>
-                    <span><span id="match-body-score-label">Score</span>: <span id="match-body-score">0</span></span>
-                </div>
-                <p style="font-weight:700;color:#444;margin-bottom:15px;" id="match-body-instruction">Drag a line from the body part name to the correct picture!</p>
-                <div class="match-wrapper" id="match-body-wrapper">
-                    <canvas id="match-body-canvas" class="match-canvas"></canvas>
-                    <div class="match-container">
-                        <div class="match-column" id="match-body-left-column"></div>
-                        <div class="match-column" id="match-body-right-column"></div>
-                    </div>
-                </div>
-                <div class="quiz-action-container" style="margin-top:20px;">
-                    <button id="match-body-next-btn" class="action-btn" style="display:none;background-color:var(--primary-green);box-shadow:0 5px 0 #5aa33d,0 8px 20px rgba(0,0,0,.15);" onclick="playClickSound(); nextMatchBodyPage()">Next Page ➔</button>
-                    <button class="action-btn home-btn" id="match-body-back" onclick="playClickSound(); openBodyPartMenu()">Back ↩️</button>
-                </div>
             </div>
 
             <div id="label-body-screen" class="card">
@@ -5696,48 +5624,8 @@
         const bodyShuffle=a=>[...a].sort(()=>Math.random()-.5);
         function bodyText(item){return currentGlobalLang==='ms'?item.ms:item.en}
         function speakBody(text){if(!('speechSynthesis'in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang=currentGlobalLang==='ms'?'ms-MY':'en-US';u.rate=.72;speechSynthesis.speak(u)}
-        function updateBodyLanguage(){const ms=currentGlobalLang==='ms',set=(id,en,bm)=>{const e=document.getElementById(id);if(e)e.innerText=ms?bm:en};set('body-menu-title','Body Part Module 🧒','Modul Anggota Badan 🧒');set('body-menu-desc','Choose a body part activity!','Pilih aktiviti anggota badan!');set('body-learn-menu-text','Learn the Body Part','Belajar Anggota Badan');set('body-choose-menu-text','Choose the Body Part','Pilih Anggota Badan');set('body-label-menu-text','Label the Body Part','Label Anggota Badan');set('match-body-count-title','Match the Body Part 🧩','Padankan Anggota Badan 🧩');set('match-body-count-desc','Select how many pages/sets you want to play:','Pilih berapa halaman/set yang mahu dimainkan:');set('match-body-count-back','Back ↩️','Kembali ↩️');set('match-body-header-title','Match Body Part','Padankan Anggota Badan');set('match-body-page-label','Page','Halaman');set('match-body-score-label','Score','Skor');set('match-body-instruction','Drag a line from the body part name to the correct picture!','Tarik garis dari nama anggota badan ke gambar yang betul!');set('match-body-back','Back ↩️','Kembali ↩️');set('body-menu-back','Back to Home 🏠','Kembali ke Utama 🏠');set('learn-body-title','Learn the Body Part 🧒','Belajar Anggota Badan 🧒');set('body-learn-listen','🔊 Listen','🔊 Dengar');set('choose-body-title','Choose the Body Part 🔎','Pilih Anggota Badan 🔎');set('choose-body-listen','🔊 Listen','🔊 Dengar');set('label-body-title','Label the Body Part 🏷️','Label Anggota Badan 🏷️');set('label-body-desc','Drag each label into the correct box. You can also tap a label, then tap a box.','Seret setiap label ke kotak yang betul. Boleh juga tekan label, kemudian tekan kotak.');set('label-body-reset','Reset 🔄','Mula Semula 🔄');if(document.getElementById('learn-body-screen')?.classList.contains('active'))renderLearnBodyPart();if(document.getElementById('choose-body-screen')?.classList.contains('active')&&chooseBodyOrder.length)renderChooseBody();if(document.getElementById('label-body-screen')?.classList.contains('active'))renderBodyLabelBank(true);if(document.getElementById('match-body-game-screen')?.classList.contains('active')&&matchBodyGameData.length)loadMatchBodyPage()}
+        function updateBodyLanguage(){const ms=currentGlobalLang==='ms',set=(id,en,bm)=>{const e=document.getElementById(id);if(e)e.innerText=ms?bm:en};set('body-menu-title','Body Part Module 🧒','Modul Anggota Badan 🧒');set('body-menu-desc','Choose a body part activity!','Pilih aktiviti anggota badan!');set('body-learn-menu-text','Learn the Body Part','Belajar Anggota Badan');set('body-choose-menu-text','Choose the Body Part','Pilih Anggota Badan');set('body-label-menu-text','Label the Body Part','Label Anggota Badan');set('body-menu-back','Back to Home 🏠','Kembali ke Utama 🏠');set('learn-body-title','Learn the Body Part 🧒','Belajar Anggota Badan 🧒');set('body-learn-listen','🔊 Listen','🔊 Dengar');set('choose-body-title','Choose the Body Part 🔎','Pilih Anggota Badan 🔎');set('choose-body-listen','🔊 Listen','🔊 Dengar');set('label-body-title','Label the Body Part 🏷️','Label Anggota Badan 🏷️');set('label-body-desc','Drag each label into the correct box. You can also tap a label, then tap a box.','Seret setiap label ke kotak yang betul. Boleh juga tekan label, kemudian tekan kotak.');set('label-body-reset','Reset 🔄','Mula Semula 🔄');if(document.getElementById('learn-body-screen')?.classList.contains('active'))renderLearnBodyPart();if(document.getElementById('choose-body-screen')?.classList.contains('active')&&chooseBodyOrder.length)renderChooseBody();if(document.getElementById('label-body-screen')?.classList.contains('active'))renderBodyLabelBank(true)}
         function openBodyPartMenu(){window.speechSynthesis?.cancel();updateBodyLanguage();showScreen('body-part-menu-screen')}
-
-        // MATCH THE BODY PART - follows Match the Animal format
-        let matchBodyPagesCount=5,currentMatchBodyPageIdx=0,matchBodyGameData=[],matchBodyScoreCount=0;
-        let activeDragBody=null,isDraggingBody=false,dragBodyX=0,dragBodyY=0,completedBodyLines=[],matchedBodyPairsInPage=0,matchBodyEventsReady=false;
-        function openMatchBodyCountScreen(){updateBodyLanguage();showScreen('match-body-count-screen')}
-        function startMatchBody(setCount){
-            matchBodyPagesCount=setCount;currentMatchBodyPageIdx=0;matchBodyScoreCount=0;matchBodyGameData=[];
-            for(let i=0;i<setCount;i++)matchBodyGameData.push(bodyShuffle(bodyParts).slice(0,4));
-            updateBodyLanguage();showScreen('match-body-game-screen');setTimeout(()=>{initMatchBodyEvents();loadMatchBodyPage()},80);
-        }
-        function resizeBodyCanvas(){const c=document.getElementById('match-body-canvas'),w=document.getElementById('match-body-wrapper');if(c&&w){c.width=w.clientWidth;c.height=w.clientHeight;redrawBodyCanvas()}}
-        window.addEventListener('resize',resizeBodyCanvas);
-        function initMatchBodyEvents(){const w=document.getElementById('match-body-wrapper');if(!w||matchBodyEventsReady)return;matchBodyEventsReady=true;w.addEventListener('pointerdown',handleBodyPointerDown);w.addEventListener('pointermove',handleBodyPointerMove);w.addEventListener('pointerup',handleBodyPointerUp);w.addEventListener('pointercancel',handleBodyPointerUp);resizeBodyCanvas()}
-        function loadMatchBodyPage(){
-            if(!matchBodyGameData.length)return;
-            matchedBodyPairsInPage=0;completedBodyLines=[];activeDragBody=null;isDraggingBody=false;
-            document.getElementById('match-body-current-page').innerText=currentMatchBodyPageIdx+1;
-            document.getElementById('match-body-total-pages').innerText=matchBodyPagesCount;
-            document.getElementById('match-body-score').innerText=matchBodyScoreCount;
-            document.getElementById('match-body-next-btn').style.display='none';
-            const items=matchBodyGameData[currentMatchBodyPageIdx],left=document.getElementById('match-body-left-column'),right=document.getElementById('match-body-right-column');left.innerHTML='';right.innerHTML='';
-            bodyShuffle(items).forEach(item=>{const d=document.createElement('div');d.className='match-item';const name=bodyText(item);d.innerHTML=`<span class="match-body-name">${name}</span><button type="button" class="match-body-audio-btn" aria-label="Listen to ${name}" title="Listen / Dengar">🔊</button>`;d.dataset.id=item.id;d.dataset.side='left';const b=d.querySelector('.match-body-audio-btn');b.addEventListener('pointerdown',e=>e.stopPropagation());b.addEventListener('pointerup',e=>e.stopPropagation());b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();speakBody(bodyText(item))});left.appendChild(d)});
-            bodyShuffle(items).forEach(item=>{const d=document.createElement('div');d.className='match-item';d.innerHTML=`<img src="${item.img}" alt="${bodyText(item)}">`;d.dataset.id=item.id;d.dataset.side='right';right.appendChild(d)});
-            setTimeout(resizeBodyCanvas,50);
-        }
-        function handleBodyPointerDown(e){const target=e.target.closest('.match-item');if(!target||target.classList.contains('matched')||target.dataset.side!=='left')return;playClickSound();activeDragBody=target;isDraggingBody=true;target.classList.add('selected');const r=document.getElementById('match-body-wrapper').getBoundingClientRect();dragBodyX=e.clientX-r.left;dragBodyY=e.clientY-r.top;redrawBodyCanvas()}
-        function handleBodyPointerMove(e){if(!isDraggingBody||!activeDragBody)return;e.preventDefault();const r=document.getElementById('match-body-wrapper').getBoundingClientRect();dragBodyX=e.clientX-r.left;dragBodyY=e.clientY-r.top;redrawBodyCanvas()}
-        function handleBodyPointerUp(e){
-            if(!isDraggingBody||!activeDragBody)return;const under=document.elementFromPoint(e.clientX,e.clientY),target=under?under.closest('.match-item'):null;activeDragBody.classList.remove('selected');
-            if(target&&target.dataset.side==='right'&&!target.classList.contains('matched')){
-                if(activeDragBody.dataset.id===target.dataset.id){playCorrectSound();matchBodyScoreCount+=10;document.getElementById('match-body-score').innerText=matchBodyScoreCount;activeDragBody.classList.add('matched');target.classList.add('matched');completedBodyLines.push({from:activeDragBody,to:target});matchedBodyPairsInPage++;
-                    if(matchedBodyPairsInPage===4){if(currentMatchBodyPageIdx<matchBodyPagesCount-1)setTimeout(nextMatchBodyPage,700);else setTimeout(()=>{if(window.saveScoreToFirebase)window.saveScoreToFirebase(currentGlobalLang==='ms'?'Padankan Anggota Badan':'Match Body Part',100);alert(currentGlobalLang==='ms'?'🌟 Hebat! Anda telah melengkapkan semua set padanan anggota badan!':'🌟 Amazing! You completed all body part match sets!');openBodyPartMenu()},500)}}
-                else{playWrongSound();const img=target.querySelector('img');if(img){img.style.borderColor='#FF6B6B';setTimeout(()=>img.style.borderColor='',400)}}
-            }
-            activeDragBody=null;isDraggingBody=false;redrawBodyCanvas();
-        }
-        function getBodyItemCenter(el){const wrapper=document.getElementById('match-body-wrapper').getBoundingClientRect(),r=el.getBoundingClientRect();return{x:r.left-wrapper.left+r.width/2,y:r.top-wrapper.top+r.height/2}}
-        function redrawBodyCanvas(){const c=document.getElementById('match-body-canvas');if(!c)return;const ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);completedBodyLines.forEach(line=>{const a=getBodyItemCenter(line.from),b=getBodyItemCenter(line.to);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle='#7ED957';ctx.lineWidth=6;ctx.lineCap='round';ctx.stroke()});if(isDraggingBody&&activeDragBody){const a=getBodyItemCenter(activeDragBody);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(dragBodyX,dragBodyY);ctx.strokeStyle='#FF66C4';ctx.lineWidth=5;ctx.lineCap='round';ctx.setLineDash([8,6]);ctx.stroke();ctx.setLineDash([])}}
-        function nextMatchBodyPage(){currentMatchBodyPageIdx++;loadMatchBodyPage()}
-
         let learnBodyIndex=0;function startLearnBodyPart(){learnBodyIndex=0;showScreen('learn-body-screen');updateBodyLanguage();renderLearnBodyPart();setTimeout(speakCurrentBodyPart,180)}
         function renderLearnBodyPart(){const p=bodyParts[learnBodyIndex],ms=currentGlobalLang==='ms';document.getElementById('learn-body-progress').innerText=`${ms?'Anggota Badan':'Body Part'} ${learnBodyIndex+1} / ${bodyParts.length}`;document.getElementById('body-learn-visual').innerHTML=`<img src="${p.img}" alt="${bodyText(p)}">`;document.getElementById('body-learn-name').innerText=bodyText(p);document.getElementById('body-learn-desc').innerText=ms?p.descMs:p.descEn}
         function speakCurrentBodyPart(){const p=bodyParts[learnBodyIndex];speakBody(`${bodyText(p)}. ${currentGlobalLang==='ms'?p.descMs:p.descEn}`)}
