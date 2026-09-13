@@ -2909,6 +2909,230 @@
                 height: 110px;
             }
         }
+
+
+        /* =========================================================
+           FINAL FIX - MATCH THE COLOUR ONLY
+           Exact layout/dimensions mirrored from Match the Animal.
+           Other modules are untouched.
+        ========================================================== */
+        #match-colour-screen .colour-match-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: none;
+            margin: 20px 0;
+            padding: 0;
+            min-height: 0;
+            user-select: none;
+            touch-action: none;
+        }
+
+        #match-colour-screen .colour-match-container {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: stretch;
+            position: relative;
+            z-index: 10;
+        }
+
+        #match-colour-screen .colour-match-col {
+            display: flex;
+            flex-direction: column;
+            width: 185px;
+            gap: 18px;
+        }
+
+        #match-colour-screen #colour-match-left {
+            margin-right: auto;
+            transform: translateX(-95px);
+        }
+
+        #match-colour-screen #colour-match-right {
+            margin-left: auto;
+            transform: translateX(95px);
+        }
+
+        /* LEFT: same box size as Match the Animal left column */
+        #match-colour-screen #colour-match-left .match-item {
+            width: 185px !important;
+            height: 135px !important;
+            min-height: 135px !important;
+            padding: 10px 12px !important;
+            background: rgba(255,255,255,0.95) !important;
+            border: 3px solid var(--primary-blue) !important;
+            border-radius: 18px !important;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 7px !important;
+            font-size: 1.22rem !important;
+            line-height: 1.15 !important;
+            overflow: hidden !important;
+            flex: 0 0 135px !important;
+        }
+
+        #match-colour-screen .match-colour-name {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-align: center;
+            color: #2C3E50;
+            pointer-events: none;
+        }
+
+        #match-colour-screen .match-colour-audio-btn {
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 50%;
+            background: var(--primary-pink);
+            color: #fff;
+            font-size: 1.25rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 0 #b33687, 0 5px 10px rgba(0,0,0,0.12);
+            touch-action: manipulation;
+            flex: 0 0 auto;
+        }
+
+        /* RIGHT: same outer row box as Match the Animal right column */
+        #match-colour-screen #colour-match-right .match-item {
+            width: 185px !important;
+            height: 135px !important;
+            min-height: 135px !important;
+            padding: 0 !important;
+            background: transparent !important;
+            border: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            overflow: visible !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex: 0 0 135px !important;
+        }
+
+        /* Colour square = exact same size as animal image */
+        #match-colour-screen #colour-match-right .colour-swatch-chip {
+            display: block !important;
+            width: 135px !important;
+            height: 135px !important;
+            min-width: 135px !important;
+            min-height: 135px !important;
+            max-width: 135px !important;
+            max-height: 135px !important;
+            aspect-ratio: 1 / 1 !important;
+            border: 4px solid var(--primary-blue) !important;
+            border-radius: 18px !important;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.12) !important;
+            pointer-events: none;
+            flex: 0 0 135px !important;
+        }
+
+        #match-colour-screen .match-item.matched {
+            opacity: 1 !important;
+            filter: none !important;
+            color: inherit !important;
+            cursor: default;
+        }
+
+        #match-colour-screen #colour-match-left .match-item.matched {
+            background: rgba(255,255,255,0.95) !important;
+            border-color: var(--primary-blue) !important;
+        }
+
+        #match-colour-screen #colour-match-right .match-item.matched {
+            background: transparent !important;
+            border-color: transparent !important;
+        }
+
+        @media (max-width: 768px) {
+            #match-colour-screen .colour-match-col {
+                width: 142px !important;
+                gap: 15px !important;
+            }
+
+            #match-colour-screen #colour-match-left {
+                transform: translateX(-42px) !important;
+            }
+
+            #match-colour-screen #colour-match-right {
+                transform: translateX(42px) !important;
+            }
+
+            #match-colour-screen #colour-match-left .match-item,
+            #match-colour-screen #colour-match-right .match-item {
+                width: 142px !important;
+                height: 116px !important;
+                min-height: 116px !important;
+                flex-basis: 116px !important;
+            }
+
+            #match-colour-screen #colour-match-left .match-item {
+                padding: 8px 7px !important;
+                gap: 5px !important;
+            }
+
+            #match-colour-screen #colour-match-right .colour-swatch-chip {
+                width: 116px !important;
+                height: 116px !important;
+                min-width: 116px !important;
+                min-height: 116px !important;
+                max-width: 116px !important;
+                max-height: 116px !important;
+                flex-basis: 116px !important;
+                border-width: 3px !important;
+                border-radius: 15px !important;
+            }
+
+            #match-colour-screen .match-colour-name {
+                font-size: 1.02rem !important;
+            }
+
+            #match-colour-screen .match-colour-audio-btn {
+                width: 38px !important;
+                height: 38px !important;
+                font-size: 1.1rem !important;
+            }
+        }
+
+        @media (max-width: 430px) {
+            #match-colour-screen #colour-match-left {
+                transform: translateX(-28px) !important;
+            }
+
+            #match-colour-screen #colour-match-right {
+                transform: translateX(28px) !important;
+            }
+
+            #match-colour-screen .colour-match-col {
+                width: 130px !important;
+            }
+
+            #match-colour-screen #colour-match-left .match-item,
+            #match-colour-screen #colour-match-right .match-item {
+                width: 130px !important;
+                height: 110px !important;
+                min-height: 110px !important;
+                flex-basis: 110px !important;
+            }
+
+            #match-colour-screen #colour-match-right .colour-swatch-chip {
+                width: 110px !important;
+                height: 110px !important;
+                min-width: 110px !important;
+                min-height: 110px !important;
+                max-width: 110px !important;
+                max-height: 110px !important;
+                flex-basis: 110px !important;
+            }
+        }
+
 </style>
 </head>
 <body>
