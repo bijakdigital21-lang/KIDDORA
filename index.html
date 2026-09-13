@@ -2710,37 +2710,203 @@
         }
 
 
-        /* ===== MATCH THE BODY PART: same sizing/format as Match the Animal ===== */
-        #match-body-game-screen .match-container{width:100%;justify-content:space-between;align-items:stretch}
-        #match-body-game-screen .match-column{width:185px;gap:18px}
-        #match-body-game-screen #match-body-left-column{transform:translateX(-95px)}
-        #match-body-game-screen #match-body-right-column{transform:translateX(95px)}
-        #match-body-game-screen #match-body-left-column .match-item{width:185px;height:135px;min-height:135px;padding:10px 12px;background:rgba(255,255,255,.95);border:3px solid var(--primary-blue);border-radius:18px;box-shadow:0 4px 10px rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;font-size:1.22rem;line-height:1.15}
-        #match-body-game-screen .match-body-name{font-family:'Fredoka One',cursive;font-size:1.3rem;font-weight:700;text-align:center;color:#2C3E50;pointer-events:none}
-        #match-body-game-screen .match-body-audio-btn{width:42px;height:42px;border:none;border-radius:50%;background:var(--primary-pink);color:#fff;font-size:1.25rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 4px 0 #b33687,0 5px 10px rgba(0,0,0,.12);touch-action:manipulation;flex:0 0 auto}
-        #match-body-game-screen .match-body-audio-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #b33687}
-        #match-body-game-screen #match-body-right-column .match-item{width:185px;height:135px;min-height:135px;padding:0;background:transparent;border:none;border-radius:0;box-shadow:none;overflow:visible;display:flex;align-items:center;justify-content:center}
-        #match-body-game-screen #match-body-right-column .match-item img{width:135px;height:135px;object-fit:cover;display:block;border:4px solid var(--primary-blue);border-radius:18px;background:#fff;box-shadow:0 4px 10px rgba(0,0,0,.10);pointer-events:none}
-        #match-body-game-screen .match-item.matched{opacity:1!important;filter:none!important}
-        #match-body-game-screen #match-body-left-column .match-item.matched{background:var(--primary-green)!important;border-color:#4CAF50!important;color:white}
-        #match-body-game-screen #match-body-right-column .match-item.matched img{border-color:#4CAF50;box-shadow:0 0 0 4px rgba(126,217,87,.25),0 4px 10px rgba(0,0,0,.10)}
-        @media(max-width:768px){
-            #match-body-game-screen .match-column{width:128px;gap:14px}
-            #match-body-game-screen #match-body-left-column{transform:translateX(-12px)}
-            #match-body-game-screen #match-body-right-column{transform:translateX(12px)}
-            #match-body-game-screen #match-body-left-column .match-item{width:128px;height:105px;min-height:105px;padding:7px 8px;font-size:1rem}
-            #match-body-game-screen .match-body-name{font-size:1.05rem}
-            #match-body-game-screen .match-body-audio-btn{width:36px;height:36px;font-size:1.05rem}
-            #match-body-game-screen #match-body-right-column .match-item{width:128px;height:105px;min-height:105px}
-            #match-body-game-screen #match-body-right-column .match-item img{width:105px;height:105px;border-width:3px;border-radius:15px}
+        /* ===== MATCH THE BODY PART: EXACT SAME FORMAT/SIZE AS MATCH THE ANIMAL ===== */
+        #match-body-game-screen .match-container {
+            width: 100%;
+            justify-content: space-between;
+            align-items: stretch;
         }
-        @media(max-width:430px){
-            #match-body-game-screen .match-column{width:115px;gap:12px}
-            #match-body-game-screen #match-body-left-column{transform:translateX(-5px)}
-            #match-body-game-screen #match-body-right-column{transform:translateX(5px)}
-            #match-body-game-screen #match-body-left-column .match-item{width:115px;height:96px;min-height:96px}
-            #match-body-game-screen #match-body-right-column .match-item{width:115px;height:96px;min-height:96px}
-            #match-body-game-screen #match-body-right-column .match-item img{width:96px;height:96px}
+
+        #match-body-game-screen .match-column {
+            width: 185px;
+            gap: 18px;
+        }
+
+        /* Anjak kedua-dua kolum ke tepi untuk beri ruang matching di tengah */
+        #match-body-game-screen #match-body-left-column {
+            transform: translateX(-95px);
+        }
+
+        #match-body-game-screen #match-body-right-column {
+            transform: translateX(95px);
+        }
+
+        /* KIRI: perkataan + audio */
+        #match-body-game-screen #match-body-left-column .match-item {
+            width: 185px;
+            height: 135px;
+            min-height: 135px;
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.95);
+            border: 3px solid var(--primary-blue);
+            border-radius: 18px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            font-size: 1.22rem;
+            line-height: 1.15;
+        }
+
+        #match-body-game-screen .match-body-name {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-align: center;
+            color: #2C3E50;
+            pointer-events: none;
+        }
+
+        #match-body-game-screen .match-body-audio-btn {
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 50%;
+            background: var(--primary-pink);
+            color: #fff;
+            font-size: 1.25rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 0 #b33687, 0 5px 10px rgba(0,0,0,0.12);
+            touch-action: manipulation;
+            flex: 0 0 auto;
+        }
+
+        #match-body-game-screen .match-body-audio-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #b33687;
+        }
+
+        /* KANAN: gambar haiwan, penuh dalam border */
+        #match-body-game-screen #match-body-right-column .match-item {
+            width: 185px;
+            height: 135px;
+            min-height: 135px;
+            padding: 0;
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            overflow: visible;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #match-body-game-screen #match-body-right-column .match-item img {
+            width: 135px;
+            height: 135px;
+            object-fit: cover;
+            display: block;
+            border: 4px solid var(--primary-blue);
+            border-radius: 18px;
+            background: transparent;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+            pointer-events: none;
+        }
+
+        #match-body-game-screen #match-body-right-column .match-item:hover,
+        #match-body-game-screen #match-body-right-column .match-item.selected,
+        #match-body-game-screen #match-body-right-column .match-item.matched {
+            background: transparent;
+        }
+
+        /* Selepas Match the Body Part berjaya: kekalkan warna/gambar asal, tanpa fade/blur */
+        #match-body-game-screen .match-item.matched {
+            opacity: 1 !important;
+            filter: none !important;
+            color: inherit !important;
+            cursor: default;
+        }
+
+        #match-body-game-screen #match-body-left-column .match-item.matched {
+            background: rgba(255,255,255,0.95) !important;
+            border-color: var(--primary-blue) !important;
+        }
+
+        #match-body-game-screen #match-body-right-column .match-item.matched {
+            background: transparent !important;
+            border-color: transparent !important;
+        }
+
+        #match-body-game-screen #match-body-right-column .match-item.matched img {
+            opacity: 1 !important;
+            filter: none !important;
+            border-color: var(--primary-blue) !important;
+        }
+
+        @media (max-width: 768px) {
+            #match-body-game-screen .match-column {
+                width: 142px;
+                gap: 15px;
+            }
+
+            #match-body-game-screen #match-body-left-column {
+                transform: translateX(-42px);
+            }
+
+            #match-body-game-screen #match-body-right-column {
+                transform: translateX(42px);
+            }
+
+            #match-body-game-screen #match-body-left-column .match-item,
+            #match-body-game-screen #match-body-right-column .match-item {
+                width: 142px;
+                height: 116px;
+                min-height: 116px;
+            }
+
+            #match-body-game-screen #match-body-left-column .match-item {
+                padding: 8px 7px;
+                gap: 5px;
+            }
+
+            #match-body-game-screen #match-body-right-column .match-item img {
+                width: 116px;
+                height: 116px;
+                border-width: 3px;
+                border-radius: 15px;
+            }
+
+            #match-body-game-screen .match-body-name {
+                font-size: 1.02rem;
+            }
+
+            #match-body-game-screen .match-body-audio-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 430px) {
+            #match-body-game-screen #match-body-left-column {
+                transform: translateX(-28px);
+            }
+
+            #match-body-game-screen #match-body-right-column {
+                transform: translateX(28px);
+            }
+
+            #match-body-game-screen .match-column {
+                width: 130px;
+            }
+
+            #match-body-game-screen #match-body-left-column .match-item,
+            #match-body-game-screen #match-body-right-column .match-item {
+                width: 130px;
+                height: 110px;
+                min-height: 110px;
+            }
+
+            #match-body-game-screen #match-body-right-column .match-item img {
+                width: 110px;
+                height: 110px;
+            }
         }
 </style>
 </head>
@@ -3983,126 +4149,9 @@
 
         let currentGlobalLang = 'en';
 
-
-        // Central refresh for screens/text that were added after the original bilingual function.
-        function applyExtendedLanguageRefresh() {
-            const ms = currentGlobalLang === 'ms';
-            const byId = (id, en, bm) => {
-                const el = document.getElementById(id);
-                if (el) el.textContent = ms ? bm : en;
-            };
-            const qsText = (selector, en, bm) => {
-                const el = document.querySelector(selector);
-                if (el) el.textContent = ms ? bm : en;
-            };
-
-            const cp = document.getElementById('current-password-input');
-            const np = document.getElementById('new-password-input');
-            if (cp) cp.placeholder = ms ? 'Masukkan kata laluan semasa' : 'Enter current password';
-            if (np) np.placeholder = ms ? 'Masukkan kata laluan baharu' : 'Enter new password';
-
-            // Animal module
-            qsText('#animal-menu-screen .home-btn', 'Back to Home 🏠', 'Kembali ke Utama 🏠');
-            qsText('#learn-animal-cat-screen h2', 'Learn Animal Categories 🐾', 'Belajar Kategori Haiwan 🐾');
-            qsText('#learn-animal-cat-screen > p', 'Select a category to learn animal names!', 'Pilih kategori untuk belajar nama haiwan!');
-            qsText('#learn-animal-cat-screen .home-btn', 'Back ↩️', 'Kembali ↩️');
-            qsText('#match-animal-count-screen h2', 'Match the Animal 🖼️', 'Suaikan Haiwan 🖼️');
-            qsText('#match-animal-count-screen > p', 'Select how many pages/sets you want to play:', 'Pilih berapa halaman/set yang mahu dimainkan:');
-            qsText('#match-animal-count-screen .home-btn', 'Back ↩️', 'Kembali ↩️');
-            qsText('#find-animal-count-screen h2', 'Find the Animal 🔍', 'Cari Haiwan 🔍');
-            qsText('#find-animal-count-screen > p', 'Select how many questions you want to play:', 'Pilih berapa soalan yang mahu dimainkan:');
-            qsText('#find-animal-count-screen .home-btn', 'Back ↩️', 'Kembali ↩️');
-
-            const mah = document.querySelectorAll('#match-animal-game-screen .quiz-header > span');
-            if (mah[0]) mah[0].childNodes[0].nodeValue = ms ? 'Suaikan Haiwan' : 'Match Animal';
-            if (mah[1]) mah[1].childNodes[0].nodeValue = ms ? 'Halaman: ' : 'Page: ';
-            if (mah[2]) mah[2].childNodes[0].nodeValue = ms ? 'Skor: ' : 'Score: ';
-            byId('match-animal-instruction',
-                'Drag a line from the animal name to the correct animal picture!',
-                'Tarik garis dari nama haiwan ke gambar haiwan yang betul!');
-            byId('match-animal-next-btn', 'Next Page ➔', 'Halaman Seterusnya ➔');
-            qsText('#match-animal-game-screen .home-btn', 'Back ↩️', 'Kembali ↩️');
-
-            const fah = document.querySelectorAll('#find-animal-game-screen .quiz-header > span');
-            if (fah[0]) fah[0].childNodes[0].nodeValue = ms ? 'Cari Haiwan' : 'Find the Animal';
-            if (fah[1]) fah[1].childNodes[0].nodeValue = ms ? 'Soalan: ' : 'Question: ';
-            if (fah[2]) fah[2].childNodes[0].nodeValue = ms ? 'Skor: ' : 'Score: ';
-            byId('find-animal-next-btn', 'Next Question ➔', 'Soalan Seterusnya ➔');
-            qsText('#find-animal-game-screen .home-btn', 'Back ↩️', 'Kembali ↩️');
-
-            const catBox = document.getElementById('animal-categories-container');
-            if (catBox && catBox.children.length && typeof animalCategories !== 'undefined') {
-                [...catBox.children].forEach((btn, i) => {
-                    const cat = animalCategories[i];
-                    if (cat) btn.textContent = ms ? cat.label : cat.label_en;
-                });
-            }
-
-            if (document.getElementById('learn-animal-flash-screen')?.classList.contains('active') &&
-                typeof currentLearnAnimalList !== 'undefined' && currentLearnAnimalList.length &&
-                typeof renderAnimalFlashcard === 'function') renderAnimalFlashcard(false);
-
-            if (document.getElementById('match-animal-game-screen')?.classList.contains('active') &&
-                typeof matchAnimalGameData !== 'undefined' && matchAnimalGameData.length &&
-                typeof loadMatchAnimalPage === 'function') loadMatchAnimalPage();
-
-            if (document.getElementById('find-animal-game-screen')?.classList.contains('active') &&
-                typeof findAnimalQuestions !== 'undefined' && findAnimalQuestions.length &&
-                typeof loadFindAnimalQuestion === 'function') loadFindAnimalQuestion();
-
-            // Spell It Right UI
-            qsText('#spell-it-right-screen h2', 'Spell it Right ✏️', 'Eja dengan Betul ✏️');
-            qsText('#spell-it-right-screen > p', 'Listen carefully, then spell the word.', 'Dengar dengan teliti, kemudian eja perkataan.');
-            qsText('#spell-count-selection h3', 'Choose Number of Questions', 'Pilih Bilangan Soalan');
-            qsText('#spell-count-selection p', 'How many words do you want to spell?', 'Berapa perkataan yang mahu dieja?');
-
-            const spellTop = document.querySelector('#spell-game-area .spell-topbar > span:first-child');
-            if (spellTop && spellTop.childNodes[0]) spellTop.childNodes[0].nodeValue = ms ? 'Perkataan ' : 'Word ';
-            qsText('#spell-it-right-screen .sound-btn', '🔊 Hear again', '🔊 Dengar lagi');
-            byId('spell-next-btn', 'Next ➡', 'Seterusnya ➡');
-            byId('spell-retry-btn', 'Try Again 🔄', 'Cuba Lagi 🔄');
-            qsText('#spell-it-right-screen > .home-btn', 'Back to ABC 🔤', 'Kembali ke ABC 🔤');
-
-            // ABC Tracing UI
-            qsText('#abc-tracing-screen h2', 'ABC Tracing ✏️', 'Jejak ABC ✏️');
-            qsText('#abc-tracing-screen > p', 'Trace the dotted letter with your finger or mouse.', 'Jejak huruf bertitik menggunakan jari atau tetikus.');
-            byId('trace-uppercase-btn', 'ABC • Uppercase', 'ABC • Huruf Besar');
-            byId('trace-lowercase-btn', 'abc • Lowercase', 'abc • Huruf Kecil');
-            const traceBtns = document.querySelectorAll('#abc-tracing-screen .trace-nav-row button');
-            if (traceBtns[0]) traceBtns[0].textContent = ms ? '⬅ Sebelum' : '⬅ Previous';
-            if (traceBtns[1]) traceBtns[1].textContent = ms ? 'Seterusnya ➡' : 'Next ➡';
-            if (traceBtns[2]) traceBtns[2].textContent = ms ? '🧽 Padam' : '🧽 Clear';
-            qsText('#abc-tracing-screen > .home-btn', 'Back to ABC 🔤', 'Kembali ke ABC 🔤');
-            if (document.getElementById('abc-tracing-screen')?.classList.contains('active') &&
-                typeof renderTraceLetter === 'function') renderTraceLetter();
-
-            // Original switch had a few Malay labels still left in English.
-            if (ms) {
-                byId('match-count-back-btn', 'Back ↩️', 'Kembali ↩️');
-                byId('find-next-round-text', 'Next Round ➔', 'Pusingan Seterusnya ➔');
-                byId('find-back-btn', 'Back ↩️', 'Kembali ↩️');
-                byId('prev-abc-btn', '⬅ Prev', '⬅ Sebelum');
-                byId('abc-flash-back-btn', 'Back ↩️', 'Kembali ↩️');
-                byId('next-abc-btn', 'Next ➡', 'Seterusnya ➡');
-                byId('count-sel-back-btn', 'Back ↩️', 'Kembali ↩️');
-            }
-
-            if (document.getElementById('abc-flashcard-screen')?.classList.contains('active') &&
-                typeof renderABCFlashcard === 'function') renderABCFlashcard();
-
-            document.documentElement.lang = ms ? 'ms' : 'en';
-        }
-
         function setGlobalLanguage(lang) {
             currentGlobalLang = lang;
-            document.documentElement.lang = (lang === 'ms' ? 'ms' : 'en');
-            try { localStorage.setItem('kiddoraLanguage', lang); } catch(e) {}
-            setTimeout(()=>{
-                if(typeof updateNumberLanguage === 'function') updateNumberLanguage();
-                if(typeof updateColourLanguage === 'function') updateColourLanguage();
-                if(typeof updateBodyLanguage === 'function') updateBodyLanguage();
-                if(typeof applyExtendedLanguageRefresh === 'function') applyExtendedLanguageRefresh();
-            },0);
+            setTimeout(()=>{ if(typeof updateColourLanguage === 'function') updateColourLanguage(); if(typeof updateBodyLanguage === 'function') updateBodyLanguage(); },0);
             
             document.getElementById("lang-btn-en").classList.remove("active");
             document.getElementById("lang-btn-ms").classList.remove("active");
@@ -4500,37 +4549,18 @@
             renderAnimalFlashcard();
         }
 
-        function renderAnimalFlashcard(autoSpeak = true) {
+        function renderAnimalFlashcard() {
             const item = currentLearnAnimalList[currentLearnAnimalIdx];
-            if (!item) return;
-            const cat = (typeof animalCategories !== 'undefined') ? animalCategories.find(c => c.id === item.cat) : null;
-            document.getElementById("animal-cat-display-title").innerText =
-                cat ? (currentGlobalLang === 'en' ? cat.label_en : cat.label) : (currentCategoryTitle || "");
-            document.getElementById("animal-flash-progress").innerText =
-                `${currentGlobalLang === 'en' ? 'Animal' : 'Haiwan'} ${currentLearnAnimalIdx + 1} / ${currentLearnAnimalList.length}`;
+            document.getElementById("animal-cat-display-title").innerText = currentCategoryTitle;
+            document.getElementById("animal-flash-progress").innerText = `Animal ${currentLearnAnimalIdx + 1} of ${currentLearnAnimalList.length}`;
             document.getElementById("animal-flash-image").src = item.img;
-
-            const primaryName = document.getElementById("animal-flash-name-bm");
-            const secondaryName = document.getElementById("animal-flash-name-en");
-            primaryName.innerText = currentGlobalLang === 'en' ? item.en : item.bm;
-            secondaryName.innerText = '';
-            secondaryName.style.display = 'none';
+            document.getElementById("animal-flash-name-bm").innerText = item.bm;
+            document.getElementById("animal-flash-name-en").innerText = item.en;
 
             document.getElementById("prev-animal-btn").style.display = currentLearnAnimalIdx === 0 ? "none" : "inline-block";
-            document.getElementById("prev-animal-btn").innerText = currentGlobalLang === 'en' ? "⬅ Prev" : "⬅ Sebelum";
-
-            const backBtn = document.querySelector('#learn-animal-flash-screen .home-btn');
-            if (backBtn) backBtn.innerText = currentGlobalLang === 'en' ? "Back ↩️" : "Kembali ↩️";
-
-            document.getElementById("next-animal-btn").innerText =
-                currentLearnAnimalIdx === currentLearnAnimalList.length - 1
-                    ? (currentGlobalLang === 'en' ? "Finish 🏁" : "Tamat 🏁")
-                    : (currentGlobalLang === 'en' ? "Next ➡" : "Seterusnya ➡");
-
-            const listenBtn = document.querySelector('#learn-animal-flash-screen .sound-btn');
-            if (listenBtn) listenBtn.innerText = currentGlobalLang === 'en' ? "🔊 Listen" : "🔊 Dengar";
-
-            if (autoSpeak) playAnimalFlashSound();
+            document.getElementById("next-animal-btn").innerText = currentLearnAnimalIdx === currentLearnAnimalList.length - 1 ? (currentGlobalLang === 'en' ? "Finish 🏁" : "Tamat 🏁") : "Next ➡";
+            
+            playAnimalFlashSound();
         }
 
         function playAnimalFlashSound() {
@@ -6022,6 +6052,7 @@
                 'match-colour-screen',
                 'find-colour-screen',
                 'match-animal-game-screen',
+                'match-body-game-screen',
                 'find-animal-game-screen',
                 'choose-body-screen',
                 'label-body-screen',
@@ -6223,7 +6254,7 @@ document.addEventListener('DOMContentLoaded', () => {
             img.loading = 'eager';
             picture.appendChild(img);
             document.getElementById('spell-learning-word').innerText = item.word.split('').join('   ');
-            document.getElementById('spell-instruction').innerText = `${currentGlobalLang==='ms'?'Dengar':'Listen'}: ${item.word.split('').join(' - ')}`;
+            document.getElementById('spell-instruction').innerText = `Listen: ${item.word.split('').join(' - ')}`;
             document.getElementById('spell-feedback').innerText = '';
             document.getElementById('spell-next-btn').style.display = 'none';
             document.getElementById('spell-retry-btn').style.display = 'none';
@@ -6294,7 +6325,7 @@ document.addEventListener('DOMContentLoaded', () => {
             spellSelected = [];
             spellOrder = shuffleSpellLetters(item.word);
             document.getElementById('spell-learning-word').innerText = '';
-            document.getElementById('spell-instruction').innerText = currentGlobalLang==='ms' ? 'Tekan huruf mengikut susunan yang betul.' : 'Tap the letters in the correct order.';
+            document.getElementById('spell-instruction').innerText = 'Tap the letters in the correct order.';
             document.getElementById('spell-feedback').innerText = '';
             renderSpellSlots();
             renderSpellLetterBank();
@@ -6343,13 +6374,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (answer === item.word) {
                 spellScore++;
                 document.getElementById('spell-score').innerText = spellScore;
-                feedback.innerText = currentGlobalLang==='ms' ? `✅ Syabas! ${item.word}` : `✅ Great job! ${item.word}`;
+                feedback.innerText = `✅ Great job! ${item.word}`;
                 feedback.style.color = '#2e9c43';
                 if (typeof playCorrectSound === 'function') playCorrectSound();
                 speakWholeWord(item.word);
                 document.getElementById('spell-next-btn').style.display = 'inline-block';
             } else {
-                feedback.innerText = currentGlobalLang==='ms' ? '❌ Cuba lagi!' : '❌ Try again!';
+                feedback.innerText = '❌ Try again!';
                 feedback.style.color = '#e53935';
                 if (typeof playWrongSound === 'function') playWrongSound();
                 document.getElementById('spell-retry-btn').style.display = 'inline-block';
@@ -6379,10 +6410,10 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 const feedback = document.getElementById('spell-feedback');
                 feedback.style.color = '#5E17EB';
-                feedback.innerText = currentGlobalLang==='ms' ? `🎉 Selesai! Skor: ${spellScore} / ${spellSessionWords.length}` : `🎉 Finished! Score: ${spellScore} / ${spellSessionWords.length}`;
+                feedback.innerText = `🎉 Finished! Score: ${spellScore} / ${spellSessionWords.length}`;
                 document.getElementById('spell-next-btn').style.display = 'none';
-                document.getElementById('spell-learning-word').innerText = currentGlobalLang==='ms' ? 'SYABAS!' : 'WELL DONE!';
-                document.getElementById('spell-instruction').innerText = currentGlobalLang==='ms' ? 'Anda telah melengkapkan Eja dengan Betul!' : 'You completed Spell it Right!';
+                document.getElementById('spell-learning-word').innerText = 'WELL DONE!';
+                document.getElementById('spell-instruction').innerText = 'You completed Spell it Right!';
                 document.getElementById('spell-letter-bank').innerHTML = '';
                 document.getElementById('spell-answer-slots').innerHTML = '';
                 speakWholeWord('Well done');
@@ -6565,7 +6596,7 @@ document.addEventListener('DOMContentLoaded', () => {
             drawSingleLineTraceLetter(ctx, letter, w, h);
 
             const label = traceCase === 'upper' ? 'Uppercase' : 'Lowercase';
-            document.getElementById('trace-letter-display').innerText = `${currentGlobalLang==='ms' ? (traceCase==='upper'?'Huruf Besar':'Huruf Kecil') : label} ${letter}`;
+            document.getElementById('trace-letter-display').innerText = `${label} ${letter}`;
             document.getElementById('trace-progress').innerText = `${letter} • ${traceLetterIndex + 1} / 26`;
         }
 
@@ -6648,15 +6679,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         window.addEventListener('click', enableAutoplayOnFirstTouch);
         window.addEventListener('touchstart', enableAutoplayOnFirstTouch);
-    
-        // Restore last selected app language.
-        window.addEventListener('load', () => {
-            let savedLang = 'en';
-            try { savedLang = localStorage.getItem('kiddoraLanguage') || 'en'; } catch(e) {}
-            if (savedLang !== 'ms') savedLang = 'en';
-            if (typeof setGlobalLanguage === 'function') setGlobalLanguage(savedLang);
-        });
-
     </script>
 </body>
 </html>
