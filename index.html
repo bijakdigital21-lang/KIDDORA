@@ -2313,7 +2313,8 @@
            ABC TRACING - huruf besar & huruf kecil
            Kanak-kanak trace terus di atas canvas berpandukan titik.
         ========================================================== */
-        #abc-tracing-screen {
+        #abc-tracing-screen,
+        #num123-tracing-screen {
             width: min(96vw, 900px);
             margin-left: 50%;
             transform: translateX(-50%);
@@ -2375,15 +2376,17 @@
         }
 
         #abc-trace-guide,
-        #abc-trace-draw {
+        #abc-trace-draw,
+        #num-trace-guide,
+        #num-trace-draw {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
             display: block;
         }
-        #abc-trace-guide { pointer-events: none; }
-        #abc-trace-draw { touch-action: none; cursor: crosshair; }
+        #abc-trace-guide, #num-trace-guide { pointer-events: none; }
+        #abc-trace-draw, #num-trace-draw { touch-action: none; cursor: crosshair; }
 
         .trace-nav-row {
             display: flex;
@@ -2410,7 +2413,8 @@
         }
 
         @media (max-width: 768px) {
-            #abc-tracing-screen {
+            #abc-tracing-screen,
+            #num123-tracing-screen {
                 width: calc(100vw - 10px);
                 margin-left: 50%;
                 transform: translateX(-50%);
@@ -3650,8 +3654,34 @@
                     <button class="num123-menu-btn" onclick="playClickSound(); startFindNumber()" aria-label="Find the Number">
                         <img src="https://i.imgur.com/BORHmid.jpeg" alt="Find the Number">
                     </button>
+                    <button class="num123-menu-btn" onclick="playClickSound(); start123Tracing()" aria-label="123 Tracing">
+                        <img src="https://i.imgur.com/m1Qh3mO.jpeg" alt="123 Tracing">
+                    </button>
                 </div>
                 <button class="action-btn home-btn" id="num123-home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+            </div>
+
+            <!-- 123 TRACING SCREEN -->
+            <div id="num123-tracing-screen" class="card">
+                <h2 style="color:#ffff00;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #5E17EB;">123 Tracing ✏️</h2>
+                <p style="color:#111;font-weight:800;margin:6px 0 10px;">Trace the dotted number with your finger or mouse.</p>
+
+                <div class="tracing-board">
+                    <div id="num-trace-display" class="trace-letter-display">Number 1</div>
+                    <div class="trace-canvas-wrap" id="num-trace-canvas-wrap">
+                        <canvas id="num-trace-guide"></canvas>
+                        <canvas id="num-trace-draw"></canvas>
+                    </div>
+
+                    <div class="trace-nav-row">
+                        <button class="action-btn home-btn" onclick="previousTraceNumber()">⬅ Previous</button>
+                        <div class="trace-progress" id="num-trace-progress">1 • 1 / 10</div>
+                        <button class="action-btn" onclick="nextTraceNumber()">Next ➡</button>
+                        <button class="action-btn trace-clear-btn" onclick="clearNumberTraceDrawing()">🧽 Clear</button>
+                    </div>
+                </div>
+
+                <button class="action-btn home-btn" onclick="playClickSound(); open123Menu()">Back to 123 🔢</button>
             </div>
 
             <!-- LEARN 123 SCREEN -->
@@ -7151,6 +7181,191 @@ document.addEventListener('DOMContentLoaded', () => {
             canvas.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') endTraceStroke(e); }, { passive: false });
         }
 
+
+        // =========================================================
+        // 123 TRACING - Nombor 1 hingga 10
+        // Menggunakan saiz canvas, titik panduan dan stroke yang sama
+        // seperti ABC Tracing.
+        // =========================================================
+        let numTraceIndex = 0;
+        let numTraceDrawing = false;
+        let numTraceLastPoint = null;
+        const numTraceNumbers = ['1','2','3','4','5','6','7','8','9','10'];
+
+        function start123Tracing() {
+            numTraceIndex = 0;
+            showScreen('num123-tracing-screen');
+            requestAnimationFrame(() => {
+                setupNumberTraceCanvases();
+                renderTraceNumber();
+            });
+        }
+
+        function previousTraceNumber() {
+            playClickSound();
+            numTraceIndex = (numTraceIndex - 1 + numTraceNumbers.length) % numTraceNumbers.length;
+            clearNumberTraceDrawing(false);
+            renderTraceNumber();
+        }
+
+        function nextTraceNumber() {
+            playClickSound();
+            numTraceIndex = (numTraceIndex + 1) % numTraceNumbers.length;
+            clearNumberTraceDrawing(false);
+            renderTraceNumber();
+        }
+
+        function setupNumberTraceCanvases() {
+            const wrap = document.getElementById('num-trace-canvas-wrap');
+            const guide = document.getElementById('num-trace-guide');
+            const draw = document.getElementById('num-trace-draw');
+            if (!wrap || !guide || !draw) return;
+
+            const rect = wrap.getBoundingClientRect();
+            const dpr = Math.max(1, window.devicePixelRatio || 1);
+            [guide, draw].forEach(c => {
+                c.width = Math.round(rect.width * dpr);
+                c.height = Math.round(rect.height * dpr);
+                c.style.width = rect.width + 'px';
+                c.style.height = rect.height + 'px';
+                const ctx = c.getContext('2d');
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            });
+            attachNumberTraceEvents();
+        }
+
+        function drawSingleLineTraceNumber(ctx, value, w, h) {
+            const x0 = w * 0.18, x1 = w * 0.82;
+            const y0 = h * 0.13, y1 = h * 0.87;
+            const W = x1 - x0, H = y1 - y0;
+
+            const paths = {
+                '0': [[['M',.50,.04],['C',.22,.04,.18,.27,.18,.50],['C',.18,.78,.27,.96,.50,.96],['C',.73,.96,.82,.78,.82,.50],['C',.82,.22,.73,.04,.50,.04]]],
+                '1': [[['M',.34,.22],['L',.50,.05],['L',.50,.95]],[['M',.31,.95],['L',.69,.95]]],
+                '2': [[['M',.20,.25],['C',.28,.02,.72,.00,.80,.25],['C',.86,.45,.65,.57,.20,.95],['L',.82,.95]]],
+                '3': [[['M',.22,.13],['C',.38,.00,.76,.02,.78,.25],['C',.79,.43,.61,.49,.49,.50],['C',.65,.50,.83,.58,.80,.78],['C',.77,1.00,.37,1.00,.20,.87]]],
+                '4': [[['M',.68,.95],['L',.68,.05],['L',.17,.66],['L',.83,.66]]],
+                '5': [[['M',.78,.05],['L',.26,.05],['L',.22,.46],['C',.38,.35,.73,.38,.79,.60],['C',.87,.89,.53,1.01,.21,.87]]],
+                '6': [[['M',.74,.12],['C',.50,-.02,.20,.17,.19,.56],['C',.18,.91,.46,1.02,.68,.88],['C',.87,.76,.80,.48,.60,.43],['C',.42,.38,.24,.47,.20,.60]]],
+                '7': [[['M',.18,.06],['L',.82,.06],['L',.37,.95]]],
+                '8': [[['M',.50,.04],['C',.25,.04,.22,.27,.50,.49],['C',.78,.28,.75,.04,.50,.04]],[['M',.50,.49],['C',.18,.56,.20,.95,.50,.96],['C',.80,.96,.82,.58,.50,.49]]],
+                '9': [[['M',.27,.83],['C',.50,1.00,.80,.82,.81,.44],['C',.82,.09,.54,-.02,.31,.12],['C',.12,.24,.19,.52,.39,.57],['C',.57,.62,.76,.53,.80,.39]]]
+            };
+
+            function strokeDigit(digit, left, widthScale) {
+                const X = n => x0 + W * (left + n * widthScale);
+                const Y = n => y0 + H * n;
+                function path(commands) {
+                    ctx.beginPath();
+                    for (const c of commands) {
+                        if (c[0] === 'M') ctx.moveTo(X(c[1]), Y(c[2]));
+                        else if (c[0] === 'L') ctx.lineTo(X(c[1]), Y(c[2]));
+                        else if (c[0] === 'Q') ctx.quadraticCurveTo(X(c[1]), Y(c[2]), X(c[3]), Y(c[4]));
+                        else if (c[0] === 'C') ctx.bezierCurveTo(X(c[1]), Y(c[2]), X(c[3]), Y(c[4]), X(c[5]), Y(c[6]));
+                    }
+                    ctx.stroke();
+                }
+                for (const stroke of paths[digit]) path(stroke);
+            }
+
+            ctx.save();
+            ctx.strokeStyle = '#111';
+            ctx.lineWidth = Math.max(5, Math.min(w, h) * 0.013);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.setLineDash([1, Math.max(10, Math.min(w, h) * 0.036)]);
+
+            if (value === '10') {
+                // Dua digit masih menggunakan tinggi dan ketebalan dot yang sama.
+                strokeDigit('1', 0.02, 0.44);
+                strokeDigit('0', 0.48, 0.44);
+            } else {
+                strokeDigit(value, 0, 1);
+            }
+            ctx.restore();
+        }
+
+        function renderTraceNumber() {
+            const guide = document.getElementById('num-trace-guide');
+            const wrap = document.getElementById('num-trace-canvas-wrap');
+            if (!guide || !wrap) return;
+            const ctx = guide.getContext('2d');
+            const w = wrap.clientWidth;
+            const h = wrap.clientHeight;
+            ctx.clearRect(0, 0, w, h);
+
+            const value = numTraceNumbers[numTraceIndex];
+            drawSingleLineTraceNumber(ctx, value, w, h);
+            document.getElementById('num-trace-display').innerText = `Number ${value}`;
+            document.getElementById('num-trace-progress').innerText = `${value} • ${numTraceIndex + 1} / 10`;
+        }
+
+        function clearNumberTraceDrawing(withSound = true) {
+            if (withSound) playClickSound();
+            const draw = document.getElementById('num-trace-draw');
+            const wrap = document.getElementById('num-trace-canvas-wrap');
+            if (!draw || !wrap) return;
+            draw.getContext('2d').clearRect(0, 0, wrap.clientWidth, wrap.clientHeight);
+            numTraceDrawing = false;
+            numTraceLastPoint = null;
+        }
+
+        function numberTracePointFromEvent(e) {
+            const canvas = document.getElementById('num-trace-draw');
+            const rect = canvas.getBoundingClientRect();
+            return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        }
+
+        function beginNumberTraceStroke(e) {
+            if (e.pointerType === 'mouse' && e.button !== 0) return;
+            e.preventDefault();
+            const canvas = document.getElementById('num-trace-draw');
+            if (canvas.setPointerCapture) canvas.setPointerCapture(e.pointerId);
+            numTraceDrawing = true;
+            numTraceLastPoint = numberTracePointFromEvent(e);
+
+            const ctx = canvas.getContext('2d');
+            ctx.beginPath();
+            ctx.fillStyle = '#5E17EB';
+            ctx.arc(numTraceLastPoint.x, numTraceLastPoint.y, 6, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function moveNumberTraceStroke(e) {
+            if (!numTraceDrawing) return;
+            e.preventDefault();
+            const canvas = document.getElementById('num-trace-draw');
+            const point = numberTracePointFromEvent(e);
+            const ctx = canvas.getContext('2d');
+            ctx.beginPath();
+            ctx.moveTo(numTraceLastPoint.x, numTraceLastPoint.y);
+            ctx.lineTo(point.x, point.y);
+            ctx.strokeStyle = '#5E17EB';
+            ctx.lineWidth = Math.max(10, canvas.getBoundingClientRect().width * 0.025);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+            numTraceLastPoint = point;
+        }
+
+        function endNumberTraceStroke(e) {
+            if (!numTraceDrawing) return;
+            e.preventDefault();
+            numTraceDrawing = false;
+            numTraceLastPoint = null;
+        }
+
+        function attachNumberTraceEvents() {
+            const canvas = document.getElementById('num-trace-draw');
+            if (!canvas || canvas.dataset.traceReady === '1') return;
+            canvas.dataset.traceReady = '1';
+            canvas.addEventListener('pointerdown', beginNumberTraceStroke, { passive: false });
+            canvas.addEventListener('pointermove', moveNumberTraceStroke, { passive: false });
+            canvas.addEventListener('pointerup', endNumberTraceStroke, { passive: false });
+            canvas.addEventListener('pointercancel', endNumberTraceStroke, { passive: false });
+            canvas.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') endNumberTraceStroke(e); }, { passive: false });
+        }
+
         window.addEventListener('resize', () => {
             if (!document.getElementById('abc-tracing-screen')?.classList.contains('active')) return;
             clearTimeout(traceResizeTimer);
@@ -7158,6 +7373,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 setupTraceCanvases();
                 clearTraceDrawing(false);
                 renderTraceLetter();
+            }, 140);
+        });
+
+        window.addEventListener('resize', () => {
+            if (!document.getElementById('num123-tracing-screen')?.classList.contains('active')) return;
+            clearTimeout(traceResizeTimer);
+            traceResizeTimer = setTimeout(() => {
+                setupNumberTraceCanvases();
+                clearNumberTraceDrawing(false);
+                renderTraceNumber();
             }, 140);
         });
 
