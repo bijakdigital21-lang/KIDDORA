@@ -3163,9 +3163,179 @@
             }
         }
 
-</style>
+
+
+        /* =========================================================
+           KIDDORA LOGIN - BLUE / WHITE KIDS THEME
+           Inspired by the supplied login reference. Login only.
+        ========================================================== */
+        body.login-mode {
+            background: linear-gradient(180deg, #20c5ed 0%, #0ea8d2 100%) !important;
+            min-height: 100vh;
+        }
+        body.login-mode::before { display: none !important; }
+        body.login-mode .sidebar,
+        body.login-mode .mobile-toggle,
+        body.login-mode #bg-music-toggle {
+            display: none !important;
+        }
+        body.login-mode .main-content {
+            margin-left: 0 !important;
+            padding: 28px 16px !important;
+            min-height: 100vh;
+            align-items: center;
+        }
+        body.login-mode .container {
+            max-width: 540px;
+            padding: 0;
+        }
+        #login-screen.login-kiddora-card {
+            width: min(100%, 500px);
+            margin: 0 auto;
+            padding: 0 0 34px;
+            overflow: hidden;
+            border-radius: 28px;
+            background: #fff;
+            box-shadow: 0 18px 45px rgba(0, 79, 110, .30);
+            border: 1px solid rgba(255,255,255,.8);
+        }
+        #login-screen .login-hero {
+            position: relative;
+            min-height: 285px;
+            padding: 30px 24px 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(180deg, #31cdf3 0%, #13acd7 100%);
+            overflow: hidden;
+        }
+        #login-screen .login-hero::after {
+            content: '';
+            position: absolute;
+            left: -8%;
+            bottom: -74px;
+            width: 116%;
+            height: 125px;
+            background: #fff;
+            border-radius: 50% 50% 0 0 / 72% 72% 0 0;
+        }
+        #login-screen .login-logo-wrap {
+            position: relative;
+            z-index: 2;
+            width: 154px;
+            height: 154px;
+            border-radius: 50%;
+            padding: 8px;
+            background: rgba(255,255,255,.95);
+            box-shadow: 0 10px 25px rgba(0, 70, 95, .20);
+            border: 5px solid rgba(255,255,255,.55);
+        }
+        #login-screen .login-logo-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            display: block;
+        }
+        #login-screen .login-brand {
+            position: relative;
+            z-index: 2;
+            margin-top: 12px;
+            color: #fff;
+            font-family: 'Fredoka One', cursive;
+            font-size: 2rem;
+            letter-spacing: .5px;
+            text-shadow: 0 3px 8px rgba(0, 73, 98, .22);
+        }
+        #login-screen .login-form-area {
+            padding: 0 42px;
+        }
+        #login-screen .login-title {
+            font-family: 'Fredoka One', cursive;
+            color: #31556d;
+            font-size: 2.15rem;
+            margin: 0 0 22px;
+            line-height: 1;
+        }
+        #login-screen .login-field {
+            position: relative;
+            margin: 14px 0;
+        }
+        #login-screen .login-field .form-input {
+            width: 100%;
+            height: 58px;
+            border: none;
+            border-radius: 19px;
+            padding: 0 52px 0 20px;
+            color: #fff;
+            background: linear-gradient(90deg, #17a9d2, #2fd0f5);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 7px 16px rgba(20, 173, 214, .18);
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        #login-screen .login-field .form-input::placeholder { color: rgba(255,255,255,.88); }
+        #login-screen .login-field .form-input:focus {
+            background: linear-gradient(90deg, #119fc9, #24c7ef);
+            box-shadow: 0 0 0 4px rgba(49,205,243,.18), 0 7px 16px rgba(20,173,214,.18);
+        }
+        #login-screen .login-field-icon {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 1.05rem;
+            pointer-events: none;
+            opacity: .95;
+        }
+        #login-screen .password-toggle {
+            pointer-events: auto;
+            cursor: pointer;
+            background: none;
+            border: 0;
+            padding: 5px;
+        }
+        #login-screen .login-submit {
+            min-width: 210px;
+            height: 60px;
+            margin: 24px auto 0;
+            padding: 0 34px;
+            border: 0;
+            border-radius: 22px;
+            display: block;
+            color: #fff;
+            background: linear-gradient(180deg, #35cef2, #13a8d1);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.18rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #0b8fb6, 0 13px 24px rgba(11, 143, 182, .25);
+            transition: transform .12s ease, box-shadow .12s ease;
+        }
+        #login-screen .login-submit:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 #0b8fb6, 0 8px 15px rgba(11,143,182,.22);
+        }
+        .nav-item.whatsapp-btn::after {
+            content: 'Contact Us';
+            margin-left: auto;
+            font-size: .72rem;
+            opacity: .85;
+        }
+        @media (max-width: 520px) {
+            body.login-mode .main-content { padding: 16px 12px !important; }
+            #login-screen.login-kiddora-card { border-radius: 24px; }
+            #login-screen .login-hero { min-height: 250px; padding-top: 24px; }
+            #login-screen .login-logo-wrap { width: 132px; height: 132px; }
+            #login-screen .login-brand { font-size: 1.7rem; }
+            #login-screen .login-form-area { padding: 0 24px; }
+            #login-screen .login-title { font-size: 1.9rem; }
+        }
+
+    </style>
 </head>
-<body>
+<body class="login-mode">
 
     <!-- MOBILE TOGGLE BUTTON -->
     <button class="mobile-toggle" id="mobile-toggle-btn" onclick="toggleSidebar(event)">☰</button>
@@ -3207,7 +3377,7 @@
                 🏆 Scores
             </li>
             <a href="https://wa.me/60196818139" target="_blank" class="nav-item whatsapp-btn" onclick="playClickSound(); closeSidebar();">
-                💬 WhatsApp
+                💬 Contact Us · WhatsApp
             </a>
             <li class="nav-item logout-btn" id="nav-logout-text" onclick="playClickSound(); logout()">
                 🚪 Logout
@@ -3220,26 +3390,28 @@
         <div class="container">
 
             <!-- 1. LOGIN SCREEN -->
-            <div id="login-screen" class="card active">
-                <h1 style="font-family: 'Fredoka One', cursive; color: #FF5757; margin-bottom: 10px; text-shadow: 1px 1px 0 rgba(255,255,255,0.8);">KIDDORA</h1>
-                <h2>Welcome Back, Kids! 👋</h2>
-                <p style="margin-top: 5px; color: #444; font-weight: 700;">Log in using your authorized email.</p>
-                
-                <div class="input-group">
-                    <label for="login-email">Email Address</label>
-                    <input type="email" id="login-email" class="form-input" placeholder="example@email.com">
+            <div id="login-screen" class="card active login-kiddora-card">
+                <div class="login-hero">
+                    <div class="login-logo-wrap">
+                        <img src="https://i.imgur.com/TIS0Z4X.jpeg" alt="KIDDORA Logo">
+                    </div>
+                    <div class="login-brand">KIDDORA</div>
                 </div>
-                <div class="input-group">
-                    <label for="login-password">Password</label>
-                    <input type="password" id="login-password" class="form-input" placeholder="••••••••">
-                </div>
-                <button class="action-btn" style="display:inline-block; width: 100%; margin-top: 10px;" onclick="playClickSound(); handleLogin()">Log In 🚀</button>
-                
-                <div style="margin-top: 25px; border-top: 2px dashed rgba(0,0,0,0.15); padding-top: 20px;">
-                    <p style="font-weight: 700; color: #444; margin-bottom: 10px; font-size: 1rem;">Contact Us</p>
-                    <a href="https://wa.me/60196818139" target="_blank" class="action-btn login-whatsapp-btn" onclick="playClickSound()">
-                        💬 WhatsApp
-                    </a>
+
+                <div class="login-form-area">
+                    <h1 class="login-title">Log in</h1>
+
+                    <div class="login-field">
+                        <input type="email" id="login-email" class="form-input" placeholder="Email" autocomplete="email" aria-label="Email">
+                        <span class="login-field-icon">✉</span>
+                    </div>
+
+                    <div class="login-field">
+                        <input type="password" id="login-password" class="form-input" placeholder="Password" autocomplete="current-password" aria-label="Password">
+                        <button type="button" class="login-field-icon password-toggle" aria-label="Show or hide password" onclick="toggleLoginPassword()">◉</button>
+                    </div>
+
+                    <button class="login-submit" onclick="playClickSound(); handleLogin()">Log in</button>
                 </div>
             </div>
 
@@ -6287,6 +6459,12 @@
             }
         }
 
+        function toggleLoginPassword() {
+            const input = document.getElementById('login-password');
+            if (!input) return;
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+
         function showScreen(screenId) {
             const screens = document.querySelectorAll('.card');
             screens.forEach(s => s.classList.remove('active'));
@@ -6316,6 +6494,7 @@
                 'quiz-screen'
             ]);
             document.body.classList.toggle('activity-bg-blur', activityScreens.has(screenId));
+            document.body.classList.toggle('login-mode', screenId === 'login-screen');
 
             closeSidebar();
         }
