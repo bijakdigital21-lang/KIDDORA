@@ -3346,7 +3346,41 @@
             #login-screen .login-title { font-size: 1.9rem; }
         }
 
-    </style>
+    
+        /* =========================================================
+           TOPIC MENU BUTTONS - SAME SIZE AS HOME MODULE BUTTONS
+           Semua menu topik menggunakan grid sizing yang sama dengan .topic-grid
+        ========================================================== */
+        .abc-menu-grid,
+        .num123-menu-grid,
+        .colour-menu-grid,
+        .body-menu-grid {
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)) !important;
+            gap: 15px !important;
+            margin-top: 20px !important;
+            margin-bottom: 20px !important;
+        }
+
+        .abc-sub-btn.abc-image-btn,
+        .num123-menu-btn,
+        .colour-menu-btn,
+        .body-menu-btn {
+            width: 100% !important;
+            aspect-ratio: 1 / 1 !important;
+            min-width: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+        }
+
+        .abc-sub-btn.abc-image-btn img,
+        .num123-menu-btn img,
+        .colour-menu-btn img,
+        .body-menu-btn img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+        }
+</style>
 </head>
 <body class="login-mode">
 
