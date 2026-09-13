@@ -2434,17 +2434,18 @@
         #pop-balloon-screen .balloon-field{max-width:660px;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;padding:16px;min-height:360px;align-items:center;}
         #pop-balloon-screen .colour-balloon{width:82%;min-height:82px;max-height:105px;justify-self:center;}
 
-        #match-colour-screen .colour-match-wrapper{max-width:720px;margin:22px auto;min-height:520px;padding:16px 0;}
+        /* MATCH THE COLOUR SAHAJA - format sama seperti Match the Animal */
+        #match-colour-screen .colour-match-wrapper{max-width:720px;margin:22px auto;min-height:620px;padding:16px 0;}
         #match-colour-screen .colour-match-container{width:100%;justify-content:space-between;align-items:stretch;}
         #match-colour-screen .colour-match-col{width:185px;gap:18px;}
-        #match-colour-screen #colour-match-left{transform:translateX(-70px);}
-        #match-colour-screen #colour-match-right{transform:translateX(70px);}
-        #match-colour-screen .colour-word-item,#match-colour-screen .colour-swatch-item{width:185px;height:92px;min-height:92px;padding:10px 12px;border:3px solid var(--primary-blue);border-radius:18px;background:rgba(255,255,255,.96);box-shadow:0 4px 10px rgba(0,0,0,.08);}
-        #match-colour-screen .colour-word-item{flex-direction:column;gap:6px;}
-        #match-colour-screen .match-colour-name{font-family:'Fredoka One',cursive;font-size:1.25rem;pointer-events:none;}
-        #match-colour-screen .match-colour-audio-btn{width:38px;height:38px;border:0;border-radius:50%;background:var(--primary-pink);color:#fff;font-size:1.05rem;box-shadow:0 4px 0 #b33687;cursor:pointer;touch-action:manipulation;}
-        #match-colour-screen .colour-swatch-item{padding:7px;}
-        #match-colour-screen .colour-swatch-chip{width:100%;height:100%;min-height:70px;border-radius:13px;border:2px solid rgba(0,0,0,.15);pointer-events:none;}
+        #match-colour-screen #colour-match-left{transform:translateX(-95px);}
+        #match-colour-screen #colour-match-right{transform:translateX(95px);}
+        #match-colour-screen .colour-word-item,#match-colour-screen .colour-swatch-item{width:185px;height:135px;min-height:135px;padding:10px 12px;border:3px solid var(--primary-blue);border-radius:18px;background:rgba(255,255,255,.96);box-shadow:0 4px 10px rgba(0,0,0,.08);}
+        #match-colour-screen .colour-word-item{flex-direction:column;align-items:center;justify-content:center;gap:7px;font-size:1.22rem;line-height:1.15;}
+        #match-colour-screen .match-colour-name{font-family:'Fredoka One',cursive;font-size:1.3rem;font-weight:700;text-align:center;color:#2C3E50;pointer-events:none;}
+        #match-colour-screen .match-colour-audio-btn{width:42px;height:42px;border:0;border-radius:50%;background:var(--primary-pink);color:#fff;font-size:1.25rem;box-shadow:0 4px 0 #b33687,0 5px 10px rgba(0,0,0,.12);cursor:pointer;touch-action:manipulation;}
+        #match-colour-screen .colour-swatch-item{padding:0;background:transparent;border:none;box-shadow:none;overflow:visible;display:flex;align-items:center;justify-content:center;}
+        #match-colour-screen .colour-swatch-chip{width:135px;height:135px;min-height:135px;aspect-ratio:1 / 1;border-radius:18px;border:4px solid var(--primary-blue);box-shadow:0 5px 12px rgba(0,0,0,.12);pointer-events:none;}
         #match-colour-screen .match-item.matched{opacity:1!important;filter:none!important;cursor:default;}
         #match-colour-screen .match-item.selected{background:#fff3a6;border-color:#f0bd20;transform:scale(1.05);}
 
@@ -5740,7 +5741,7 @@
         function startMatchColour(){
             matchColourSets=[];
             const shuffled=colourShuffle(colourItems);
-            for(let i=0;i<shuffled.length;i+=5) matchColourSets.push(shuffled.slice(i,i+5));
+            for(let i=0;i+3<shuffled.length;i+=4) matchColourSets.push(shuffled.slice(i,i+4));
             matchColourSetIndex=0; matchColourScore=0; matchDone=new Set(); completedColourLines=[];
             showScreen('match-colour-screen'); updateColourLanguage();
             initMatchColourEvents(); renderMatchColourSet();
