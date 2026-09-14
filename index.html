@@ -3782,11 +3782,8 @@
             border-radius: 20px;
             aspect-ratio: 1 / 1;
             cursor: pointer;
-            box-shadow: 0 6px 0 #b33687, 0 8px 20px rgba(0,0,0,.15);
-            transition: all .2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            box-shadow: 0 8px 0 rgba(44,62,80,.32), 0 12px 22px rgba(0,0,0,.22);
+            transition: transform .2s ease, box-shadow .2s ease;
         }
         .transport-menu-btn img {
             width: 100%;
@@ -3795,16 +3792,14 @@
             display: block;
             border-radius: 20px;
             pointer-events: none;
-            transition: transform .2s ease;
         }
         .transport-menu-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 9px 0 #4a15b8, 0 12px 25px rgba(0,0,0,.2);
+            transform: translateY(-4px);
+            box-shadow: 0 11px 0 rgba(44,62,80,.28), 0 16px 28px rgba(0,0,0,.24);
         }
-        .transport-menu-btn:hover img { transform: scale(1.04); }
         .transport-menu-btn:active {
-            transform: translateY(3px);
-            box-shadow: 0 3px 0 #4a15b8;
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 rgba(44,62,80,.28), 0 7px 14px rgba(0,0,0,.2);
         }
 
         .transport-cat-grid {
@@ -4045,17 +4040,25 @@
            TRANSPORT MOBILE ENLARGE + SHADOW + AUTO-NEXT UPDATE
            2026-09-14
         ========================================================== */
-        /* Transport menu uses the exact same button shadow format as other module menus. */
-        #transport-menu-screen .transport-menu-btn {
-            box-shadow: 0 6px 0 #b33687, 0 8px 20px rgba(0,0,0,.15) !important;
+        /* Strong, consistent shadow for every interactive button in Transport */
+        #transport-menu-screen .transport-menu-btn,
+        #learn-transport-cat-screen .transport-cat-btn,
+        #learn-transport-flash-screen .action-btn,
+        #learn-transport-flash-screen .sound-btn,
+        #sort-transport-screen .action-btn,
+        #guess-transport-screen .action-btn,
+        #guess-transport-screen .transport-guess-option {
+            box-shadow: 0 7px 0 rgba(44,62,80,.30), 0 11px 20px rgba(0,0,0,.20) !important;
         }
-        #transport-menu-screen .transport-menu-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 9px 0 #4a15b8, 0 12px 25px rgba(0,0,0,.2) !important;
-        }
-        #transport-menu-screen .transport-menu-btn:active {
+        #transport-menu-screen .transport-menu-btn:active,
+        #learn-transport-cat-screen .transport-cat-btn:active,
+        #learn-transport-flash-screen .action-btn:active,
+        #learn-transport-flash-screen .sound-btn:active,
+        #sort-transport-screen .action-btn:active,
+        #guess-transport-screen .action-btn:active,
+        #guess-transport-screen .transport-guess-option:active {
             transform: translateY(3px);
-            box-shadow: 0 3px 0 #4a15b8 !important;
+            box-shadow: 0 3px 0 rgba(44,62,80,.30), 0 6px 12px rgba(0,0,0,.18) !important;
         }
 
         /* Sort Transport: larger cards and drop boxes */
@@ -4301,6 +4304,44 @@
     }
     #transport-menu-screen .transport-menu-btn img{border-radius:15px;}
 }
+
+
+        /* FINAL FIX: Transport topic menu buttons use EXACT same visual format as other module topic buttons.
+           Size/layout intentionally unchanged. */
+        #transport-menu-screen .transport-menu-btn {
+            border: none !important;
+            padding: 0 !important;
+            border-radius: 20px !important;
+            cursor: pointer !important;
+            overflow: hidden !important;
+            background: transparent !important;
+            aspect-ratio: 1 / 1 !important;
+            box-shadow: 0 6px 0 #b33687, 0 8px 20px rgba(0,0,0,.15) !important;
+            transition: all .2s !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        #transport-menu-screen .transport-menu-btn img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            display: block !important;
+            border-radius: 20px !important;
+            pointer-events: none !important;
+            transition: transform .2s ease !important;
+        }
+        #transport-menu-screen .transport-menu-btn:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 9px 0 #4a15b8, 0 12px 25px rgba(0,0,0,.2) !important;
+        }
+        #transport-menu-screen .transport-menu-btn:hover img {
+            transform: scale(1.04) !important;
+        }
+        #transport-menu-screen .transport-menu-btn:active {
+            transform: translateY(3px) !important;
+            box-shadow: 0 3px 0 #4a15b8 !important;
+        }
 </style>
 </head>
 <body class="login-mode">
