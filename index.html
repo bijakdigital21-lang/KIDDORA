@@ -3455,7 +3455,173 @@
 
     
         @media(max-width:768px){.complete-abc-floating{width:46px;height:46px;font-size:1.28rem;border-radius:12px;}}
-</style>
+
+        /* =========================================================
+           SHAPE MODULE
+           Added without changing existing module styling/functions.
+        ========================================================== */
+        .shape-menu-grid{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:20px;
+            margin:30px 0;
+        }
+        .shape-menu-btn{
+            border:none;
+            padding:0;
+            overflow:hidden;
+            background:transparent;
+            aspect-ratio:1/1;
+            border-radius:20px;
+            cursor:pointer;
+            box-shadow:0 6px 15px rgba(0,0,0,.14);
+            transition:transform .2s ease, box-shadow .2s ease;
+        }
+        .shape-menu-btn:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.2)}
+        .shape-menu-btn img{width:100%;height:100%;object-fit:cover;display:block;border-radius:20px}
+
+        .shape-learn-card{
+            max-width:520px;
+            margin:20px auto;
+            padding:24px;
+            border-radius:25px;
+            background:rgba(255,249,196,.96);
+            border:4px dashed #FBC02D;
+            box-shadow:0 8px 25px rgba(0,0,0,.12);
+        }
+        .shape-learn-visual{
+            width:min(68vw,280px);
+            aspect-ratio:1/1;
+            margin:0 auto 14px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+        .shape-learn-name{
+            font-family:'Fredoka One',cursive;
+            font-size:2rem;
+            color:#2C3E50;
+            margin:8px 0;
+        }
+        .shape-progress-pill{
+            display:inline-block;
+            background:rgba(255,255,255,.92);
+            border:2px solid var(--primary-blue);
+            border-radius:999px;
+            padding:7px 14px;
+            font-weight:800;
+            margin-top:8px;
+        }
+
+        .shape-svg{width:100%;height:100%;display:block;filter:drop-shadow(0 7px 7px rgba(0,0,0,.16))}
+        .shape-svg.no-shadow{filter:none}
+        .shape-svg .shape-fill{fill:#FF66C4;stroke:#8b3d73;stroke-width:5}
+        .shape-svg.bw .shape-fill{fill:#f7f7f7;stroke:#222;stroke-width:6}
+
+        .shape-match-wrapper{
+            position:relative;
+            width:100%;
+            margin:18px auto 22px;
+            user-select:none;
+            touch-action:none;
+        }
+        .shape-match-canvas{
+            position:absolute;inset:0;width:100%;height:100%;
+            pointer-events:none;z-index:5;
+        }
+        .shape-match-container{
+            position:relative;z-index:10;
+            display:flex;
+            justify-content:space-between;
+            align-items:stretch;
+            gap:80px;
+            width:100%;
+        }
+        .shape-match-column{
+            width:min(42%,220px);
+            display:flex;
+            flex-direction:column;
+            gap:14px;
+        }
+        .shape-match-column.left{margin-right:auto}
+        .shape-match-column.right{margin-left:auto}
+        .shape-match-item{
+            min-height:105px;
+            border:4px solid var(--primary-blue);
+            border-radius:22px;
+            background:#FFF3D6;
+            box-shadow:0 7px 16px rgba(0,0,0,.13);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:10px;
+            cursor:grab;
+            font-family:'Fredoka One',cursive;
+            font-size:1.25rem;
+            font-weight:700;
+            transition:transform .2s,background .2s,border-color .2s;
+            touch-action:none;
+            overflow:hidden;
+        }
+        .shape-match-item .shape-mini{width:82px;height:82px}
+        .shape-match-item.selected{background:var(--primary-yellow);border-color:#FBC02D;transform:scale(1.04)}
+        .shape-match-item.matched{background:var(--primary-green);border-color:#4CAF50;opacity:.82;cursor:default}
+        .shape-match-instruction{font-weight:800;color:#111;margin:6px auto 12px}
+        .shape-match-status{
+            display:flex;justify-content:space-between;gap:12px;align-items:center;
+            background:rgba(255,249,196,.95);border-radius:15px;padding:10px 16px;
+            font-weight:800;margin:12px 0;
+        }
+
+        .shape-tracing-board{
+            max-width:650px;
+            margin:16px auto;
+            background:rgba(255,249,196,.95);
+            border:4px dashed #FBC02D;
+            border-radius:25px;
+            padding:18px;
+            box-shadow:0 8px 25px rgba(0,0,0,.12);
+        }
+        .shape-trace-canvas-wrap{
+            position:relative;
+            width:100%;
+            height:min(62vw,430px);
+            min-height:300px;
+            border-radius:22px;
+            background:rgba(255,255,255,.9);
+            border:3px solid var(--primary-blue);
+            overflow:hidden;
+            touch-action:none;
+        }
+        .shape-trace-canvas-wrap canvas{
+            position:absolute;inset:0;width:100%;height:100%;touch-action:none;
+        }
+        .shape-trace-name{
+            font-family:'Fredoka One',cursive;
+            font-size:1.6rem;
+            color:#5E17EB;
+            margin-bottom:10px;
+        }
+        .shape-trace-row{
+            display:flex;flex-wrap:wrap;justify-content:center;align-items:center;
+            gap:8px;margin-top:12px;
+        }
+
+        @media(max-width:768px){
+            .shape-menu-grid{gap:14px;margin:20px 0}
+            .shape-match-container{gap:42px}
+            .shape-match-column{width:43%}
+            .shape-match-item{min-height:90px;padding:7px;font-size:1rem;border-width:3px;border-radius:18px}
+            .shape-match-item .shape-mini{width:68px;height:68px}
+        }
+        @media(max-width:430px){
+            .shape-match-container{gap:30px}
+            .shape-match-item{min-height:82px;font-size:.88rem}
+            .shape-match-item .shape-mini{width:60px;height:60px}
+            .shape-trace-canvas-wrap{height:330px}
+        }
+
+    </style>
 </head>
 <body class="login-mode">
 
@@ -3580,7 +3746,7 @@
                     <button class="topic-btn" onclick="playClickSound(); openBodyPartMenu()">
                         <img src="https://i.imgur.com/GGoBWXE.jpeg" alt="Body Part">
                     </button>
-                    <button class="topic-btn module-locked" type="button" aria-disabled="true" title="New adventure coming">
+                    <button class="topic-btn" onclick="playClickSound(); openShapeMenu()" aria-label="Shape">
                         <img src="https://i.imgur.com/Vb2lTb2.jpeg" alt="Shape">
                     </button>
                     <button class="topic-btn module-locked" type="button" aria-disabled="true" title="New adventure coming">
@@ -4312,6 +4478,102 @@
                 <button class="action-btn clear-btn" id="clear-history-btn" onclick="playClickSound(); clearHistory()">Clear History 🗑️</button>
             </div>
 
+
+            <!-- SHAPE MODULE MENU SCREEN -->
+            <div id="shape-menu-screen" class="card">
+                <h2 id="shape-menu-title" style="color:#FFDE59;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #5E17EB;">Shape Module 🔷</h2>
+                <p id="shape-menu-desc" style="color:#111;font-weight:800;margin-top:5px;">Choose a fun shape activity!</p>
+                <div class="shape-menu-grid">
+                    <button class="shape-menu-btn" onclick="playClickSound(); startLearnShape()" aria-label="Learn the Shape">
+                        <img src="https://i.imgur.com/c2hS0lO.jpeg" alt="Learn the Shape">
+                    </button>
+                    <button class="shape-menu-btn" onclick="playClickSound(); startMatchShape()" aria-label="Match the Shape">
+                        <img src="https://i.imgur.com/4zwKTwi.jpeg" alt="Match the Shape">
+                    </button>
+                    <button class="shape-menu-btn" onclick="playClickSound(); startDrawShape()" aria-label="Draw the Shape">
+                        <img src="https://i.imgur.com/PSLPIgV.jpeg" alt="Draw the Shape">
+                    </button>
+                    <button class="shape-menu-btn" onclick="playClickSound(); startMatchMe()" aria-label="Match Me">
+                        <img src="https://i.imgur.com/sZ9ddY8.jpeg" alt="Match Me">
+                    </button>
+                </div>
+                <button class="action-btn home-btn" id="shape-menu-home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+            </div>
+
+            <!-- LEARN THE SHAPE -->
+            <div id="learn-shape-screen" class="card">
+                <h2 id="learn-shape-title" style="color:#5E17EB;font-family:'Fredoka One',cursive;">Learn the Shape 🔷</h2>
+                <div class="shape-progress-pill" id="learn-shape-progress">Shape 1 / 15</div>
+                <div class="shape-learn-card">
+                    <div class="shape-learn-visual" id="shape-learn-visual"></div>
+                    <div class="shape-learn-name" id="shape-learn-name">Square</div>
+                    <button class="sound-btn" id="shape-learn-listen" onclick="speakCurrentShape()">🔊 Listen</button>
+                </div>
+                <div class="flashcard-nav">
+                    <button class="action-btn" id="shape-learn-prev" onclick="playClickSound(); prevShape()">⬅ Prev</button>
+                    <button class="action-btn home-btn" id="shape-learn-back" onclick="playClickSound(); openShapeMenu()">Back ↩️</button>
+                    <button class="action-btn" id="shape-learn-next" style="background:var(--primary-green);box-shadow:0 5px 0 #4d9d31;" onclick="playClickSound(); nextShape()">Next ➡</button>
+                </div>
+            </div>
+
+            <!-- MATCH THE SHAPE -->
+            <div id="match-shape-screen" class="card">
+                <h2 id="match-shape-title" style="color:#FFDE59;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #5E17EB;">Match the Shape 🔷</h2>
+                <p class="shape-match-instruction" id="match-shape-instruction">Match each shape name with the correct shape.</p>
+                <div class="shape-match-status">
+                    <span><span id="match-shape-round-label">Set</span>: <span id="match-shape-round">1</span>/5</span>
+                    <span><span id="match-shape-score-label">Score</span>: <span id="match-shape-score">0</span></span>
+                </div>
+                <div class="shape-match-wrapper" id="match-shape-wrapper">
+                    <canvas class="shape-match-canvas" id="match-shape-canvas"></canvas>
+                    <div class="shape-match-container">
+                        <div class="shape-match-column left" id="match-shape-left"></div>
+                        <div class="shape-match-column right" id="match-shape-right"></div>
+                    </div>
+                </div>
+                <button class="action-btn" id="match-shape-next" style="display:none;" onclick="playClickSound(); nextMatchShapeSet()">Next Set ➡</button>
+                <button class="action-btn home-btn" id="match-shape-back" onclick="playClickSound(); openShapeMenu()">Back ↩️</button>
+            </div>
+
+            <!-- DRAW THE SHAPE -->
+            <div id="draw-shape-screen" class="card">
+                <h2 id="draw-shape-title" style="color:#FFDE59;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #5E17EB;">Draw the Shape ✏️</h2>
+                <p id="draw-shape-desc" style="color:#111;font-weight:800;margin:6px 0 10px;">Trace the dotted shape with your finger or mouse.</p>
+                <div class="shape-tracing-board">
+                    <div class="shape-trace-name" id="shape-trace-name">Square</div>
+                    <div class="shape-trace-canvas-wrap" id="shape-trace-canvas-wrap">
+                        <canvas id="shape-trace-guide"></canvas>
+                        <canvas id="shape-trace-draw"></canvas>
+                    </div>
+                    <div class="shape-trace-row">
+                        <button class="action-btn home-btn" id="shape-trace-prev" onclick="previousTraceShape()">⬅ Previous</button>
+                        <div class="trace-progress" id="shape-trace-progress">1 / 15</div>
+                        <button class="action-btn" id="shape-trace-next" onclick="nextTraceShape()">Next ➡</button>
+                        <button class="action-btn trace-clear-btn" id="shape-trace-clear" onclick="clearShapeTraceDrawing()">🧽 Clear</button>
+                    </div>
+                </div>
+                <button class="action-btn home-btn" id="shape-draw-back" onclick="playClickSound(); openShapeMenu()">Back to Shape 🔷</button>
+            </div>
+
+            <!-- MATCH ME -->
+            <div id="match-me-screen" class="card">
+                <h2 id="match-me-title" style="color:#FFDE59;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #5E17EB;">Match Me 🎨</h2>
+                <p class="shape-match-instruction" id="match-me-instruction">Match the coloured shape with the same black-and-white shape.</p>
+                <div class="shape-match-status">
+                    <span><span id="match-me-round-label">Set</span>: <span id="match-me-round">1</span>/5</span>
+                    <span><span id="match-me-score-label">Score</span>: <span id="match-me-score">0</span></span>
+                </div>
+                <div class="shape-match-wrapper" id="match-me-wrapper">
+                    <canvas class="shape-match-canvas" id="match-me-canvas"></canvas>
+                    <div class="shape-match-container">
+                        <div class="shape-match-column left" id="match-me-left"></div>
+                        <div class="shape-match-column right" id="match-me-right"></div>
+                    </div>
+                </div>
+                <button class="action-btn" id="match-me-next" style="display:none;" onclick="playClickSound(); nextMatchMeSet()">Next Set ➡</button>
+                <button class="action-btn home-btn" id="match-me-back" onclick="playClickSound(); openShapeMenu()">Back ↩️</button>
+            </div>
+
             <!-- QUIZ SCREEN -->
             <div id="quiz-screen" class="card">
                 <div class="quiz-header">
@@ -4768,7 +5030,7 @@
 
         function setGlobalLanguage(lang) {
             currentGlobalLang = lang;
-            setTimeout(()=>{ if(typeof updateColourLanguage === 'function') updateColourLanguage(); if(typeof updateBodyLanguage === 'function') updateBodyLanguage(); },0);
+            setTimeout(()=>{ if(typeof updateColourLanguage === 'function') updateColourLanguage(); if(typeof updateBodyLanguage === 'function') updateBodyLanguage(); if(typeof updateShapeLanguage === 'function') updateShapeLanguage(); },0);
             
             document.getElementById("lang-btn-en").classList.remove("active");
             document.getElementById("lang-btn-ms").classList.remove("active");
@@ -6805,7 +7067,10 @@
                 'label-body-screen',
                 'match-game-screen',
                 'find-letter-screen',
-                'quiz-screen'
+                'quiz-screen',
+                'match-shape-screen',
+                'draw-shape-screen',
+                'match-me-screen'
             ]);
             document.body.classList.toggle('activity-bg-blur', activityScreens.has(screenId));
             document.body.classList.toggle('login-mode', screenId === 'login-screen');
@@ -7851,6 +8116,350 @@ document.addEventListener('DOMContentLoaded', () => {
                 msg.textContent = currentGlobalLang === 'ms' ? 'Cuba lagi 😊' : 'Try again 😊';
             }
         }
+
+
+        // =========================================================
+        // SHAPE MODULE
+        // Learn Shape, Match Shape, Draw Shape, Match Me
+        // =========================================================
+        const shapeDatabase = [
+            {id:'square', en:'Square', ms:'Segi Empat Sama', color:'#55C2FF'},
+            {id:'circle', en:'Circle', ms:'Bulatan', color:'#58C6B2'},
+            {id:'rectangle', en:'Rectangle', ms:'Segi Empat Tepat', color:'#FFDE59'},
+            {id:'triangle', en:'Triangle', ms:'Segi Tiga', color:'#FF9C8B'},
+            {id:'star', en:'Star', ms:'Bintang', color:'#FFC83D'},
+            {id:'heart', en:'Heart', ms:'Hati', color:'#FF6B8A'},
+            {id:'rhombus', en:'Rhombus', ms:'Belah Ketupat', color:'#9B7BFF'},
+            {id:'oval', en:'Oval', ms:'Bujur', color:'#6FD5A5'},
+            {id:'pentagon', en:'Pentagon', ms:'Pentagon', color:'#D65AC1'},
+            {id:'hexagon', en:'Hexagon', ms:'Heksagon', color:'#60C78A'},
+            {id:'heptagon', en:'Heptagon', ms:'Heptagon', color:'#F08C46'},
+            {id:'octagon', en:'Octagon', ms:'Oktagon', color:'#EF5D60'},
+            {id:'nonagon', en:'Nonagon', ms:'Nonagon', color:'#4E9BE8'},
+            {id:'parallelogram', en:'Parallelogram', ms:'Segi Empat Selari', color:'#A46DE0'},
+            {id:'trapezium', en:'Trapezium', ms:'Trapezium', color:'#44B6A8'}
+        ];
+
+        function shapeShuffle(arr){ return [...arr].sort(()=>Math.random()-.5); }
+        function shapeText(s){ return currentGlobalLang === 'ms' ? s.ms : s.en; }
+
+        function shapePoints(id){
+            const p = {
+                square:'20,20 80,20 80,80 20,80',
+                rectangle:'10,28 90,28 90,72 10,72',
+                triangle:'50,10 90,85 10,85',
+                rhombus:'50,8 88,50 50,92 12,50',
+                pentagon:'50,7 92,38 76,88 24,88 8,38',
+                hexagon:'25,10 75,10 95,50 75,90 25,90 5,50',
+                heptagon:'50,5 85,22 96,58 72,91 28,91 4,58 15,22',
+                octagon:'30,6 70,6 94,30 94,70 70,94 30,94 6,70 6,30',
+                nonagon:'50,4 79,15 96,40 90,70 67,91 35,94 10,76 3,45 20,18',
+                parallelogram:'27,22 92,22 73,78 8,78',
+                trapezium:'28,22 72,22 92,80 8,80'
+            };
+            return p[id] || '';
+        }
+
+        function shapeSvg(item, bw=false, extraClass=''){
+            const fill = bw ? '#f7f7f7' : item.color;
+            const stroke = bw ? '#222' : '#30343b';
+            if(item.id === 'circle'){
+                return `<svg class="shape-svg ${bw?'bw':''} ${extraClass}" viewBox="0 0 100 100" aria-hidden="true"><circle class="shape-fill" cx="50" cy="50" r="38" fill="${fill}" stroke="${stroke}" stroke-width="5"/></svg>`;
+            }
+            if(item.id === 'oval'){
+                return `<svg class="shape-svg ${bw?'bw':''} ${extraClass}" viewBox="0 0 100 100" aria-hidden="true"><ellipse class="shape-fill" cx="50" cy="50" rx="43" ry="29" fill="${fill}" stroke="${stroke}" stroke-width="5"/></svg>`;
+            }
+            if(item.id === 'star'){
+                return `<svg class="shape-svg ${bw?'bw':''} ${extraClass}" viewBox="0 0 100 100" aria-hidden="true"><polygon class="shape-fill" points="50,5 61,36 95,36 68,56 78,90 50,70 22,90 32,56 5,36 39,36" fill="${fill}" stroke="${stroke}" stroke-width="5" stroke-linejoin="round"/></svg>`;
+            }
+            if(item.id === 'heart'){
+                return `<svg class="shape-svg ${bw?'bw':''} ${extraClass}" viewBox="0 0 100 100" aria-hidden="true"><path class="shape-fill" d="M50 88 C42 78 12 61 12 34 C12 16 34 8 50 27 C66 8 88 16 88 34 C88 61 58 78 50 88 Z" fill="${fill}" stroke="${stroke}" stroke-width="5" stroke-linejoin="round"/></svg>`;
+            }
+            return `<svg class="shape-svg ${bw?'bw':''} ${extraClass}" viewBox="0 0 100 100" aria-hidden="true"><polygon class="shape-fill" points="${shapePoints(item.id)}" fill="${fill}" stroke="${stroke}" stroke-width="5" stroke-linejoin="round"/></svg>`;
+        }
+
+        function openShapeMenu(){
+            updateShapeLanguage();
+            showScreen('shape-menu-screen');
+        }
+
+        function updateShapeLanguage(){
+            const ms = currentGlobalLang === 'ms';
+            const text = {
+                'shape-menu-title': ms ? 'Modul Bentuk 🔷' : 'Shape Module 🔷',
+                'shape-menu-desc': ms ? 'Pilih aktiviti bentuk yang menyeronokkan!' : 'Choose a fun shape activity!',
+                'shape-menu-home-btn': ms ? 'Kembali ke Utama 🏠' : 'Back to Home 🏠',
+                'learn-shape-title': ms ? 'Belajar Bentuk 🔷' : 'Learn the Shape 🔷',
+                'shape-learn-listen': ms ? '🔊 Dengar' : '🔊 Listen',
+                'shape-learn-prev': ms ? '⬅ Sebelum' : '⬅ Prev',
+                'shape-learn-back': ms ? 'Kembali ↩️' : 'Back ↩️',
+                'shape-learn-next': ms ? 'Seterusnya ➡' : 'Next ➡',
+                'match-shape-title': ms ? 'Suaikan Bentuk 🔷' : 'Match the Shape 🔷',
+                'match-shape-instruction': ms ? 'Suaikan nama bentuk dengan bentuk yang betul.' : 'Match each shape name with the correct shape.',
+                'match-shape-round-label': ms ? 'Set' : 'Set',
+                'match-shape-score-label': ms ? 'Skor' : 'Score',
+                'match-shape-next': ms ? 'Set Seterusnya ➡' : 'Next Set ➡',
+                'match-shape-back': ms ? 'Kembali ↩️' : 'Back ↩️',
+                'draw-shape-title': ms ? 'Lukis Bentuk ✏️' : 'Draw the Shape ✏️',
+                'draw-shape-desc': ms ? 'Trace garisan bertitik menggunakan jari atau tetikus.' : 'Trace the dotted shape with your finger or mouse.',
+                'shape-trace-prev': ms ? '⬅ Sebelum' : '⬅ Previous',
+                'shape-trace-next': ms ? 'Seterusnya ➡' : 'Next ➡',
+                'shape-trace-clear': ms ? '🧽 Padam' : '🧽 Clear',
+                'shape-draw-back': ms ? 'Kembali ke Bentuk 🔷' : 'Back to Shape 🔷',
+                'match-me-title': ms ? 'Suaikan Saya 🎨' : 'Match Me 🎨',
+                'match-me-instruction': ms ? 'Suaikan bentuk berwarna dengan bentuk hitam putih yang sama.' : 'Match the coloured shape with the same black-and-white shape.',
+                'match-me-round-label': ms ? 'Set' : 'Set',
+                'match-me-score-label': ms ? 'Skor' : 'Score',
+                'match-me-next': ms ? 'Set Seterusnya ➡' : 'Next Set ➡',
+                'match-me-back': ms ? 'Kembali ↩️' : 'Back ↩️'
+            };
+            Object.entries(text).forEach(([id,val])=>{ const el=document.getElementById(id); if(el) el.innerText=val; });
+            if(document.getElementById('learn-shape-screen')?.classList.contains('active')) renderLearnShape();
+            if(document.getElementById('draw-shape-screen')?.classList.contains('active')) renderTraceShape();
+            if(document.getElementById('match-shape-screen')?.classList.contains('active') && matchShapeSets.length) renderMatchShapeSet(false);
+        }
+
+        // ---------- Learn the Shape ----------
+        let learnShapeIndex = 0;
+        function startLearnShape(){
+            learnShapeIndex = 0;
+            showScreen('learn-shape-screen');
+            updateShapeLanguage();
+            renderLearnShape();
+            setTimeout(speakCurrentShape,150);
+        }
+        function renderLearnShape(){
+            const item = shapeDatabase[learnShapeIndex];
+            if(!item) return;
+            document.getElementById('shape-learn-visual').innerHTML = shapeSvg(item,false);
+            document.getElementById('shape-learn-name').innerText = shapeText(item);
+            document.getElementById('learn-shape-progress').innerText = `${currentGlobalLang==='ms'?'Bentuk':'Shape'} ${learnShapeIndex+1} / ${shapeDatabase.length}`;
+        }
+        function speakCurrentShape(){
+            const item=shapeDatabase[learnShapeIndex];
+            if(!item || !('speechSynthesis' in window)) return;
+            speechSynthesis.cancel();
+            const u=new SpeechSynthesisUtterance(shapeText(item));
+            u.lang=currentGlobalLang==='ms'?'ms-MY':'en-US';
+            u.rate=.55;
+            speechSynthesis.speak(u);
+        }
+        function nextShape(){ learnShapeIndex=(learnShapeIndex+1)%shapeDatabase.length; renderLearnShape(); speakCurrentShape(); }
+        function prevShape(){ learnShapeIndex=(learnShapeIndex-1+shapeDatabase.length)%shapeDatabase.length; renderLearnShape(); speakCurrentShape(); }
+
+        // ---------- Shared pointer-line matcher ----------
+        function createShapeMatcher(cfg){
+            const state={drag:null,lines:[],matched:0,ready:false};
+            function elements(){
+                return {
+                    wrap:document.getElementById(cfg.wrapperId),
+                    canvas:document.getElementById(cfg.canvasId)
+                };
+            }
+            function point(el,wrap){
+                const r=el.getBoundingClientRect(), wr=wrap.getBoundingClientRect();
+                return {x:r.left+r.width/2-wr.left,y:r.top+r.height/2-wr.top};
+            }
+            function draw(tempPoint=null){
+                const {wrap,canvas}=elements(); if(!wrap||!canvas)return;
+                const dpr=Math.max(1,window.devicePixelRatio||1), w=wrap.clientWidth,h=wrap.clientHeight;
+                if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){
+                    canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);
+                    canvas.style.width=w+'px';canvas.style.height=h+'px';
+                }
+                const ctx=canvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
+                ctx.lineWidth=5;ctx.lineCap='round';ctx.strokeStyle='#5E17EB';
+                state.lines.forEach(line=>{
+                    const a=document.querySelector(`#${cfg.leftId} .shape-match-item[data-key="${line.key}"]`);
+                    const b=document.querySelector(`#${cfg.rightId} .shape-match-item[data-key="${line.key}"]`);
+                    if(a&&b){const p1=point(a,wrap),p2=point(b,wrap);ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(p2.x,p2.y);ctx.stroke();}
+                });
+                if(state.drag&&tempPoint){
+                    const p1=point(state.drag,wrap);
+                    ctx.strokeStyle='#FF66C4';ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(tempPoint.x,tempPoint.y);ctx.stroke();
+                }
+            }
+            function pos(e,wrap){const r=wrap.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
+            function down(e){
+                const item=e.target.closest('.shape-match-item');
+                if(!item||item.classList.contains('matched')||item.dataset.side!=='left')return;
+                e.preventDefault();state.drag=item;item.classList.add('selected');draw(pos(e,elements().wrap));
+            }
+            function move(e){if(!state.drag)return;e.preventDefault();draw(pos(e,elements().wrap));}
+            function up(e){
+                if(!state.drag)return;e.preventDefault();
+                const left=state.drag;left.classList.remove('selected');
+                const target=document.elementFromPoint(e.clientX,e.clientY)?.closest('.shape-match-item');
+                if(target&&target.dataset.side==='right'&&!target.classList.contains('matched')&&target.dataset.key===left.dataset.key){
+                    left.classList.add('matched');target.classList.add('matched');
+                    state.lines.push({key:left.dataset.key});state.matched++;
+                    if(typeof playCorrectSound==='function')playCorrectSound();
+                    if(cfg.onMatch)cfg.onMatch(state.matched);
+                    if(state.matched>=4 && cfg.onComplete)cfg.onComplete();
+                }else if(target&&target.dataset.side==='right'){
+                    if(typeof playWrongSound==='function')playWrongSound();
+                }
+                state.drag=null;draw();
+            }
+            function init(){
+                const {wrap}=elements();if(!wrap||state.ready)return;
+                state.ready=true;
+                wrap.addEventListener('pointerdown',down,{passive:false});
+                wrap.addEventListener('pointermove',move,{passive:false});
+                wrap.addEventListener('pointerup',up,{passive:false});
+                wrap.addEventListener('pointercancel',up,{passive:false});
+                window.addEventListener('resize',()=>setTimeout(()=>draw(),50));
+            }
+            function reset(){state.drag=null;state.lines=[];state.matched=0;setTimeout(()=>draw(),30);}
+            return {init,reset,draw,state};
+        }
+
+        // ---------- Match the Shape: 5 random sets, 4 pairs/set ----------
+        let matchShapeSets=[],matchShapeSetIndex=0,matchShapeScore=0;
+        const matchShapeMatcher=createShapeMatcher({
+            wrapperId:'match-shape-wrapper',canvasId:'match-shape-canvas',
+            leftId:'match-shape-left',rightId:'match-shape-right',
+            onMatch:()=>{matchShapeScore+=10;document.getElementById('match-shape-score').innerText=matchShapeScore;},
+            onComplete:()=>{document.getElementById('match-shape-next').style.display='inline-block';}
+        });
+
+        function buildFiveShapeSets(){
+            const result=[];
+            let pool=shapeShuffle(shapeDatabase);
+            for(let i=0;i<5;i++){
+                if(pool.length<4)pool=shapeShuffle(shapeDatabase);
+                const four=pool.splice(0,4);
+                result.push(four);
+            }
+            return result;
+        }
+        function startMatchShape(){
+            matchShapeSets=buildFiveShapeSets();matchShapeSetIndex=0;matchShapeScore=0;
+            showScreen('match-shape-screen');updateShapeLanguage();matchShapeMatcher.init();renderMatchShapeSet(true);
+        }
+        function renderMatchShapeSet(reset=true){
+            if(reset)matchShapeMatcher.reset();
+            const items=matchShapeSets[matchShapeSetIndex]||[];
+            document.getElementById('match-shape-round').innerText=matchShapeSetIndex+1;
+            document.getElementById('match-shape-score').innerText=matchShapeScore;
+            document.getElementById('match-shape-next').style.display='none';
+            const l=document.getElementById('match-shape-left'),r=document.getElementById('match-shape-right');
+            l.innerHTML='';r.innerHTML='';
+            shapeShuffle(items).forEach(item=>{
+                const d=document.createElement('div');d.className='shape-match-item';d.dataset.key=item.id;d.dataset.side='left';d.innerText=shapeText(item);l.appendChild(d);
+            });
+            shapeShuffle(items).forEach(item=>{
+                const d=document.createElement('div');d.className='shape-match-item';d.dataset.key=item.id;d.dataset.side='right';
+                d.innerHTML=`<div class="shape-mini">${shapeSvg(item,false,'no-shadow')}</div>`;r.appendChild(d);
+            });
+            setTimeout(()=>matchShapeMatcher.draw(),80);
+        }
+        function nextMatchShapeSet(){
+            if(matchShapeSetIndex<4){matchShapeSetIndex++;renderMatchShapeSet(true);}
+            else{
+                if(window.saveScoreToFirebase)window.saveScoreToFirebase(currentGlobalLang==='ms'?'Suaikan Bentuk':'Match the Shape',100);
+                alert(currentGlobalLang==='ms'?'Tahniah! Anda telah lengkapkan semua set! 🎉':'Congratulations! You completed all sets! 🎉');
+                openShapeMenu();
+            }
+        }
+
+        // ---------- Draw the Shape / tracing ----------
+        let shapeTraceIndex=0,shapeTraceDrawing=false,shapeTraceLast=null;
+        function startDrawShape(){
+            shapeTraceIndex=0;showScreen('draw-shape-screen');updateShapeLanguage();
+            requestAnimationFrame(()=>{setupShapeTraceCanvases();renderTraceShape();});
+        }
+        function setupShapeTraceCanvases(){
+            const wrap=document.getElementById('shape-trace-canvas-wrap'),g=document.getElementById('shape-trace-guide'),d=document.getElementById('shape-trace-draw');
+            if(!wrap||!g||!d)return;
+            const rect=wrap.getBoundingClientRect(),dpr=Math.max(1,devicePixelRatio||1);
+            [g,d].forEach(c=>{c.width=Math.round(rect.width*dpr);c.height=Math.round(rect.height*dpr);c.style.width=rect.width+'px';c.style.height=rect.height+'px';c.getContext('2d').setTransform(dpr,0,0,dpr,0,0);});
+            attachShapeTraceEvents();
+        }
+        function traceShapePath(ctx,id,w,h){
+            const cx=w/2,cy=h/2,rx=w*.32,ry=h*.32;
+            ctx.beginPath();
+            if(id==='circle'){ctx.arc(cx,cy,Math.min(rx,ry),0,Math.PI*2);}
+            else if(id==='oval'){ctx.ellipse(cx,cy,rx*1.15,ry*.72,0,0,Math.PI*2);}
+            else if(id==='heart'){
+                ctx.moveTo(cx,cy+ry*.95);
+                ctx.bezierCurveTo(cx-rx*1.25,cy+ry*.15,cx-rx*.9,cy-ry*.9,cx,cy-ry*.25);
+                ctx.bezierCurveTo(cx+rx*.9,cy-ry*.9,cx+rx*1.25,cy+ry*.15,cx,cy+ry*.95);
+            } else {
+                const map={
+                    square:[[.22,.22],[.78,.22],[.78,.78],[.22,.78]],
+                    rectangle:[[.12,.30],[.88,.30],[.88,.70],[.12,.70]],
+                    triangle:[[.50,.12],[.88,.82],[.12,.82]],
+                    rhombus:[[.50,.10],[.86,.50],[.50,.90],[.14,.50]],
+                    pentagon:[[.50,.08],[.88,.36],[.74,.86],[.26,.86],[.12,.36]],
+                    hexagon:[[.25,.12],[.75,.12],[.90,.50],[.75,.88],[.25,.88],[.10,.50]],
+                    heptagon:[[.50,.07],[.82,.22],[.92,.56],[.70,.88],[.30,.88],[.08,.56],[.18,.22]],
+                    octagon:[[.30,.08],[.70,.08],[.92,.30],[.92,.70],[.70,.92],[.30,.92],[.08,.70],[.08,.30]],
+                    nonagon:[[.50,.06],[.78,.16],[.94,.40],[.88,.70],[.66,.90],[.36,.92],[.12,.74],[.06,.45],[.20,.18]],
+                    parallelogram:[[.28,.24],[.90,.24],[.72,.76],[.10,.76]],
+                    trapezium:[[.30,.24],[.70,.24],[.90,.78],[.10,.78]],
+                    star:[[.50,.07],[.61,.36],[.93,.36],[.68,.55],[.77,.88],[.50,.69],[.23,.88],[.32,.55],[.07,.36],[.39,.36]]
+                };
+                const pts=map[id]||map.square;
+                ctx.moveTo(pts[0][0]*w,pts[0][1]*h);
+                for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0]*w,pts[i][1]*h);
+                ctx.closePath();
+            }
+            ctx.stroke();
+        }
+        function renderTraceShape(){
+            const item=shapeDatabase[shapeTraceIndex],wrap=document.getElementById('shape-trace-canvas-wrap'),guide=document.getElementById('shape-trace-guide');
+            if(!item||!wrap||!guide)return;
+            const ctx=guide.getContext('2d'),w=wrap.clientWidth,h=wrap.clientHeight;ctx.clearRect(0,0,w,h);
+            ctx.save();ctx.strokeStyle='#111';ctx.lineWidth=Math.max(5,Math.min(w,h)*.014);ctx.lineCap='round';ctx.lineJoin='round';ctx.setLineDash([1,Math.max(10,Math.min(w,h)*.035)]);
+            traceShapePath(ctx,item.id,w,h);ctx.restore();
+            document.getElementById('shape-trace-name').innerText=shapeText(item);
+            document.getElementById('shape-trace-progress').innerText=`${shapeTraceIndex+1} / ${shapeDatabase.length}`;
+        }
+        function shapeTracePoint(e){const c=document.getElementById('shape-trace-draw'),r=c.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
+        function attachShapeTraceEvents(){
+            const c=document.getElementById('shape-trace-draw');if(!c||c.dataset.ready==='1')return;c.dataset.ready='1';
+            c.addEventListener('pointerdown',e=>{e.preventDefault();shapeTraceDrawing=true;shapeTraceLast=shapeTracePoint(e);try{c.setPointerCapture(e.pointerId)}catch(_){}} ,{passive:false});
+            c.addEventListener('pointermove',e=>{if(!shapeTraceDrawing)return;e.preventDefault();const p=shapeTracePoint(e),ctx=c.getContext('2d');ctx.beginPath();ctx.moveTo(shapeTraceLast.x,shapeTraceLast.y);ctx.lineTo(p.x,p.y);ctx.strokeStyle='#5E17EB';ctx.lineWidth=Math.max(10,c.getBoundingClientRect().width*.025);ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();shapeTraceLast=p;},{passive:false});
+            const end=e=>{if(!shapeTraceDrawing)return;e.preventDefault();shapeTraceDrawing=false;shapeTraceLast=null;};
+            c.addEventListener('pointerup',end,{passive:false});c.addEventListener('pointercancel',end,{passive:false});
+        }
+        function clearShapeTraceDrawing(withSound=true){if(withSound)playClickSound();const c=document.getElementById('shape-trace-draw'),w=document.getElementById('shape-trace-canvas-wrap');if(c&&w)c.getContext('2d').clearRect(0,0,w.clientWidth,w.clientHeight);shapeTraceDrawing=false;shapeTraceLast=null;}
+        function previousTraceShape(){playClickSound();shapeTraceIndex=(shapeTraceIndex-1+shapeDatabase.length)%shapeDatabase.length;clearShapeTraceDrawing(false);renderTraceShape();}
+        function nextTraceShape(){playClickSound();shapeTraceIndex=(shapeTraceIndex+1)%shapeDatabase.length;clearShapeTraceDrawing(false);renderTraceShape();}
+
+        // ---------- Match Me: coloured shape -> same B&W shape ----------
+        let matchMeSets=[],matchMeIndex=0,matchMeScore=0;
+        const matchMeMatcher=createShapeMatcher({
+            wrapperId:'match-me-wrapper',canvasId:'match-me-canvas',
+            leftId:'match-me-left',rightId:'match-me-right',
+            onMatch:()=>{matchMeScore+=10;document.getElementById('match-me-score').innerText=matchMeScore;},
+            onComplete:()=>{document.getElementById('match-me-next').style.display='inline-block';}
+        });
+        function startMatchMe(){
+            matchMeSets=buildFiveShapeSets();matchMeIndex=0;matchMeScore=0;
+            showScreen('match-me-screen');updateShapeLanguage();matchMeMatcher.init();renderMatchMeSet();
+        }
+        function renderMatchMeSet(){
+            matchMeMatcher.reset();
+            const items=matchMeSets[matchMeIndex]||[];
+            document.getElementById('match-me-round').innerText=matchMeIndex+1;
+            document.getElementById('match-me-score').innerText=matchMeScore;
+            document.getElementById('match-me-next').style.display='none';
+            const l=document.getElementById('match-me-left'),r=document.getElementById('match-me-right');l.innerHTML='';r.innerHTML='';
+            shapeShuffle(items).forEach(item=>{const d=document.createElement('div');d.className='shape-match-item';d.dataset.key=item.id;d.dataset.side='left';d.innerHTML=`<div class="shape-mini">${shapeSvg(item,false,'no-shadow')}</div>`;l.appendChild(d);});
+            shapeShuffle(items).forEach(item=>{const d=document.createElement('div');d.className='shape-match-item';d.dataset.key=item.id;d.dataset.side='right';d.innerHTML=`<div class="shape-mini">${shapeSvg(item,true,'no-shadow')}</div>`;r.appendChild(d);});
+            setTimeout(()=>matchMeMatcher.draw(),80);
+        }
+        function nextMatchMeSet(){
+            if(matchMeIndex<4){matchMeIndex++;renderMatchMeSet();}
+            else{
+                if(window.saveScoreToFirebase)window.saveScoreToFirebase(currentGlobalLang==='ms'?'Suaikan Saya':'Match Me',100);
+                alert(currentGlobalLang==='ms'?'Tahniah! Anda telah lengkapkan semua set! 🎉':'Congratulations! You completed all sets! 🎉');
+                openShapeMenu();
+            }
+        }
+
 
         window.addEventListener('click', enableAutoplayOnFirstTouch);
         window.addEventListener('touchstart', enableAutoplayOnFirstTouch);
