@@ -3477,11 +3477,24 @@
             aspect-ratio:1/1;
             border-radius:20px;
             cursor:pointer;
-            box-shadow:0 6px 15px rgba(0,0,0,.14);
-            transition:transform .2s ease, box-shadow .2s ease;
+            box-shadow:0 6px 0 #b33687,0 8px 20px rgba(0,0,0,.15);
+            transition:all .2s;
+            display:flex;
+            align-items:center;
+            justify-content:center;
         }
-        .shape-menu-btn:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.2)}
-        .shape-menu-btn img{width:100%;height:100%;object-fit:cover;display:block;border-radius:20px}
+        .shape-menu-btn:hover{
+            transform:translateY(-3px);
+            box-shadow:0 9px 0 #4a15b8,0 12px 25px rgba(0,0,0,.2);
+        }
+        .shape-menu-btn:active{
+            transform:translateY(3px);
+            box-shadow:0 3px 0 #4a15b8;
+        }
+        .shape-menu-btn img{
+            width:100%;height:100%;object-fit:cover;display:block;border-radius:20px;
+            pointer-events:none;transition:transform .2s ease;
+        }
 
         .shape-learn-card{
             max-width:520px;
@@ -3518,8 +3531,8 @@
 
         .shape-svg{width:100%;height:100%;display:block;filter:drop-shadow(0 7px 7px rgba(0,0,0,.16))}
         .shape-svg.no-shadow{filter:none}
-        .shape-svg .shape-fill{stroke:#30343b;stroke-width:5}
-        .shape-svg.bw .shape-fill{fill:#f7f7f7;stroke:#222;stroke-width:6}
+        .shape-svg .shape-fill{stroke:none !important;stroke-width:0 !important}
+        .shape-svg.bw .shape-fill{fill:#d9d9d9;stroke:none !important;stroke-width:0 !important}
 
         .shape-match-wrapper{
             position:relative;
@@ -8289,21 +8302,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function shapeSvg(item, bw=false, extraClass=''){
-            const fill = bw ? '#f7f7f7' : item.color;
-            const stroke = bw ? '#222' : '#30343b';
+            const fill = bw ? '#d9d9d9' : item.color;
+            const stroke = 'none';
             if(item.id === 'circle'){
-                return `<svg class="shape-svg ${bw?'bw':''} ${extraClass}" viewBox="0 0 100 100" aria-hidden="true"><circle class="shape-fill" cx="50" cy="50" r="38" fill="${fill}" stroke="${stroke}" stroke-width="5"/></svg>`;
+                return `<svg class="shape-svg ${bw?'bw':''} ${extraClass}" viewBox="0 0 100 100" aria-hidden="true"><circle class="shape-fill" cx="50" cy="50" r="38" fill="${fill}" stroke="${stroke}" stroke-width="0"/></svg>`;
             }
             if(item.id === 'oval'){
-                return `<svg class="shape-svg ${bw?'bw':''} ${extraClass}" viewBox="0 0 100 100" aria-hidden="true"><ellipse class="shape-fill" cx="50" cy="50" rx="43" ry="29" fill="${fill}" stroke="${stroke}" stroke-width="5"/></svg>`;
+                return `<svg class="shape-svg ${bw?'bw':''} ${extraClass}" viewBox="0 0 100 100" aria-hidden="true"><ellipse class="shape-fill" cx="50" cy="50" rx="43" ry="29" fill="${fill}" stroke="${stroke}" stroke-width="0"/></svg>`;
             }
             if(item.id === 'star'){
-                return `<svg class="shape-svg ${bw?'bw':''} ${extraClass}" viewBox="0 0 100 100" aria-hidden="true"><polygon class="shape-fill" points="50,5 61,36 95,36 68,56 78,90 50,70 22,90 32,56 5,36 39,36" fill="${fill}" stroke="${stroke}" stroke-width="5" stroke-linejoin="round"/></svg>`;
+                return `<svg class="shape-svg ${bw?'bw':''} ${extraClass}" viewBox="0 0 100 100" aria-hidden="true"><polygon class="shape-fill" points="50,5 61,36 95,36 68,56 78,90 50,70 22,90 32,56 5,36 39,36" fill="${fill}" stroke="${stroke}" stroke-width="0" stroke-linejoin="round"/></svg>`;
             }
             if(item.id === 'heart'){
-                return `<svg class="shape-svg ${bw?'bw':''} ${extraClass}" viewBox="0 0 100 100" aria-hidden="true"><path class="shape-fill" d="M50 88 C42 78 12 61 12 34 C12 16 34 8 50 27 C66 8 88 16 88 34 C88 61 58 78 50 88 Z" fill="${fill}" stroke="${stroke}" stroke-width="5" stroke-linejoin="round"/></svg>`;
+                return `<svg class="shape-svg ${bw?'bw':''} ${extraClass}" viewBox="0 0 100 100" aria-hidden="true"><path class="shape-fill" d="M50 88 C42 78 12 61 12 34 C12 16 34 8 50 27 C66 8 88 16 88 34 C88 61 58 78 50 88 Z" fill="${fill}" stroke="${stroke}" stroke-width="0" stroke-linejoin="round"/></svg>`;
             }
-            return `<svg class="shape-svg ${bw?'bw':''} ${extraClass}" viewBox="0 0 100 100" aria-hidden="true"><polygon class="shape-fill" points="${shapePoints(item.id)}" fill="${fill}" stroke="${stroke}" stroke-width="5" stroke-linejoin="round"/></svg>`;
+            return `<svg class="shape-svg ${bw?'bw':''} ${extraClass}" viewBox="0 0 100 100" aria-hidden="true"><polygon class="shape-fill" points="${shapePoints(item.id)}" fill="${fill}" stroke="${stroke}" stroke-width="0" stroke-linejoin="round"/></svg>`;
         }
 
         function openShapeMenu(){
