@@ -9626,7 +9626,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 const fb=document.getElementById('guess-transport-feedback');
                 fb.innerText=currentGlobalLang==='ms'?'Set selesai! 🌟':'Set complete! 🌟';fb.style.color='#2E7D32';
                 // Auto terus ke set seterusnya tanpa perlu tekan Next
-                if(guessTransportSetIndex<4) setTimeout(()=>{ guessTransportSetIndex++; renderGuessTransportSet(); },700);
+                if(guessTransportSetIndex<4) setTimeout(()=>{
+                    guessTransportSetIndex++;
+                    renderGuessTransportSet();
+                    // Bila set baru muncul, bawa paparan semula ke bahagian atas soalan.
+                    requestAnimationFrame(()=>{
+                        const guessScreen=document.getElementById('guess-transport-screen');
+                        if(guessScreen){
+                            guessScreen.scrollIntoView({behavior:'smooth',block:'start'});
+                        }else{
+                            window.scrollTo({top:0,behavior:'smooth'});
+                        }
+                    });
+                },700);
                 else setTimeout(finishGuessTransport,700);
             }
         }
