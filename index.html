@@ -3358,7 +3358,8 @@
         .abc-menu-grid,
         .num123-menu-grid,
         .colour-menu-grid,
-        .body-menu-grid {
+        .body-menu-grid,
+        .shape-menu-grid {
             grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)) !important;
             gap: 15px !important;
             margin-top: 20px !important;
@@ -3368,7 +3369,8 @@
         .abc-sub-btn.abc-image-btn,
         .num123-menu-btn,
         .colour-menu-btn,
-        .body-menu-btn {
+        .body-menu-btn,
+        .shape-menu-btn {
             width: 100% !important;
             aspect-ratio: 1 / 1 !important;
             min-width: 0 !important;
@@ -3379,7 +3381,8 @@
         .abc-sub-btn.abc-image-btn img,
         .num123-menu-btn img,
         .colour-menu-btn img,
-        .body-menu-btn img {
+        .body-menu-btn img,
+        .shape-menu-btn img {
             width: 100% !important;
             height: 100% !important;
             object-fit: cover !important;
@@ -3515,7 +3518,7 @@
 
         .shape-svg{width:100%;height:100%;display:block;filter:drop-shadow(0 7px 7px rgba(0,0,0,.16))}
         .shape-svg.no-shadow{filter:none}
-        .shape-svg .shape-fill{fill:#FF66C4;stroke:#8b3d73;stroke-width:5}
+        .shape-svg .shape-fill{stroke:#30343b;stroke-width:5}
         .shape-svg.bw .shape-fill{fill:#f7f7f7;stroke:#222;stroke-width:6}
 
         .shape-match-wrapper{
@@ -8587,7 +8590,10 @@ document.addEventListener('DOMContentLoaded', () => {
             wrapperId:'match-me-wrapper',canvasId:'match-me-canvas',
             leftId:'match-me-left',rightId:'match-me-right',
             onMatch:()=>{matchMeScore+=10;document.getElementById('match-me-score').innerText=matchMeScore;},
-            onComplete:()=>{document.getElementById('match-me-next').style.display='inline-block';}
+            onComplete:()=>{
+                document.getElementById('match-me-next').style.display='none';
+                setTimeout(()=>nextMatchMeSet(),650);
+            }
         });
         function startMatchMe(){
             matchMeSets=buildFiveShapeSets();matchMeIndex=0;matchMeScore=0;
