@@ -9609,6 +9609,16 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             card.appendChild(opts);return card;
         }
+        function scrollToNextGuessTransportCard(card, delay=350){
+            // Khas untuk paparan telefon: bawa pengguna terus ke soalan seterusnya.
+            if(window.innerWidth > 768) return;
+            setTimeout(()=>{
+                const nextCard = card.nextElementSibling;
+                if(nextCard && nextCard.classList.contains('transport-guess-card')){
+                    nextCard.scrollIntoView({ behavior:'smooth', block:'center' });
+                }
+            }, delay);
+        }
         function answerGuessTransport(card,target,choice,button){
             if(card.classList.contains('answered'))return;
             card.classList.add('answered');guessTransportAnswered++;
@@ -9619,27 +9629,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 b.innerText=`${b.dataset.id===target.id?'✓':'☐'} ${transportName(item)}`;
                 if(b.dataset.id===target.id)b.classList.add('correct');
             });
-            if(choice.id===target.id){guessTransportScore++;if(typeof playCorrectSound==='function')playCorrectSound();}
-            else {button.classList.add('wrong');button.innerText=`✕ ${transportName(choice)}`;if(typeof playWrongSound==='function')playWrongSound();}
+
+            const isCorrect = choice.id===target.id;
+            if(isCorrect){
+                guessTransportScore++;
+                if(typeof playCorrectSound==='function')playCorrectSound();
+            } else {
+                button.classList.add('wrong');
+                button.innerText=`✕ ${transportName(choice)}`;
+                if(typeof playWrongSound==='function')playWrongSound();
+            }
             document.getElementById('guess-transport-score').innerText=guessTransportScore;
-            if(guessTransportAnswered===4){
-                const fb=document.getElementById('guess-transport-feedback');
-                fb.innerText=currentGlobalLang==='ms'?'Set selesai! 🌟':'Set complete! 🌟';fb.style.color='#2E7D32';
-                // Auto terus ke set seterusnya tanpa perlu tekan Next
-                if(guessTransportSetIndex<4) setTimeout(()=>{
+
+            // Jawapan betul: terus scroll ke soalan seterusnya pada telefon.
+            // Jawapan salah: jawapan betul kekal dipaparkan selama 2 saat dahulu.
+            if(guessTransportAnswered<4){
+                scrollToNextGuessTransportCard(card, isCorrect ? 350 : 2000);
+                return;
+            }
+
+            const fb=document.getElementById('guess-transport-feedback');
+            fb.innerText=currentGlobalLang==='ms'?'Set selesai! 🌟':'Set complete! 🌟';
+            fb.style.color='#2E7D32';
+
+            // Soalan terakhir: beri masa yang sama sebelum masuk set seterusnya.
+            const nextDelay = isCorrect ? 700 : 2000;
+            if(guessTransportSetIndex<4){
+                setTimeout(()=>{
                     guessTransportSetIndex++;
                     renderGuessTransportSet();
-                    // Bila set baru muncul, bawa paparan semula ke bahagian atas soalan.
-                    requestAnimationFrame(()=>{
-                        const guessScreen=document.getElementById('guess-transport-screen');
-                        if(guessScreen){
-                            guessScreen.scrollIntoView({behavior:'smooth',block:'start'});
-                        }else{
-                            window.scrollTo({top:0,behavior:'smooth'});
-                        }
-                    });
-                },700);
-                else setTimeout(finishGuessTransport,700);
+                    if(window.innerWidth<=768){
+                        const firstCard=document.querySelector('#transport-guess-grid .transport-guess-card');
+                        if(firstCard) firstCard.scrollIntoView({behavior:'smooth',block:'center'});
+                    }
+                },nextDelay);
+            } else {
+                setTimeout(finishGuessTransport,nextDelay);
             }
         }
         function nextGuessTransportSet(){ if(guessTransportSetIndex<4){guessTransportSetIndex++;renderGuessTransportSet();} }
