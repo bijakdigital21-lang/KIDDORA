@@ -3384,7 +3384,43 @@
             height: 100% !important;
             object-fit: cover !important;
         }
-</style>
+
+
+        /* =========================================================
+           ADD THEM UP - 4 visual addition questions x 5 sets
+        ========================================================== */
+        #add-them-up-screen { width:min(98vw,920px); margin-left:50%; transform:translateX(-50%); }
+        .addup-board { background:rgba(255,250,235,.97); border:4px solid #FFD45C; border-radius:28px; padding:18px; margin:14px auto; box-shadow:0 10px 28px rgba(0,0,0,.15); }
+        .addup-instruction { font-weight:900; color:#374151; margin:5px 0 15px; }
+        .addup-questions { display:flex; flex-direction:column; gap:13px; }
+        .addup-row { display:grid; grid-template-columns:minmax(0,1fr) 46px minmax(0,1fr) 46px 96px; gap:10px; align-items:center; }
+        .addup-object-box { min-height:118px; background:#fff; border:4px solid #243447; border-radius:16px; display:flex; flex-wrap:wrap; align-content:center; justify-content:center; gap:5px; padding:9px; box-shadow:0 4px 9px rgba(0,0,0,.08); }
+        .addup-object { font-size:clamp(2rem,5.5vw,3rem); line-height:1; cursor:pointer; user-select:none; touch-action:manipulation; transition:.14s; filter:drop-shadow(0 2px 2px rgba(0,0,0,.12)); }
+        .addup-object:active,.addup-object.counted { transform:scale(1.18); }
+        .addup-symbol { font-family:'Fredoka One',cursive; font-size:clamp(2.2rem,6vw,3.6rem); color:#263238; }
+        .addup-answer-zone { height:96px; background:#fff; border:4px solid #243447; border-radius:14px; display:flex; align-items:center; justify-content:center; font-family:'Fredoka One',cursive; font-size:3rem; transition:.16s; }
+        .addup-answer-zone.hovered { border-color:#FF66C4; background:#FFF0F8; transform:scale(1.04); }
+        .addup-answer-zone.correct { background:#DDF8D1; border-color:#58B83C; color:#23821C; }
+        .addup-answer-zone.wrong { background:#FFD9D9; border-color:#E64C4C; }
+        .addup-answer-bank { display:flex; flex-wrap:wrap; justify-content:center; gap:14px; margin:20px 0 8px; padding:14px; border:4px dashed #5CE1E6; border-radius:22px; background:rgba(235,253,255,.96); }
+        .addup-answer-tile { width:78px; height:78px; border:3px solid #263238; border-radius:13px; background:#fff; display:flex; align-items:center; justify-content:center; font-family:'Fredoka One',cursive; font-size:2.5rem; cursor:grab; touch-action:none; user-select:none; box-shadow:0 5px 10px rgba(0,0,0,.12); }
+        .addup-answer-tile.used { opacity:.28; pointer-events:none; }
+        .addup-answer-tile.dragging { opacity:.35; }
+        .addup-floating { position:fixed; z-index:99999; transform:translate(-50%,-50%); width:72px; height:72px; border:3px solid #263238; border-radius:13px; background:white; display:flex; align-items:center; justify-content:center; font-family:'Fredoka One',cursive; font-size:2.4rem; pointer-events:none; box-shadow:0 10px 24px rgba(0,0,0,.24); }
+        .addup-status { min-height:28px; font-weight:900; color:#5E17EB; margin-top:8px; }
+        @media(max-width:600px){
+            #add-them-up-screen{width:calc(100vw - 8px);padding-left:0;padding-right:0;}
+            .addup-board{padding:11px 7px;border-radius:22px;}
+            .addup-row{grid-template-columns:minmax(0,1fr) 27px minmax(0,1fr) 27px 62px;gap:4px;}
+            .addup-object-box{min-height:88px;padding:5px;gap:1px;border-width:3px;border-radius:12px;}
+            .addup-object{font-size:clamp(1.35rem,7vw,2rem);}
+            .addup-symbol{font-size:1.9rem;}
+            .addup-answer-zone{height:62px;font-size:2rem;border-width:3px;border-radius:10px;}
+            .addup-answer-bank{gap:9px;padding:10px;}
+            .addup-answer-tile{width:60px;height:60px;font-size:2rem;}
+        }
+
+    </style>
 </head>
 <body class="login-mode">
 
@@ -3657,6 +3693,9 @@
                     <button class="num123-menu-btn" onclick="playClickSound(); start123Tracing()" aria-label="123 Tracing">
                         <img src="https://i.imgur.com/m1Qh3mO.jpeg" alt="123 Tracing">
                     </button>
+                    <button class="num123-menu-btn" onclick="playClickSound(); startAddThemUp()" aria-label="Add Them Up">
+                        <img src="https://i.imgur.com/2HkHYvL.jpeg" alt="Add Them Up">
+                    </button>
                 </div>
                 <button class="action-btn home-btn" id="num123-home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
@@ -3730,6 +3769,19 @@
                     <div class="count123-answers" id="count123-answers"></div>
                 </div>
                 <button class="action-btn home-btn" id="count123-back-btn" onclick="playClickSound(); open123Menu()">Back ↩️</button>
+            </div>
+
+            <!-- ADD THEM UP SCREEN -->
+            <div id="add-them-up-screen" class="card">
+                <h2 id="addup-title" style="color:#5E17EB;font-family:'Fredoka One',cursive;">Add Them Up! ➕</h2>
+                <div class="num-progress-pill"><span id="addup-progress">Set 1 / 5</span> · ⭐ <span id="addup-score">0</span></div>
+                <div class="addup-board">
+                    <p class="addup-instruction" id="addup-instruction">Count the objects. Drag the correct number into each answer box.</p>
+                    <div class="addup-questions" id="addup-questions"></div>
+                    <div class="addup-answer-bank" id="addup-answer-bank"></div>
+                    <div class="addup-status" id="addup-status"></div>
+                </div>
+                <button class="action-btn home-btn" id="addup-back-btn" onclick="playClickSound(); open123Menu()">Back ↩️</button>
             </div>
 
             <!-- FIND THE NUMBER SCREEN -->
@@ -6042,6 +6094,7 @@
             if(document.getElementById('learn123-screen')?.classList.contains('active')) renderLearn123();
             if(document.getElementById('match123-screen')?.classList.contains('active') && match123Questions.length) renderMatch123();
             if(document.getElementById('lets-count-screen')?.classList.contains('active') && count123Questions.length) renderCount123();
+            if(document.getElementById('add-them-up-screen')?.classList.contains('active') && addUpSets.length) renderAddUpSet();
             if(document.getElementById('find123-screen')?.classList.contains('active') && find123Questions.length) renderFind123();
         }
 
@@ -6198,6 +6251,120 @@
 
 
 
+
+
+        // =========================================================
+        // ADD THEM UP - 5 sets x 4 questions, total never above 10
+        // =========================================================
+        const addUpPairBank = [];
+        for(let a=1;a<=9;a++) for(let b=1;b<=9;b++) if(a+b<=10) addUpPairBank.push([a,b]);
+        const addUpFruits=['🍎','🍊','🍓','🍐','🍇','🍒','🥝','🍋','🍑','🫐'];
+        let addUpSets=[],addUpSetIndex=0,addUpScore=0,addUpAnswers={},addUpCountState={},addUpDrag=null,addUpFloat=null,addUpAdvancing=false;
+
+        function addUpText(){
+            const ms=getNum123Lang()==='ms';
+            return ms ? {
+                title:'Tambah Semuanya! ➕', set:'Set', instruction:'Kira semua objek. Tarik nombor yang betul ke dalam setiap kotak jawapan.',
+                back:'Kembali ↩️', correct:'Betul!', wrong:'Cuba lagi.', done:'Hebat! Anda sudah lengkapkan semua 5 set!', fill:'Isi semua 4 kotak jawapan.',
+                score:s=>`Hebat! Skor anda ${s}/100 🎉`
+            } : {
+                title:'Add Them Up! ➕', set:'Set', instruction:'Count all the objects. Drag the correct number into each answer box.',
+                back:'Back ↩️', correct:'Correct!', wrong:'Try again.', done:'Amazing! You completed all 5 sets!', fill:'Fill all 4 answer boxes.',
+                score:s=>`Great job! Your score is ${s}/100 🎉`
+            };
+        }
+        function buildAddUpSets(){
+            const pool=shuffle123(addUpPairBank);
+            const sets=[]; const used=new Set();
+            for(let s=0;s<5;s++){
+                const set=[], totals=new Set();
+                for(const pair of pool){
+                    const key=pair.join('+'), total=pair[0]+pair[1];
+                    if(used.has(key)||totals.has(total)) continue;
+                    set.push(pair); used.add(key); totals.add(total);
+                    if(set.length===4) break;
+                }
+                // Defensive fallback; normal bank always supplies enough unique questions.
+                if(set.length<4){
+                    for(const pair of shuffle123(addUpPairBank)){
+                        const key=pair.join('+'), total=pair[0]+pair[1];
+                        if(!used.has(key)&&!totals.has(total)){set.push(pair);used.add(key);totals.add(total);if(set.length===4)break;}
+                    }
+                }
+                sets.push(shuffle123(set));
+            }
+            return sets;
+        }
+        function startAddThemUp(){
+            window.speechSynthesis && window.speechSynthesis.cancel();
+            addUpSets=buildAddUpSets(); addUpSetIndex=0; addUpScore=0; addUpAnswers={}; addUpCountState={}; addUpAdvancing=false;
+            showScreen('add-them-up-screen'); renderAddUpSet();
+        }
+        function renderAddUpSet(){
+            if(!addUpSets.length) return;
+            const t=addUpText(), set=addUpSets[addUpSetIndex]; addUpAnswers={}; addUpCountState={}; addUpAdvancing=false;
+            document.getElementById('addup-title').textContent=t.title;
+            document.getElementById('addup-progress').textContent=`${t.set} ${addUpSetIndex+1} / 5`;
+            document.getElementById('addup-score').textContent=addUpScore;
+            document.getElementById('addup-instruction').textContent=t.instruction;
+            document.getElementById('addup-back-btn').textContent=t.back;
+            document.getElementById('addup-status').textContent=t.fill;
+            const wrap=document.getElementById('addup-questions'); wrap.innerHTML='';
+            set.forEach((pair,i)=>{
+                const [a,b]=pair, fruit=addUpFruits[(addUpSetIndex*4+i)%addUpFruits.length]; addUpCountState[i]=0;
+                const row=document.createElement('div'); row.className='addup-row'; row.dataset.q=i;
+                row.innerHTML=`<div class="addup-object-box" data-group="a"></div><div class="addup-symbol">+</div><div class="addup-object-box" data-group="b"></div><div class="addup-symbol">=</div><div class="addup-answer-zone" data-q="${i}" data-answer="${a+b}"></div>`;
+                const boxes=row.querySelectorAll('.addup-object-box');
+                for(let n=0;n<a;n++) boxes[0].appendChild(makeAddUpObject(fruit,i));
+                for(let n=0;n<b;n++) boxes[1].appendChild(makeAddUpObject(fruit,i));
+                wrap.appendChild(row);
+            });
+            const totals=set.map(x=>x[0]+x[1]);
+            const bank=document.getElementById('addup-answer-bank'); bank.innerHTML='';
+            shuffle123(totals).forEach((n,i)=>{const tile=document.createElement('div');tile.className='addup-answer-tile';tile.textContent=n;tile.dataset.value=n;tile.dataset.tile=i;installAddUpTileDrag(tile);bank.appendChild(tile);});
+        }
+        function makeAddUpObject(fruit,q){
+            const el=document.createElement('span'); el.className='addup-object'; el.textContent=fruit; el.dataset.q=q;
+            el.onclick=()=>{
+                if(el.classList.contains('counted')) return;
+                el.classList.add('counted'); addUpCountState[q]=(addUpCountState[q]||0)+1;
+                speakText123(getNum123Words()[addUpCountState[q]] || String(addUpCountState[q]),.55);
+                setTimeout(()=>el.classList.remove('counted'),260);
+            };
+            return el;
+        }
+        function installAddUpTileDrag(tile){
+            tile.onpointerdown=e=>{
+                if(tile.classList.contains('used')||addUpAdvancing)return; e.preventDefault();
+                addUpDrag={tile,pointerId:e.pointerId}; tile.setPointerCapture?.(e.pointerId); tile.classList.add('dragging');
+                addUpFloat=document.createElement('div'); addUpFloat.className='addup-floating'; addUpFloat.textContent=tile.dataset.value; document.body.appendChild(addUpFloat); moveAddUpFloat(e);
+            };
+            tile.onpointermove=e=>{if(addUpDrag?.tile!==tile)return;e.preventDefault();moveAddUpFloat(e);highlightAddUpZone(e.clientX,e.clientY)};
+            tile.onpointerup=tile.onpointercancel=e=>{
+                if(addUpDrag?.tile!==tile)return;e.preventDefault();
+                const zone=document.elementFromPoint(e.clientX,e.clientY)?.closest('.addup-answer-zone'); cleanupAddUpDrag(); if(zone)dropAddUpAnswer(tile,zone);
+            };
+        }
+        function moveAddUpFloat(e){if(addUpFloat){addUpFloat.style.left=e.clientX+'px';addUpFloat.style.top=e.clientY+'px';}}
+        function highlightAddUpZone(x,y){document.querySelectorAll('.addup-answer-zone').forEach(z=>z.classList.remove('hovered'));const z=document.elementFromPoint(x,y)?.closest('.addup-answer-zone');if(z&&!z.classList.contains('correct'))z.classList.add('hovered');}
+        function cleanupAddUpDrag(){if(addUpDrag?.tile)addUpDrag.tile.classList.remove('dragging');addUpDrag=null;addUpFloat?.remove();addUpFloat=null;document.querySelectorAll('.addup-answer-zone').forEach(z=>z.classList.remove('hovered'));}
+        function dropAddUpAnswer(tile,zone){
+            if(zone.classList.contains('correct')||tile.classList.contains('used')) return;
+            const t=addUpText(), val=+tile.dataset.value, ans=+zone.dataset.answer, q=+zone.dataset.q;
+            if(val===ans){
+                zone.textContent=val; zone.classList.remove('wrong'); zone.classList.add('correct'); tile.classList.add('used'); addUpAnswers[q]=val;
+                addUpScore+=5; document.getElementById('addup-score').textContent=addUpScore; speakText123(`${val}. ${t.correct}`,.62);
+                if(Object.keys(addUpAnswers).length===4){
+                    addUpAdvancing=true; document.getElementById('addup-status').textContent=t.correct;
+                    setTimeout(()=>{
+                        if(addUpSetIndex<4){addUpSetIndex++;renderAddUpSet();}
+                        else{if(window.saveScoreToFirebase)window.saveScoreToFirebase(getNum123Lang()==='ms'?'Tambah Semuanya':'Add Them Up',addUpScore);alert(t.score(addUpScore));open123Menu();}
+                    },900);
+                }
+            } else {
+                zone.classList.add('wrong'); document.getElementById('addup-status').textContent=t.wrong; speakText123(t.wrong,.7); setTimeout(()=>zone.classList.remove('wrong'),500);
+            }
+        }
 
         // =========================================================
         // COLOUR MODULE DATA & LOGIC
