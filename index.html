@@ -3439,7 +3439,7 @@
         .abc-path-cell.filled::after{content:none;}
         .complete-options-title{font-weight:900;color:#6d4c41;margin:2px 0 8px;}
         .complete-abc-options{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;padding:14px 82px 14px 14px;background:#e8f7ff;border:3px dashed #5CE1E6;border-radius:20px;min-height:92px;}
-        .complete-letter-chip{width:58px;height:58px;border:none;border-radius:16px;background:#FFDE59;color:#2C3E50;font-family:'Fredoka One',cursive;font-size:1.65rem;font-weight:800;cursor:grab;box-shadow:0 5px 0 #d3ad13,0 7px 12px rgba(0,0,0,.12);touch-action:none;user-select:none;display:flex;align-items:center;justify-content:center;}
+        .complete-letter-chip{width:58px;height:58px;border:none;border-radius:16px;background:#FFDE59;color:#2C3E50;font-family:'Fredoka One',cursive;font-size:1.65rem;font-weight:800;cursor:grab;box-shadow:0 5px 0 #d3ad13,0 7px 12px rgba(0,0,0,.12);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;display:flex;align-items:center;justify-content:center;}
         .complete-letter-chip.selected{outline:5px solid #FF66C4;transform:translateY(-3px);}
         .complete-letter-chip.used{opacity:.25;pointer-events:none;box-shadow:none;}
         .complete-abc-progress{font-weight:800;color:#111;margin:5px 0 10px;}
@@ -7650,6 +7650,78 @@ document.addEventListener('DOMContentLoaded', () => {
             renderCompleteABCQuestion();
         }
 
+        // Mobile/iPhone drag helper for Complete the ABC.
+        // Native HTML5 drag/drop works well on desktop, but iOS Safari does not
+        // reliably start draggable button events, so touch dragging is handled manually.
+        let completeABCTouchDrag = null;
+
+        function startCompleteABCTouchDrag(e, chip) {
+            if (!e.touches || e.touches.length !== 1 || chip.classList.contains('used')) return;
+            const touch = e.touches[0];
+            const ghost = chip.cloneNode(true);
+            ghost.removeAttribute('id');
+            ghost.classList.remove('selected', 'used');
+            ghost.style.position = 'fixed';
+            ghost.style.left = touch.clientX + 'px';
+            ghost.style.top = touch.clientY + 'px';
+            ghost.style.zIndex = '100000';
+            ghost.style.pointerEvents = 'none';
+            ghost.style.margin = '0';
+            ghost.style.transform = 'translate(-50%, -50%) scale(1.12)';
+            ghost.style.opacity = '0.95';
+            ghost.style.boxShadow = '0 10px 22px rgba(0,0,0,.28)';
+            document.body.appendChild(ghost);
+            chip.classList.add('selected');
+            completeABCTouchDrag = { chip, ghost, moved: false };
+            e.preventDefault();
+        }
+
+        function moveCompleteABCTouchDrag(e) {
+            if (!completeABCTouchDrag || !e.touches || e.touches.length !== 1) return;
+            const touch = e.touches[0];
+            completeABCTouchDrag.moved = true;
+            completeABCTouchDrag.ghost.style.left = touch.clientX + 'px';
+            completeABCTouchDrag.ghost.style.top = touch.clientY + 'px';
+            document.querySelectorAll('#complete-abc-path .abc-path-cell.drag-over').forEach(c => c.classList.remove('drag-over'));
+            const under = document.elementFromPoint(touch.clientX, touch.clientY);
+            const cell = under && under.closest ? under.closest('#complete-abc-path .abc-path-cell.missing:not(.filled)') : null;
+            if (cell) cell.classList.add('drag-over');
+            e.preventDefault();
+        }
+
+        function endCompleteABCTouchDrag(e) {
+            if (!completeABCTouchDrag) return;
+            const state = completeABCTouchDrag;
+            const touch = (e.changedTouches && e.changedTouches[0]) || null;
+            document.querySelectorAll('#complete-abc-path .abc-path-cell.drag-over').forEach(c => c.classList.remove('drag-over'));
+            let cell = null;
+            if (touch) {
+                const under = document.elementFromPoint(touch.clientX, touch.clientY);
+                cell = under && under.closest ? under.closest('#complete-abc-path .abc-path-cell.missing:not(.filled)') : null;
+            }
+            if (state.ghost && state.ghost.parentNode) state.ghost.parentNode.removeChild(state.ghost);
+            state.chip.classList.remove('selected');
+            completeABCTouchDrag = null;
+            if (cell) {
+                placeCompleteABCLetter(state.chip, cell);
+            } else if (!state.moved) {
+                document.querySelectorAll('.complete-letter-chip').forEach(c => c.classList.remove('selected'));
+                completeABCSelectedChip = state.chip;
+                state.chip.classList.add('selected');
+            }
+            if (e.cancelable) e.preventDefault();
+        }
+
+        function cancelCompleteABCTouchDrag() {
+            if (!completeABCTouchDrag) return;
+            document.querySelectorAll('#complete-abc-path .abc-path-cell.drag-over').forEach(c => c.classList.remove('drag-over'));
+            if (completeABCTouchDrag.ghost && completeABCTouchDrag.ghost.parentNode) {
+                completeABCTouchDrag.ghost.parentNode.removeChild(completeABCTouchDrag.ghost);
+            }
+            completeABCTouchDrag.chip.classList.remove('selected');
+            completeABCTouchDrag = null;
+        }
+
         function renderCompleteABCQuestion() {
             const missing = completeABCQuestions[completeABCIndex];
             const path = document.getElementById('complete-abc-path');
@@ -7705,6 +7777,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 chip.dataset.letter = letter;
                 chip.draggable = true;
                 chip.addEventListener('dragstart', e => e.dataTransfer.setData('text/plain', chip.id));
+                // Real touch drag support for iPhone/iPad/Android browsers.
+                chip.addEventListener('touchstart', e => startCompleteABCTouchDrag(e, chip), { passive: false });
+                chip.addEventListener('touchmove', moveCompleteABCTouchDrag, { passive: false });
+                chip.addEventListener('touchend', endCompleteABCTouchDrag, { passive: false });
+                chip.addEventListener('touchcancel', cancelCompleteABCTouchDrag, { passive: false });
                 chip.addEventListener('click', () => {
                     document.querySelectorAll('.complete-letter-chip').forEach(c => c.classList.remove('selected'));
                     completeABCSelectedChip = chip;
