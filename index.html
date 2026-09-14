@@ -8302,7 +8302,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function shapeSvg(item, bw=false, extraClass=''){
-            const fill = bw ? '#d9d9d9' : item.color;
+            const fill = bw ? '#555555' : item.color;
             const stroke = 'none';
             if(item.id === 'circle'){
                 return `<svg class="shape-svg ${bw?'bw':''} ${extraClass}" viewBox="0 0 100 100" aria-hidden="true"><circle class="shape-fill" cx="50" cy="50" r="38" fill="${fill}" stroke="${stroke}" stroke-width="0"/></svg>`;
