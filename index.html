@@ -3801,9 +3801,7 @@
             transform: translateY(-3px);
             box-shadow: 0 9px 0 #4a15b8, 0 12px 25px rgba(0,0,0,.2);
         }
-        .transport-menu-btn:hover img {
-            transform: scale(1.04);
-        }
+        .transport-menu-btn:hover img { transform: scale(1.04); }
         .transport-menu-btn:active {
             transform: translateY(3px);
             box-shadow: 0 3px 0 #4a15b8;
@@ -4047,25 +4045,17 @@
            TRANSPORT MOBILE ENLARGE + SHADOW + AUTO-NEXT UPDATE
            2026-09-14
         ========================================================== */
-        /* Strong, consistent shadow for every interactive button in Transport */
-        #transport-menu-screen .transport-menu-btn,
-        #learn-transport-cat-screen .transport-cat-btn,
-        #learn-transport-flash-screen .action-btn,
-        #learn-transport-flash-screen .sound-btn,
-        #sort-transport-screen .action-btn,
-        #guess-transport-screen .action-btn,
-        #guess-transport-screen .transport-guess-option {
-            box-shadow: 0 7px 0 rgba(44,62,80,.30), 0 11px 20px rgba(0,0,0,.20) !important;
+        /* Transport menu uses the exact same button shadow format as other module menus. */
+        #transport-menu-screen .transport-menu-btn {
+            box-shadow: 0 6px 0 #b33687, 0 8px 20px rgba(0,0,0,.15) !important;
         }
-        #transport-menu-screen .transport-menu-btn:active,
-        #learn-transport-cat-screen .transport-cat-btn:active,
-        #learn-transport-flash-screen .action-btn:active,
-        #learn-transport-flash-screen .sound-btn:active,
-        #sort-transport-screen .action-btn:active,
-        #guess-transport-screen .action-btn:active,
-        #guess-transport-screen .transport-guess-option:active {
+        #transport-menu-screen .transport-menu-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 0 #4a15b8, 0 12px 25px rgba(0,0,0,.2) !important;
+        }
+        #transport-menu-screen .transport-menu-btn:active {
             transform: translateY(3px);
-            box-shadow: 0 3px 0 rgba(44,62,80,.30), 0 6px 12px rgba(0,0,0,.18) !important;
+            box-shadow: 0 3px 0 #4a15b8 !important;
         }
 
         /* Sort Transport: larger cards and drop boxes */
