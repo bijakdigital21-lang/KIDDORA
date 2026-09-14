@@ -3723,10 +3723,6 @@
         #match-me-screen .shape-match-item .shape-mini {
             width:100%; height:100%; padding:10px; display:flex; align-items:center; justify-content:center;
         }
-        /* MATCH ME sahaja: gelapkan bentuk kelabu di sebelah kanan */
-        #match-me-screen #match-me-right .shape-svg.bw .shape-fill {
-            fill:#9A9A9A !important;
-        }
         #match-me-screen .shape-match-item.matched { opacity:1!important; filter:none!important; }
 
         @media(max-width:768px){
@@ -8268,21 +8264,21 @@ document.addEventListener('DOMContentLoaded', () => {
         // Learn Shape, Match Shape, Draw Shape, Match Me
         // =========================================================
         const shapeDatabase = [
-            {id:'square', en:'Square', ms:'Segi Empat Sama', color:'#55C2FF'},
-            {id:'circle', en:'Circle', ms:'Bulatan', color:'#58C6B2'},
-            {id:'rectangle', en:'Rectangle', ms:'Segi Empat Tepat', color:'#FFDE59'},
-            {id:'triangle', en:'Triangle', ms:'Segi Tiga', color:'#FF9C8B'},
-            {id:'star', en:'Star', ms:'Bintang', color:'#FFC83D'},
-            {id:'heart', en:'Heart', ms:'Hati', color:'#FF6B8A'},
-            {id:'rhombus', en:'Rhombus', ms:'Belah Ketupat', color:'#9B7BFF'},
-            {id:'oval', en:'Oval', ms:'Bujur', color:'#6FD5A5'},
-            {id:'pentagon', en:'Pentagon', ms:'Pentagon', color:'#D65AC1'},
-            {id:'hexagon', en:'Hexagon', ms:'Heksagon', color:'#60C78A'},
-            {id:'heptagon', en:'Heptagon', ms:'Heptagon', color:'#F08C46'},
-            {id:'octagon', en:'Octagon', ms:'Oktagon', color:'#EF5D60'},
-            {id:'nonagon', en:'Nonagon', ms:'Nonagon', color:'#4E9BE8'},
-            {id:'parallelogram', en:'Parallelogram', ms:'Segi Empat Selari', color:'#A46DE0'},
-            {id:'trapezium', en:'Trapezium', ms:'Trapezium', color:'#44B6A8'}
+            {id:'square', en:'Square', ms:'Segi Empat Sama', color:'#0099FF'},
+            {id:'circle', en:'Circle', ms:'Bulatan', color:'#00B894'},
+            {id:'rectangle', en:'Rectangle', ms:'Segi Empat Tepat', color:'#FFD000'},
+            {id:'triangle', en:'Triangle', ms:'Segi Tiga', color:'#FF6B57'},
+            {id:'star', en:'Star', ms:'Bintang', color:'#FFB800'},
+            {id:'heart', en:'Heart', ms:'Hati', color:'#FF3366'},
+            {id:'rhombus', en:'Rhombus', ms:'Belah Ketupat', color:'#7C4DFF'},
+            {id:'oval', en:'Oval', ms:'Bujur', color:'#20C77A'},
+            {id:'pentagon', en:'Pentagon', ms:'Pentagon', color:'#C92DB4'},
+            {id:'hexagon', en:'Hexagon', ms:'Heksagon', color:'#24B85F'},
+            {id:'heptagon', en:'Heptagon', ms:'Heptagon', color:'#F06A18'},
+            {id:'octagon', en:'Octagon', ms:'Oktagon', color:'#E83E45'},
+            {id:'nonagon', en:'Nonagon', ms:'Nonagon', color:'#247FDB'},
+            {id:'parallelogram', en:'Parallelogram', ms:'Segi Empat Selari', color:'#8A45D1'},
+            {id:'trapezium', en:'Trapezium', ms:'Trapezium', color:'#159E91'}
         ];
 
         function shapeShuffle(arr){ return [...arr].sort(()=>Math.random()-.5); }
