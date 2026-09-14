@@ -3782,8 +3782,11 @@
             border-radius: 20px;
             aspect-ratio: 1 / 1;
             cursor: pointer;
-            box-shadow: 0 8px 0 rgba(44,62,80,.32), 0 12px 22px rgba(0,0,0,.22);
-            transition: transform .2s ease, box-shadow .2s ease;
+            box-shadow: 0 6px 0 #b33687, 0 8px 20px rgba(0,0,0,.15);
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .transport-menu-btn img {
             width: 100%;
@@ -3792,14 +3795,18 @@
             display: block;
             border-radius: 20px;
             pointer-events: none;
+            transition: transform .2s ease;
         }
         .transport-menu-btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 11px 0 rgba(44,62,80,.28), 0 16px 28px rgba(0,0,0,.24);
+            transform: translateY(-3px);
+            box-shadow: 0 9px 0 #4a15b8, 0 12px 25px rgba(0,0,0,.2);
+        }
+        .transport-menu-btn:hover img {
+            transform: scale(1.04);
         }
         .transport-menu-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 4px 0 rgba(44,62,80,.28), 0 7px 14px rgba(0,0,0,.2);
+            transform: translateY(3px);
+            box-shadow: 0 3px 0 #4a15b8;
         }
 
         .transport-cat-grid {
