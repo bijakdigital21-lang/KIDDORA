@@ -3762,6 +3762,179 @@
             }
         }
 
+    
+
+        /* =========================================================
+           TRANSPORT MODULE
+           Menu buttons follow the same square/shadow format as other topics.
+        ========================================================== */
+        .transport-menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .transport-menu-btn {
+            padding: 0;
+            overflow: hidden;
+            background: transparent;
+            border: none;
+            border-radius: 20px;
+            aspect-ratio: 1 / 1;
+            cursor: pointer;
+            box-shadow: 0 8px 0 rgba(44,62,80,.32), 0 12px 22px rgba(0,0,0,.22);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+        .transport-menu-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 20px;
+            pointer-events: none;
+        }
+        .transport-menu-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 11px 0 rgba(44,62,80,.28), 0 16px 28px rgba(0,0,0,.24);
+        }
+        .transport-menu-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 rgba(44,62,80,.28), 0 7px 14px rgba(0,0,0,.2);
+        }
+
+        .transport-cat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin: 24px 0;
+        }
+        .transport-cat-btn {
+            min-height: 105px;
+            border: 3px solid var(--primary-blue);
+            border-radius: 20px;
+            background: rgba(255,255,255,.94);
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.12rem;
+            color: #2C3E50;
+            cursor: pointer;
+            box-shadow: 0 7px 0 rgba(44,62,80,.20), 0 10px 18px rgba(0,0,0,.15);
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+        .transport-cat-btn:hover { transform: translateY(-4px); box-shadow: 0 10px 0 rgba(44,62,80,.18), 0 14px 22px rgba(0,0,0,.18); }
+
+        .transport-sort-status,
+        .transport-guess-status {
+            display:flex;
+            justify-content:space-between;
+            gap:12px;
+            margin:12px 0 16px;
+            padding:10px 15px;
+            border-radius:15px;
+            background:rgba(255,249,196,.95);
+            font-weight:800;
+            box-shadow:0 4px 10px rgba(0,0,0,.08);
+        }
+        .transport-sort-bank {
+            display:grid;
+            grid-template-columns:repeat(5, minmax(0,1fr));
+            gap:10px;
+            margin:16px 0 20px;
+            padding:14px;
+            border-radius:22px;
+            background:#FFF3D6;
+            box-shadow:0 8px 20px rgba(0,0,0,.10);
+            min-height:130px;
+        }
+        .transport-sort-item {
+            position:relative;
+            aspect-ratio:1/1;
+            border:3px solid var(--primary-blue);
+            border-radius:17px;
+            overflow:hidden;
+            cursor:grab;
+            background:#fff;
+            box-shadow:0 5px 12px rgba(0,0,0,.14);
+            touch-action:none;
+            user-select:none;
+        }
+        .transport-sort-item.selected { outline:5px solid #FFDE59; transform:scale(1.04); }
+        .transport-sort-item img { width:100%; height:100%; object-fit:cover; display:block; pointer-events:none; }
+        .transport-sort-zones {
+            display:grid;
+            grid-template-columns:repeat(3, minmax(0,1fr));
+            gap:12px;
+            margin:0 0 18px;
+        }
+        .transport-sort-zone {
+            min-height:180px;
+            border:4px dashed #7B8DA3;
+            border-radius:22px;
+            background:rgba(255,255,255,.88);
+            padding:10px;
+            transition:background .18s,border-color .18s,transform .18s;
+        }
+        .transport-sort-zone.drag-over { background:#E0F7FA; border-color:#26A6B1; transform:scale(1.02); }
+        .transport-zone-title { font-family:'Fredoka One',cursive; font-size:1.15rem; margin:4px 0 9px; color:#294760; }
+        .transport-zone-items { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px; }
+        .transport-zone-thumb { aspect-ratio:1/1; border-radius:12px; overflow:hidden; border:2px solid #7ED957; background:#fff; }
+        .transport-zone-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+        .transport-feedback { min-height:28px; font-weight:900; margin:5px 0 8px; }
+
+        .transport-guess-grid {
+            display:grid;
+            grid-template-columns:repeat(2,minmax(0,1fr));
+            gap:14px;
+            margin:16px 0 20px;
+        }
+        .transport-guess-card {
+            background:rgba(255,255,255,.95);
+            border:3px solid #CBD5E1;
+            border-radius:22px;
+            padding:10px;
+            box-shadow:0 7px 16px rgba(0,0,0,.13);
+            overflow:hidden;
+        }
+        .transport-guess-img {
+            width:100%;
+            aspect-ratio:1/1;
+            object-fit:cover;
+            display:block;
+            border-radius:16px;
+            margin-bottom:10px;
+        }
+        .transport-guess-options { display:flex; flex-direction:column; gap:7px; }
+        .transport-guess-option {
+            width:100%;
+            text-align:left;
+            border:2px solid #CBD5E1;
+            border-radius:12px;
+            background:#fff;
+            padding:9px 11px;
+            font-family:'Quicksand',sans-serif;
+            font-weight:800;
+            cursor:pointer;
+            transition:.15s;
+        }
+        .transport-guess-option:hover { border-color:var(--primary-blue); transform:translateY(-1px); }
+        .transport-guess-option.correct { background:#7ED957; border-color:#4CAF50; color:#fff; }
+        .transport-guess-option.wrong { background:#FF6B6B; border-color:#E53935; color:#fff; }
+        .transport-guess-card.answered .transport-guess-option { cursor:default; }
+
+        @media (max-width:768px){
+            .transport-menu-grid{grid-template-columns:1fr 1fr;gap:15px;margin:20px 0;}
+            .transport-cat-grid{grid-template-columns:1fr;}
+            .transport-sort-bank{grid-template-columns:repeat(3,minmax(0,1fr));}
+            .transport-sort-zones{grid-template-columns:1fr;}
+            .transport-sort-zone{min-height:135px;}
+            .transport-zone-items{grid-template-columns:repeat(5,minmax(0,1fr));}
+            .transport-guess-grid{grid-template-columns:1fr;}
+        }
+        @media (max-width:430px){
+            .transport-sort-bank{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding:8px;}
+            .transport-sort-item{border-width:2px;border-radius:12px;}
+            .transport-zone-items{grid-template-columns:repeat(5,minmax(0,1fr));}
+        }
+
     </style>
 </head>
 <body class="login-mode">
@@ -3890,7 +4063,7 @@
                     <button class="topic-btn" onclick="playClickSound(); openShapeMenu()" aria-label="Shape">
                         <img src="https://i.imgur.com/Vb2lTb2.jpeg" alt="Shape">
                     </button>
-                    <button class="topic-btn module-locked" type="button" aria-disabled="true" title="New adventure coming">
+                    <button class="topic-btn" type="button" onclick="playClickSound(); openTransportMenu()" aria-label="Transport">
                         <img src="https://i.imgur.com/ntkuTTn.jpeg" alt="Transport">
                     </button>
                     <button class="topic-btn module-locked" type="button" aria-disabled="true" title="New adventure coming">
@@ -4620,6 +4793,87 @@
             </div>
 
 
+
+
+            <!-- TRANSPORT MODULE MENU SCREEN -->
+            <div id="transport-menu-screen" class="card">
+                <h2 id="transport-menu-title" style="color:#FFDE59;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #123F7A;">Transport Module 🚗</h2>
+                <p id="transport-menu-desc" style="color:#111;font-weight:800;margin-top:5px;">Choose a fun transport activity!</p>
+                <div class="transport-menu-grid">
+                    <button class="transport-menu-btn" onclick="playClickSound(); openLearnTransportCategoryScreen()" aria-label="Let's Learn Transport">
+                        <img src="https://i.imgur.com/zlJPZca.jpeg" alt="Let's Learn Transport">
+                    </button>
+                    <button class="transport-menu-btn" onclick="playClickSound(); startSortTransport()" aria-label="Sort the Transport">
+                        <img src="https://i.imgur.com/8AzPReh.jpeg" alt="Sort the Transport">
+                    </button>
+                    <button class="transport-menu-btn" onclick="playClickSound(); startGuessTransport()" aria-label="Guess the Transport">
+                        <img src="https://i.imgur.com/ZMWtANh.jpeg" alt="Guess the Transport">
+                    </button>
+                </div>
+                <button class="action-btn home-btn" id="transport-menu-home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+            </div>
+
+            <!-- LEARN TRANSPORT CATEGORIES -->
+            <div id="learn-transport-cat-screen" class="card">
+                <h2 id="learn-transport-cat-title" style="color:#5E17EB;font-family:'Fredoka One',cursive;">Let's Learn Transport 🚗✈️🚢</h2>
+                <p id="learn-transport-cat-desc" style="color:#111;font-weight:800;margin-top:5px;">Choose a transport category.</p>
+                <div class="transport-cat-grid" id="transport-categories-container"></div>
+                <button class="action-btn home-btn" id="learn-transport-cat-back" onclick="playClickSound(); openTransportMenu()">Back ↩️</button>
+            </div>
+
+            <!-- LEARN TRANSPORT FLASHCARD -->
+            <div id="learn-transport-flash-screen" class="card">
+                <h2 id="transport-cat-display-title" style="color:#333;margin-bottom:5px;font-family:'Fredoka One',cursive;">Land Transport</h2>
+                <p style="color:#444;font-weight:700;font-size:.9rem;" id="transport-flash-progress">Transport 1 of 9</p>
+                <div class="flashcard-box">
+                    <div class="flashcard-img-container" style="width:220px;height:220px;">
+                        <img id="transport-flash-image" src="" alt="Transport Image" referrerpolicy="no-referrer">
+                    </div>
+                    <div class="flashcard-text" id="transport-flash-name-bm" style="color:#5E17EB;font-size:2rem;">Kereta</div>
+                    <div style="font-size:1.3rem;font-weight:700;color:#777;margin-top:-5px;" id="transport-flash-name-en">Car</div>
+                    <button class="sound-btn" id="transport-flash-listen" onclick="playTransportFlashSound()">🔊 Listen / Dengar</button>
+                </div>
+                <div class="flashcard-nav">
+                    <button class="action-btn" id="prev-transport-btn" style="background-color:#E74C3C;box-shadow:0 5px 0 #922B21,0 8px 20px rgba(0,0,0,.15);" onclick="playClickSound(); prevTransportFlash()">⬅ Prev</button>
+                    <button class="action-btn home-btn" id="transport-flash-back" onclick="playClickSound(); openLearnTransportCategoryScreen()">Back ↩️</button>
+                    <button class="action-btn" id="next-transport-btn" style="background-color:var(--primary-green);box-shadow:0 5px 0 #5aa33d,0 8px 20px rgba(0,0,0,.15);" onclick="playClickSound(); nextTransportFlash()">Next ➡</button>
+                </div>
+            </div>
+
+            <!-- SORT THE TRANSPORT -->
+            <div id="sort-transport-screen" class="card">
+                <h2 id="sort-transport-title" style="color:#FFDE59;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #123F7A;">Sort the Transport 🚗✈️🚢</h2>
+                <p id="sort-transport-desc" style="color:#111;font-weight:800;margin:6px 0 8px;">Drag all 5 transport pictures into the correct box.</p>
+                <div class="transport-sort-status">
+                    <span><span id="sort-transport-set-label">Set</span>: <span id="sort-transport-set">1</span>/5</span>
+                    <span><span id="sort-transport-left-label">Left</span>: <span id="sort-transport-left">5</span></span>
+                </div>
+                <div class="transport-sort-bank" id="transport-sort-bank"></div>
+                <div class="transport-sort-zones">
+                    <div class="transport-sort-zone" data-cat="land"><div class="transport-zone-title" id="transport-zone-land">🚗 Land</div><div class="transport-zone-items"></div></div>
+                    <div class="transport-sort-zone" data-cat="air"><div class="transport-zone-title" id="transport-zone-air">✈️ Air</div><div class="transport-zone-items"></div></div>
+                    <div class="transport-sort-zone" data-cat="water"><div class="transport-zone-title" id="transport-zone-water">🚢 Water</div><div class="transport-zone-items"></div></div>
+                </div>
+                <div class="transport-feedback" id="sort-transport-feedback"></div>
+                <button class="action-btn" id="sort-transport-next" style="display:none;background:var(--primary-green);box-shadow:0 5px 0 #4d9d31;" onclick="playClickSound(); nextSortTransportSet()">Next Set ➡</button>
+                <button class="action-btn home-btn" id="sort-transport-back" onclick="playClickSound(); openTransportMenu()">Back ↩️</button>
+            </div>
+
+            <!-- GUESS THE TRANSPORT -->
+            <div id="guess-transport-screen" class="card">
+                <h2 id="guess-transport-title" style="color:#FFDE59;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #123F7A;">Guess the Transport ✅</h2>
+                <p id="guess-transport-desc" style="color:#111;font-weight:800;margin:6px 0 8px;">Look at each picture and tick the correct transport name.</p>
+                <div class="transport-guess-status">
+                    <span><span id="guess-transport-set-label">Set</span>: <span id="guess-transport-set">1</span>/5</span>
+                    <span><span id="guess-transport-score-label">Score</span>: <span id="guess-transport-score">0</span>/20</span>
+                </div>
+                <div class="transport-guess-grid" id="transport-guess-grid"></div>
+                <div class="transport-feedback" id="guess-transport-feedback"></div>
+                <button class="action-btn" id="guess-transport-next" style="display:none;background:var(--primary-green);box-shadow:0 5px 0 #4d9d31;" onclick="playClickSound(); nextGuessTransportSet()">Next Set ➡</button>
+                <button class="action-btn home-btn" id="guess-transport-back" onclick="playClickSound(); openTransportMenu()">Back ↩️</button>
+            </div>
+
+
             <!-- SHAPE MODULE MENU SCREEN -->
             <div id="shape-menu-screen" class="card">
                 <h2 id="shape-menu-title" style="color:#FFDE59;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #5E17EB;">Shape Module 🔷</h2>
@@ -5171,7 +5425,7 @@
 
         function setGlobalLanguage(lang) {
             currentGlobalLang = lang;
-            setTimeout(()=>{ if(typeof updateColourLanguage === 'function') updateColourLanguage(); if(typeof updateBodyLanguage === 'function') updateBodyLanguage(); if(typeof updateShapeLanguage === 'function') updateShapeLanguage(); },0);
+            setTimeout(()=>{ if(typeof updateColourLanguage === 'function') updateColourLanguage(); if(typeof updateBodyLanguage === 'function') updateBodyLanguage(); if(typeof updateShapeLanguage === 'function') updateShapeLanguage(); if(typeof updateTransportLanguage === 'function') updateTransportLanguage(); },0);
             
             document.getElementById("lang-btn-en").classList.remove("active");
             document.getElementById("lang-btn-ms").classList.remove("active");
@@ -7211,7 +7465,9 @@
                 'quiz-screen',
                 'match-shape-screen',
                 'draw-shape-screen',
-                'match-me-screen'
+                'match-me-screen',
+                'sort-transport-screen',
+                'guess-transport-screen'
             ]);
             document.body.classList.toggle('activity-bg-blur', activityScreens.has(screenId));
             document.body.classList.toggle('login-mode', screenId === 'login-screen');
@@ -8635,6 +8891,286 @@ document.addEventListener('DOMContentLoaded', () => {
 
         window.addEventListener('click', enableAutoplayOnFirstTouch);
         window.addEventListener('touchstart', enableAutoplayOnFirstTouch);
+
+
+        // =========================================================
+        // TRANSPORT MODULE
+        // =========================================================
+        const transportDatabase = [
+            {id:'car',cat:'land',en:'Car',bm:'Kereta',img:'https://loremflickr.com/640/480/car?lock=2101'},
+            {id:'bus',cat:'land',en:'Bus',bm:'Bas',img:'https://loremflickr.com/640/480/bus?lock=2102'},
+            {id:'train',cat:'land',en:'Train',bm:'Kereta Api',img:'https://loremflickr.com/640/480/train?lock=2103'},
+            {id:'truck',cat:'land',en:'Truck',bm:'Lori',img:'https://loremflickr.com/640/480/truck?lock=2104'},
+            {id:'bicycle',cat:'land',en:'Bicycle',bm:'Basikal',img:'https://loremflickr.com/640/480/bicycle?lock=2105'},
+            {id:'motorcycle',cat:'land',en:'Motorcycle',bm:'Motosikal',img:'https://loremflickr.com/640/480/motorcycle?lock=2106'},
+            {id:'taxi',cat:'land',en:'Taxi',bm:'Teksi',img:'https://loremflickr.com/640/480/taxi?lock=2107'},
+            {id:'tractor',cat:'land',en:'Tractor',bm:'Traktor',img:'https://loremflickr.com/640/480/tractor?lock=2108'},
+            {id:'van',cat:'land',en:'Van',bm:'Van',img:'https://loremflickr.com/640/480/van?lock=2109'},
+
+            {id:'aeroplane',cat:'air',en:'Aeroplane',bm:'Kapal Terbang',img:'https://loremflickr.com/640/480/airplane?lock=2201'},
+            {id:'helicopter',cat:'air',en:'Helicopter',bm:'Helikopter',img:'https://loremflickr.com/640/480/helicopter?lock=2202'},
+            {id:'balloon',cat:'air',en:'Hot Air Balloon',bm:'Belon Udara Panas',img:'https://loremflickr.com/640/480/hotairballoon?lock=2203'},
+            {id:'glider',cat:'air',en:'Glider',bm:'Pesawat Peluncur',img:'https://loremflickr.com/640/480/glider,aircraft?lock=2204'},
+            {id:'jet',cat:'air',en:'Jet',bm:'Jet',img:'https://loremflickr.com/640/480/jet,aircraft?lock=2205'},
+            {id:'seaplane',cat:'air',en:'Seaplane',bm:'Pesawat Laut',img:'https://loremflickr.com/640/480/seaplane?lock=2206'},
+            {id:'rocket',cat:'air',en:'Rocket',bm:'Roket',img:'https://loremflickr.com/640/480/rocket?lock=2207'},
+            {id:'drone',cat:'air',en:'Drone',bm:'Dron',img:'https://loremflickr.com/640/480/drone?lock=2208'},
+            {id:'airship',cat:'air',en:'Airship',bm:'Kapal Udara',img:'https://loremflickr.com/640/480/airship,blimp?lock=2209'},
+
+            {id:'boat',cat:'water',en:'Boat',bm:'Bot',img:'https://loremflickr.com/640/480/boat?lock=2301'},
+            {id:'ship',cat:'water',en:'Ship',bm:'Kapal',img:'https://loremflickr.com/640/480/ship?lock=2302'},
+            {id:'sailboat',cat:'water',en:'Sailboat',bm:'Bot Layar',img:'https://loremflickr.com/640/480/sailboat?lock=2303'},
+            {id:'ferry',cat:'water',en:'Ferry',bm:'Feri',img:'https://loremflickr.com/640/480/ferry?lock=2304'},
+            {id:'submarine',cat:'water',en:'Submarine',bm:'Kapal Selam',img:'https://loremflickr.com/640/480/submarine?lock=2305'},
+            {id:'canoe',cat:'water',en:'Canoe',bm:'Kanu',img:'https://loremflickr.com/640/480/canoe?lock=2306'},
+            {id:'kayak',cat:'water',en:'Kayak',bm:'Kayak',img:'https://loremflickr.com/640/480/kayak?lock=2307'},
+            {id:'yacht',cat:'water',en:'Yacht',bm:'Kapal Layar Mewah',img:'https://loremflickr.com/640/480/yacht?lock=2308'},
+            {id:'speedboat',cat:'water',en:'Speedboat',bm:'Bot Laju',img:'https://loremflickr.com/640/480/speedboat?lock=2309'}
+        ];
+
+        const transportCategories = [
+            {id:'land', icon:'🚗', en:'Land Transport', bm:'Pengangkutan Darat'},
+            {id:'air', icon:'✈️', en:'Air Transport', bm:'Pengangkutan Udara'},
+            {id:'water', icon:'🚢', en:'Water Transport', bm:'Pengangkutan Air'}
+        ];
+        const transportShuffle = arr => [...arr].sort(()=>Math.random()-.5);
+        const transportName = item => currentGlobalLang === 'ms' ? item.bm : item.en;
+        const transportCatName = cat => currentGlobalLang === 'ms' ? cat.bm : cat.en;
+
+        function openTransportMenu(){
+            updateTransportLanguage();
+            showScreen('transport-menu-screen');
+        }
+
+        function updateTransportLanguage(){
+            const ms = currentGlobalLang === 'ms';
+            const map = {
+                'transport-menu-title': ms ? 'Modul Pengangkutan 🚗' : 'Transport Module 🚗',
+                'transport-menu-desc': ms ? 'Pilih aktiviti pengangkutan yang menyeronokkan!' : 'Choose a fun transport activity!',
+                'transport-menu-home-btn': ms ? 'Kembali ke Utama 🏠' : 'Back to Home 🏠',
+                'learn-transport-cat-title': ms ? 'Mari Belajar Pengangkutan 🚗✈️🚢' : "Let's Learn Transport 🚗✈️🚢",
+                'learn-transport-cat-desc': ms ? 'Pilih kategori pengangkutan.' : 'Choose a transport category.',
+                'learn-transport-cat-back': ms ? 'Kembali ↩️' : 'Back ↩️',
+                'transport-flash-listen': ms ? '🔊 Dengar' : '🔊 Listen',
+                'transport-flash-back': ms ? 'Kembali ↩️' : 'Back ↩️',
+                'sort-transport-title': ms ? 'Asingkan Pengangkutan 🚗✈️🚢' : 'Sort the Transport 🚗✈️🚢',
+                'sort-transport-desc': ms ? 'Seret semua 5 gambar kenderaan ke dalam kotak yang betul.' : 'Drag all 5 transport pictures into the correct box.',
+                'sort-transport-set-label': ms ? 'Set' : 'Set',
+                'sort-transport-left-label': ms ? 'Baki' : 'Left',
+                'transport-zone-land': ms ? '🚗 Darat' : '🚗 Land',
+                'transport-zone-air': ms ? '✈️ Udara' : '✈️ Air',
+                'transport-zone-water': ms ? '🚢 Air' : '🚢 Water',
+                'sort-transport-next': ms ? 'Set Seterusnya ➡' : 'Next Set ➡',
+                'sort-transport-back': ms ? 'Kembali ↩️' : 'Back ↩️',
+                'guess-transport-title': ms ? 'Teka Pengangkutan ✅' : 'Guess the Transport ✅',
+                'guess-transport-desc': ms ? 'Lihat setiap gambar dan tandakan nama kenderaan yang betul.' : 'Look at each picture and tick the correct transport name.',
+                'guess-transport-set-label': ms ? 'Set' : 'Set',
+                'guess-transport-score-label': ms ? 'Skor' : 'Score',
+                'guess-transport-next': ms ? 'Set Seterusnya ➡' : 'Next Set ➡',
+                'guess-transport-back': ms ? 'Kembali ↩️' : 'Back ↩️'
+            };
+            Object.entries(map).forEach(([id,val])=>{ const el=document.getElementById(id); if(el) el.innerText=val; });
+            if(document.getElementById('learn-transport-cat-screen')?.classList.contains('active')) renderTransportCategories();
+            if(document.getElementById('learn-transport-flash-screen')?.classList.contains('active')) renderTransportFlashcard(false);
+        }
+
+        // ---------- Let's Learn Transport ----------
+        let currentLearnTransportList = [];
+        let currentLearnTransportIdx = 0;
+        let currentTransportCategory = 'land';
+
+        function openLearnTransportCategoryScreen(){
+            renderTransportCategories();
+            updateTransportLanguage();
+            showScreen('learn-transport-cat-screen');
+        }
+        function renderTransportCategories(){
+            const c=document.getElementById('transport-categories-container');
+            if(!c) return;
+            c.innerHTML='';
+            transportCategories.forEach(cat=>{
+                const b=document.createElement('button');
+                b.className='transport-cat-btn';
+                b.innerText=`${cat.icon} ${transportCatName(cat)}`;
+                b.onclick=()=>{ playClickSound(); startLearnTransportCategory(cat.id); };
+                c.appendChild(b);
+            });
+        }
+        function startLearnTransportCategory(catId){
+            currentTransportCategory=catId;
+            currentLearnTransportList=transportDatabase.filter(t=>t.cat===catId);
+            currentLearnTransportIdx=0;
+            showScreen('learn-transport-flash-screen');
+            updateTransportLanguage();
+            renderTransportFlashcard(true);
+        }
+        function renderTransportFlashcard(speak=false){
+            const item=currentLearnTransportList[currentLearnTransportIdx];
+            if(!item) return;
+            const cat=transportCategories.find(c=>c.id===currentTransportCategory);
+            document.getElementById('transport-cat-display-title').innerText=cat ? `${cat.icon} ${transportCatName(cat)}` : '';
+            document.getElementById('transport-flash-progress').innerText=currentGlobalLang==='ms'
+                ? `Kenderaan ${currentLearnTransportIdx+1} daripada ${currentLearnTransportList.length}`
+                : `Transport ${currentLearnTransportIdx+1} of ${currentLearnTransportList.length}`;
+            const img=document.getElementById('transport-flash-image');
+            img.src=item.img;
+            img.onerror=()=>{ img.onerror=null; img.src='https://loremflickr.com/640/480/vehicle?lock=2399'; };
+            document.getElementById('transport-flash-name-bm').innerText=item.bm;
+            document.getElementById('transport-flash-name-en').innerText=item.en;
+            document.getElementById('prev-transport-btn').style.display=currentLearnTransportIdx===0?'none':'inline-block';
+            document.getElementById('next-transport-btn').innerText=currentLearnTransportIdx===currentLearnTransportList.length-1
+                ? (currentGlobalLang==='ms'?'Tamat 🏁':'Finish 🏁')
+                : (currentGlobalLang==='ms'?'Seterusnya ➡':'Next ➡');
+            if(speak) setTimeout(playTransportFlashSound,120);
+        }
+        function playTransportFlashSound(){
+            const item=currentLearnTransportList[currentLearnTransportIdx]; if(!item) return;
+            if('speechSynthesis' in window){
+                window.speechSynthesis.cancel();
+                const u=new SpeechSynthesisUtterance(transportName(item));
+                u.lang=currentGlobalLang==='ms'?'ms-MY':'en-US';u.rate=.72;
+                window.speechSynthesis.speak(u);
+            }
+        }
+        function prevTransportFlash(){ if(currentLearnTransportIdx>0){currentLearnTransportIdx--;renderTransportFlashcard(true);} }
+        function nextTransportFlash(){
+            if(currentLearnTransportIdx<currentLearnTransportList.length-1){currentLearnTransportIdx++;renderTransportFlashcard(true);}
+            else { alert(currentGlobalLang==='ms'?'Syabas! Anda telah habiskan kategori ini! 🎉':'Great job! You completed this category! 🎉'); openLearnTransportCategoryScreen(); }
+        }
+
+        // ---------- Sort the Transport ----------
+        let sortTransportSets=[], sortTransportSetIndex=0, selectedTransportSortId=null;
+        function startSortTransport(){
+            const pool=transportShuffle(transportDatabase).slice(0,25);
+            sortTransportSets=Array.from({length:5},(_,i)=>pool.slice(i*5,i*5+5));
+            sortTransportSetIndex=0;
+            showScreen('sort-transport-screen');
+            updateTransportLanguage();
+            setupSortTransportZones();
+            renderSortTransportSet();
+        }
+        function setupSortTransportZones(){
+            document.querySelectorAll('.transport-sort-zone').forEach(zone=>{
+                if(zone.dataset.ready==='1') return;
+                zone.dataset.ready='1';
+                zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag-over');});
+                zone.addEventListener('dragleave',()=>zone.classList.remove('drag-over'));
+                zone.addEventListener('drop',e=>{e.preventDefault();zone.classList.remove('drag-over');const id=e.dataTransfer.getData('text/plain')||selectedTransportSortId;attemptSortTransportDrop(id,zone.dataset.cat);});
+                zone.addEventListener('click',()=>{if(selectedTransportSortId) attemptSortTransportDrop(selectedTransportSortId,zone.dataset.cat);});
+            });
+        }
+        function renderSortTransportSet(){
+            selectedTransportSortId=null;
+            const set=sortTransportSets[sortTransportSetIndex]||[];
+            const bank=document.getElementById('transport-sort-bank');
+            bank.innerHTML='';
+            document.querySelectorAll('.transport-sort-zone .transport-zone-items').forEach(x=>x.innerHTML='');
+            document.getElementById('sort-transport-feedback').innerText='';
+            document.getElementById('sort-transport-next').style.display='none';
+            document.getElementById('sort-transport-set').innerText=sortTransportSetIndex+1;
+            document.getElementById('sort-transport-left').innerText=set.length;
+            transportShuffle(set).forEach(item=>bank.appendChild(makeTransportSortItem(item)));
+        }
+        function makeTransportSortItem(item){
+            const d=document.createElement('div');
+            d.className='transport-sort-item';d.dataset.id=item.id;d.draggable=true;
+            d.title=transportName(item);
+            const im=document.createElement('img'); im.src=item.img; im.alt=transportName(item); im.referrerPolicy='no-referrer';
+            im.onerror=()=>{im.onerror=null;im.src='https://loremflickr.com/640/480/vehicle?lock=2398';}; d.appendChild(im);
+            d.addEventListener('dragstart',e=>{selectedTransportSortId=item.id;e.dataTransfer.setData('text/plain',item.id);setTimeout(()=>d.classList.add('selected'),0);});
+            d.addEventListener('dragend',()=>d.classList.remove('selected'));
+            d.addEventListener('click',()=>{document.querySelectorAll('.transport-sort-item').forEach(x=>x.classList.remove('selected'));selectedTransportSortId=item.id;d.classList.add('selected');});
+            d.addEventListener('touchstart',()=>{selectedTransportSortId=item.id;d.classList.add('selected');},{passive:true});
+            d.addEventListener('touchend',e=>{const t=e.changedTouches[0];const zone=document.elementFromPoint(t.clientX,t.clientY)?.closest('.transport-sort-zone');if(zone)attemptSortTransportDrop(item.id,zone.dataset.cat);},{passive:true});
+            return d;
+        }
+        function attemptSortTransportDrop(id,cat){
+            if(!id) return;
+            const item=transportDatabase.find(t=>t.id===id); const node=document.querySelector(`.transport-sort-item[data-id="${id}"]`);
+            if(!item||!node||!document.getElementById('transport-sort-bank').contains(node)) return;
+            const fb=document.getElementById('sort-transport-feedback');
+            if(item.cat!==cat){
+                fb.innerText=currentGlobalLang==='ms'?'Cuba lagi 😊 Pilih kotak yang betul.':'Try again 😊 Choose the correct box.';
+                fb.style.color='#E53935'; if(typeof playWrongSound==='function')playWrongSound(); return;
+            }
+            const thumb=document.createElement('div');thumb.className='transport-zone-thumb';
+            const im=document.createElement('img');im.src=item.img;im.alt=transportName(item);im.referrerPolicy='no-referrer';thumb.appendChild(im);
+            document.querySelector(`.transport-sort-zone[data-cat="${cat}"] .transport-zone-items`).appendChild(thumb);
+            node.remove();selectedTransportSortId=null;
+            fb.innerText=currentGlobalLang==='ms'?'Betul! 🌟':'Correct! 🌟'; fb.style.color='#2E7D32'; if(typeof playCorrectSound==='function')playCorrectSound();
+            const left=document.getElementById('transport-sort-bank').querySelectorAll('.transport-sort-item').length;
+            document.getElementById('sort-transport-left').innerText=left;
+            if(left===0){
+                fb.innerText=currentGlobalLang==='ms'?'Hebat! Semua kenderaan sudah diasingkan. 🎉':'Great! All transport pictures are sorted. 🎉';
+                if(sortTransportSetIndex<4) document.getElementById('sort-transport-next').style.display='inline-block';
+                else setTimeout(finishSortTransport,700);
+            }
+        }
+        function nextSortTransportSet(){ if(sortTransportSetIndex<4){sortTransportSetIndex++;renderSortTransportSet();} }
+        function finishSortTransport(){
+            if(window.saveScoreToFirebase) window.saveScoreToFirebase(currentGlobalLang==='ms'?'Asingkan Pengangkutan':'Sort Transport',100);
+            alert(currentGlobalLang==='ms'?'Tahniah! Anda telah lengkapkan semua 5 set! 🎉':'Congratulations! You completed all 5 sets! 🎉');
+            openTransportMenu();
+        }
+
+        // ---------- Guess the Transport ----------
+        let guessTransportSets=[],guessTransportSetIndex=0,guessTransportScore=0,guessTransportAnswered=0;
+        function startGuessTransport(){
+            const targets=transportShuffle(transportDatabase).slice(0,20);
+            guessTransportSets=Array.from({length:5},(_,i)=>targets.slice(i*4,i*4+4));
+            guessTransportSetIndex=0;guessTransportScore=0;
+            showScreen('guess-transport-screen');updateTransportLanguage();renderGuessTransportSet();
+        }
+        function renderGuessTransportSet(){
+            guessTransportAnswered=0;
+            const grid=document.getElementById('transport-guess-grid');grid.innerHTML='';
+            document.getElementById('guess-transport-set').innerText=guessTransportSetIndex+1;
+            document.getElementById('guess-transport-score').innerText=guessTransportScore;
+            document.getElementById('guess-transport-feedback').innerText='';
+            document.getElementById('guess-transport-next').style.display='none';
+            const set=guessTransportSets[guessTransportSetIndex]||[];
+            set.forEach(target=>grid.appendChild(makeGuessTransportCard(target)));
+        }
+        function makeGuessTransportCard(target){
+            const card=document.createElement('div');card.className='transport-guess-card';card.dataset.target=target.id;
+            const img=document.createElement('img');img.className='transport-guess-img';img.src=target.img;img.alt='Transport';img.referrerPolicy='no-referrer';
+            img.onerror=()=>{img.onerror=null;img.src='https://loremflickr.com/640/480/vehicle?lock=2397';};card.appendChild(img);
+            const opts=document.createElement('div');opts.className='transport-guess-options';
+            const distract=transportShuffle(transportDatabase.filter(t=>t.id!==target.id)).slice(0,2);
+            transportShuffle([target,...distract]).forEach(choice=>{
+                const b=document.createElement('button');b.className='transport-guess-option';b.dataset.id=choice.id;b.innerText=`☐ ${transportName(choice)}`;
+                b.onclick=()=>answerGuessTransport(card,target,choice,b);opts.appendChild(b);
+            });
+            card.appendChild(opts);return card;
+        }
+        function answerGuessTransport(card,target,choice,button){
+            if(card.classList.contains('answered'))return;
+            card.classList.add('answered');guessTransportAnswered++;
+            const buttons=[...card.querySelectorAll('.transport-guess-option')];
+            buttons.forEach(b=>{
+                b.disabled=true;
+                const item=transportDatabase.find(t=>t.id===b.dataset.id);
+                b.innerText=`${b.dataset.id===target.id?'✓':'☐'} ${transportName(item)}`;
+                if(b.dataset.id===target.id)b.classList.add('correct');
+            });
+            if(choice.id===target.id){guessTransportScore++;if(typeof playCorrectSound==='function')playCorrectSound();}
+            else {button.classList.add('wrong');button.innerText=`✕ ${transportName(choice)}`;if(typeof playWrongSound==='function')playWrongSound();}
+            document.getElementById('guess-transport-score').innerText=guessTransportScore;
+            if(guessTransportAnswered===4){
+                const fb=document.getElementById('guess-transport-feedback');
+                fb.innerText=currentGlobalLang==='ms'?'Set selesai! 🌟':'Set complete! 🌟';fb.style.color='#2E7D32';
+                if(guessTransportSetIndex<4)document.getElementById('guess-transport-next').style.display='inline-block';
+                else setTimeout(finishGuessTransport,700);
+            }
+        }
+        function nextGuessTransportSet(){ if(guessTransportSetIndex<4){guessTransportSetIndex++;renderGuessTransportSet();} }
+        function finishGuessTransport(){
+            const pct=Math.round(guessTransportScore/20*100);
+            if(window.saveScoreToFirebase)window.saveScoreToFirebase(currentGlobalLang==='ms'?'Teka Pengangkutan':'Guess Transport',pct);
+            alert(currentGlobalLang==='ms'?`🎉 Selesai! Skor anda: ${guessTransportScore}/20 (${pct}%)`:`🎉 Finished! Your score: ${guessTransportScore}/20 (${pct}%)`);
+            openTransportMenu();
+        }
+
     </script>
 </body>
 </html>
