@@ -3621,6 +3621,113 @@
             .shape-trace-canvas-wrap{height:330px}
         }
 
+
+        /* =========================================================
+           SHAPE MODULE FIX 2026-09-14 - scoped only to Shape screens
+        ========================================================== */
+        #learn-shape-screen,
+        #draw-shape-screen {
+            width: min(96vw, 900px);
+            margin-left: 50%;
+            transform: translateX(-50%);
+        }
+        #learn-shape-screen .shape-learn-card {
+            width: 100%; max-width: none; margin: 20px 0; padding: 25px;
+            background: rgba(255,249,196,.95); border: 4px dashed #FBC02D;
+            border-radius: 25px; display:flex; flex-direction:column; align-items:center;
+            box-shadow:0 8px 25px rgba(0,0,0,.12);
+        }
+        #learn-shape-screen .shape-learn-visual {
+            width:200px; height:200px; flex:0 0 200px; aspect-ratio:1/1;
+            margin:15px auto; display:flex; align-items:center; justify-content:center;
+        }
+        #learn-shape-screen .shape-learn-name { font-size:1.8rem; margin:10px 0; }
+        #learn-shape-screen .flashcard-nav { width:100%; }
+
+        #match-shape-screen .shape-match-container { width:100%; justify-content:space-between; align-items:stretch; gap:0; }
+        #match-shape-screen .shape-match-column { width:185px; gap:18px; }
+        #match-shape-screen #match-shape-left { transform:translateX(-95px); }
+        #match-shape-screen #match-shape-right { transform:translateX(95px); }
+        #match-shape-screen #match-shape-left .shape-match-item {
+            width:185px; height:135px; min-height:135px; padding:10px 12px;
+            background:rgba(255,255,255,.95); border:3px solid var(--primary-blue);
+            border-radius:18px; box-shadow:0 4px 10px rgba(0,0,0,.08);
+            display:flex; flex-direction:column; align-items:center; justify-content:center;
+            gap:7px; line-height:1.15; overflow:visible;
+        }
+        #match-shape-screen .match-shape-name {
+            font-family:'Fredoka One',cursive; font-size:1.3rem; font-weight:700;
+            text-align:center; color:#2C3E50; pointer-events:none;
+        }
+        #match-shape-screen .shape-match-audio-btn {
+            width:42px; height:42px; border:none; border-radius:50%; background:var(--primary-pink);
+            color:#fff; font-size:1.25rem; cursor:pointer; display:inline-flex; align-items:center;
+            justify-content:center; box-shadow:0 4px 0 #b33687,0 5px 10px rgba(0,0,0,.12);
+            touch-action:manipulation; flex:0 0 auto;
+        }
+        #match-shape-screen .shape-match-audio-btn:active { transform:translateY(2px); box-shadow:0 2px 0 #b33687; }
+        #match-shape-screen #match-shape-right .shape-match-item {
+            width:185px; height:135px; min-height:135px; padding:0; background:transparent;
+            border:none; border-radius:0; box-shadow:none; overflow:visible;
+        }
+        #match-shape-screen #match-shape-right .shape-mini {
+            width:135px; height:135px; padding:8px; border:4px solid var(--primary-blue);
+            border-radius:18px; background:#fff; box-shadow:0 5px 12px rgba(0,0,0,.12);
+            pointer-events:none;
+        }
+        #match-shape-screen .shape-match-item.matched { opacity:1!important; filter:none!important; color:inherit!important; }
+        #match-shape-screen #match-shape-left .shape-match-item.matched { background:rgba(255,255,255,.95)!important; border-color:var(--primary-blue)!important; }
+        #match-shape-screen #match-shape-right .shape-match-item.matched { background:transparent!important; border-color:transparent!important; }
+
+        #draw-shape-screen .shape-tracing-board {
+            background:rgba(255,255,255,.98); border:5px solid #C38FFF; border-radius:30px;
+            padding:14px; box-shadow:0 12px 28px rgba(0,0,0,.16); margin:12px auto 18px;
+            width:100%; max-width:none;
+        }
+        #draw-shape-screen .shape-trace-canvas-wrap {
+            width:100%; height:clamp(360px,58vw,520px); min-height:0; border-radius:22px;
+            overflow:hidden; background:#fff; border:3px solid #ece4ff;
+        }
+
+        #match-me-screen .shape-match-container { width:100%; justify-content:center; align-items:stretch; gap:12px; }
+        #match-me-screen .shape-match-column { width:calc(50% - 6px); max-width:320px; gap:12px; }
+        #match-me-screen .shape-match-column.left,
+        #match-me-screen .shape-match-column.right { margin:0; }
+        #match-me-screen .shape-match-item {
+            width:100%; min-height:0; aspect-ratio:1/1; padding:0;
+            border:4px solid var(--primary-blue); border-radius:22px; background:#FFF3D6;
+            box-shadow:0 7px 16px rgba(0,0,0,.13);
+        }
+        #match-me-screen .shape-match-item .shape-mini { width:78%; height:78%; }
+        #match-me-screen .shape-match-item.matched { opacity:1!important; filter:none!important; }
+
+        @media(max-width:768px){
+            #learn-shape-screen,#draw-shape-screen { width:calc(100vw - 10px); margin-left:50%; transform:translateX(-50%); padding-left:0; padding-right:0; }
+            #learn-shape-screen .shape-learn-visual { width:200px; height:200px; flex-basis:200px; }
+            #match-shape-screen .shape-match-column { width:142px; gap:15px; }
+            #match-shape-screen #match-shape-left { transform:translateX(-42px); }
+            #match-shape-screen #match-shape-right { transform:translateX(42px); }
+            #match-shape-screen #match-shape-left .shape-match-item,
+            #match-shape-screen #match-shape-right .shape-match-item { width:142px; height:116px; min-height:116px; }
+            #match-shape-screen #match-shape-left .shape-match-item { padding:8px 7px; gap:5px; }
+            #match-shape-screen #match-shape-right .shape-mini { width:116px; height:116px; border-width:3px; border-radius:15px; }
+            #match-shape-screen .match-shape-name { font-size:1.02rem; }
+            #match-shape-screen .shape-match-audio-btn { width:38px; height:38px; font-size:1.1rem; }
+            #draw-shape-screen .shape-tracing-board { padding:8px; border-radius:23px; }
+            #draw-shape-screen .shape-trace-canvas-wrap { height:min(112vw,470px); min-height:340px; }
+            #match-me-screen .shape-match-container { gap:8px; }
+            #match-me-screen .shape-match-column { width:calc(50% - 4px); gap:8px; }
+            #match-me-screen .shape-match-item { border-width:3px; border-radius:18px; }
+        }
+        @media(max-width:430px){
+            #match-shape-screen #match-shape-left { transform:translateX(-28px); }
+            #match-shape-screen #match-shape-right { transform:translateX(28px); }
+            #match-shape-screen .shape-match-column { width:130px; }
+            #match-shape-screen #match-shape-left .shape-match-item,
+            #match-shape-screen #match-shape-right .shape-match-item { width:130px; height:110px; min-height:110px; }
+            #match-shape-screen #match-shape-right .shape-mini { width:110px; height:110px; }
+        }
+
     </style>
 </head>
 <body class="login-mode">
@@ -8235,14 +8342,16 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('shape-learn-name').innerText = shapeText(item);
             document.getElementById('learn-shape-progress').innerText = `${currentGlobalLang==='ms'?'Bentuk':'Shape'} ${learnShapeIndex+1} / ${shapeDatabase.length}`;
         }
-        function speakCurrentShape(){
-            const item=shapeDatabase[learnShapeIndex];
+        function speakShapeItem(item){
             if(!item || !('speechSynthesis' in window)) return;
             speechSynthesis.cancel();
             const u=new SpeechSynthesisUtterance(shapeText(item));
             u.lang=currentGlobalLang==='ms'?'ms-MY':'en-US';
             u.rate=.55;
             speechSynthesis.speak(u);
+        }
+        function speakCurrentShape(){
+            speakShapeItem(shapeDatabase[learnShapeIndex]);
         }
         function nextShape(){ learnShapeIndex=(learnShapeIndex+1)%shapeDatabase.length; renderLearnShape(); speakCurrentShape(); }
         function prevShape(){ learnShapeIndex=(learnShapeIndex-1+shapeDatabase.length)%shapeDatabase.length; renderLearnShape(); speakCurrentShape(); }
@@ -8281,6 +8390,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             function pos(e,wrap){const r=wrap.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
             function down(e){
+                if(e.target.closest('.shape-match-audio-btn')) return;
                 const item=e.target.closest('.shape-match-item');
                 if(!item||item.classList.contains('matched')||item.dataset.side!=='left')return;
                 e.preventDefault();state.drag=item;item.classList.add('selected');draw(pos(e,elements().wrap));
@@ -8346,7 +8456,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const l=document.getElementById('match-shape-left'),r=document.getElementById('match-shape-right');
             l.innerHTML='';r.innerHTML='';
             shapeShuffle(items).forEach(item=>{
-                const d=document.createElement('div');d.className='shape-match-item';d.dataset.key=item.id;d.dataset.side='left';d.innerText=shapeText(item);l.appendChild(d);
+                const d=document.createElement('div');
+                d.className='shape-match-item'; d.dataset.key=item.id; d.dataset.side='left';
+                const name=shapeText(item);
+                d.innerHTML=`<span class="match-shape-name">${name}</span><button type="button" class="shape-match-audio-btn" aria-label="${currentGlobalLang==='ms'?'Dengar':'Listen'} ${name}" title="Listen / Dengar">🔊</button>`;
+                const audioBtn=d.querySelector('.shape-match-audio-btn');
+                audioBtn.addEventListener('pointerdown',e=>e.stopPropagation());
+                audioBtn.addEventListener('pointerup',e=>e.stopPropagation());
+                audioBtn.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();speakShapeItem(item);});
+                l.appendChild(d);
             });
             shapeShuffle(items).forEach(item=>{
                 const d=document.createElement('div');d.className='shape-match-item';d.dataset.key=item.id;d.dataset.side='right';
@@ -8377,32 +8495,39 @@ document.addEventListener('DOMContentLoaded', () => {
             attachShapeTraceEvents();
         }
         function traceShapePath(ctx,id,w,h){
-            const cx=w/2,cy=h/2,rx=w*.32,ry=h*.32;
+            const side=Math.min(w,h)*0.82;
+            const ox=(w-side)/2, oy=(h-side)/2;
+            const X=v=>ox+(v/100)*side, Y=v=>oy+(v/100)*side;
+            const cx=X(50), cy=Y(50);
             ctx.beginPath();
-            if(id==='circle'){ctx.arc(cx,cy,Math.min(rx,ry),0,Math.PI*2);}
-            else if(id==='oval'){ctx.ellipse(cx,cy,rx*1.15,ry*.72,0,0,Math.PI*2);}
-            else if(id==='heart'){
-                ctx.moveTo(cx,cy+ry*.95);
-                ctx.bezierCurveTo(cx-rx*1.25,cy+ry*.15,cx-rx*.9,cy-ry*.9,cx,cy-ry*.25);
-                ctx.bezierCurveTo(cx+rx*.9,cy-ry*.9,cx+rx*1.25,cy+ry*.15,cx,cy+ry*.95);
+            if(id==='circle'){
+                ctx.arc(cx,cy,side*.38,0,Math.PI*2);
+            } else if(id==='oval'){
+                ctx.ellipse(cx,cy,side*.43,side*.29,0,0,Math.PI*2);
+            } else if(id==='heart'){
+                ctx.moveTo(X(50),Y(88));
+                ctx.bezierCurveTo(X(42),Y(78),X(12),Y(61),X(12),Y(34));
+                ctx.bezierCurveTo(X(12),Y(16),X(34),Y(8),X(50),Y(27));
+                ctx.bezierCurveTo(X(66),Y(8),X(88),Y(16),X(88),Y(34));
+                ctx.bezierCurveTo(X(88),Y(61),X(58),Y(78),X(50),Y(88));
             } else {
                 const map={
-                    square:[[.22,.22],[.78,.22],[.78,.78],[.22,.78]],
-                    rectangle:[[.12,.30],[.88,.30],[.88,.70],[.12,.70]],
-                    triangle:[[.50,.12],[.88,.82],[.12,.82]],
-                    rhombus:[[.50,.10],[.86,.50],[.50,.90],[.14,.50]],
-                    pentagon:[[.50,.08],[.88,.36],[.74,.86],[.26,.86],[.12,.36]],
-                    hexagon:[[.25,.12],[.75,.12],[.90,.50],[.75,.88],[.25,.88],[.10,.50]],
-                    heptagon:[[.50,.07],[.82,.22],[.92,.56],[.70,.88],[.30,.88],[.08,.56],[.18,.22]],
-                    octagon:[[.30,.08],[.70,.08],[.92,.30],[.92,.70],[.70,.92],[.30,.92],[.08,.70],[.08,.30]],
-                    nonagon:[[.50,.06],[.78,.16],[.94,.40],[.88,.70],[.66,.90],[.36,.92],[.12,.74],[.06,.45],[.20,.18]],
-                    parallelogram:[[.28,.24],[.90,.24],[.72,.76],[.10,.76]],
-                    trapezium:[[.30,.24],[.70,.24],[.90,.78],[.10,.78]],
-                    star:[[.50,.07],[.61,.36],[.93,.36],[.68,.55],[.77,.88],[.50,.69],[.23,.88],[.32,.55],[.07,.36],[.39,.36]]
+                    square:[[20,20],[80,20],[80,80],[20,80]],
+                    rectangle:[[10,28],[90,28],[90,72],[10,72]],
+                    triangle:[[50,10],[90,85],[10,85]],
+                    rhombus:[[50,8],[88,50],[50,92],[12,50]],
+                    pentagon:[[50,7],[92,38],[76,88],[24,88],[8,38]],
+                    hexagon:[[25,10],[75,10],[95,50],[75,90],[25,90],[5,50]],
+                    heptagon:[[50,5],[85,22],[96,58],[72,91],[28,91],[4,58],[15,22]],
+                    octagon:[[30,6],[70,6],[94,30],[94,70],[70,94],[30,94],[6,70],[6,30]],
+                    nonagon:[[50,4],[79,15],[96,40],[90,70],[67,91],[35,94],[10,76],[3,45],[20,18]],
+                    parallelogram:[[27,22],[92,22],[73,78],[8,78]],
+                    trapezium:[[28,22],[72,22],[92,80],[8,80]],
+                    star:[[50,5],[61,36],[95,36],[68,56],[78,90],[50,70],[22,90],[32,56],[5,36],[39,36]]
                 };
                 const pts=map[id]||map.square;
-                ctx.moveTo(pts[0][0]*w,pts[0][1]*h);
-                for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0]*w,pts[i][1]*h);
+                ctx.moveTo(X(pts[0][0]),Y(pts[0][1]));
+                for(let i=1;i<pts.length;i++) ctx.lineTo(X(pts[i][0]),Y(pts[i][1]));
                 ctx.closePath();
             }
             ctx.stroke();
@@ -8427,6 +8552,12 @@ document.addEventListener('DOMContentLoaded', () => {
         function clearShapeTraceDrawing(withSound=true){if(withSound)playClickSound();const c=document.getElementById('shape-trace-draw'),w=document.getElementById('shape-trace-canvas-wrap');if(c&&w)c.getContext('2d').clearRect(0,0,w.clientWidth,w.clientHeight);shapeTraceDrawing=false;shapeTraceLast=null;}
         function previousTraceShape(){playClickSound();shapeTraceIndex=(shapeTraceIndex-1+shapeDatabase.length)%shapeDatabase.length;clearShapeTraceDrawing(false);renderTraceShape();}
         function nextTraceShape(){playClickSound();shapeTraceIndex=(shapeTraceIndex+1)%shapeDatabase.length;clearShapeTraceDrawing(false);renderTraceShape();}
+        window.addEventListener('resize',()=>{
+            if(document.getElementById('draw-shape-screen')?.classList.contains('active')){
+                clearTimeout(window.__shapeTraceResizeTimer);
+                window.__shapeTraceResizeTimer=setTimeout(()=>{setupShapeTraceCanvases();clearShapeTraceDrawing(false);renderTraceShape();},100);
+            }
+        });
 
         // ---------- Match Me: coloured shape -> same B&W shape ----------
         let matchMeSets=[],matchMeIndex=0,matchMeScore=0;
