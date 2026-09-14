@@ -6321,7 +6321,15 @@
             });
             const totals=set.map(x=>x[0]+x[1]);
             const bank=document.getElementById('addup-answer-bank'); bank.innerHTML='';
-            shuffle123(totals).forEach((n,i)=>{const tile=document.createElement('div');tile.className='addup-answer-tile';tile.textContent=n;tile.dataset.value=n;tile.dataset.tile=i;installAddUpTileDrag(tile);bank.appendChild(tile);});
+
+            // ADD THEM UP sahaja: rawakkan susunan pilihan jawapan setiap kali set dipaparkan.
+            // Fisher-Yates digunakan supaya setiap nombor mempunyai peluang kedudukan yang seimbang.
+            const shuffledAnswers=[...totals];
+            for(let i=shuffledAnswers.length-1;i>0;i--){
+                const j=Math.floor(Math.random()*(i+1));
+                [shuffledAnswers[i],shuffledAnswers[j]]=[shuffledAnswers[j],shuffledAnswers[i]];
+            }
+            shuffledAnswers.forEach((n,i)=>{const tile=document.createElement('div');tile.className='addup-answer-tile';tile.textContent=n;tile.dataset.value=n;tile.dataset.tile=i;installAddUpTileDrag(tile);bank.appendChild(tile);});
         }
         function makeAddUpObject(fruit,q){
             const el=document.createElement('span'); el.className='addup-object'; el.textContent=fruit; el.dataset.q=q;
