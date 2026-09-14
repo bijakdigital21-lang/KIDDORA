@@ -5831,7 +5831,9 @@
         let currentGlobalLang = 'en';
 
         function setGlobalLanguage(lang) {
-            currentGlobalLang = lang;
+            currentGlobalLang = (lang === 'ms' ? 'ms' : 'en');
+            document.documentElement.lang = currentGlobalLang === 'ms' ? 'ms' : 'en';
+            try { localStorage.setItem('kiddoraLanguage', currentGlobalLang); } catch(e) {}
             setTimeout(()=>{ if(typeof updateColourLanguage === 'function') updateColourLanguage(); if(typeof updateBodyLanguage === 'function') updateBodyLanguage(); if(typeof updateShapeLanguage === 'function') updateShapeLanguage(); if(typeof updateTransportLanguage === 'function') updateTransportLanguage(); },0);
             
             document.getElementById("lang-btn-en").classList.remove("active");
@@ -5847,7 +5849,8 @@
 
                 const curName = window.activeProfile || "-";
                 document.getElementById("home-greeting").innerText = `Hi ${curName}! 👋`;
-                document.getElementById("switch-profile-text-btn").innerText = "Switch 🔄";
+                const switchProfileBtnEn = document.getElementById("switch-profile-text-btn");
+                if (switchProfileBtnEn) switchProfileBtnEn.innerText = "Switch 🔄";
                 document.getElementById("home-subtitle-text").innerText = "Pick a fun module below to start learning!";
 
                 document.getElementById("abc-menu-title").innerText = "ABC Modules 🔤";
@@ -5941,7 +5944,8 @@
 
                 const curName = window.activeProfile || "-";
                 document.getElementById("home-greeting").innerText = `Hai ${curName}! 👋`;
-                document.getElementById("switch-profile-text-btn").innerText = "Tukar 🔄";
+                const switchProfileBtnMs = document.getElementById("switch-profile-text-btn");
+                if (switchProfileBtnMs) switchProfileBtnMs.innerText = "Tukar 🔄";
                 document.getElementById("home-subtitle-text").innerText = "Pilih modul menarik di bawah untuk mula belajar!";
 
                 document.getElementById("abc-menu-title").innerText = "Modul ABC 🔤";
@@ -5950,7 +5954,7 @@
                 document.getElementById("abc-dynamic-btn-text").innerText = "Belajar ABC";
                 document.getElementById("match-letters-menu-text").innerText = "Suaikan Huruf";
                 document.getElementById("find-letter-menu-text").innerText = "Cari Huruf";
-                document.getElementById("abc-back-home-btn").innerText = "Kembali ke Utama 🏠";
+                document.getElementById("abc-back-home-btn").innerText = "Back to Home 🏠";
 
                 document.getElementById("animal-menu-title").innerText = "Modul Haiwan 🦁";
                 document.getElementById("animal-menu-desc").innerText = "Pilih aktiviti untuk meneroka alam haiwan!";
@@ -5969,7 +5973,7 @@
                 document.getElementById("match-page-label").innerText = "Halaman";
                 document.getElementById("match-score-label").innerText = "Skor";
                 document.getElementById("match-instruction-desc").innerText = "Tarik garis (drag) untuk menyesuaikan huruf kecil di sebelah kiri dengan huruf besar di sebelah kanan!";
-                document.getElementById("match-next-page-text").innerText = "Halaman Seterusnya ➔";
+                document.getElementById("match-next-page-text").innerText = "Next Page ➔";
                 document.getElementById("match-home-btn").innerText = "Utama 🏠";
 
                 document.getElementById("find-header-title").innerText = "Cari Huruf 🍎";
@@ -6005,7 +6009,7 @@
                 document.getElementById("curr-pass-label").innerText = "Kata Laluan Semasa";
                 document.getElementById("new-pass-label").innerText = "Kata Laluan Baharu (Min. 6 aksara)";
                 document.getElementById("update-pass-btn").innerText = "Kemaskini Kata Laluan 🔑";
-                document.getElementById("profile-home-btn").innerText = "Kembali ke Utama 🏠";
+                document.getElementById("profile-home-btn").innerText = "Back to Home 🏠";
 
                 document.getElementById("scores-history-title").innerText = "🏆 Sejarah Percubaan Kuiz";
                 document.getElementById("scores-history-desc").innerText = "Rekod bagi setiap sesi kuiz yang telah diselesaikan!";
@@ -6013,17 +6017,17 @@
                 document.getElementById("th-module").innerText = "Modul";
                 document.getElementById("th-score").innerText = "Skor (%)";
                 document.getElementById("th-date").innerText = "Tarikh & Masa";
-                document.getElementById("scores-home-btn").innerText = "Kembali ke Utama 🏠";
+                document.getElementById("scores-home-btn").innerText = "Back to Home 🏠";
                 document.getElementById("clear-history-btn").innerText = "Kosongkan Sejarah 🗑️";
 
                 document.getElementById("quiz-q-label").innerText = "Soalan";
                 document.getElementById("quiz-score-label").innerText = "Skor";
-                document.getElementById("quiz-next-btn-text").innerText = "Soalan Seterusnya ➔";
+                document.getElementById("quiz-next-btn-text").innerText = "Next Question ➔";
                 document.getElementById("quiz-home-btn").innerText = "Utama 🏠";
 
                 document.getElementById("result-title").innerText = "Syabas, Hebat! 🎉";
                 document.getElementById("result-desc").innerText = "Anda telah menyiapkan kuiz ini!";
-                document.getElementById("result-menu-btn").innerText = "Kembali ke Menu 🏠";
+                document.getElementById("result-menu-btn").innerText = "Back to Menu 🏠";
             }
 
             // Pastikan Modul Number/123 turut mengikut pilihan bahasa global.
@@ -6034,10 +6038,71 @@
                 const instructionText = currentGlobalLang === 'en' ? `Find and put letter ${targetLetter} into the basket` : `Tolong masukkan huruf ${targetLetter} ke dalam bakul`;
                 document.getElementById("find-instruction-text").innerText = instructionText;
             }
-            if (document.getElementById("learn-animal-cat-screen").classList.contains("active")) {
-    openLearnAnimalCategoryScreen();
-}
+            if (document.getElementById("learn-animal-cat-screen")?.classList.contains("active")) {
+                try { openLearnAnimalCategoryScreen(); } catch(e) {}
+            }
+            try { refreshCurrentLanguageView(); } catch(e) { console.warn("Language refresh", e); }
         }
+
+
+        // =========================================================
+        // GLOBAL BILINGUAL SAFETY LAYER
+        // - prevents one missing element from breaking language switching
+        // - keeps Prev / Next / Back navigation in English for BOTH languages
+        // - refreshes currently visible dynamic module after language changes
+        // =========================================================
+        function enforceEnglishNavigationLabels(root=document) {
+            const exactMap = new Map([
+                ['⬅ Sebelum','⬅ Prev'], ['⬅ Sebelumnya','⬅ Prev'], ['Sebelum','Prev'],
+                ['Seterusnya ➡','Next ➡'], ['Seterusnya','Next'],
+                ['Halaman Seterusnya ➔','Next Page ➔'], ['Soalan Seterusnya ➔','Next Question ➔'],
+                ['Set Seterusnya ➡','Next Set ➡'], ['Pusingan Seterusnya ➔','Next Round ➔'],
+                ['Kembali ↩️','Back ↩️'], ['Kembali','Back'],
+                ['Kembali ke Utama 🏠','Back to Home 🏠'], ['Kembali ke Menu 🏠','Back to Menu 🏠'],
+                ['Kembali ke Bentuk 🔷','Back to Shape 🔷']
+            ]);
+            const nodes = root.querySelectorAll ? root.querySelectorAll('button, a.action-btn, .action-btn') : [];
+            nodes.forEach(el => {
+                const t = (el.textContent || '').trim();
+                if (exactMap.has(t)) el.textContent = exactMap.get(t);
+            });
+        }
+
+        function refreshCurrentLanguageView() {
+            // Module-specific refreshers are written defensively so a missing module cannot break the rest.
+            const refreshers = ['updateNumberLanguage','updateColourLanguage','updateBodyLanguage','updateShapeLanguage','updateTransportLanguage'];
+            refreshers.forEach(name => {
+                try { if (typeof window[name] === 'function') window[name](); } catch(e) { console.warn(name, e); }
+            });
+
+            // Animal module has several dynamic views.
+            try {
+                if (document.getElementById('learn-animal-cat-screen')?.classList.contains('active') && typeof openLearnAnimalCategoryScreen === 'function') openLearnAnimalCategoryScreen();
+            } catch(e) {}
+            try {
+                if (document.getElementById('learn-animal-screen')?.classList.contains('active') && typeof renderAnimalFlashcard === 'function') renderAnimalFlashcard();
+            } catch(e) {}
+            try {
+                if (document.getElementById('find-animal-game-screen')?.classList.contains('active') && typeof renderFindAnimalQuestion === 'function') renderFindAnimalQuestion();
+            } catch(e) {}
+
+            // ABC dynamic views.
+            try {
+                if (document.getElementById('abc-flashcard-screen')?.classList.contains('active') && typeof updateABCFlashcard === 'function') updateABCFlashcard();
+            } catch(e) {}
+
+            enforceEnglishNavigationLabels();
+        }
+
+        // Keep dynamically rendered navigation labels in English too.
+        const navLanguageObserver = new MutationObserver(() => enforceEnglishNavigationLabels());
+        window.addEventListener('DOMContentLoaded', () => {
+            try { navLanguageObserver.observe(document.body, {subtree:true, childList:true, characterData:true}); } catch(e) {}
+            const saved = (()=>{ try { return localStorage.getItem('kiddoraLanguage'); } catch(e) { return null; } })();
+            setTimeout(() => {
+                try { setGlobalLanguage(saved === 'ms' ? 'ms' : 'en'); } catch(e) { console.error('Language init error:', e); }
+            }, 0);
+        });
 
         // --- ANIMAL MODULE DATA & LOGIC ---
         const animalMasterDatabase = [
@@ -7187,7 +7252,7 @@
                 learnDone:'Great job! You learned numbers 1 to 20! 🎉', matchDone:'Excellent! You completed 5 matching questions! 🎉', score:s=>`Great job! Your score is ${s}/100 🎉`
             },
             ms: {
-                menuTitle:'Modul 123 🔢', menuDesc:'Pilih aktiviti nombor yang menyeronokkan!', home:'Kembali ke Utama 🏠',
+                menuTitle:'Modul 123 🔢', menuDesc:'Pilih aktiviti nombor yang menyeronokkan!', home:'Back to Home 🏠',
                 learnTitle:'Belajar 123 🔢', number:'Nombor', listen:'🔊 Dengar', prev:'⬅ Prev', back:'Back ↩️', next:'Next ➡', finish:'Selesai 🏁',
                 matchTitle:'Suaikan Nombor 🔢', question:'Soalan', matchTip:'Tekan objek untuk dengar kiraan, kemudian seret kotak objek ke nombor yang betul.',
                 countTitle:'Mari Mengira 🍎', countInstruction:'Seret epal ke dalam setiap kotak. Kemudian pilih jawapan!',
@@ -7386,7 +7451,7 @@
             const ms=getNum123Lang()==='ms';
             return ms ? {
                 title:'Tambah Semuanya! ➕', set:'Set', instruction:'Kira semua objek. Tarik nombor yang betul ke dalam setiap kotak jawapan.',
-                back:'Kembali ↩️', correct:'Betul!', wrong:'Cuba lagi.', done:'Hebat! Anda sudah lengkapkan semua 5 set!', fill:'Isi semua 4 kotak jawapan.',
+                back:'Back ↩️', correct:'Betul!', wrong:'Cuba lagi.', done:'Hebat! Anda sudah lengkapkan semua 5 set!', fill:'Isi semua 4 kotak jawapan.',
                 score:s=>`Hebat! Skor anda ${s}/100 🎉`
             } : {
                 title:'Add Them Up! ➕', set:'Set', instruction:'Count all the objects. Drag the correct number into each answer box.',
@@ -7512,11 +7577,11 @@
         function updateColourLanguage(){
             const ms=currentGlobalLang==='ms';
             const set=(id,en,bm)=>{const e=document.getElementById(id);if(e)e.innerText=ms?bm:en};
-            set('colour-menu-title','Colour Module 🎨','Modul Warna 🎨'); set('colour-menu-desc','Choose a fun colour activity!','Pilih aktiviti warna yang menyeronokkan!'); set('colour-home-btn','Back to Home 🏠','Kembali ke Utama 🏠');
-            set('learn-colour-title','Learn Colour 🎨','Belajar Warna 🎨'); set('learn-colour-listen','🔊 Listen','🔊 Dengar'); set('learn-colour-prev','⬅ Prev','⬅ Sebelum'); set('learn-colour-next','Next ➡','Seterusnya ➡'); set('learn-colour-back','Back ↩️','Kembali ↩️');
-            set('pop-balloon-title','Pop the Balloon 🎈','Pecahkan Belon 🎈'); set('pop-balloon-listen','🔊 Listen','🔊 Dengar'); set('pop-balloon-back','Back ↩️','Kembali ↩️');
-            set('match-colour-title','Match the Colour 🎨','Suaikan Warna 🎨'); set('match-colour-instruction','Tap a colour word, then match it with the correct colour.','Tekan perkataan warna, kemudian suaikan dengan warna yang betul.'); set('match-colour-back','Back ↩️','Kembali ↩️');
-            set('find-colour-title','Find the Colour 🔎','Cari Warna 🔎'); set('find-colour-listen','🔊 Listen','🔊 Dengar'); set('find-colour-back','Back ↩️','Kembali ↩️');
+            set('colour-menu-title','Colour Module 🎨','Modul Warna 🎨'); set('colour-menu-desc','Choose a fun colour activity!','Pilih aktiviti warna yang menyeronokkan!'); set('colour-home-btn','Back to Home 🏠','Back to Home 🏠');
+            set('learn-colour-title','Learn Colour 🎨','Belajar Warna 🎨'); set('learn-colour-listen','🔊 Listen','🔊 Dengar'); set('learn-colour-prev','⬅ Prev','⬅ Prev'); set('learn-colour-next','Next ➡','Next ➡'); set('learn-colour-back','Back ↩️','Back ↩️');
+            set('pop-balloon-title','Pop the Balloon 🎈','Pecahkan Belon 🎈'); set('pop-balloon-listen','🔊 Listen','🔊 Dengar'); set('pop-balloon-back','Back ↩️','Back ↩️');
+            set('match-colour-title','Match the Colour 🎨','Suaikan Warna 🎨'); set('match-colour-instruction','Tap a colour word, then match it with the correct colour.','Tekan perkataan warna, kemudian suaikan dengan warna yang betul.'); set('match-colour-back','Back ↩️','Back ↩️');
+            set('find-colour-title','Find the Colour 🔎','Cari Warna 🔎'); set('find-colour-listen','🔊 Listen','🔊 Dengar'); set('find-colour-back','Back ↩️','Back ↩️');
             if(document.getElementById('learn-colour-screen')?.classList.contains('active')) renderLearnColour();
             if(document.getElementById('pop-balloon-screen')?.classList.contains('active')) renderPopBalloon();
             if(document.getElementById('match-colour-screen')?.classList.contains('active')) renderMatchColourSet();
@@ -7666,7 +7731,7 @@
         const bodyShuffle=a=>[...a].sort(()=>Math.random()-.5);
         function bodyText(item){return currentGlobalLang==='ms'?item.ms:item.en}
         function speakBody(text){if(!('speechSynthesis'in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang=currentGlobalLang==='ms'?'ms-MY':'en-US';u.rate=.72;speechSynthesis.speak(u)}
-        function updateBodyLanguage(){const ms=currentGlobalLang==='ms',set=(id,en,bm)=>{const e=document.getElementById(id);if(e)e.innerText=ms?bm:en};set('body-menu-title','Body Part Module 🧒','Modul Anggota Badan 🧒');set('body-menu-desc','Choose a body part activity!','Pilih aktiviti anggota badan!');set('body-learn-menu-text','Learn the Body Part','Belajar Anggota Badan');set('body-choose-menu-text','Choose the Body Part','Pilih Anggota Badan');set('body-label-menu-text','Label the Body Part','Label Anggota Badan');set('match-body-count-title','Match the Body Part 🧩','Padankan Anggota Badan 🧩');set('match-body-count-desc','Select how many pages/sets you want to play:','Pilih berapa halaman/set yang mahu dimainkan:');set('match-body-count-back','Back ↩️','Kembali ↩️');set('match-body-header-title','Match Body Part','Padankan Anggota Badan');set('match-body-page-label','Page','Halaman');set('match-body-score-label','Score','Skor');set('match-body-instruction','Drag a line from the body part name to the correct picture!','Tarik garis dari nama anggota badan ke gambar yang betul!');set('match-body-back','Back ↩️','Kembali ↩️');set('body-menu-back','Back to Home 🏠','Kembali ke Utama 🏠');set('learn-body-title','Learn the Body Part 🧒','Belajar Anggota Badan 🧒');set('body-learn-listen','🔊 Listen','🔊 Dengar');set('choose-body-title','Choose the Body Part 🔎','Pilih Anggota Badan 🔎');set('choose-body-listen','🔊 Listen','🔊 Dengar');set('label-body-title','Label the Body Part 🏷️','Label Anggota Badan 🏷️');set('label-body-desc','Drag each label into the correct box. You can also tap a label, then tap a box.','Seret setiap label ke kotak yang betul. Boleh juga tekan label, kemudian tekan kotak.');set('label-body-reset','Reset 🔄','Mula Semula 🔄');if(document.getElementById('learn-body-screen')?.classList.contains('active'))renderLearnBodyPart();if(document.getElementById('choose-body-screen')?.classList.contains('active')&&chooseBodyOrder.length)renderChooseBody();if(document.getElementById('label-body-screen')?.classList.contains('active'))renderBodyLabelBank(true);if(document.getElementById('match-body-game-screen')?.classList.contains('active')&&matchBodyGameData.length)loadMatchBodyPage()}
+        function updateBodyLanguage(){const ms=currentGlobalLang==='ms',set=(id,en,bm)=>{const e=document.getElementById(id);if(e)e.innerText=ms?bm:en};set('body-menu-title','Body Part Module 🧒','Modul Anggota Badan 🧒');set('body-menu-desc','Choose a body part activity!','Pilih aktiviti anggota badan!');set('body-learn-menu-text','Learn the Body Part','Belajar Anggota Badan');set('body-choose-menu-text','Choose the Body Part','Pilih Anggota Badan');set('body-label-menu-text','Label the Body Part','Label Anggota Badan');set('match-body-count-title','Match the Body Part 🧩','Padankan Anggota Badan 🧩');set('match-body-count-desc','Select how many pages/sets you want to play:','Pilih berapa halaman/set yang mahu dimainkan:');set('match-body-count-back','Back ↩️','Back ↩️');set('match-body-header-title','Match Body Part','Padankan Anggota Badan');set('match-body-page-label','Page','Halaman');set('match-body-score-label','Score','Skor');set('match-body-instruction','Drag a line from the body part name to the correct picture!','Tarik garis dari nama anggota badan ke gambar yang betul!');set('match-body-back','Back ↩️','Back ↩️');set('body-menu-back','Back to Home 🏠','Back to Home 🏠');set('learn-body-title','Learn the Body Part 🧒','Belajar Anggota Badan 🧒');set('body-learn-listen','🔊 Listen','🔊 Dengar');set('choose-body-title','Choose the Body Part 🔎','Pilih Anggota Badan 🔎');set('choose-body-listen','🔊 Listen','🔊 Dengar');set('label-body-title','Label the Body Part 🏷️','Label Anggota Badan 🏷️');set('label-body-desc','Drag each label into the correct box. You can also tap a label, then tap a box.','Seret setiap label ke kotak yang betul. Boleh juga tekan label, kemudian tekan kotak.');set('label-body-reset','Reset 🔄','Mula Semula 🔄');if(document.getElementById('learn-body-screen')?.classList.contains('active'))renderLearnBodyPart();if(document.getElementById('choose-body-screen')?.classList.contains('active')&&chooseBodyOrder.length)renderChooseBody();if(document.getElementById('label-body-screen')?.classList.contains('active'))renderBodyLabelBank(true);if(document.getElementById('match-body-game-screen')?.classList.contains('active')&&matchBodyGameData.length)loadMatchBodyPage()}
         function openBodyPartMenu(){window.speechSynthesis?.cancel();updateBodyLanguage();showScreen('body-part-menu-screen')}
 
         // MATCH THE BODY PART - follows Match the Animal format
@@ -8992,30 +9057,30 @@ document.addEventListener('DOMContentLoaded', () => {
             const text = {
                 'shape-menu-title': ms ? 'Modul Bentuk 🔷' : 'Shape Module 🔷',
                 'shape-menu-desc': ms ? 'Pilih aktiviti bentuk yang menyeronokkan!' : 'Choose a fun shape activity!',
-                'shape-menu-home-btn': ms ? 'Kembali ke Utama 🏠' : 'Back to Home 🏠',
+                'shape-menu-home-btn': ms ? 'Back to Home 🏠' : 'Back to Home 🏠',
                 'learn-shape-title': ms ? 'Belajar Bentuk 🔷' : 'Learn the Shape 🔷',
                 'shape-learn-listen': ms ? '🔊 Dengar' : '🔊 Listen',
-                'shape-learn-prev': ms ? '⬅ Sebelum' : '⬅ Prev',
-                'shape-learn-back': ms ? 'Kembali ↩️' : 'Back ↩️',
-                'shape-learn-next': ms ? 'Seterusnya ➡' : 'Next ➡',
+                'shape-learn-prev': ms ? '⬅ Prev' : '⬅ Prev',
+                'shape-learn-back': ms ? 'Back ↩️' : 'Back ↩️',
+                'shape-learn-next': ms ? 'Next ➡' : 'Next ➡',
                 'match-shape-title': ms ? 'Suaikan Bentuk 🔷' : 'Match the Shape 🔷',
                 'match-shape-instruction': ms ? 'Suaikan nama bentuk dengan bentuk yang betul.' : 'Match each shape name with the correct shape.',
                 'match-shape-round-label': ms ? 'Set' : 'Set',
                 'match-shape-score-label': ms ? 'Skor' : 'Score',
-                'match-shape-next': ms ? 'Set Seterusnya ➡' : 'Next Set ➡',
-                'match-shape-back': ms ? 'Kembali ↩️' : 'Back ↩️',
+                'match-shape-next': ms ? 'Next Set ➡' : 'Next Set ➡',
+                'match-shape-back': ms ? 'Back ↩️' : 'Back ↩️',
                 'draw-shape-title': ms ? 'Lukis Bentuk ✏️' : 'Draw the Shape ✏️',
                 'draw-shape-desc': ms ? 'Trace garisan bertitik menggunakan jari atau tetikus.' : 'Trace the dotted shape with your finger or mouse.',
-                'shape-trace-prev': ms ? '⬅ Sebelum' : '⬅ Previous',
-                'shape-trace-next': ms ? 'Seterusnya ➡' : 'Next ➡',
+                'shape-trace-prev': ms ? '⬅ Prev' : '⬅ Previous',
+                'shape-trace-next': ms ? 'Next ➡' : 'Next ➡',
                 'shape-trace-clear': ms ? '🧽 Padam' : '🧽 Clear',
-                'shape-draw-back': ms ? 'Kembali ke Bentuk 🔷' : 'Back to Shape 🔷',
+                'shape-draw-back': ms ? 'Back to Shape 🔷' : 'Back to Shape 🔷',
                 'match-me-title': ms ? 'Suaikan Saya 🎨' : 'Match Me 🎨',
                 'match-me-instruction': ms ? 'Suaikan bentuk berwarna dengan bentuk hitam putih yang sama.' : 'Match the coloured shape with the same black-and-white shape.',
                 'match-me-round-label': ms ? 'Set' : 'Set',
                 'match-me-score-label': ms ? 'Skor' : 'Score',
-                'match-me-next': ms ? 'Set Seterusnya ➡' : 'Next Set ➡',
-                'match-me-back': ms ? 'Kembali ↩️' : 'Back ↩️'
+                'match-me-next': ms ? 'Next Set ➡' : 'Next Set ➡',
+                'match-me-back': ms ? 'Back ↩️' : 'Back ↩️'
             };
             Object.entries(text).forEach(([id,val])=>{ const el=document.getElementById(id); if(el) el.innerText=val; });
             if(document.getElementById('learn-shape-screen')?.classList.contains('active')) renderLearnShape();
@@ -9351,12 +9416,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const map = {
                 'transport-menu-title': ms ? 'Modul Pengangkutan 🚗' : 'Transport Module 🚗',
                 'transport-menu-desc': ms ? 'Pilih aktiviti pengangkutan yang menyeronokkan!' : 'Choose a fun transport activity!',
-                'transport-menu-home-btn': ms ? 'Kembali ke Utama 🏠' : 'Back to Home 🏠',
+                'transport-menu-home-btn': ms ? 'Back to Home 🏠' : 'Back to Home 🏠',
                 'learn-transport-cat-title': ms ? 'Mari Belajar Pengangkutan 🚗✈️🚢' : "Let's Learn Transport 🚗✈️🚢",
                 'learn-transport-cat-desc': ms ? 'Pilih kategori pengangkutan.' : 'Choose a transport category.',
-                'learn-transport-cat-back': ms ? 'Kembali ↩️' : 'Back ↩️',
+                'learn-transport-cat-back': ms ? 'Back ↩️' : 'Back ↩️',
                 'transport-flash-listen': ms ? '🔊 Dengar' : '🔊 Listen',
-                'transport-flash-back': ms ? 'Kembali ↩️' : 'Back ↩️',
+                'transport-flash-back': ms ? 'Back ↩️' : 'Back ↩️',
                 'sort-transport-title': ms ? 'Asingkan Pengangkutan 🚗✈️🚢' : 'Sort the Transport 🚗✈️🚢',
                 'sort-transport-desc': ms ? 'Seret semua 5 gambar kenderaan ke dalam kotak yang betul.' : 'Drag all 5 transport pictures into the correct box.',
                 'sort-transport-set-label': ms ? 'Set' : 'Set',
@@ -9364,14 +9429,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 'transport-zone-land': ms ? '🚗 Darat' : '🚗 Land',
                 'transport-zone-air': ms ? '✈️ Udara' : '✈️ Air',
                 'transport-zone-water': ms ? '🚢 Air' : '🚢 Water',
-                'sort-transport-next': ms ? 'Set Seterusnya ➡' : 'Next Set ➡',
-                'sort-transport-back': ms ? 'Kembali ↩️' : 'Back ↩️',
+                'sort-transport-next': ms ? 'Next Set ➡' : 'Next Set ➡',
+                'sort-transport-back': ms ? 'Back ↩️' : 'Back ↩️',
                 'guess-transport-title': ms ? 'Teka Pengangkutan ✅' : 'Guess the Transport ✅',
                 'guess-transport-desc': ms ? 'Lihat setiap gambar dan tandakan nama kenderaan yang betul.' : 'Look at each picture and tick the correct transport name.',
                 'guess-transport-set-label': ms ? 'Set' : 'Set',
                 'guess-transport-score-label': ms ? 'Skor' : 'Score',
-                'guess-transport-next': ms ? 'Set Seterusnya ➡' : 'Next Set ➡',
-                'guess-transport-back': ms ? 'Kembali ↩️' : 'Back ↩️'
+                'guess-transport-next': ms ? 'Next Set ➡' : 'Next Set ➡',
+                'guess-transport-back': ms ? 'Back ↩️' : 'Back ↩️'
             };
             Object.entries(map).forEach(([id,val])=>{ const el=document.getElementById(id); if(el) el.innerText=val; });
             if(document.getElementById('learn-transport-cat-screen')?.classList.contains('active')) renderTransportCategories();
@@ -9424,7 +9489,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('prev-transport-btn').style.display=currentLearnTransportIdx===0?'none':'inline-block';
             document.getElementById('next-transport-btn').innerText=currentLearnTransportIdx===currentLearnTransportList.length-1
                 ? (currentGlobalLang==='ms'?'Tamat 🏁':'Finish 🏁')
-                : (currentGlobalLang==='ms'?'Seterusnya ➡':'Next ➡');
+                : (currentGlobalLang==='ms'?'Next ➡':'Next ➡');
             if(speak) setTimeout(playTransportFlashSound,120);
         }
         function playTransportFlashSound(){
@@ -9675,261 +9740,7 @@ document.addEventListener('DOMContentLoaded', () => {
             openTransportMenu();
         }
 
-    
-
-        /* =========================================================
-           COMPLETE BILINGUAL REFRESH + FIXED ENGLISH NAVIGATION
-           Prev / Next / Back stay in English for BOTH languages.
-        ========================================================== */
-        (function(){
-            const originalSetGlobalLanguage = window.setGlobalLanguage || setGlobalLanguage;
-
-            const uiPairs = [
-                ['Who is Learning Today? 🧒👧','Siapa yang belajar hari ini? 🧒👧'],
-                ['Select a kid profile or add a new one.','Pilih profil kanak-kanak atau tambah profil baharu.'],
-                ['Add New Kid Profile','Tambah Profil Kanak-kanak Baharu'],
-                ['Add Profile ➕','Tambah Profil ➕'],
-                ['Log in','Log masuk'],
-                ['Pick a fun module below to start learning!','Pilih modul menarik di bawah untuk mula belajar!'],
-                ['ABC Modules 🔤','Modul ABC 🔤'],
-                ['Choose your preferred activity to learn the alphabet!','Pilih aktiviti kegemaran untuk belajar abjad!'],
-                ['Learn ABC','Belajar ABC'],
-                ['Match the Letters','Suaikan Huruf'],
-                ['Find the Letter','Cari Huruf'],
-                ['Spell it Right','Eja Dengan Betul'],
-                ['ABC Tracing','Menekap ABC'],
-                ['Complete the ABC','Lengkapkan ABC'],
-                ['Complete the ABC 🔤','Lengkapkan ABC 🔤'],
-                ['Drag the missing letters into the correct boxes.','Seret huruf yang hilang ke dalam kotak yang betul.'],
-                ['Help the bee reach the hive!','Bantu lebah sampai ke sarang!'],
-                ['Drag the letters into the empty circles','Seret huruf ke dalam bulatan kosong'],
-                ['Spell it Right ✏️','Eja Dengan Betul ✏️'],
-                ['Listen carefully, then spell the word.','Dengar dengan teliti, kemudian eja perkataan.'],
-                ['Choose Number of Questions','Pilih Bilangan Soalan'],
-                ['How many words do you want to spell?','Berapa banyak perkataan yang anda mahu eja?'],
-                ['Word','Perkataan'],
-                ['🔊 Hear again','🔊 Dengar lagi'],
-                ['Try Again 🔄','Cuba Lagi 🔄'],
-                ['ABC Tracing ✏️','Menekap ABC ✏️'],
-                ['Trace the dotted letter with your finger or mouse.','Tekap huruf bertitik menggunakan jari atau tetikus.'],
-                ['ABC • Uppercase','ABC • Huruf Besar'],
-                ['abc • Lowercase','abc • Huruf Kecil'],
-                ['123 Module 🔢','Modul 123 🔢'],
-                ['Choose a fun number activity!','Pilih aktiviti nombor yang menyeronokkan!'],
-                ['123 Tracing ✏️','Menekap 123 ✏️'],
-                ['Trace the dotted number with your finger or mouse.','Tekap nombor bertitik menggunakan jari atau tetikus.'],
-                ['Learn 123 🔢','Belajar 123 🔢'],
-                ['Match the Number 🔢','Suaikan Nombor 🔢'],
-                ['Tap the objects to hear counting, then drag the object box to the correct number.','Tekan objek untuk dengar kiraan, kemudian seret kotak objek ke nombor yang betul.'],
-                ["Let's Count 🍎",'Mari Mengira 🍎'],
-                ['Drag the apples into each box. Then choose the answer!','Seret epal ke dalam setiap kotak. Kemudian pilih jawapan!'],
-                ['↻ Reset Apples','↻ Reset Epal'],
-                ['Add Them Up! ➕','Tambah Semuanya! ➕'],
-                ['Count the objects. Drag the correct number into each answer box.','Kira objek. Seret nombor yang betul ke dalam setiap kotak jawapan.'],
-                ['Find the Number 🔎','Cari Nombor 🔎'],
-                ['Colour Module 🎨','Modul Warna 🎨'],
-                ['Choose a fun colour activity!','Pilih aktiviti warna yang menyeronokkan!'],
-                ['Learn Colour 🎨','Belajar Warna 🎨'],
-                ['Pop the Balloon 🎈','Pecahkan Belon 🎈'],
-                ['Match the Colour 🎨','Suaikan Warna 🎨'],
-                ['Drag a colour word to the correct colour.','Seret perkataan warna ke warna yang betul.'],
-                ['Find the Colour 🔎','Cari Warna 🔎'],
-                ['Body Part Module 🧒','Modul Anggota Badan 🧒'],
-                ['Choose a body part activity!','Pilih aktiviti anggota badan!'],
-                ['Learn the Body Part 🧒','Belajar Anggota Badan 🧒'],
-                ['Choose the Body Part 🔎','Pilih Anggota Badan 🔎'],
-                ['Match the Body Part 🧩','Suaikan Anggota Badan 🧩'],
-                ['Drag a line from the body part name to the correct picture!','Tarik garis dari nama anggota badan ke gambar yang betul!'],
-                ['Label the Body Part 🏷️','Labelkan Anggota Badan 🏷️'],
-                ['Drag each label into the correct box. You can also tap a label, then tap a box.','Seret setiap label ke kotak yang betul. Anda juga boleh tekan label, kemudian tekan kotak.'],
-                ['Animal Module 🦁','Modul Haiwan 🦁'],
-                ['Choose an activity to explore the animal kingdom!','Pilih aktiviti untuk meneroka dunia haiwan!'],
-                ['Learn Animal Categories 🐾','Belajar Kategori Haiwan 🐾'],
-                ['Select a category to learn animal names!','Pilih kategori untuk belajar nama haiwan!'],
-                ['Match the Animal 🖼️','Suaikan Haiwan 🖼️'],
-                ['Find the Animal 🔍','Cari Haiwan 🔍'],
-                ['Select how many questions you want to play:','Pilih berapa banyak soalan yang anda mahu main:'],
-                ['Match the Letters 🔠','Suaikan Huruf 🔠'],
-                ['Find the Letter 🍎','Cari Huruf 🍎'],
-                ['Lesson Time! 📖','Masa Belajar! 📖'],
-                ['Examples:','Contoh:'],
-                ['Choose Questions 🚀','Pilih Soalan 🚀'],
-                ['Select Question Count 📝','Pilih Bilangan Soalan 📝'],
-                ['How many questions would you like to answer?','Berapa banyak soalan yang anda mahu jawab?'],
-                ['Account & Profiles 👤','Akaun & Profil 👤'],
-                ['Account Email:','E-mel Akaun:'],
-                ['Active Kid Profile:','Profil Kanak-kanak Aktif:'],
-                ['Switch / Add Profiles 🔄','Tukar / Tambah Profil 🔄'],
-                ['✏️ Manage Profiles (Edit / Delete)','✏️ Urus Profil (Edit / Padam)'],
-                ['🔐 Change Password','🔐 Tukar Kata Laluan'],
-                ['Current Password','Kata Laluan Semasa'],
-                ['New Password (Min. 6 characters)','Kata Laluan Baharu (Min. 6 aksara)'],
-                ['Update Password 🔑','Kemas Kini Kata Laluan 🔑'],
-                ['🏆 Quiz Attempt History','🏆 Sejarah Percubaan Kuiz'],
-                ['Records of every quiz session completed!','Rekod setiap sesi kuiz yang telah diselesaikan!'],
-                ['Module','Modul'],
-                ['Score (%)','Skor (%)'],
-                ['Date & Time','Tarikh & Masa'],
-                ['Clear History 🗑️','Padam Sejarah 🗑️'],
-                ['Transport Module 🚗','Modul Pengangkutan 🚗'],
-                ['Choose a fun transport activity!','Pilih aktiviti pengangkutan yang menyeronokkan!'],
-                ["Let's Learn Transport 🚗✈️🚢",'Mari Belajar Pengangkutan 🚗✈️🚢'],
-                ['Choose a transport category.','Pilih kategori pengangkutan.'],
-                ['Land Transport','Pengangkutan Darat'],
-                ['Sort the Transport 🚗✈️🚢','Asingkan Pengangkutan 🚗✈️🚢'],
-                ['Drag all 5 transport pictures into the correct box.','Seret semua 5 gambar pengangkutan ke dalam kotak yang betul.'],
-                ['Left','Baki'],
-                ['🚗 Land','🚗 Darat'],
-                ['✈️ Air','✈️ Udara'],
-                ['🚢 Water','🚢 Air'],
-                ['Guess the Transport ✅','Teka Pengangkutan ✅'],
-                ['Look at each picture and tick the correct transport name.','Lihat setiap gambar dan tandakan nama pengangkutan yang betul.'],
-                ['Shape Module 🔷','Modul Bentuk 🔷'],
-                ['Choose a fun shape activity!','Pilih aktiviti bentuk yang menyeronokkan!'],
-                ['Learn the Shape 🔷','Belajar Bentuk 🔷'],
-                ['Match the Shape 🔷','Suaikan Bentuk 🔷'],
-                ['Match each shape name with the correct shape.','Suaikan setiap nama bentuk dengan bentuk yang betul.'],
-                ['Draw the Shape ✏️','Lukis Bentuk ✏️'],
-                ['Trace the dotted shape with your finger or mouse.','Tekap bentuk bertitik menggunakan jari atau tetikus.'],
-                ['Match Me 🎨','Suaikan Saya 🎨'],
-                ['Match the coloured shape with the same black-and-white shape.','Suaikan bentuk berwarna dengan bentuk hitam putih yang sama.'],
-                ['Awesome Job! 🎉','Syabas! 🎉'],
-                ['You have completed the quiz!','Anda telah melengkapkan kuiz!']
-            ];
-            const enToMs = new Map(uiPairs);
-            const msToEn = new Map(uiPairs.map(([en,ms])=>[ms,en]));
-
-            function translateTextNode(node, lang){
-                if(!node || !node.nodeValue) return;
-                const raw=node.nodeValue;
-                const trimmed=raw.trim();
-                if(!trimmed) return;
-                const map=lang==='ms'?enToMs:msToEn;
-                let translated=map.get(trimmed);
-                if(!translated){
-                    if(lang==='ms'){
-                        translated = trimmed
-                          .replace(/^Question (\d+) \/ (\d+)$/,'Soalan $1 / $2')
-                          .replace(/^Question (\d+) of (\d+)$/,'Soalan $1 daripada $2')
-                          .replace(/^Set (\d+) \/ (\d+)$/,'Set $1 / $2')
-                          .replace(/^Shape (\d+) \/ (\d+)$/,'Bentuk $1 / $2')
-                          .replace(/^Animal (\d+) of (\d+)$/,'Haiwan $1 daripada $2')
-                          .replace(/^Transport (\d+) of (\d+)$/,'Pengangkutan $1 daripada $2')
-                          .replace(/^Number (\d+) of (\d+)$/,'Nombor $1 daripada $2')
-                          .replace(/^Colour (\d+) of (\d+)$/,'Warna $1 daripada $2');
-                    } else {
-                        translated = trimmed
-                          .replace(/^Soalan (\d+) \/ (\d+)$/,'Question $1 / $2')
-                          .replace(/^Soalan (\d+) daripada (\d+)$/,'Question $1 of $2')
-                          .replace(/^Bentuk (\d+) \/ (\d+)$/,'Shape $1 / $2')
-                          .replace(/^Haiwan (\d+) daripada (\d+)$/,'Animal $1 of $2')
-                          .replace(/^Pengangkutan (\d+) daripada (\d+)$/,'Transport $1 of $2')
-                          .replace(/^Nombor (\d+) daripada (\d+)$/,'Number $1 of $2')
-                          .replace(/^Warna (\d+) daripada (\d+)$/,'Colour $1 of $2');
-                    }
-                    if(translated===trimmed) translated=null;
-                }
-                if(translated){
-                    node.nodeValue=raw.replace(trimmed,translated);
-                }
-            }
-
-            function translateWholeUI(lang){
-                const root=document.body;
-                if(!root) return;
-                const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{
-                    acceptNode(node){
-                        const p=node.parentElement;
-                        if(!p || /^(SCRIPT|STYLE|TEXTAREA|OPTION)$/i.test(p.tagName)) return NodeFilter.FILTER_REJECT;
-                        if(p.closest('[data-fixed-nav="1"]')) return NodeFilter.FILTER_REJECT;
-                        return NodeFilter.FILTER_ACCEPT;
-                    }
-                });
-                const nodes=[]; while(walker.nextNode()) nodes.push(walker.currentNode);
-                nodes.forEach(n=>translateTextNode(n,lang));
-            }
-
-            function captureEnglishNavigation(){
-                document.querySelectorAll('button, a').forEach(el=>{
-                    const id=(el.id||'').toLowerCase();
-                    const oc=(el.getAttribute('onclick')||'').toLowerCase();
-                    const txt=(el.textContent||'').trim();
-                    const isNav = /(^|[-_])(back|next|prev)([-_]|$)/.test(id) || /\b(back|next|prev)/.test(oc) || /^(⬅\s*)?(Back|Next|Prev|Previous)\b/i.test(txt) || /\b(Back|Next|Prev|Previous)(\s|$)/i.test(txt);
-                    if(isNav && !el.dataset.fixedEnglishNav){
-                        el.dataset.fixedEnglishNav=el.innerHTML;
-                        el.dataset.fixedNav='1';
-                    }
-                });
-            }
-
-            function enforceEnglishNavigation(){
-                captureEnglishNavigation();
-                document.querySelectorAll('[data-fixed-nav="1"]').forEach(el=>{
-                    const wanted=el.dataset.fixedEnglishNav;
-                    if(wanted!=null && el.innerHTML!==wanted) el.innerHTML=wanted;
-                });
-            }
-
-            function refreshAnimalLanguage(){
-                if(typeof animalCategories!=='undefined'){
-                    document.querySelectorAll('#animal-categories-container .animal-cat-btn').forEach((btn,i)=>{
-                        const cat=animalCategories[i]; if(cat) btn.innerText=currentGlobalLang==='ms'?cat.label:cat.label_en;
-                    });
-                }
-                if(typeof currentLearnAnimalList!=='undefined' && currentLearnAnimalList.length && typeof currentLearnAnimalIdx!=='undefined'){
-                    const item=currentLearnAnimalList[currentLearnAnimalIdx];
-                    if(item){
-                        const cat=typeof animalCategories!=='undefined' ? animalCategories.find(c=>c.id===item.cat) : null;
-                        const title=document.getElementById('animal-cat-display-title');
-                        if(title && cat) title.innerText=currentGlobalLang==='ms'?cat.label:cat.label_en;
-                        const prog=document.getElementById('animal-flash-progress');
-                        if(prog) prog.innerText=currentGlobalLang==='ms' ? `Haiwan ${currentLearnAnimalIdx+1} daripada ${currentLearnAnimalList.length}` : `Animal ${currentLearnAnimalIdx+1} of ${currentLearnAnimalList.length}`;
-                    }
-                }
-                if(typeof currentQ!=='undefined' && currentQ && currentQ.target){
-                    const q=document.getElementById('find-animal-question-text');
-                    if(q){ const n=currentGlobalLang==='ms'?currentQ.target.bm:currentQ.target.en; q.innerText=currentGlobalLang==='ms'?`Yang mana satu ${n}?`:`Which one is the ${n}?`; }
-                }
-            }
-
-            function refreshABCWithoutAudio(){
-                if(!document.getElementById('abc-flashcard-screen')?.classList.contains('active')) return;
-                if(typeof abcDataEn==='undefined' || typeof abcDataMs==='undefined' || typeof currentABCIndex==='undefined') return;
-                const list=currentGlobalLang==='ms'?abcDataMs:abcDataEn, item=list[currentABCIndex]; if(!item) return;
-                const title=document.getElementById('abc-screen-title'); if(title) title.innerText=currentGlobalLang==='ms'?'Belajar ABC':'Learn ABC';
-                const progress=document.getElementById('abc-progress-indicator'); if(progress) progress.innerText=currentGlobalLang==='ms'?`Huruf ${item.letter} daripada Z (${currentABCIndex+1} / ${list.length})`:`Letter ${item.letter} of Z (${currentABCIndex+1} / ${list.length})`;
-                const caption=document.getElementById('abc-caption'); if(caption) caption.innerText=currentGlobalLang==='ms'?`${item.letter} untuk ${item.word}`:`${item.letter} is for ${item.word}`;
-            }
-
-            window.refreshCompleteBilingualUI=function(){
-                try{ if(typeof updateNumberLanguage==='function') updateNumberLanguage(); }catch(e){}
-                try{ if(typeof updateColourLanguage==='function') updateColourLanguage(); }catch(e){}
-                try{ if(typeof updateBodyLanguage==='function') updateBodyLanguage(); }catch(e){}
-                try{ if(typeof updateShapeLanguage==='function') updateShapeLanguage(); }catch(e){}
-                try{ if(typeof updateTransportLanguage==='function') updateTransportLanguage(); }catch(e){}
-                try{ refreshABCWithoutAudio(); }catch(e){}
-                try{ refreshAnimalLanguage(); }catch(e){}
-                try{ translateWholeUI(currentGlobalLang); }catch(e){}
-                enforceEnglishNavigation();
-                document.documentElement.lang=currentGlobalLang==='ms'?'ms':'en';
-            };
-
-            window.setGlobalLanguage=function(lang){
-                originalSetGlobalLanguage(lang);
-                setTimeout(window.refreshCompleteBilingualUI,0);
-                setTimeout(window.refreshCompleteBilingualUI,80);
-            };
-
-            const start=()=>{
-                captureEnglishNavigation();
-                enforceEnglishNavigation();
-                window.refreshCompleteBilingualUI();
-                const observer=new MutationObserver(()=>enforceEnglishNavigation());
-                observer.observe(document.body,{subtree:true,childList:true,characterData:true});
-            };
-            if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start,{once:true}); else start();
-        })();
-</script>
+    </script>
 </body>
 </html>
                     
