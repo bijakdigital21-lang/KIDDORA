@@ -3689,16 +3689,24 @@
             overflow:hidden; background:#fff; border:3px solid #ece4ff;
         }
 
-        #match-me-screen .shape-match-container { width:100%; justify-content:center; align-items:stretch; gap:12px; }
-        #match-me-screen .shape-match-column { width:calc(50% - 6px); max-width:320px; gap:12px; }
-        #match-me-screen .shape-match-column.left,
-        #match-me-screen .shape-match-column.right { margin:0; }
-        #match-me-screen .shape-match-item {
-            width:100%; min-height:0; aspect-ratio:1/1; padding:0;
-            border:4px solid var(--primary-blue); border-radius:22px; background:#FFF3D6;
-            box-shadow:0 7px 16px rgba(0,0,0,.13);
+        /* MATCH ME: ikut saiz/jarak Match the Animal, tetapi kedua-dua kotak square */
+        #match-me-screen .shape-match-container {
+            width:100%; justify-content:space-between; align-items:stretch; gap:0;
         }
-        #match-me-screen .shape-match-item .shape-mini { width:78%; height:78%; }
+        #match-me-screen .shape-match-column {
+            width:185px; gap:18px;
+        }
+        #match-me-screen #match-me-left { transform:translateX(-95px); }
+        #match-me-screen #match-me-right { transform:translateX(95px); }
+        #match-me-screen .shape-match-item {
+            width:135px; height:135px; min-height:135px; aspect-ratio:1/1; padding:0;
+            border:4px solid var(--primary-blue); border-radius:18px; background:#FFF3D6;
+            box-shadow:0 5px 12px rgba(0,0,0,.12); overflow:hidden;
+            align-self:center;
+        }
+        #match-me-screen .shape-match-item .shape-mini {
+            width:100%; height:100%; padding:10px; display:flex; align-items:center; justify-content:center;
+        }
         #match-me-screen .shape-match-item.matched { opacity:1!important; filter:none!important; }
 
         @media(max-width:768px){
@@ -3715,9 +3723,13 @@
             #match-shape-screen .shape-match-audio-btn { width:38px; height:38px; font-size:1.1rem; }
             #draw-shape-screen .shape-tracing-board { padding:8px; border-radius:23px; }
             #draw-shape-screen .shape-trace-canvas-wrap { height:min(112vw,470px); min-height:340px; }
-            #match-me-screen .shape-match-container { gap:8px; }
-            #match-me-screen .shape-match-column { width:calc(50% - 4px); gap:8px; }
-            #match-me-screen .shape-match-item { border-width:3px; border-radius:18px; }
+            #match-me-screen .shape-match-column { width:142px; gap:15px; }
+            #match-me-screen #match-me-left { transform:translateX(-42px); }
+            #match-me-screen #match-me-right { transform:translateX(42px); }
+            #match-me-screen .shape-match-item {
+                width:116px; height:116px; min-height:116px;
+                border-width:3px; border-radius:15px;
+            }
         }
         @media(max-width:430px){
             #match-shape-screen #match-shape-left { transform:translateX(-28px); }
@@ -3726,6 +3738,12 @@
             #match-shape-screen #match-shape-left .shape-match-item,
             #match-shape-screen #match-shape-right .shape-match-item { width:130px; height:110px; min-height:110px; }
             #match-shape-screen #match-shape-right .shape-mini { width:110px; height:110px; }
+            #match-me-screen #match-me-left { transform:translateX(-28px); }
+            #match-me-screen #match-me-right { transform:translateX(28px); }
+            #match-me-screen .shape-match-column { width:130px; }
+            #match-me-screen .shape-match-item {
+                width:110px; height:110px; min-height:110px;
+            }
         }
 
     </style>
@@ -8430,7 +8448,11 @@ document.addEventListener('DOMContentLoaded', () => {
             wrapperId:'match-shape-wrapper',canvasId:'match-shape-canvas',
             leftId:'match-shape-left',rightId:'match-shape-right',
             onMatch:()=>{matchShapeScore+=10;document.getElementById('match-shape-score').innerText=matchShapeScore;},
-            onComplete:()=>{document.getElementById('match-shape-next').style.display='inline-block';}
+            // Bila semua 4 pasangan betul, terus bergerak ke set seterusnya tanpa tekan Next.
+            onComplete:()=>{
+                document.getElementById('match-shape-next').style.display='none';
+                setTimeout(()=>nextMatchShapeSet(),650);
+            }
         });
 
         function buildFiveShapeSets(){
