@@ -3935,6 +3935,105 @@
             .transport-zone-items{grid-template-columns:repeat(5,minmax(0,1fr));}
         }
 
+
+
+        /* =========================================================
+           MOBILE FIX 2026-09-14
+           Sort the Transport + smaller Shape topic buttons only
+        ========================================================== */
+
+        /* Shape menu: keep all buttons compact like other topic menus */
+        .shape-menu-grid {
+            grid-template-columns: repeat(auto-fit, minmax(130px, 150px)) !important;
+            justify-content: center !important;
+            gap: 15px !important;
+        }
+        .shape-menu-btn {
+            width: 100% !important;
+            max-width: 150px !important;
+            justify-self: center !important;
+        }
+
+        @media (max-width: 768px) {
+            /* Bigger transport pictures on phone */
+            .transport-sort-bank {
+                grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+                gap: 9px !important;
+                padding: 10px !important;
+                min-height: 0 !important;
+            }
+
+            /* Keep Land / Air / Water boxes in one row like desktop */
+            .transport-sort-zones {
+                grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+                gap: 6px !important;
+                align-items: stretch !important;
+            }
+            .transport-sort-zone {
+                min-height: 125px !important;
+                padding: 6px !important;
+                border-width: 3px !important;
+                border-radius: 15px !important;
+                min-width: 0 !important;
+            }
+            .transport-zone-title {
+                font-size: .82rem !important;
+                margin: 2px 0 6px !important;
+                white-space: nowrap !important;
+            }
+            .transport-zone-items {
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 4px !important;
+            }
+            .transport-zone-thumb {
+                border-radius: 8px !important;
+            }
+
+            .shape-menu-grid {
+                grid-template-columns: repeat(2, minmax(0, 140px)) !important;
+                justify-content: center !important;
+                gap: 14px !important;
+            }
+            .shape-menu-btn {
+                max-width: 140px !important;
+            }
+        }
+
+        @media (max-width: 430px) {
+            /* Override old 5-column rule that made transport pictures tiny */
+            .transport-sort-bank {
+                grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+                gap: 8px !important;
+                padding: 8px !important;
+            }
+            .transport-sort-item {
+                border-width: 2px !important;
+                border-radius: 12px !important;
+            }
+            .transport-sort-zones {
+                grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+                gap: 5px !important;
+            }
+            .transport-sort-zone {
+                min-height: 112px !important;
+                padding: 5px !important;
+            }
+            .transport-zone-title {
+                font-size: .72rem !important;
+            }
+            .transport-zone-items {
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 3px !important;
+            }
+
+            .shape-menu-grid {
+                grid-template-columns: repeat(2, minmax(0, 128px)) !important;
+                gap: 12px !important;
+            }
+            .shape-menu-btn {
+                max-width: 128px !important;
+            }
+        }
     </style>
 </head>
 <body class="login-mode">
