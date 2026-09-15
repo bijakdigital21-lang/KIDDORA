@@ -4413,7 +4413,24 @@
         .install-step img { display:block; width:100%; max-width:420px; height:auto; margin:0 auto; border-radius:16px; border:2px solid #e6e6e6; }
         @media(max-width:600px){ .install-device-btn{flex:1;padding:11px 10px}.install-step{padding:10px}.install-step img{max-width:100%} }
 
-</style>
+
+
+        /* BIJAK SUKU KATA - ABC MODULE */
+        #bijak-suku-kata-screen { width:100%; }
+        .suku-card{background:rgba(255,249,220,.96);border:4px solid #FFDE59;border-radius:26px;padding:20px;margin:16px auto;max-width:620px;box-shadow:0 10px 25px rgba(0,0,0,.15)}
+        .suku-topbar{display:flex;justify-content:space-between;font-weight:900;margin-bottom:12px;color:#243b53}
+        .suku-picture{width:210px;height:210px;margin:0 auto 12px;border:4px solid #5CE1E6;border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 7px 16px rgba(0,0,0,.12)}
+        .suku-picture img{width:100%;height:100%;object-fit:cover;display:block}
+        .suku-first{font-family:'Fredoka One',cursive;font-size:2.7rem;letter-spacing:.16em;color:#5E17EB;margin:12px 0}
+        .suku-options{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:420px;margin:14px auto}
+        .suku-option{border:3px solid #CBD5E1;background:#fff;border-radius:18px;padding:15px;font-family:'Fredoka One',cursive;font-size:1.8rem;cursor:pointer;box-shadow:0 5px 0 #aab5c2;transition:.15s}
+        .suku-option:active{transform:translateY(3px);box-shadow:0 2px 0 #aab5c2}.suku-option.wrong{background:#ff6b6b!important;color:#fff;border-color:#d93434}.suku-option.correct{background:#7ED957!important;color:#fff;border-color:#4fa837}
+        .suku-pop{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.25);pointer-events:none}
+        .suku-pop.show{display:flex}.suku-pop-inner{background:#fff8c7;border:5px solid #FFDE59;border-radius:28px;padding:28px 34px;box-shadow:0 15px 45px rgba(0,0,0,.28);font-family:'Fredoka One',cursive;font-size:clamp(2rem,7vw,4rem);color:#5E17EB;text-align:center;animation:sukuPop .25s ease}
+        @keyframes sukuPop{from{transform:scale(.65);opacity:0}to{transform:scale(1);opacity:1}}
+        @media(max-width:600px){.suku-card{padding:14px 10px}.suku-picture{width:180px;height:180px}.suku-first{font-size:2.25rem}.suku-option{font-size:1.55rem}}
+
+    </style>
 </head>
 <body class="login-mode">
 
@@ -4591,6 +4608,10 @@
                         <img src="https://i.imgur.com/uapKKll.jpeg" alt="Complete the ABC">
                         <span style="display:none;">Complete the ABC</span>
                     </button>
+                    <button class="abc-sub-btn abc-image-btn" onclick="playClickSound(); startBijakSukuKata()" aria-label="Bijak Suku Kata">
+                        <img src="https://i.imgur.com/0DEjycu.jpeg" alt="Bijak Suku Kata">
+                        <span style="display:none;">Bijak Suku Kata</span>
+                    </button>
 
                 </div>
     
@@ -4603,6 +4624,21 @@
 
 
 
+
+
+            <!-- BIJAK SUKU KATA SCREEN -->
+            <div id="bijak-suku-kata-screen" class="card">
+                <h2 style="color:#ffff00;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #5E17EB;">Bijak Suku Kata 📖</h2>
+                <div class="suku-card">
+                    <div class="suku-topbar"><span>Soalan <span id="suku-progress">1 / 10</span></span><span>⭐ <span id="suku-score">0</span></span></div>
+                    <div class="suku-picture"><img id="suku-image" src="" alt=""></div>
+                    <div id="suku-first" class="suku-first">BU + ?</div>
+                    <div id="suku-options" class="suku-options"></div>
+                    <div id="suku-message" style="min-height:28px;font-weight:800;margin-top:8px;"></div>
+                </div>
+                <button class="action-btn home-btn" onclick="playClickSound(); openABCMenu()">Back to ABC 🔤</button>
+            </div>
+            <div id="suku-pop" class="suku-pop"><div id="suku-pop-inner" class="suku-pop-inner"></div></div>
 
             <!-- COMPLETE THE ABC SCREEN -->
             <div id="complete-abc-screen" class="card">
@@ -8053,6 +8089,7 @@
                 'spell-it-right-screen',
                 'abc-tracing-screen',
                 'complete-abc-screen',
+                'bijak-suku-kata-screen',
                 'match123-screen',
                 'lets-count-screen',
                 'find123-screen',
@@ -8886,6 +8923,95 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
 
+
+
+        // =========================================================
+        // BIJAK SUKU KATA - 10 random, non-repeating words per session
+        // =========================================================
+        // EDIT GAMBAR BIJAK SUKU KATA DI SINI SAHAJA.
+        // Tukar nilai image: dengan direct link gambar anda (contoh Imgur).
+        // Contoh: image: 'https://i.imgur.com/xxxx.jpeg'
+        const sukuWords = [
+            { word: 'baju', first: 'BA', second: 'JU', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrNwCgNiy2MAuQ0g4qyoFZvSQXRvj1fcWKUy6HX52CDw&s=10' },
+            { word: 'batu', first: 'BA', second: 'TU', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPsVSxyE2dPyRSGnYm9jjYRx8mcvW1x6AuCQKBpnmUaw&s=10' },
+            { word: 'buku', first: 'BU', second: 'KU', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ79zYWvDaTVVUBJWI_R10UwyNh9gOxFzYgOksbVVBisw&s=10' },
+            { word: 'bola', first: 'BO', second: 'LA', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVMc01fNm4zmVdnl_9dm4M7SGTl-dF82uprjmth_EDHA&s=10' },
+            { word: 'biru', first: 'BI', second: 'RU', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRaP3p4Puj4eLJAivYLrc_JJH5Rd61jT2DAReDTopjEA&s=10' },
+            { word: 'bayi', first: 'BA', second: 'YI', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCfdkNpGm2qmbCI2x_YTKd3-RaSTii5LYR6fNPEtcXzQ&s=10' },
+            { word: 'dada', first: 'DA', second: 'DA', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWWoz6ciLbVaK92oFb8griYEFEPzXX7if0YozHk9bzVA&s=10' },
+            { word: 'dadu', first: 'DA', second: 'DU', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmvV7YN_bS4zrlQa9_gJdJGAi_D-jsI1qESIyHrWsxUQ&s=10' },
+            { word: 'gigi', first: 'GI', second: 'GI', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWdGHhNm6jESxOTXVwWuc5O10pD63oFbpu-1A2IW8T4w&s=10' },
+            { word: 'gula', first: 'GU', second: 'LA', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS56Cj6fdn56Wj4otzQj_u5DxufSjxPCUdKZUtjfs3kSw&s=10' },
+            { word: 'guru', first: 'GU', second: 'RU', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuieJpcRWfTiy1Oc_cCYTcfFLowFQdMyRuVKWctIA2hg&s=10' },
+            { word: 'jari', first: 'JA', second: 'RI', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQho9CKccZG7TLCQk3TTTtMv9OufX_ITmuyOFS0ektOwQ&s=10' },
+            { word: 'kaki', first: 'KA', second: 'KI', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlujYUM_-BGBIwkmRFLc0fOYXWTrMZNepLbWNe60_T2Q&s=10' },
+            { word: 'kayu', first: 'KA', second: 'YU', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRu7OWNNM-WrhINseCkROzJrYGGefAlKFFr-oM0GfNk5g&s=10' },
+            { word: 'kuda', first: 'KU', second: 'DA', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCEYybFVM8Km4_f_rlj9pR45orPNdjeNiiBDbeh6WWkQ&s=10' },
+            { word: 'kuku', first: 'KU', second: 'KU', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXAjIEgbjTXKHsXN429IyQo4Vb1-Y5k4wGUE1CM1byeA&s=10' },
+            { word: 'labu', first: 'LA', second: 'BU', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwHaxeWFfFqxdjiU1L1pWReL-EmW54-3-mlwizSgP31w&s=10' },
+            { word: 'lima', first: 'LI', second: 'MA', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStQCOYXBXDL_nNwww1uO33UA-DH-AdYr-CUQVH4bimNQ&s=10' },
+            { word: 'mata', first: 'MA', second: 'TA', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYroqPxY0ajNrVDoMjydq3fOdgLeXMBFSp9eq_UrTysA&s=10' },
+            { word: 'meja', first: 'ME', second: 'JA', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1MbOh7iuLZ5XsfNEZiCCa9aUFFFAQrRGijAc6knnRTA&s=10' },
+            { word: 'muka', first: 'MU', second: 'KA', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhJUc4TllI1V0q6-RHrR1TM3d3kHxbuQum87-xrYBDXg&s=10' },
+            { word: 'nasi', first: 'NA', second: 'SI', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3zWTi1SUYfREoAv_rSLwbE1Vhz6E1OFOe41RbyXJYTA&s=10' },
+            { word: 'nota', first: 'NO', second: 'TA', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBthBsk_6ne4vSeEvAIgta_dlPDeNjAl39exKRexVylw&s=10' },
+            { word: 'padi', first: 'PA', second: 'DI', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSic2KfFjRMV6ptmIfASV4fDBdcAQb39Xn7idhTxxNhmg&s=10' },
+            { word: 'pasu', first: 'PA', second: 'SU', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMLslEwbJU1-sOfpCXG2iHKP8dhNq0mZu7YhLvgYfgPw&s=10' },
+            { word: 'paku', first: 'PA', second: 'KU', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYKwE3TlFFEkpQy-Kd3D41c_U2k_HfOTvIheEn4Yh7IA&s=10' },
+            { word: 'pipi', first: 'PI', second: 'PI', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWLloUxdjJI1yVesk1bxtrMnHBch6wY4I2zp1XMQbT3w&s=10' },
+            { word: 'roda', first: 'RO', second: 'DA', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1m34YZJbJlx60o2TwyIjBQGH4uYDGneChM8mu0V56kw&s=10' },
+            { word: 'roti', first: 'RO', second: 'TI', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsXtTsDb2h4ELY3RQXe4Ccz3_xFrHihREG2RIil3VGjQ&s=10' },
+            { word: 'satu', first: 'SA', second: 'TU', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmva1IdMp3oAVvv1acwtKWdhNidXOT0O6cBDv0bs8Xeg&s=10' },
+            { word: 'siku', first: 'SI', second: 'KU', image: 'https://flexfreeclinic.com/uploads/artikel/2UZ4Q_Flexfree_Clinic_BERBAGAI-PENYEBAB-NYERI-SIKU-.jpg' },
+            { word: 'susu', first: 'SU', second: 'SU', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcq2ivnMvEcCgCSUcXWD7_iq5Emh9hqHP6yyc18zj4QQ&s=10' },
+            { word: 'tali', first: 'TA', second: 'LI', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVpbUEi3tTOpoGAlX7phWEKqCrKi-BfbohHrKGVr6gpg&s=10' },
+            { word: 'topi', first: 'TO', second: 'PI', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXtNwQugd1XcFERoEkenvuF7igZbgRn4PRFTW1SBaVuQ&s=10' },
+            { word: 'ubi', first: 'U', second: 'BI', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZVkrf6No0g9qJu0_pso8LoLDwJejT2IWIhMliIKmkYw&s=10' },
+            { word: 'sawi', first: 'SA', second: 'WI', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTka5KLIGKkyM5-016kMSwcn9N1bHrjrjfIwYy6YVdHfg&s=10' },
+            { word: 'sate', first: 'SA', second: 'TE', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZpNeNzGvsDdRsyKcv7z34N6PdBbS_IbOL1nABgx_jzg&s' },
+            { word: 'rusa', first: 'RU', second: 'SA', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMV3vSCSE2KTfts7-oe4Ua46zOM1zVZqM25J4M3dPk5Q&s=10' },
+            { word: 'singa', first: 'SI', second: 'NGA', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlHhOteFzFpz9phePIrIvv8dPTFp8KgTSbkUtNlw6MWg&s=10' },
+            { word: 'naga', first: 'NA', second: 'GA', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo3R2q40-D_xDS9IejL_tWaKjnQbiZZ898Wrg67kS5BQ&s=10' }
+        ];
+        let sukuSession=[], sukuIndex=0, sukuScore=0, sukuLocked=false;
+        function sukuShuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+        function startBijakSukuKata(){ window.speechSynthesis?.cancel(); sukuSession=sukuShuffle(sukuWords).slice(0,10);sukuIndex=0;sukuScore=0;sukuLocked=false;showScreen('bijak-suku-kata-screen');renderSukuQuestion(); }
+        function getSukuDistractor(item){const pool=[...new Set(sukuWords.map(x=>x.second).filter(x=>x!==item.second))];return pool[Math.floor(Math.random()*pool.length)]}
+        function renderSukuQuestion(){
+            const item=sukuSession[sukuIndex]; if(!item)return;
+            sukuLocked=false; document.getElementById('suku-progress').textContent=`${sukuIndex+1} / ${sukuSession.length}`;document.getElementById('suku-score').textContent=sukuScore;document.getElementById('suku-first').textContent=`${item.first.split('').join(' ')} + ?`;document.getElementById('suku-message').textContent='';
+            const img=document.getElementById('suku-image');img.src=item.image;img.alt=item.word;
+            const opts=sukuShuffle([item.second,getSukuDistractor(item)]);const wrap=document.getElementById('suku-options');wrap.innerHTML='';opts.forEach(v=>{const b=document.createElement('button');b.className='suku-option';b.textContent=v;b.onclick=()=>chooseSukuAnswer(v,b);wrap.appendChild(b)});
+        }
+        function speakMalayWord(word){
+            if(!('speechSynthesis' in window))return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(word);u.lang='ms-MY';u.rate=.78;u.pitch=1;const voices=window.speechSynthesis.getVoices();const v=voices.find(x=>/^ms(-|_)/i.test(x.lang))||voices.find(x=>/malay|melayu/i.test(x.name));if(v)u.voice=v;window.speechSynthesis.speak(u);
+        }
+        function speakCurrentSukuWord(){const item=sukuSession[sukuIndex];if(item)speakMalayWord(item.word)}
+        function chooseSukuAnswer(value,btn){
+            if(sukuLocked)return;const item=sukuSession[sukuIndex];
+            if(value!==item.second){playWrongSound();btn.classList.add('wrong');document.getElementById('suku-message').textContent='Cuba lagi 😊';return;}
+            playCorrectSound();sukuLocked=true;btn.classList.add('correct');sukuScore++;document.getElementById('suku-score').textContent=sukuScore;
+            const pop=document.getElementById('suku-pop'), inner=document.getElementById('suku-pop-inner');inner.innerHTML=`<strong>${item.word.toUpperCase()}</strong>`;pop.classList.add('show');
+            setTimeout(()=>{pop.classList.remove('show');if(sukuIndex<sukuSession.length-1){sukuIndex++;renderSukuQuestion()}else{finishSukuSession()}},2000);
+        }
+        function finishSukuSession(){
+            window.speechSynthesis?.cancel();
+            document.getElementById('suku-progress').textContent=`${sukuSession.length} / ${sukuSession.length}`;
+            const pop=document.getElementById('suku-pop');
+            const inner=document.getElementById('suku-pop-inner');
+            inner.innerHTML=`
+                <div style="font-size:clamp(2rem,7vw,3.6rem);margin-bottom:12px;">🎉 DAH SELESAI! 🎉</div>
+                <div style="font-family:'Quicksand',sans-serif;font-size:1.05rem;color:#2C3E50;margin-bottom:18px;font-weight:800;">Skor: ${sukuScore} / ${sukuSession.length}</div>
+                <button class="action-btn home-btn" onclick="closeSukuCompletion()" style="font-size:1rem;">Close ✖️</button>`;
+            pop.style.pointerEvents='auto';
+            pop.classList.add('show');
+        }
+        function closeSukuCompletion(){
+            const pop=document.getElementById('suku-pop');
+            pop.classList.remove('show');
+            pop.style.pointerEvents='none';
+            openABCMenu();
+        }
 
         // =========================================================
         // COMPLETE THE ABC - 5 randomized, non-repeating questions
@@ -9873,6 +9999,102 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
     </script>
+
+
+<!-- UNIVERSAL ACTIVITY COMPLETION POPUP: uses the same theme as Bijak Suku Kata -->
+<div id="universal-completion-pop" class="suku-pop" aria-hidden="true">
+  <div class="suku-pop-inner" style="max-width:560px;width:calc(100% - 30px);">
+    <div id="universal-completion-title" style="font-size:clamp(2rem,7vw,3.6rem);margin-bottom:12px;">🎉 DONE! 🎉</div>
+    <div id="universal-completion-detail" style="font-family:'Quicksand',sans-serif;font-size:1.05rem;color:#2C3E50;margin-bottom:18px;font-weight:800;"></div>
+    <button id="universal-completion-close" class="action-btn home-btn" type="button" style="font-size:1rem;">Close ✖️</button>
+  </div>
+</div>
+<script>
+(function(){
+  // This layer standardises completion for every activity without changing game logic.
+  const moduleRoutes = {
+    abc: 'abc-menu-screen', number: 'num123-menu-screen', colour: 'colour-menu-screen',
+    body: 'body-part-menu-screen', animal: 'animal-menu-screen', shape: 'shape-menu-screen',
+    transport: 'transport-menu-screen'
+  };
+  const screenModule = {
+    'bijak-suku-kata-screen':'abc','complete-abc-screen':'abc','spell-it-right-screen':'abc','abc-tracing-screen':'abc',
+    'match-count-screen':'abc','match-game-screen':'abc','find-letter-screen':'abc','abc-flashcard-screen':'abc',
+    'lesson-screen':'abc','count-selection-screen':'abc','quiz-screen':'abc','result-screen':'abc',
+    'num123-tracing-screen':'number','learn123-screen':'number','match123-screen':'number','lets-count-screen':'number','add-them-up-screen':'number','find123-screen':'number',
+    'learn-colour-screen':'colour','pop-balloon-screen':'colour','match-colour-screen':'colour','find-colour-screen':'colour',
+    'learn-body-screen':'body','choose-body-screen':'body','match-body-count-screen':'body','match-body-game-screen':'body','label-body-screen':'body',
+    'learn-animal-cat-screen':'animal','learn-animal-flash-screen':'animal','match-animal-count-screen':'animal','match-animal-game-screen':'animal','find-animal-count-screen':'animal','find-animal-game-screen':'animal',
+    'learn-shape-screen':'shape','match-shape-screen':'shape','draw-shape-screen':'shape','match-me-screen':'shape',
+    'learn-transport-cat-screen':'transport','learn-transport-flash-screen':'transport','sort-transport-screen':'transport','guess-transport-screen':'transport'
+  };
+  let completionOpen=false, completionModule=null;
+  const originalAlert=window.alert.bind(window);
+  const originalShowScreen=(typeof window.showScreen==='function') ? window.showScreen.bind(window) : null;
+
+  function activeScreenId(){ const el=document.querySelector('.card.active'); return el ? el.id : ''; }
+  function inferModule(){ return screenModule[activeScreenId()] || completionModule || 'abc'; }
+  function isCompletionMessage(msg){
+    const t=String(msg||'').toLowerCase();
+    return /completed|complete all|completing|finished|finish!|quiz finished|quiz tamat|tamat!|tamat belajar|tahniah|syabas|selesai|lengkapkan|melengkapkan|habiskan|menghabiskan|hebat!|amazing!|great job/.test(t);
+  }
+  function extractDetail(msg){
+    const t=String(msg||'');
+    const score=t.match(/(?:score|skor)(?: anda)?\s*[:：]?\s*([^\n]+)/i);
+    return score ? ((currentGlobalLang==='ms'?'Skor: ':'Score: ')+score[1].replace(/^[:\s]+/,'')) : '';
+  }
+  function showCompletion(moduleKey, detail){
+    completionModule=moduleKey || inferModule(); completionOpen=true;
+    try{ window.speechSynthesis?.cancel(); }catch(e){}
+    const pop=document.getElementById('universal-completion-pop');
+    document.getElementById('universal-completion-title').textContent = currentGlobalLang==='ms' ? '🎉 DAH SELESAI! 🎉' : '🎉 ALL DONE! 🎉';
+    const d=document.getElementById('universal-completion-detail'); d.textContent=detail||''; d.style.display=detail?'block':'none';
+    document.getElementById('universal-completion-close').textContent='Close ✖️';
+    pop.style.pointerEvents='auto'; pop.classList.add('show'); pop.setAttribute('aria-hidden','false');
+  }
+  function closeCompletion(){
+    const pop=document.getElementById('universal-completion-pop'); pop.classList.remove('show'); pop.style.pointerEvents='none'; pop.setAttribute('aria-hidden','true');
+    const route=moduleRoutes[completionModule] || moduleRoutes.abc; completionOpen=false;
+    if(originalShowScreen) originalShowScreen(route); else if(typeof window.navigateTo==='function') window.navigateTo(route);
+    completionModule=null;
+  }
+  document.getElementById('universal-completion-close').addEventListener('click',function(){ if(typeof playClickSound==='function') playClickSound(); closeCompletion(); });
+
+  // Convert existing completion alerts to the themed popup. Ordinary account/error alerts remain unchanged.
+  window.alert=function(msg){
+    const sid=activeScreenId();
+    if(screenModule[sid] && isCompletionMessage(msg)){ showCompletion(screenModule[sid],extractDetail(msg)); return; }
+    return originalAlert(msg);
+  };
+
+  // Prevent legacy code from immediately navigating away after its old alert.
+  if(originalShowScreen){
+    window.showScreen=function(screenId){
+      if(completionOpen) return;
+      if(screenId==='result-screen'){
+        const current=activeScreenId();
+        if(screenModule[current]){ showCompletion(screenModule[current],''); return; }
+      }
+      return originalShowScreen(screenId);
+    };
+  }
+
+  // Bijak Suku Kata already has its own completion popup; keep its look/flow but bilingualise the title.
+  const oldFinishSuku=window.finishSukuSession;
+  if(typeof oldFinishSuku==='function'){
+    window.finishSukuSession=function(){
+      oldFinishSuku();
+      const inner=document.getElementById('suku-pop-inner');
+      if(inner){
+        const title=inner.querySelector('div');
+        if(title) title.textContent=currentGlobalLang==='ms'?'🎉 DAH SELESAI! 🎉':'🎉 ALL DONE! 🎉';
+        const close=inner.querySelector('button'); if(close) close.textContent='Close ✖️';
+      }
+    };
+  }
+})();
+</script>
+
 </body>
 </html>
                     
