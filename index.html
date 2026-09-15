@@ -4399,6 +4399,20 @@
             }
         }
 
+
+        /* Add App to Home Screen tutorial */
+        .install-tutorial-wrap { max-width: 720px; margin: 0 auto; }
+        .install-device-tabs { display:flex; gap:12px; justify-content:center; margin:18px 0 22px; }
+        .install-device-btn { border:none; border-radius:16px; padding:12px 22px; font-family:'Quicksand',sans-serif; font-weight:800; font-size:1rem; cursor:pointer; background:rgba(255,255,255,.92); color:#2C3E50; box-shadow:0 5px 0 rgba(44,62,80,.25),0 8px 18px rgba(0,0,0,.12); }
+        .install-device-btn.active { background:var(--primary-yellow); transform:translateY(2px); box-shadow:0 3px 0 #d6b900,0 6px 14px rgba(0,0,0,.12); }
+        .install-guide { display:none; }
+        .install-guide.active { display:block; }
+        .install-step { background:rgba(255,255,255,.94); border:3px solid var(--primary-blue); border-radius:22px; padding:14px; margin:0 auto 18px; box-shadow:0 8px 20px rgba(0,0,0,.14); }
+        .install-step-number { display:inline-flex; width:34px; height:34px; align-items:center; justify-content:center; border-radius:50%; background:var(--primary-pink); color:#fff; font-weight:900; margin-bottom:9px; }
+        .install-step p { font-weight:800; line-height:1.45; margin:0 0 12px; color:#2C3E50; }
+        .install-step img { display:block; width:100%; max-width:420px; height:auto; margin:0 auto; border-radius:16px; border:2px solid #e6e6e6; }
+        @media(max-width:600px){ .install-device-btn{flex:1;padding:11px 10px}.install-step{padding:10px}.install-step img{max-width:100%} }
+
 </style>
 </head>
 <body class="login-mode">
@@ -4441,6 +4455,9 @@
             </li>
             <li class="nav-item" id="nav-scores-text" onclick="playClickSound(); navigateTo('scores-screen', this)">
                 🏆 Scores
+            </li>
+            <li class="nav-item" id="nav-install-text" onclick="playClickSound(); navigateTo('install-app-screen', this)">
+                📲 Add this app to home screen
             </li>
             <a href="https://wa.me/60196818139" target="_blank" class="nav-item whatsapp-btn" onclick="playClickSound(); closeSidebar();">
                 💬 WhatsApp 
@@ -5434,6 +5451,32 @@
             </div>
 
             <!-- QUIZ SCREEN -->
+
+            <!-- ADD APP TO HOME SCREEN TUTORIAL -->
+            <div id="install-app-screen" class="card">
+                <div class="install-tutorial-wrap">
+                    <h2 id="install-title" class="home-intro-title">📲 Add this app to Home Screen</h2>
+                    <p id="install-desc" class="home-intro-subtitle">Choose your device and follow the simple steps below.</p>
+                    <div class="install-device-tabs">
+                        <button id="install-ios-btn" class="install-device-btn active" onclick="playClickSound(); showInstallGuide('ios')">🍎 iOS / iPhone</button>
+                        <button id="install-android-btn" class="install-device-btn" onclick="playClickSound(); showInstallGuide('android')">🤖 Android</button>
+                    </div>
+                    <div id="install-ios-guide" class="install-guide active">
+                        <div class="install-step"><span class="install-step-number">1</span><p id="ios-step-1">Open this link using the Safari browser! 🌐</p><img src="https://i.imgur.com/18WLT7x.jpeg" alt="iOS Safari tutorial step 1"></div>
+                        <div class="install-step"><span class="install-step-number">2</span><p id="ios-step-2">Tap the Share button at the bottom of the screen. ↗️</p><img src="https://i.imgur.com/5WQwodj.jpeg" alt="iOS Share tutorial step 2"></div>
+                        <div class="install-step"><span class="install-step-number">3</span><p id="ios-step-3">Scroll down and select “Add to Home Screen”. 📱</p><img src="https://i.imgur.com/9WefyQN.jpeg" alt="iOS Add to Home Screen tutorial step 3"></div>
+                        <div class="install-step"><span class="install-step-number">4</span><p id="ios-step-4">Tap Add in the top right corner! 🎉</p><img src="https://i.imgur.com/lnhQmkv.jpeg" alt="iOS Add tutorial step 4"></div>
+                    </div>
+                    <div id="install-android-guide" class="install-guide">
+                        <div class="install-step"><span class="install-step-number">1</span><p id="android-step-1">Open this link using the Google Chrome browser! 🌐 Tap the Menu icon (three dots) in the top right corner. 👆</p><img src="https://i.imgur.com/sdo0zoH.jpeg" alt="Android Chrome tutorial step 1"></div>
+                        <div class="install-step"><span class="install-step-number">2</span><p id="android-step-2">Select “Install” or “Create shortcut”. 🌟</p><img src="https://i.imgur.com/1RynpbK.jpeg" alt="Android install tutorial step 2"></div>
+                        <div class="install-step"><span class="install-step-number">3</span><p id="android-step-3">Select “Install”. 😍</p><img src="https://i.imgur.com/BgHQuJj.jpeg" alt="Android install tutorial step 3"></div>
+                        <div class="install-step"><span class="install-step-number">4</span><p id="android-step-4">Tap Install to confirm. Yay! 🥳</p><img src="https://i.imgur.com/LlqzTlh.jpeg" alt="Android confirm install tutorial step 4"></div>
+                    </div>
+                    <button id="install-home-btn" class="action-btn home-btn" onclick="playClickSound(); showScreen('home-screen')">Back to Home 🏠</button>
+                </div>
+            </div>
+
             <div id="quiz-screen" class="card">
                 <div class="quiz-header">
                     <span id="topic-title">Module</span>
@@ -5891,7 +5934,7 @@
             currentGlobalLang = (lang === 'ms' ? 'ms' : 'en');
             document.documentElement.lang = currentGlobalLang === 'ms' ? 'ms' : 'en';
             try { localStorage.setItem('kiddoraLanguage', currentGlobalLang); } catch(e) {}
-            setTimeout(()=>{ if(typeof updateColourLanguage === 'function') updateColourLanguage(); if(typeof updateBodyLanguage === 'function') updateBodyLanguage(); if(typeof updateShapeLanguage === 'function') updateShapeLanguage(); if(typeof updateTransportLanguage === 'function') updateTransportLanguage(); },0);
+            setTimeout(()=>{ if(typeof updateColourLanguage === 'function') updateColourLanguage(); if(typeof updateBodyLanguage === 'function') updateBodyLanguage(); if(typeof updateShapeLanguage === 'function') updateShapeLanguage(); if(typeof updateTransportLanguage === 'function') updateTransportLanguage(); if(typeof updateInstallTutorialLanguage === 'function') updateInstallTutorialLanguage(); },0);
             
             document.getElementById("lang-btn-en").classList.remove("active");
             document.getElementById("lang-btn-ms").classList.remove("active");
@@ -5902,6 +5945,7 @@
                 document.getElementById("nav-home-text").innerHTML = "📚 Home";
                 document.getElementById("nav-profile-text").innerHTML = "👤 Profiles";
                 document.getElementById("nav-scores-text").innerHTML = "🏆 Scores";
+                document.getElementById("nav-install-text").innerHTML = "📲 Add this app to home screen";
                 document.getElementById("nav-logout-text").innerHTML = "🚪 Logout";
 
                 const curName = window.activeProfile || "-";
@@ -5997,6 +6041,7 @@
                 document.getElementById("nav-home-text").innerHTML = "📚 Utama";
                 document.getElementById("nav-profile-text").innerHTML = "👤 Profil";
                 document.getElementById("nav-scores-text").innerHTML = "🏆 Skor";
+                document.getElementById("nav-install-text").innerHTML = "📲 Tambah aplikasi ke skrin utama";
                 document.getElementById("nav-logout-text").innerHTML = "🚪 Keluar";
 
                 const curName = window.activeProfile || "-";
@@ -7962,6 +8007,36 @@
             const input = document.getElementById('login-password');
             if (!input) return;
             input.type = input.type === 'password' ? 'text' : 'password';
+        }
+
+
+        function showInstallGuide(device) {
+            const ios = document.getElementById('install-ios-guide');
+            const android = document.getElementById('install-android-guide');
+            const iosBtn = document.getElementById('install-ios-btn');
+            const androidBtn = document.getElementById('install-android-btn');
+            if (ios) ios.classList.toggle('active', device === 'ios');
+            if (android) android.classList.toggle('active', device === 'android');
+            if (iosBtn) iosBtn.classList.toggle('active', device === 'ios');
+            if (androidBtn) androidBtn.classList.toggle('active', device === 'android');
+        }
+
+        function updateInstallTutorialLanguage() {
+            const ms = currentGlobalLang === 'ms';
+            const text = {
+                'install-title': ms ? '📲 Tambah aplikasi ini ke Skrin Utama' : '📲 Add this app to Home Screen',
+                'install-desc': ms ? 'Pilih jenis peranti anda dan ikut langkah mudah di bawah.' : 'Choose your device and follow the simple steps below.',
+                'ios-step-1': ms ? 'Buka pautan ini menggunakan pelayar Safari! 🌐' : 'Open this link using the Safari browser! 🌐',
+                'ios-step-2': ms ? 'Tekan butang Share di bahagian bawah skrin. ↗️' : 'Tap the Share button at the bottom of the screen. ↗️',
+                'ios-step-3': ms ? 'Skrol ke bawah dan pilih “Add to Home Screen”. 📱' : 'Scroll down and select “Add to Home Screen”. 📱',
+                'ios-step-4': ms ? 'Tekan Add di penjuru kanan atas! 🎉' : 'Tap Add in the top right corner! 🎉',
+                'android-step-1': ms ? 'Buka pautan ini menggunakan Google Chrome! 🌐 Tekan ikon Menu (tiga titik) di penjuru kanan atas. 👆' : 'Open this link using the Google Chrome browser! 🌐 Tap the Menu icon (three dots) in the top right corner. 👆',
+                'android-step-2': ms ? 'Pilih “Install” atau “Create shortcut”. 🌟' : 'Select “Install” or “Create shortcut”. 🌟',
+                'android-step-3': ms ? 'Pilih “Install”. 😍' : 'Select “Install”. 😍',
+                'android-step-4': ms ? 'Tekan Install untuk mengesahkan. Yay! 🥳' : 'Tap Install to confirm. Yay! 🥳',
+                'install-home-btn': ms ? 'Kembali ke Utama 🏠' : 'Back to Home 🏠'
+            };
+            Object.entries(text).forEach(([id,value]) => { const el=document.getElementById(id); if(el) el.innerText=value; });
         }
 
         function showScreen(screenId) {
