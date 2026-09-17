@@ -4430,6 +4430,50 @@
         @keyframes sukuPop{from{transform:scale(.65);opacity:0}to{transform:scale(1);opacity:1}}
         @media(max-width:600px){.suku-card{padding:14px 10px}.suku-picture{width:180px;height:180px}.suku-first{font-size:2.25rem}.suku-option{font-size:1.55rem}}
 
+        /* BIJAK SUKU KATA - PILIHAN AKTIVITI & AKTIVITI 2 */
+        .suku-activity-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;max-width:620px;margin:26px auto}
+        .suku-activity-btn{border:4px solid #fff;border-radius:24px;padding:28px 14px;font-family:'Fredoka One',cursive;font-size:clamp(1.35rem,4vw,2rem);color:#fff;cursor:pointer;box-shadow:0 8px 0 rgba(44,62,80,.32),0 12px 24px rgba(0,0,0,.16);transition:.15s}
+        .suku-activity-btn:first-child{background:linear-gradient(135deg,#7c3aed,#a855f7)}
+        .suku-activity-btn:last-child{background:linear-gradient(135deg,#0891b2,#22c55e)}
+        .suku-activity-btn:active{transform:translateY(4px);box-shadow:0 4px 0 rgba(44,62,80,.32),0 7px 14px rgba(0,0,0,.14)}
+        #bijak-suku-kata-2-screen .suku2-match-layout{position:relative;background:none!important;background-color:transparent!important;border:0!important;border-radius:0!important;padding:0!important;margin:14px auto;max-width:none;box-shadow:none!important;backdrop-filter:none!important}
+        .suku2-topbar{display:flex;justify-content:space-between;gap:12px;font-weight:900;color:#243b53;margin-bottom:10px}
+        .suku2-instruction{font-weight:800;color:#334155;margin:6px 0 15px}
+        .suku2-board{position:relative;display:flex;justify-content:space-between;align-items:stretch;width:100%;margin:20px 0;padding:0;isolation:isolate;user-select:none;touch-action:none}
+        .suku2-left,.suku2-right{display:grid;grid-template-rows:repeat(4,135px);gap:18px;position:relative;z-index:10}
+        .suku2-left{width:223px;transform:translateX(-78px)}
+        .suku2-right{width:76px;transform:translateX(78px);justify-items:center}
+        .suku2-row{width:223px;height:135px;min-height:135px;display:flex;align-items:center;justify-content:flex-start;gap:12px;border:0;background:transparent;border-radius:0;padding:0;cursor:grab;min-width:0;box-shadow:none;transition:.18s;touch-action:none;user-select:none}
+        .suku2-row:active{cursor:grabbing}
+        .suku2-row.selected .suku2-first{border-color:#7c3aed;background:#f3e8ff;box-shadow:0 0 0 4px rgba(124,58,237,.18)}
+        .suku2-row.matched{background:transparent;cursor:default}
+        .suku2-row img{width:135px;height:135px;aspect-ratio:1 / 1;object-fit:cover;border:4px solid var(--primary-blue);border-radius:18px;box-sizing:border-box;flex:0 0 135px;background:transparent;box-shadow:0 5px 12px rgba(0,0,0,.12);pointer-events:none}
+        .suku2-first,.suku2-choice{width:76px;height:76px;min-width:76px;min-height:76px;box-sizing:border-box;border:3px solid var(--primary-blue);background:#fff;border-radius:16px;font-family:'Fredoka One',cursive;font-size:1.55rem;color:#1e293b;box-shadow:0 4px 10px rgba(0,0,0,.08)}
+        .suku2-first{display:flex;align-items:center;justify-content:center;color:#5E17EB;letter-spacing:.04em;pointer-events:none}
+        .suku2-choice{align-self:center;padding:0;cursor:pointer;transition:.15s;touch-action:manipulation}
+        .suku2-choice.selected{border-color:#7c3aed;background:#f3e8ff}
+        .suku2-choice.wrong{background:#ff6b6b;color:#fff;border-color:#d93434;animation:suku2Shake .25s ease}
+        .suku2-choice.matched{background:#fff;color:#1e293b;border-color:var(--primary-blue);box-shadow:0 4px 10px rgba(0,0,0,.08);cursor:default}
+        .suku2-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible;z-index:5;pointer-events:none}
+        .suku2-lines line{stroke:#7ED957;stroke-width:6;stroke-linecap:round}
+        @keyframes suku2Shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+        @media(max-width:768px){
+            .suku2-left,.suku2-right{grid-template-rows:repeat(4,116px);gap:15px}
+            .suku2-left{width:190px;transform:translateX(-38px)}.suku2-right{width:66px;transform:translateX(38px)}
+            .suku2-row{width:190px;height:116px;min-height:116px;padding:0;gap:8px}
+            .suku2-row img{width:116px;height:116px;flex-basis:116px;border-width:3px;border-radius:15px}.suku2-first,.suku2-choice{width:66px;height:66px;min-width:66px;min-height:66px;font-size:1.35rem;border-radius:15px}
+        }
+        @media(max-width:600px){
+            .suku-activity-grid{grid-template-columns:1fr;gap:14px;margin:20px auto}.suku-activity-btn{padding:22px 12px}
+            #bijak-suku-kata-2-screen .suku2-match-layout{padding:0!important}.suku2-lines line{stroke-width:5}
+        }
+        @media(max-width:430px){
+            .suku2-left,.suku2-right{grid-template-rows:repeat(4,110px)}
+            .suku2-left{width:178px;transform:translateX(-25px)}.suku2-right{width:62px;transform:translateX(25px)}
+            .suku2-row{width:178px;height:110px;min-height:110px;padding:0;gap:6px}
+            .suku2-row img{width:110px;height:110px;flex-basis:110px}.suku2-first,.suku2-choice{width:62px;height:62px;min-width:62px;min-height:62px;font-size:1.25rem}
+        }
+
     </style>
 </head>
 <body class="login-mode">
@@ -4461,7 +4505,7 @@
 
         <!-- AUDIO ELEMENT -->
         <audio id="bg-music-player" loop prefetch="auto">
-            <source src="https://cdn.pixabay.com/download/audio/2026/02/20/audio_e4f7c9edb5.mp3?filename=nastelbom-kids-happy-488308.mp3" type="audio/mpeg">
+            <source src="">
         </audio>
         <ul class="nav-menu" id="nav-menu" style="display: none;">
             <li class="nav-item active" id="nav-home-text" onclick="playClickSound(); navigateTo('home-screen', this)">
@@ -4608,7 +4652,7 @@
                         <img src="https://i.imgur.com/uapKKll.jpeg" alt="Complete the ABC">
                         <span style="display:none;">Complete the ABC</span>
                     </button>
-                    <button class="abc-sub-btn abc-image-btn" onclick="playClickSound(); startBijakSukuKata()" aria-label="Bijak Suku Kata">
+                    <button class="abc-sub-btn abc-image-btn" onclick="playClickSound(); openBijakSukuKataMenu()" aria-label="Bijak Suku Kata">
                         <img src="https://i.imgur.com/0DEjycu.jpeg" alt="Bijak Suku Kata">
                         <span style="display:none;">Bijak Suku Kata</span>
                     </button>
@@ -4619,16 +4663,20 @@
                 <button class="action-btn home-btn" id="abc-back-home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
-
-
-
-
-
-
+            <!-- BIJAK SUKU KATA ACTIVITY MENU -->
+            <div id="bijak-suku-kata-menu-screen" class="card">
+                <h2 id="suku-menu-title" style="color:#ffff00;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #5E17EB;">Bijak Suku Kata 📖</h2>
+                <p id="suku-menu-desc" style="color:#111;font-weight:800;margin:6px 0;">Pilih aktiviti yang ingin dimainkan.</p>
+                <div class="suku-activity-grid">
+                    <button id="suku-activity1-btn" class="suku-activity-btn" type="button" onclick="playClickSound(); startBijakSukuKata()">Aktiviti 1</button>
+                    <button id="suku-activity2-btn" class="suku-activity-btn" type="button" onclick="playClickSound(); startBijakSukuKata2()">Aktiviti 2</button>
+                </div>
+                <button id="suku-menu-back" class="action-btn home-btn" onclick="playClickSound(); openABCMenu()">Kembali ke ABC 🔤</button>
+            </div>
 
             <!-- BIJAK SUKU KATA SCREEN -->
             <div id="bijak-suku-kata-screen" class="card">
-                <h2 style="color:#ffff00;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #5E17EB;">Bijak Suku Kata 📖</h2>
+                <h2 id="suku1-title" style="color:#ffff00;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #5E17EB;">Aktiviti 1 📖</h2>
                 <div class="suku-card">
                     <div class="suku-topbar"><span>Soalan <span id="suku-progress">1 / 10</span></span><span>⭐ <span id="suku-score">0</span></span></div>
                     <div class="suku-picture"><img id="suku-image" src="" alt=""></div>
@@ -4636,7 +4684,26 @@
                     <div id="suku-options" class="suku-options"></div>
                     <div id="suku-message" style="min-height:28px;font-weight:800;margin-top:8px;"></div>
                 </div>
-                <button class="action-btn home-btn" onclick="playClickSound(); openABCMenu()">Back to ABC 🔤</button>
+                <button id="suku1-back" class="action-btn home-btn" onclick="playClickSound(); openBijakSukuKataMenu()">Kembali ↩️</button>
+            </div>
+
+            <!-- BIJAK SUKU KATA: AKTIVITI 2 -->
+            <div id="bijak-suku-kata-2-screen" class="card">
+                <h2 id="suku2-title" style="color:#ffff00;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #5E17EB;">Aktiviti 2 🔗</h2>
+                <div class="suku2-match-layout">
+                    <div class="suku2-topbar">
+                        <span id="suku2-set-label">Set <span id="suku2-set-progress">1 / 5</span></span>
+                        <span>⭐ <span id="suku2-score">0</span></span>
+                    </div>
+                    <p id="suku2-instruction" class="suku2-instruction">Padankan gambar dan suku kata pertama dengan suku kata kedua yang betul.</p>
+                    <div id="suku2-board" class="suku2-board">
+                        <svg id="suku2-lines" class="suku2-lines" aria-hidden="true"></svg>
+                        <div id="suku2-left" class="suku2-left"></div>
+                        <div id="suku2-right" class="suku2-right"></div>
+                    </div>
+                    <div id="suku2-message" style="min-height:28px;font-weight:800;margin-top:10px;color:#334155;"></div>
+                </div>
+                <button id="suku2-back" class="action-btn home-btn" onclick="playClickSound(); openBijakSukuKataMenu()">Kembali ↩️</button>
             </div>
             <div id="suku-pop" class="suku-pop"><div id="suku-pop-inner" class="suku-pop-inner"></div></div>
 
@@ -5970,7 +6037,7 @@
             currentGlobalLang = (lang === 'ms' ? 'ms' : 'en');
             document.documentElement.lang = currentGlobalLang === 'ms' ? 'ms' : 'en';
             try { localStorage.setItem('kiddoraLanguage', currentGlobalLang); } catch(e) {}
-            setTimeout(()=>{ if(typeof updateColourLanguage === 'function') updateColourLanguage(); if(typeof updateBodyLanguage === 'function') updateBodyLanguage(); if(typeof updateShapeLanguage === 'function') updateShapeLanguage(); if(typeof updateTransportLanguage === 'function') updateTransportLanguage(); if(typeof updateInstallTutorialLanguage === 'function') updateInstallTutorialLanguage(); },0);
+            setTimeout(()=>{ if(typeof updateColourLanguage === 'function') updateColourLanguage(); if(typeof updateBodyLanguage === 'function') updateBodyLanguage(); if(typeof updateShapeLanguage === 'function') updateShapeLanguage(); if(typeof updateTransportLanguage === 'function') updateTransportLanguage(); if(typeof updateInstallTutorialLanguage === 'function') updateInstallTutorialLanguage(); if(typeof updateBijakSukuKataLanguage === 'function') updateBijakSukuKataLanguage(); },0);
             
             document.getElementById("lang-btn-en").classList.remove("active");
             document.getElementById("lang-btn-ms").classList.remove("active");
@@ -8090,6 +8157,7 @@
                 'abc-tracing-screen',
                 'complete-abc-screen',
                 'bijak-suku-kata-screen',
+                'bijak-suku-kata-2-screen',
                 'match123-screen',
                 'lets-count-screen',
                 'find123-screen',
@@ -8975,7 +9043,24 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
         let sukuSession=[], sukuIndex=0, sukuScore=0, sukuLocked=false;
         function sukuShuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-        function startBijakSukuKata(){ window.speechSynthesis?.cancel(); sukuSession=sukuShuffle(sukuWords).slice(0,10);sukuIndex=0;sukuScore=0;sukuLocked=false;showScreen('bijak-suku-kata-screen');renderSukuQuestion(); }
+        function updateBijakSukuKataLanguage(){
+            const ms=currentGlobalLang==='ms';
+            const labels={
+                'suku-menu-title':'Bijak Suku Kata 📖',
+                'suku-menu-desc':ms?'Pilih aktiviti yang ingin dimainkan.':'Choose an activity to play.',
+                'suku-activity1-btn':ms?'Aktiviti 1':'Activity 1',
+                'suku-activity2-btn':ms?'Aktiviti 2':'Activity 2',
+                'suku-menu-back':ms?'Kembali ke ABC 🔤':'Back to ABC 🔤',
+                'suku1-title':ms?'Aktiviti 1 📖':'Activity 1 📖',
+                'suku1-back':ms?'Kembali ↩️':'Back ↩️',
+                'suku2-title':ms?'Aktiviti 2 🔗':'Activity 2 🔗',
+                'suku2-instruction':ms?'Padankan gambar dan suku kata pertama dengan suku kata kedua yang betul.':'Match each picture and first syllable with the correct second syllable.',
+                'suku2-back':ms?'Kembali ↩️':'Back ↩️'
+            };
+            Object.entries(labels).forEach(([id,value])=>{const el=document.getElementById(id);if(el)el.textContent=value});
+        }
+        function openBijakSukuKataMenu(){window.speechSynthesis?.cancel();updateBijakSukuKataLanguage();showScreen('bijak-suku-kata-menu-screen')}
+        function startBijakSukuKata(){ window.speechSynthesis?.cancel(); updateBijakSukuKataLanguage(); sukuSession=sukuShuffle(sukuWords).slice(0,10);sukuIndex=0;sukuScore=0;sukuLocked=false;showScreen('bijak-suku-kata-screen');renderSukuQuestion(); }
         function getSukuDistractor(item){const pool=[...new Set(sukuWords.map(x=>x.second).filter(x=>x!==item.second))];return pool[Math.floor(Math.random()*pool.length)]}
         function renderSukuQuestion(){
             const item=sukuSession[sukuIndex]; if(!item)return;
@@ -9010,8 +9095,124 @@ document.addEventListener('DOMContentLoaded', () => {
             const pop=document.getElementById('suku-pop');
             pop.classList.remove('show');
             pop.style.pointerEvents='none';
-            openABCMenu();
+            openBijakSukuKataMenu();
         }
+
+        // =========================================================
+        // BIJAK SUKU KATA - AKTIVITI 2 (5 sets x 4 unique pictures)
+        // =========================================================
+        let suku2Sets=[],suku2SetIndex=0,suku2Score=0,suku2Matched=0,suku2SelectedRow=null,suku2SelectedChoice=null;
+        let suku2DragRow=null,suku2Dragging=false,suku2DragX=0,suku2DragY=0,suku2DragStartX=0,suku2DragStartY=0,suku2SuppressClick=false;
+        function buildSuku2Sets(){
+            const remaining=sukuShuffle(sukuWords);
+            const sets=[];
+            for(let setNo=0;setNo<5;setNo++){
+                const set=[],usedSeconds=new Set();
+                for(let i=0;i<remaining.length&&set.length<4;){
+                    const item=remaining[i];
+                    if(!usedSeconds.has(item.second)){set.push(item);usedSeconds.add(item.second);remaining.splice(i,1)}else{i++}
+                }
+                if(set.length<4){
+                    while(set.length<4&&remaining.length){set.push(remaining.shift())}
+                }
+                sets.push(set);
+            }
+            return sets;
+        }
+        function startBijakSukuKata2(){
+            window.speechSynthesis?.cancel();updateBijakSukuKataLanguage();
+            suku2Sets=buildSuku2Sets();suku2SetIndex=0;suku2Score=0;suku2Matched=0;suku2SelectedRow=null;suku2SelectedChoice=null;
+            showScreen('bijak-suku-kata-2-screen');renderSuku2Set();
+        }
+        function renderSuku2Set(){
+            const set=suku2Sets[suku2SetIndex];if(!set)return;
+            suku2Matched=0;suku2SelectedRow=null;suku2SelectedChoice=null;
+            document.getElementById('suku2-set-progress').textContent=`${suku2SetIndex+1} / ${suku2Sets.length}`;
+            document.getElementById('suku2-score').textContent=suku2Score;
+            document.getElementById('suku2-message').textContent='';
+            document.getElementById('suku2-lines').innerHTML='';
+            const left=document.getElementById('suku2-left'),right=document.getElementById('suku2-right');left.innerHTML='';right.innerHTML='';
+            set.forEach((item,index)=>{
+                const row=document.createElement('div');row.className='suku2-row';row.id=`suku2-row-${index}`;row.dataset.second=item.second;row.dataset.word=item.word;row.tabIndex=0;
+                row.innerHTML=`<img src="${item.image}" alt="${item.word}"><span class="suku2-first">${item.first}</span>`;
+                row.onclick=()=>{if(!suku2SuppressClick)selectSuku2Row(row)};row.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectSuku2Row(row)}};
+                row.ondragover=e=>{e.preventDefault()};row.ondrop=e=>{e.preventDefault();const choiceId=e.dataTransfer.getData('text/plain');const choice=document.getElementById(choiceId);if(choice)trySuku2Match(row,choice)};
+                row.onpointerdown=e=>startSuku2Drag(e,row);
+                row.onpointermove=moveSuku2Drag;
+                row.onpointerup=endSuku2Drag;
+                row.onpointercancel=cancelSuku2Drag;
+                left.appendChild(row);
+            });
+            sukuShuffle(set.map((item,index)=>({second:item.second,key:index}))).forEach((item,index)=>{
+                const choice=document.createElement('button');choice.type='button';choice.className='suku2-choice';choice.id=`suku2-choice-${index}`;choice.dataset.second=item.second;choice.textContent=item.second;choice.draggable=true;
+                choice.onclick=()=>selectSuku2Choice(choice);choice.ondragstart=e=>{suku2SelectedChoice=choice;e.dataTransfer.setData('text/plain',choice.id)};
+                right.appendChild(choice);
+            });
+            requestAnimationFrame(drawSuku2Lines);
+        }
+        function startSuku2Drag(e,row){
+            if(row.classList.contains('matched')||e.button>0)return;
+            suku2DragRow=row;suku2Dragging=true;suku2DragStartX=e.clientX;suku2DragStartY=e.clientY;
+            const board=document.getElementById('suku2-board').getBoundingClientRect();suku2DragX=e.clientX-board.left;suku2DragY=e.clientY-board.top;
+            row.classList.add('selected');row.setPointerCapture?.(e.pointerId);playClickSound();drawSuku2Lines();
+        }
+        function moveSuku2Drag(e){
+            if(!suku2Dragging||!suku2DragRow)return;
+            e.preventDefault();
+            if(Math.hypot(e.clientX-suku2DragStartX,e.clientY-suku2DragStartY)>6)suku2SuppressClick=true;
+            const board=document.getElementById('suku2-board').getBoundingClientRect();suku2DragX=e.clientX-board.left;suku2DragY=e.clientY-board.top;drawSuku2Lines();
+        }
+        function endSuku2Drag(e){
+            if(!suku2Dragging||!suku2DragRow)return;
+            const row=suku2DragRow,target=document.elementFromPoint(e.clientX,e.clientY)?.closest('#suku2-right .suku2-choice');
+            row.releasePointerCapture?.(e.pointerId);row.classList.remove('selected');suku2DragRow=null;suku2Dragging=false;
+            if(target&&!target.classList.contains('matched'))trySuku2Match(row,target);else drawSuku2Lines();
+            setTimeout(()=>{suku2SuppressClick=false},0);
+        }
+        function cancelSuku2Drag(e){
+            if(suku2DragRow){suku2DragRow.releasePointerCapture?.(e.pointerId);suku2DragRow.classList.remove('selected')}
+            suku2DragRow=null;suku2Dragging=false;suku2SuppressClick=false;drawSuku2Lines();
+        }
+        function selectSuku2Row(row){
+            if(row.classList.contains('matched'))return;
+            document.querySelectorAll('#suku2-left .suku2-row').forEach(el=>el.classList.remove('selected'));row.classList.add('selected');suku2SelectedRow=row;
+            if(suku2SelectedChoice)trySuku2Match(row,suku2SelectedChoice);
+        }
+        function selectSuku2Choice(choice){
+            if(choice.classList.contains('matched'))return;
+            document.querySelectorAll('#suku2-right .suku2-choice').forEach(el=>el.classList.remove('selected'));choice.classList.add('selected');suku2SelectedChoice=choice;
+            if(suku2SelectedRow)trySuku2Match(suku2SelectedRow,choice);
+        }
+        function trySuku2Match(row,choice){
+            if(!row||!choice||row.classList.contains('matched')||choice.classList.contains('matched'))return;
+            if(row.dataset.second!==choice.dataset.second){
+                playWrongSound();choice.classList.add('wrong');document.getElementById('suku2-message').textContent=currentGlobalLang==='ms'?'Cuba lagi 😊':'Try again 😊';
+                setTimeout(()=>choice.classList.remove('wrong'),450);return;
+            }
+            playCorrectSound();row.classList.remove('selected');choice.classList.remove('selected');row.classList.add('matched');choice.classList.add('matched');row.dataset.choiceId=choice.id;
+            suku2SelectedRow=null;suku2SelectedChoice=null;suku2Matched++;suku2Score++;document.getElementById('suku2-score').textContent=suku2Score;document.getElementById('suku2-message').textContent=currentGlobalLang==='ms'?`${row.dataset.word.toUpperCase()} — Betul! 🌟`:`${row.dataset.word.toUpperCase()} — Correct! 🌟`;
+            drawSuku2Lines();
+            if(suku2Matched===4)setTimeout(()=>{if(suku2SetIndex<suku2Sets.length-1){suku2SetIndex++;renderSuku2Set()}else{finishSuku2Session()}},750);
+        }
+        function drawSuku2Lines(){
+            const board=document.getElementById('suku2-board'),svg=document.getElementById('suku2-lines');if(!board||!svg)return;
+            const base=board.getBoundingClientRect();svg.setAttribute('viewBox',`0 0 ${base.width} ${base.height}`);svg.innerHTML='';
+            document.querySelectorAll('#suku2-left .suku2-row.matched').forEach(row=>{
+                const choice=document.getElementById(row.dataset.choiceId);if(!choice)return;const a=row.getBoundingClientRect(),b=choice.getBoundingClientRect();
+                const line=document.createElementNS('http://www.w3.org/2000/svg','line');line.setAttribute('x1',a.right-base.left);line.setAttribute('y1',a.top+a.height/2-base.top);line.setAttribute('x2',b.left-base.left);line.setAttribute('y2',b.top+b.height/2-base.top);svg.appendChild(line);
+            });
+            if(suku2Dragging&&suku2DragRow){
+                const a=suku2DragRow.getBoundingClientRect(),line=document.createElementNS('http://www.w3.org/2000/svg','line');
+                line.setAttribute('x1',a.right-base.left);line.setAttribute('y1',a.top+a.height/2-base.top);line.setAttribute('x2',suku2DragX);line.setAttribute('y2',suku2DragY);line.style.stroke='#FF66C4';line.style.strokeDasharray='9 7';svg.appendChild(line);
+            }
+        }
+        window.addEventListener('resize',()=>{if(document.getElementById('bijak-suku-kata-2-screen')?.classList.contains('active'))requestAnimationFrame(drawSuku2Lines)});
+        function finishSuku2Session(){
+            const pop=document.getElementById('suku-pop'),inner=document.getElementById('suku-pop-inner'),ms=currentGlobalLang==='ms';
+            inner.innerHTML=`<div style="font-size:clamp(2rem,7vw,3.6rem);margin-bottom:12px;">${ms?'🎉 DAH SELESAI! 🎉':'🎉 ALL DONE! 🎉'}</div><div style="font-family:'Quicksand',sans-serif;font-size:1.05rem;color:#2C3E50;margin-bottom:18px;font-weight:800;">${ms?'Skor':'Score'}: ${suku2Score} / 20</div><button class="action-btn home-btn" onclick="closeSuku2Completion()" style="font-size:1rem;">Close ✖️</button>`;
+            pop.style.pointerEvents='auto';pop.classList.add('show');
+        }
+        function closeSuku2Completion(){const pop=document.getElementById('suku-pop');pop.classList.remove('show');pop.style.pointerEvents='none';openBijakSukuKataMenu()}
 
         // =========================================================
         // COMPLETE THE ABC - 5 randomized, non-repeating questions
