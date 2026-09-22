@@ -39,7 +39,7 @@
 
         body {
             font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('https://i.imgur.com/Zjx17K5.jpeg') no-repeat center center fixed;
+            background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('https://i.imgur.com/VGzFBw0.jpeg') no-repeat center center fixed;
             background-size: cover;
             color: var(--text-dark);
             min-height: 100vh;
@@ -68,7 +68,7 @@
             pointer-events: none;
             background:
                 linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)),
-                url('https://i.imgur.com/Zjx17K5.jpeg') no-repeat center center;
+                url('https://i.imgur.com/VGzFBw0.jpeg') no-repeat center center;
             background-size: cover;
             filter: blur(6px);
             transform: scale(1.04);
@@ -326,6 +326,7 @@
             border-radius: 50%;
             border: 4px solid var(--primary-yellow);
             box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            animation: kiddoraLogoFloat 2.8s ease-in-out infinite;
         }
 
         .home-intro-title {
@@ -3256,6 +3257,11 @@
             background: rgba(255,255,255,.95);
             box-shadow: 0 10px 25px rgba(0, 70, 95, .20);
             border: 5px solid rgba(255,255,255,.55);
+            animation: kiddoraLogoFloat 2.8s ease-in-out infinite;
+        }
+        @keyframes kiddoraLogoFloat {
+            0%, 100% { transform: translateY(0) rotate(-3deg); }
+            50% { transform: translateY(-12px) rotate(3deg); }
         }
         #login-screen .login-logo-wrap img {
             width: 100%;
@@ -4479,7 +4485,7 @@
         .suku2-row img{width:135px;height:135px;aspect-ratio:1 / 1;object-fit:cover;border:4px solid var(--primary-blue);border-radius:18px;box-sizing:border-box;flex:0 0 135px;background:transparent;box-shadow:0 5px 12px rgba(0,0,0,.12);pointer-events:none}
         .suku2-first,.suku2-choice{width:76px;height:76px;min-width:76px;min-height:76px;box-sizing:border-box;border:3px solid var(--primary-blue);background:#fff;border-radius:16px;font-family:'Fredoka One',cursive;font-size:1.55rem;color:#1e293b;box-shadow:0 4px 10px rgba(0,0,0,.08)}
         .suku2-first{display:flex;align-items:center;justify-content:center;color:#5E17EB;letter-spacing:.04em;pointer-events:none}
-        .suku2-choice{align-self:center;padding:0;cursor:pointer;transition:.15s;touch-action:manipulation}
+        .suku2-choice{align-self:center;padding:0;cursor:pointer;transition:.15s;touch-action:none}
         .suku2-choice.selected{border-color:#7c3aed;background:#f3e8ff}
         .suku2-choice.wrong{background:#ff6b6b;color:#fff;border-color:#d93434;animation:suku2Shake .25s ease}
         .suku2-choice.matched{background:#fff;color:#1e293b;border-color:var(--primary-blue);box-shadow:0 4px 10px rgba(0,0,0,.08);cursor:default}
@@ -4587,6 +4593,31 @@
                 padding: 6px !important;
             }
             #sort-food-screen .transport-zone-title { font-size: .78rem !important; }
+        }
+        /* Teks yang terletak terus di atas background bercorak. */
+        .home-intro-title,
+        .home-intro-subtitle,
+        .card > h2,
+        .card > h3,
+        .card > p,
+        .card > .home-header > h2,
+        .card > .home-header > p {
+            paint-order: stroke fill;
+            -webkit-text-stroke: 2px rgba(255,255,255,.96);
+            text-shadow: 0 2px 5px rgba(255,255,255,.95), 0 3px 9px rgba(0,0,0,.38);
+        }
+
+        /* Tajuk kuning memerlukan pinggir gelap untuk kekal jelas. */
+        .card > h2[style*="ffff00"] {
+            -webkit-text-stroke: 2px #35206c;
+            text-shadow: 0 2px 5px #35206c, 0 3px 10px rgba(0,0,0,.5);
+        }
+
+        @media (max-width: 600px) {
+            .home-intro-title, .home-intro-subtitle,
+            .card > h2, .card > h3, .card > p {
+                -webkit-text-stroke-width: 1.5px;
+            }
         }
     </style>
 </head>
@@ -6169,10 +6200,65 @@
     </script>
 
     <script>
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        // Create the context on demand: mobile browsers can suspend or interrupt it
+        // after the app has been left open in the background.
+        let audioCtx = null;
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        function replaceSoundContext() {
+            if (!AudioContextClass) return null;
+            const previous = audioCtx;
+            audioCtx = new AudioContextClass();
+            const current = audioCtx;
+            current.addEventListener('statechange', () => {
+                if (current === audioCtx && !document.hidden && current.state === 'interrupted') wakeAppSound();
+            });
+            if (previous && previous.state !== 'closed') previous.close().catch(() => {});
+            return current;
+        }
+        function getSoundContext() {
+            if (!AudioContextClass) return null;
+            if (!audioCtx || audioCtx.state === 'closed') replaceSoundContext();
+            return audioCtx;
+        }
+        async function playAppSound(draw) {
+            try {
+                let ctx = getSoundContext();
+                if (!ctx) return;
+                if (ctx.state === 'interrupted' || ctx.state === 'closed') {
+                    // iOS can leave an interrupted context silent after returning to the app.
+                    ctx = replaceSoundContext();
+                }
+                if (ctx.state !== 'running') {
+                    await Promise.race([ctx.resume(), new Promise(resolve => setTimeout(resolve, 800))]);
+                }
+                if (ctx.state !== 'running') {
+                    ctx = getSoundContext();
+                    if (ctx.state !== 'running') {
+                        ctx = replaceSoundContext();
+                        await Promise.race([ctx.resume(), new Promise(resolve => setTimeout(resolve, 800))]);
+                    }
+                }
+                if (ctx.state === 'running') draw(ctx);
+            } catch (error) {
+                console.warn('Sound could not start:', error);
+            }
+        }
+        function wakeAppSound() {
+            const ctx = getSoundContext();
+            if (ctx?.state === 'interrupted') {
+                replaceSoundContext().resume().catch(() => {});
+            } else if (ctx && ctx.state !== 'running') ctx.resume().catch(() => {});
+        }
+        document.addEventListener('pointerdown', wakeAppSound, {passive: true});
+        document.addEventListener('touchstart', wakeAppSound, {passive: true});
+        document.addEventListener('keydown', wakeAppSound);
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && audioCtx) wakeAppSound();
+        });
+        window.addEventListener('pageshow', wakeAppSound);
 
         function playClickSound() {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
+            return playAppSound((audioCtx) => {
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.type = 'sine';
@@ -6184,10 +6270,11 @@
             gain.connect(audioCtx.destination);
             osc.start();
             osc.stop(audioCtx.currentTime + 0.08);
+            });
         }
 
         function playCorrectSound() {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
+            return playAppSound((audioCtx) => {
             const now = audioCtx.currentTime;
             const osc1 = audioCtx.createOscillator();
             const gain1 = audioCtx.createGain();
@@ -6210,10 +6297,11 @@
             gain2.connect(audioCtx.destination);
             osc2.start(now + 0.1);
             osc2.stop(now + 0.3);
+            });
         }
 
         function playWrongSound() {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
+            return playAppSound((audioCtx) => {
             const now = audioCtx.currentTime;
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
@@ -6226,6 +6314,7 @@
             gain.connect(audioCtx.destination);
             osc.start();
             osc.stop(now + 0.25);
+            });
         }
 
         let currentGlobalLang = 'en';
@@ -6874,7 +6963,7 @@
             const target = e.target.closest('.match-item');
             if (!target || target.classList.contains("matched")) return;
 
-            if (target.dataset.side === "left") {
+            {
                 playClickSound();
                 activeDragAnimal = target;
                 isDraggingAnimal = true;
@@ -6907,7 +6996,7 @@
 
             activeDragAnimal.classList.remove("selected");
 
-            if (targetRightItem && targetRightItem.dataset.side === "right" && !targetRightItem.classList.contains("matched")) {
+            if (targetRightItem && targetRightItem.dataset.side !== activeDragAnimal.dataset.side && !targetRightItem.classList.contains("matched")) {
                 const leftId = activeDragAnimal.dataset.id;
                 const rightId = targetRightItem.dataset.id;
 
@@ -6920,8 +7009,8 @@
                     targetRightItem.classList.add("matched");
 
                     completedAnimalLines.push({
-                        from: activeDragAnimal,
-                        to: targetRightItem
+                        from: activeDragAnimal.dataset.side === "left" ? activeDragAnimal : targetRightItem,
+                        to: activeDragAnimal.dataset.side === "right" ? activeDragAnimal : targetRightItem
                     });
 
                     matchedAnimalPairsInPage++;
@@ -7282,7 +7371,7 @@
             const target = e.target.closest('.match-item');
             if (!target || target.classList.contains("matched")) return;
 
-            if (target.dataset.side === "left") {
+            {
                 playClickSound();
                 activeDragItem = target;
                 isDragging = true;
@@ -7316,7 +7405,7 @@
 
             activeDragItem.classList.remove("selected");
 
-            if (targetRightItem && targetRightItem.dataset.side === "right" && !targetRightItem.classList.contains("matched")) {
+            if (targetRightItem && targetRightItem.dataset.side !== activeDragItem.dataset.side && !targetRightItem.classList.contains("matched")) {
                 const leftLetter = activeDragItem.dataset.letter;
                 const rightLetter = targetRightItem.dataset.letter;
 
@@ -7329,8 +7418,8 @@
                     targetRightItem.classList.add("matched");
 
                     completedLines.push({
-                        from: activeDragItem,
-                        to: targetRightItem
+                        from: activeDragItem.dataset.side === "left" ? activeDragItem : targetRightItem,
+                        to: activeDragItem.dataset.side === "right" ? activeDragItem : targetRightItem
                     });
 
                     matchedPairsInCurrentPage++;
@@ -8140,7 +8229,7 @@
 
         function handleColourPointerDown(e){
             const target=e.target.closest('.match-item');
-            if(!target || target.classList.contains('matched') || target.dataset.side!=='left') return;
+            if(!target || target.classList.contains('matched') || !target.dataset.side) return;
             playClickSound(); activeDragColour=target; isDraggingColour=true; target.classList.add('selected');
             const r=document.getElementById('colour-match-wrapper').getBoundingClientRect();
             dragColourX=e.clientX-r.left; dragColourY=e.clientY-r.top; redrawColourCanvas();
@@ -8155,11 +8244,11 @@
             const under=document.elementFromPoint(e.clientX,e.clientY);
             const target=under?under.closest('.match-item'):null;
             activeDragColour.classList.remove('selected');
-            if(target && target.dataset.side==='right' && !target.classList.contains('matched')){
+            if(target && target.dataset.side!==activeDragColour.dataset.side && !target.classList.contains('matched')){
                 if(activeDragColour.dataset.key===target.dataset.key){
                     playCorrectSound(); matchColourScore+=10; document.getElementById('match-colour-score').innerText=matchColourScore;
                     activeDragColour.classList.add('matched'); target.classList.add('matched'); matchDone.add(activeDragColour.dataset.key);
-                    completedColourLines.push({from:activeDragColour,to:target});
+                    completedColourLines.push({from:activeDragColour.dataset.side==='left'?activeDragColour:target,to:activeDragColour.dataset.side==='right'?activeDragColour:target});
                     if(matchDone.size===matchColourSets[matchColourSetIndex].length){
                         setTimeout(()=>{matchColourSetIndex++;if(matchColourSetIndex<matchColourSets.length){renderMatchColourSet()}else{if(window.saveScoreToFirebase)window.saveScoreToFirebase(currentGlobalLang==='ms'?'Suaikan Warna':'Match the Colour',100);alert(currentGlobalLang==='ms'?'Tahniah! Semua warna berjaya disuaikan! 🎉':'Great job! All colours matched! 🎉');openColourMenu()}},550);
                     }
@@ -8235,12 +8324,12 @@
             bodyShuffle(items).forEach(item=>{const d=document.createElement('div');d.className='match-item';d.innerHTML=`<img src="${item.img}" alt="${bodyText(item)}">`;d.dataset.id=item.id;d.dataset.side='right';right.appendChild(d)});
             setTimeout(resizeBodyCanvas,50);
         }
-        function handleBodyPointerDown(e){const target=e.target.closest('.match-item');if(!target||target.classList.contains('matched')||target.dataset.side!=='left')return;playClickSound();activeDragBody=target;isDraggingBody=true;target.classList.add('selected');const r=document.getElementById('match-body-wrapper').getBoundingClientRect();dragBodyX=e.clientX-r.left;dragBodyY=e.clientY-r.top;redrawBodyCanvas()}
+        function handleBodyPointerDown(e){const target=e.target.closest('.match-item');if(!target||target.classList.contains('matched')||!target.dataset.side)return;playClickSound();activeDragBody=target;isDraggingBody=true;target.classList.add('selected');const r=document.getElementById('match-body-wrapper').getBoundingClientRect();dragBodyX=e.clientX-r.left;dragBodyY=e.clientY-r.top;redrawBodyCanvas()}
         function handleBodyPointerMove(e){if(!isDraggingBody||!activeDragBody)return;e.preventDefault();const r=document.getElementById('match-body-wrapper').getBoundingClientRect();dragBodyX=e.clientX-r.left;dragBodyY=e.clientY-r.top;redrawBodyCanvas()}
         function handleBodyPointerUp(e){
             if(!isDraggingBody||!activeDragBody)return;const under=document.elementFromPoint(e.clientX,e.clientY),target=under?under.closest('.match-item'):null;activeDragBody.classList.remove('selected');
-            if(target&&target.dataset.side==='right'&&!target.classList.contains('matched')){
-                if(activeDragBody.dataset.id===target.dataset.id){playCorrectSound();matchBodyScoreCount+=10;document.getElementById('match-body-score').innerText=matchBodyScoreCount;activeDragBody.classList.add('matched');target.classList.add('matched');completedBodyLines.push({from:activeDragBody,to:target});matchedBodyPairsInPage++;
+            if(target&&target.dataset.side!==activeDragBody.dataset.side&&!target.classList.contains('matched')){
+                if(activeDragBody.dataset.id===target.dataset.id){playCorrectSound();matchBodyScoreCount+=10;document.getElementById('match-body-score').innerText=matchBodyScoreCount;activeDragBody.classList.add('matched');target.classList.add('matched');completedBodyLines.push({from:activeDragBody.dataset.side==='left'?activeDragBody:target,to:activeDragBody.dataset.side==='right'?activeDragBody:target});matchedBodyPairsInPage++;
                     if(matchedBodyPairsInPage===4){if(currentMatchBodyPageIdx<matchBodyPagesCount-1)setTimeout(nextMatchBodyPage,700);else setTimeout(()=>{if(window.saveScoreToFirebase)window.saveScoreToFirebase(currentGlobalLang==='ms'?'Padankan Anggota Badan':'Match Body Part',100);alert(currentGlobalLang==='ms'?'🌟 Hebat! Anda telah melengkapkan semua set padanan anggota badan!':'🌟 Amazing! You completed all body part match sets!');openBodyPartMenu()},500)}}
                 else{playWrongSound();const img=target.querySelector('img');if(img){img.style.borderColor='#FF6B6B';setTimeout(()=>img.style.borderColor='',400)}}
             }
@@ -9417,15 +9506,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 left.appendChild(row);
             });
             sukuShuffle(set.map((item,index)=>({second:item.second,key:index}))).forEach((item,index)=>{
-                const choice=document.createElement('button');choice.type='button';choice.className='suku2-choice';choice.id=`suku2-choice-${index}`;choice.dataset.second=item.second;choice.textContent=item.second;choice.draggable=true;
-                choice.onclick=()=>selectSuku2Choice(choice);choice.ondragstart=e=>{suku2SelectedChoice=choice;e.dataTransfer.setData('text/plain',choice.id)};
+                const choice=document.createElement('button');choice.type='button';choice.className='suku2-choice';choice.id=`suku2-choice-${index}`;choice.dataset.second=item.second;choice.textContent=item.second;choice.draggable=false;
+                choice.onclick=()=>{if(!suku2SuppressClick)selectSuku2Choice(choice)};choice.onpointerdown=e=>startSuku2Drag(e,choice);choice.onpointermove=moveSuku2Drag;choice.onpointerup=endSuku2Drag;choice.onpointercancel=cancelSuku2Drag;
                 right.appendChild(choice);
             });
             requestAnimationFrame(drawSuku2Lines);
         }
         function startSuku2Drag(e,row){
             if(row.classList.contains('matched')||e.button>0)return;
-            suku2DragRow=row;suku2Dragging=true;suku2DragStartX=e.clientX;suku2DragStartY=e.clientY;
+            e.preventDefault();suku2DragRow=row;suku2Dragging=true;suku2DragStartX=e.clientX;suku2DragStartY=e.clientY;
             const board=document.getElementById('suku2-board').getBoundingClientRect();suku2DragX=e.clientX-board.left;suku2DragY=e.clientY-board.top;
             row.classList.add('selected');row.setPointerCapture?.(e.pointerId);playClickSound();drawSuku2Lines();
         }
@@ -9437,9 +9526,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         function endSuku2Drag(e){
             if(!suku2Dragging||!suku2DragRow)return;
-            const row=suku2DragRow,target=document.elementFromPoint(e.clientX,e.clientY)?.closest('#suku2-right .suku2-choice');
-            row.releasePointerCapture?.(e.pointerId);row.classList.remove('selected');suku2DragRow=null;suku2Dragging=false;
-            if(target&&!target.classList.contains('matched'))trySuku2Match(row,target);else drawSuku2Lines();
+            const origin=suku2DragRow, fromLeft=origin.classList.contains('suku2-row');
+            const target=document.elementFromPoint(e.clientX,e.clientY)?.closest(fromLeft?'#suku2-right .suku2-choice':'#suku2-left .suku2-row');
+            origin.releasePointerCapture?.(e.pointerId);origin.classList.remove('selected');suku2DragRow=null;suku2Dragging=false;
+            if(target&&!target.classList.contains('matched'))trySuku2Match(fromLeft?origin:target,fromLeft?target:origin);else drawSuku2Lines();
             setTimeout(()=>{suku2SuppressClick=false},0);
         }
         function cancelSuku2Drag(e){
@@ -9472,11 +9562,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const base=board.getBoundingClientRect();svg.setAttribute('viewBox',`0 0 ${base.width} ${base.height}`);svg.innerHTML='';
             document.querySelectorAll('#suku2-left .suku2-row.matched').forEach(row=>{
                 const choice=document.getElementById(row.dataset.choiceId);if(!choice)return;const a=row.getBoundingClientRect(),b=choice.getBoundingClientRect();
-                const line=document.createElementNS('http://www.w3.org/2000/svg','line');line.setAttribute('x1',a.right-base.left);line.setAttribute('y1',a.top+a.height/2-base.top);line.setAttribute('x2',b.left-base.left);line.setAttribute('y2',b.top+b.height/2-base.top);svg.appendChild(line);
+                const line=document.createElementNS('http://www.w3.org/2000/svg','line');line.setAttribute('x1',suku2DragRow.classList.contains('suku2-choice')?a.left-base.left:a.right-base.left);line.setAttribute('y1',a.top+a.height/2-base.top);line.setAttribute('x2',b.left-base.left);line.setAttribute('y2',b.top+b.height/2-base.top);svg.appendChild(line);
             });
             if(suku2Dragging&&suku2DragRow){
                 const a=suku2DragRow.getBoundingClientRect(),line=document.createElementNS('http://www.w3.org/2000/svg','line');
-                line.setAttribute('x1',a.right-base.left);line.setAttribute('y1',a.top+a.height/2-base.top);line.setAttribute('x2',suku2DragX);line.setAttribute('y2',suku2DragY);line.style.stroke='#FF66C4';line.style.strokeDasharray='9 7';svg.appendChild(line);
+                line.setAttribute('x1',suku2DragRow.classList.contains('suku2-choice')?a.left-base.left:a.right-base.left);line.setAttribute('y1',a.top+a.height/2-base.top);line.setAttribute('x2',suku2DragX);line.setAttribute('y2',suku2DragY);line.style.stroke='#FF66C4';line.style.strokeDasharray='9 7';svg.appendChild(line);
             }
         }
         window.addEventListener('resize',()=>{if(document.getElementById('bijak-suku-kata-2-screen')?.classList.contains('active'))requestAnimationFrame(drawSuku2Lines)});
@@ -9886,7 +9976,7 @@ document.addEventListener('DOMContentLoaded', () => {
             function down(e){
                 if(e.target.closest('.shape-match-audio-btn')) return;
                 const item=e.target.closest('.shape-match-item');
-                if(!item||item.classList.contains('matched')||item.dataset.side!=='left')return;
+                if(!item||item.classList.contains('matched')||!item.dataset.side)return;
                 e.preventDefault();state.drag=item;item.classList.add('selected');draw(pos(e,elements().wrap));
             }
             function move(e){if(!state.drag)return;e.preventDefault();draw(pos(e,elements().wrap));}
@@ -9894,13 +9984,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(!state.drag)return;e.preventDefault();
                 const left=state.drag;left.classList.remove('selected');
                 const target=document.elementFromPoint(e.clientX,e.clientY)?.closest('.shape-match-item');
-                if(target&&target.dataset.side==='right'&&!target.classList.contains('matched')&&target.dataset.key===left.dataset.key){
+                if(target&&target.dataset.side!==left.dataset.side&&!target.classList.contains('matched')&&target.dataset.key===left.dataset.key){
                     left.classList.add('matched');target.classList.add('matched');
                     state.lines.push({key:left.dataset.key});state.matched++;
                     if(typeof playCorrectSound==='function')playCorrectSound();
                     if(cfg.onMatch)cfg.onMatch(state.matched);
                     if(state.matched>=4 && cfg.onComplete)cfg.onComplete();
-                }else if(target&&target.dataset.side==='right'){
+                }else if(target&&target.dataset.side!==left.dataset.side&&!target.classList.contains('matched')){
                     if(typeof playWrongSound==='function')playWrongSound();
                 }
                 state.drag=null;draw();
@@ -10704,4 +10794,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
-                    
+
+    
