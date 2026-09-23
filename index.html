@@ -4620,13 +4620,14 @@
             }
         }
 
-        #match-paint-screen{max-width:750px;padding:10px 12px 15px}
+        .container:has(#match-paint-screen.active){max-width:960px}
+        #match-paint-screen{width:100%;max-width:none;box-sizing:border-box;padding:10px 8px 15px}
         #match-paint-screen h2{font-family:'Fredoka One',cursive;color:#5E17EB;margin:2px 0;font-size:clamp(1.25rem,4vw,2rem)}
         #match-paint-instruction{font-size:clamp(.76rem,2.4vw,1rem);font-weight:800;margin:2px 0 5px;color:#334155}
         #match-paint-screen .colour-progress{margin:2px 0;padding:4px 12px}
-        .paint-board{width:min(100%,530px);margin:2px auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(5px,1.7vh,15px) clamp(7px,3vw,24px);justify-items:center;touch-action:none}
+        #match-paint-screen #match-paint-board.paint-board{width:100%;max-width:900px;margin:8px auto 12px;padding:clamp(10px,2.5vw,26px);box-sizing:border-box;background:#ffebbd;border:4px solid #dfa45c;border-radius:26px;box-shadow:0 8px 0 #c88d49,0 16px 28px #725b4460;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,2vh,20px) clamp(6px,2vw,22px);justify-items:center;touch-action:none}
         .paint-pair{width:100%;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0}
-        .paint-tube{width:min(83%,95px);height:clamp(78px,19vh,165px);border:0;background:transparent;padding:0;cursor:grab;touch-action:none;user-select:none;filter:drop-shadow(3px 4px 1px #8c7768);transition:opacity .18s}
+        .paint-tube{width:min(100%,165px);height:clamp(100px,23vh,205px);border:0;background:transparent;padding:0;cursor:grab;touch-action:none;user-select:none;filter:drop-shadow(3px 4px 1px #8c7768);transition:opacity .18s}
         .paint-tube svg{width:100%;height:100%;pointer-events:none}
         .paint-tube.matched{filter:drop-shadow(0 0 5px #45b963)}
         .paint-tube.selected{outline:3px solid #ffca42;border-radius:12px}
@@ -4642,7 +4643,8 @@
         .paint-success-pop{position:fixed;inset:0;z-index:99998;display:grid;place-items:center;background:rgba(31,33,66,.28);pointer-events:none}
         .paint-success-pop span{padding:22px 38px;border:5px solid #fff;border-radius:28px;background:#ffda63;color:#573694;font:900 clamp(2rem,7vw,4rem) 'Fredoka One',cursive;box-shadow:0 12px 0 #e9a64e,0 20px 35px #51426b66;animation:paintSuccessPop .24s ease-out both}
         @keyframes paintSuccessPop{from{transform:scale(.55);opacity:0}to{transform:scale(1);opacity:1}}
-        @media(max-height:710px){.paint-tube{height:clamp(62px,16vh,110px)}.paint-target{height:clamp(38px,7vh,62px)}.paint-board{gap:3px 8px}}
+        @media(max-width:600px){#match-paint-screen{padding:8px 0 12px}#match-paint-screen #match-paint-board.paint-board{padding:10px 7px;gap:8px 5px;border-width:3px;border-radius:18px}.paint-tube{width:100%;height:clamp(90px,17vh,145px)}}
+        @media(max-height:710px){.paint-tube{height:clamp(85px,19vh,135px)}.paint-target{height:clamp(38px,7vh,62px)}#match-paint-screen #match-paint-board.paint-board{gap:6px 8px;padding:10px}}
     </style>
 </head>
 <body class="login-mode">
@@ -5175,7 +5177,7 @@
                 <h2 id="match-paint-title">Match the Paint 🎨</h2>
                 <div class="colour-progress" id="match-paint-progress">Set 1 / 5 · ⭐ 0</div>
                 <p id="match-paint-instruction">Drag a paint tube onto another tube to swap their places and match the colours below.</p>
-                <div id="match-paint-board" class="paint-board"></div>
+                <div id="match-paint-board" class="paint-board" style="background:#ffebbd;border:4px solid #dfa45c;border-radius:26px;box-shadow:0 8px 0 #c88d49,0 16px 28px #725b4460"></div>
                 <p id="match-paint-feedback" aria-live="polite"></p>
                 <button class="action-btn home-btn" onclick="playClickSound(); openColourMenu()">Back ↩️</button>
             </div>
@@ -6258,20 +6260,9 @@
             try {
                 let ctx = getSoundContext();
                 if (!ctx) return;
-                if (ctx.state === 'interrupted' || ctx.state === 'closed') {
-                    // iOS can leave an interrupted context silent after returning to the app.
-                    ctx = replaceSoundContext();
-                }
-                if (ctx.state !== 'running') {
-                    await Promise.race([ctx.resume(), new Promise(resolve => setTimeout(resolve, 800))]);
-                }
-                if (ctx.state !== 'running') {
-                    ctx = getSoundContext();
-                    if (ctx.state !== 'running') {
-                        ctx = replaceSoundContext();
-                        await Promise.race([ctx.resume(), new Promise(resolve => setTimeout(resolve, 800))]);
-                    }
-                }
+                // Resuming after a long background pause may take more than 800 ms.
+                // Keep the same context until the browser actually closes it.
+                if (ctx.state !== 'running') await ctx.resume();
                 if (ctx.state === 'running') draw(ctx);
             } catch (error) {
                 console.warn('Sound could not start:', error);
@@ -6279,9 +6270,7 @@
         }
         function wakeAppSound() {
             const ctx = getSoundContext();
-            if (ctx?.state === 'interrupted') {
-                replaceSoundContext().resume().catch(() => {});
-            } else if (ctx && ctx.state !== 'running') ctx.resume().catch(() => {});
+            if (ctx && ctx.state !== 'running') ctx.resume().catch(() => {});
         }
         document.addEventListener('pointerdown', wakeAppSound, {passive: true});
         document.addEventListener('touchstart', wakeAppSound, {passive: true});
@@ -8702,6 +8691,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Laraskan kelantangan audio (0.1 - 0.3 adalah yang paling sesuai untuk kanak-kanak supaya tidak mengganggu audio lain)
         if (bgAudio) {
             bgAudio.volume = 0.2;
+            // Mobile browsers may pause media when the app has been in the background.
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden && isMusicPlaying && bgAudio.paused) bgAudio.play().catch(() => {});
+            });
+            document.addEventListener('pointerdown', () => {
+                if (isMusicPlaying && bgAudio.paused) bgAudio.play().catch(() => {});
+            }, {passive: true});
         }
 
         function toggleBgMusic() {
