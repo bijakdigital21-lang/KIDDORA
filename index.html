@@ -9498,7 +9498,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const row=document.createElement('div');row.className='suku2-row';row.id=`suku2-row-${index}`;row.dataset.second=item.second;row.dataset.word=item.word;row.tabIndex=0;
                 row.innerHTML=`<img src="${item.image}" alt="${item.word}"><span class="suku2-first">${item.first}</span>`;
                 row.onclick=()=>{if(!suku2SuppressClick)selectSuku2Row(row)};row.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectSuku2Row(row)}};
-                row.ondragover=e=>{e.preventDefault()};row.ondrop=e=>{e.preventDefault();const choiceId=e.dataTransfer.getData('text/plain');const choice=document.getElementById(choiceId);if(choice)trySuku2Match(row,choice)};
                 row.onpointerdown=e=>startSuku2Drag(e,row);
                 row.onpointermove=moveSuku2Drag;
                 row.onpointerup=endSuku2Drag;
@@ -9507,13 +9506,13 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             sukuShuffle(set.map((item,index)=>({second:item.second,key:index}))).forEach((item,index)=>{
                 const choice=document.createElement('button');choice.type='button';choice.className='suku2-choice';choice.id=`suku2-choice-${index}`;choice.dataset.second=item.second;choice.textContent=item.second;choice.draggable=false;
-                choice.onclick=()=>{if(!suku2SuppressClick)selectSuku2Choice(choice)};choice.onpointerdown=e=>startSuku2Drag(e,choice);choice.onpointermove=moveSuku2Drag;choice.onpointerup=endSuku2Drag;choice.onpointercancel=cancelSuku2Drag;
+                choice.onclick=()=>{if(!suku2SuppressClick)selectSuku2Choice(choice)};
                 right.appendChild(choice);
             });
             requestAnimationFrame(drawSuku2Lines);
         }
         function startSuku2Drag(e,row){
-            if(row.classList.contains('matched')||e.button>0)return;
+            if(!row.classList.contains('suku2-row')||row.classList.contains('matched')||e.button>0)return;
             e.preventDefault();suku2DragRow=row;suku2Dragging=true;suku2DragStartX=e.clientX;suku2DragStartY=e.clientY;
             const board=document.getElementById('suku2-board').getBoundingClientRect();suku2DragX=e.clientX-board.left;suku2DragY=e.clientY-board.top;
             row.classList.add('selected');row.setPointerCapture?.(e.pointerId);playClickSound();drawSuku2Lines();
@@ -9526,10 +9525,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         function endSuku2Drag(e){
             if(!suku2Dragging||!suku2DragRow)return;
-            const origin=suku2DragRow, fromLeft=origin.classList.contains('suku2-row');
-            const target=document.elementFromPoint(e.clientX,e.clientY)?.closest(fromLeft?'#suku2-right .suku2-choice':'#suku2-left .suku2-row');
+            const origin=suku2DragRow;
+            const target=document.elementFromPoint(e.clientX,e.clientY)?.closest('#suku2-right .suku2-choice');
             origin.releasePointerCapture?.(e.pointerId);origin.classList.remove('selected');suku2DragRow=null;suku2Dragging=false;
-            if(target&&!target.classList.contains('matched'))trySuku2Match(fromLeft?origin:target,fromLeft?target:origin);else drawSuku2Lines();
+            if(target&&!target.classList.contains('matched'))trySuku2Match(origin,target);else drawSuku2Lines();
             setTimeout(()=>{suku2SuppressClick=false},0);
         }
         function cancelSuku2Drag(e){
@@ -9543,6 +9542,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         function selectSuku2Choice(choice){
             if(choice.classList.contains('matched'))return;
+            if(!suku2SelectedRow){
+                document.getElementById('suku2-message').textContent=currentGlobalLang==='ms'?'Pilih atau seret dari sebelah kiri dahulu.':'Choose or drag from the left first.';
+                return;
+            }
             document.querySelectorAll('#suku2-right .suku2-choice').forEach(el=>el.classList.remove('selected'));choice.classList.add('selected');suku2SelectedChoice=choice;
             if(suku2SelectedRow)trySuku2Match(suku2SelectedRow,choice);
         }
@@ -9562,11 +9565,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const base=board.getBoundingClientRect();svg.setAttribute('viewBox',`0 0 ${base.width} ${base.height}`);svg.innerHTML='';
             document.querySelectorAll('#suku2-left .suku2-row.matched').forEach(row=>{
                 const choice=document.getElementById(row.dataset.choiceId);if(!choice)return;const a=row.getBoundingClientRect(),b=choice.getBoundingClientRect();
-                const line=document.createElementNS('http://www.w3.org/2000/svg','line');line.setAttribute('x1',suku2DragRow.classList.contains('suku2-choice')?a.left-base.left:a.right-base.left);line.setAttribute('y1',a.top+a.height/2-base.top);line.setAttribute('x2',b.left-base.left);line.setAttribute('y2',b.top+b.height/2-base.top);svg.appendChild(line);
+                const line=document.createElementNS('http://www.w3.org/2000/svg','line');line.setAttribute('x1',a.right-base.left);line.setAttribute('y1',a.top+a.height/2-base.top);line.setAttribute('x2',b.left-base.left);line.setAttribute('y2',b.top+b.height/2-base.top);svg.appendChild(line);
             });
             if(suku2Dragging&&suku2DragRow){
                 const a=suku2DragRow.getBoundingClientRect(),line=document.createElementNS('http://www.w3.org/2000/svg','line');
-                line.setAttribute('x1',suku2DragRow.classList.contains('suku2-choice')?a.left-base.left:a.right-base.left);line.setAttribute('y1',a.top+a.height/2-base.top);line.setAttribute('x2',suku2DragX);line.setAttribute('y2',suku2DragY);line.style.stroke='#FF66C4';line.style.strokeDasharray='9 7';svg.appendChild(line);
+                line.setAttribute('x1',a.right-base.left);line.setAttribute('y1',a.top+a.height/2-base.top);line.setAttribute('x2',suku2DragX);line.setAttribute('y2',suku2DragY);line.style.stroke='#FF66C4';line.style.strokeDasharray='9 7';svg.appendChild(line);
             }
         }
         window.addEventListener('resize',()=>{if(document.getElementById('bijak-suku-kata-2-screen')?.classList.contains('active'))requestAnimationFrame(drawSuku2Lines)});
