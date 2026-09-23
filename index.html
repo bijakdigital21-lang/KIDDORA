@@ -7191,6 +7191,47 @@
             document.getElementById('complete-animal-back').textContent=ms?'Kembali ↩️':'Back ↩️';
             document.getElementById('complete-animal-btn-text').textContent=ms?'4) Lengkapkan Haiwan':'4) Complete the Animal';
         }
+        // Decode each picture once; later sets reuse the browser's decoded image cache.
+        const completeAnimalImageCache = new Map();
+        function preloadCompleteAnimal(animal) {
+            const url = animal[0];
+            if (!completeAnimalImageCache.has(url)) {
+                const img = new Image();
+                img.decoding = 'async';
+                img.src = url;
+                const ready = (img.decode ? img.decode() : new Promise((resolve, reject) => {
+                    img.onload = resolve; img.onerror = reject;
+                })).catch(() => undefined);
+                completeAnimalImageCache.set(url, ready);
+            }
+            return completeAnimalImageCache.get(url);
+        }
+        async function showCompleteAnimalSet(session) {
+            const screen = document.getElementById('complete-animal-screen');
+            const group = completeAnimalQuestions.slice(completeAnimalSet * 5, completeAnimalSet * 5 + 5);
+            const board = screen.querySelector('.complete-animal-board');
+            board.style.visibility = 'hidden';
+            let indicator = document.getElementById('complete-animal-loading');
+            if (!indicator) {
+                indicator = document.createElement('p');
+                indicator.id = 'complete-animal-loading';
+                indicator.style.cssText = 'text-align:center;font-weight:bold;color:#5E17EB';
+                board.before(indicator);
+            }
+            indicator.textContent = currentGlobalLang === 'ms' ? 'Sedang menyediakan gambar haiwan…' : 'Preparing animal pictures…';
+            indicator.hidden = false;
+            await Promise.all(group.map(preloadCompleteAnimal));
+            if (session !== completeAnimalSession || !screen.classList.contains('active')) return;
+            renderCompleteAnimal();
+            board.style.visibility = '';
+            indicator.hidden = true;
+            // Fetch and decode the remaining pictures while the child works on this set.
+            const rest = completeAnimalQuestions.slice((completeAnimalSet + 1) * 5);
+            for (let i = 0; i < rest.length; i += 5) {
+                if (session !== completeAnimalSession) break;
+                await Promise.all(rest.slice(i, i + 5).map(preloadCompleteAnimal));
+            }
+        }
         function startCompleteAnimal(){
             completeAnimalSession++;
             clearTimeout(completeAnimalTimer);
@@ -7201,7 +7242,7 @@
             completeAnimalSet=0;
             showScreen('complete-animal-screen');
             updateCompleteAnimalLanguage();
-            renderCompleteAnimal();
+            showCompleteAnimalSet(completeAnimalSession);
         }
         function leaveCompleteAnimal(){
             completeAnimalSession++;
@@ -7304,7 +7345,7 @@
                 pop.remove();
                 if(completeAnimalMatched.size!==Math.min(5,completeAnimalQuestions.length-completeAnimalSet*5))return;
                 completeAnimalSet++;
-                if(completeAnimalSet<Math.ceil(completeAnimalQuestions.length/5)){renderCompleteAnimal();return;}
+                if(completeAnimalSet<Math.ceil(completeAnimalQuestions.length/5)){showCompleteAnimalSet(completeAnimalSession);return;}
                 if(window.saveScoreToFirebase)window.saveScoreToFirebase('Complete the Animal',100);
                 alert(currentGlobalLang==='ms'?'Tahniah! Semua haiwan berjaya dilengkapkan! 🎉':'Great job! You completed all the animals! 🎉');
                 leaveCompleteAnimal();
