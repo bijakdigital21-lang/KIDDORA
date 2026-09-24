@@ -11291,7 +11291,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(token!==jobsQuizToken)return;
                 pop.hidden=true;
                 if(jobsAnswered===(jobsQuizMode==='choose'?2:4)){
-                    if(jobsSet===(jobsQuizMode==='choose'?4:2)){alert(currentGlobalLang==='ms'?'🎉 Selesai!':'🎉 Well done!');openJobsMenu()}
+                    if(jobsSet===(jobsQuizMode==='choose'?4:2)){alert(currentGlobalLang==='ms'?'🎉 Syabas! Selesai!':'🎉 Well done!')}
                     else{jobsSet++;renderJobsSet();window.scrollTo({top:0,behavior:'instant'})}
                 }else if(jobsQuizMode==='who'||window.innerWidth<=768){
                     const next=[...document.querySelectorAll('#jobs-quiz-grid .transport-guess-card')].find(el=>!el.classList.contains('answered'));
@@ -11317,7 +11317,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const moduleRoutes = {
     abc: 'abc-menu-screen', number: 'num123-menu-screen', colour: 'colour-menu-screen',
     body: 'body-part-menu-screen', animal: 'animal-menu-screen', shape: 'shape-menu-screen',
-    transport: 'transport-menu-screen', food: 'food-menu-screen'
+    transport: 'transport-menu-screen', food: 'food-menu-screen', jobs: 'jobs-menu-screen'
   };
   const screenModule = {
     'bijak-suku-kata-screen':'abc','complete-abc-screen':'abc','spell-it-right-screen':'abc','abc-tracing-screen':'abc',
@@ -11329,7 +11329,8 @@ document.addEventListener('DOMContentLoaded', () => {
     'learn-animal-cat-screen':'animal','learn-animal-flash-screen':'animal','match-animal-count-screen':'animal','match-animal-game-screen':'animal','complete-animal-screen':'animal','find-animal-count-screen':'animal','find-animal-game-screen':'animal',
     'learn-shape-screen':'shape','match-shape-screen':'shape','draw-shape-screen':'shape','match-me-screen':'shape',
     'learn-transport-cat-screen':'transport','learn-transport-flash-screen':'transport','sort-transport-screen':'transport','guess-transport-screen':'transport',
-    'learn-food-screen':'food','sort-food-screen':'food'
+    'learn-food-screen':'food','sort-food-screen':'food',
+    'jobs-quiz-screen':'jobs'
   };
   let completionOpen=false, completionModule=null;
   const originalAlert=window.alert.bind(window);
@@ -11339,7 +11340,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function inferModule(){ return screenModule[activeScreenId()] || completionModule || 'abc'; }
   function isCompletionMessage(msg){
     const t=String(msg||'').toLowerCase();
-    return /completed|complete all|completing|finished|finish!|quiz finished|quiz tamat|tamat!|tamat belajar|tahniah|syabas|selesai|lengkapkan|melengkapkan|habiskan|menghabiskan|hebat!|amazing!|great job/.test(t);
+    return /completed|complete all|completing|finished|finish!|quiz finished|quiz tamat|tamat!|tamat belajar|tahniah|syabas|selesai|lengkapkan|melengkapkan|habiskan|menghabiskan|hebat!|amazing!|great job|well done/.test(t);
   }
   function extractDetail(msg){
     const t=String(msg||'');
@@ -11350,9 +11351,9 @@ document.addEventListener('DOMContentLoaded', () => {
     completionModule=moduleKey || inferModule(); completionOpen=true;
     try{ window.speechSynthesis?.cancel(); }catch(e){}
     const pop=document.getElementById('universal-completion-pop');
-    document.getElementById('universal-completion-title').textContent = currentGlobalLang==='ms' ? '🎉 DAH SELESAI! 🎉' : '🎉 ALL DONE! 🎉';
+    document.getElementById('universal-completion-title').textContent = completionModule==='jobs' ? (currentGlobalLang==='ms'?'🎉 SYABAS! 🎉':'🎉 WELL DONE! 🎉') : (currentGlobalLang==='ms'?'🎉 DAH SELESAI! 🎉':'🎉 ALL DONE! 🎉');
     const d=document.getElementById('universal-completion-detail'); d.textContent=detail||''; d.style.display=detail?'block':'none';
-    document.getElementById('universal-completion-close').textContent='Close ✖️';
+    document.getElementById('universal-completion-close').textContent=completionModule==='jobs' && currentGlobalLang==='ms'?'Tutup ✖️':'Close ✖️';
     pop.style.pointerEvents='auto'; pop.classList.add('show'); pop.setAttribute('aria-hidden','false');
   }
   function closeCompletion(){
