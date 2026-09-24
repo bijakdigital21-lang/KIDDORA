@@ -8419,7 +8419,9 @@
             const el=document.createElement('span'); el.className='addup-object'; el.textContent=fruit; el.dataset.q=q;
             el.onclick=()=>{
                 if(el.classList.contains('counted')) return;
-                el.classList.add('counted'); addUpCountState[q]=(addUpCountState[q]||0)+1;
+                el.classList.add('counted');
+                const total=addUpSets[addUpSetIndex][q][0]+addUpSets[addUpSetIndex][q][1];
+                addUpCountState[q]=((addUpCountState[q]||0)%total)+1;
                 speakText123(getNum123Words()[addUpCountState[q]] || String(addUpCountState[q]),.55);
                 setTimeout(()=>el.classList.remove('counted'),260);
             };
