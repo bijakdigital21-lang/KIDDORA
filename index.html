@@ -4679,6 +4679,42 @@
  .complete-animal-half { width:clamp(83px,25vw,110px); height:clamp(86px,13vh,112px); }
  .complete-animal-half .complete-animal-art { font-size:clamp(68px,19vw,88px); }
 }
+
+        .jobs-heading {color:#FFDE59;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #123F7A}
+        #jobs-quiz-status,#jobs-progress {font-weight:800;color:#222}
+        #jobs-learn-screen .flashcard-img-container {width:fit-content;max-width:100%;height:auto;aspect-ratio:auto;flex:none;line-height:0;margin:15px auto}
+        #jobs-learn-screen .flashcard-img-container img {width:auto;height:auto;max-width:min(100%,420px);max-height:55vh;object-fit:contain;display:block}
+        .container:has(#jobs-quiz-screen.active.jobs-choose-mode) {max-width:none;width:100%}
+        #jobs-quiz-screen.jobs-choose-mode #jobs-quiz-grid {grid-template-columns:minmax(0,1fr);width:100%}
+        #jobs-quiz-screen.jobs-choose-mode {width:100%}
+        .jobs-choose-card {display:grid;grid-template-columns:minmax(110px,.5fr) repeat(3,minmax(0,1fr));align-items:center;gap:12px;padding:14px;width:100%}
+        .jobs-choose-card .jobs-prompt {font-size:clamp(15px,2vw,23px);font-weight:900;color:#194580;overflow-wrap:anywhere;display:flex;align-items:center;justify-content:center;gap:8px}
+        .jobs-audio-btn {width:42px;height:42px;flex:0 0 42px;border:0;border-radius:50%;background:var(--primary-pink);color:#fff;font-size:1.25rem;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 4px 0 #b33687,0 5px 10px rgba(0,0,0,.12);cursor:pointer;touch-action:manipulation}
+        .jobs-audio-btn:active {transform:translateY(2px);box-shadow:0 2px 0 #b33687}
+        .jobs-pick {border:3px solid #5e17eb;border-radius:16px;background:#fff7d6;padding:5px;cursor:pointer;min-width:0}
+        .jobs-pick img {width:100%;height:clamp(200px,25vw,340px);object-fit:contain;display:block}
+        .jobs-pick.wrong {border-color:#e53935;background:#ffcccc}
+        .jobs-pick.correct {border-color:#28a745;background:#d6ffd7}
+        .jobs-who-card:nth-child(4n+1){background:#fff0cf}
+        .jobs-who-card:nth-child(4n+2){background:#dff5ff}
+        .jobs-who-card:nth-child(4n+3){background:#ffe3ef}
+        .jobs-who-card:nth-child(4n){background:#e6f8dc}
+        .jobs-who-card .transport-guess-img {object-fit:contain}
+        .jobs-pop[hidden]{display:none}
+        .jobs-pop {position:fixed;inset:0;z-index:10000;background:rgba(12,29,60,.52);display:grid;place-items:center;padding:16px}
+        .jobs-pop-inner {background:#fff8de;border:5px solid #ffce55;border-radius:25px;padding:20px;display:grid;text-align:center;gap:12px;width:min(340px,90vw);box-shadow:0 15px 40px #2228}
+        .jobs-pop-inner img {width:100%;height:220px;object-fit:contain}
+        .jobs-pop-inner strong {font-size:clamp(22px,5vw,32px);color:#244783}
+        @media(max-width:768px){.main-content:has(#jobs-quiz-screen.active.jobs-choose-mode){padding-left:4px;padding-right:4px}.container:has(#jobs-quiz-screen.active.jobs-choose-mode){padding:2px}.jobs-choose-card{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:7px;border-width:2px}.jobs-choose-card .jobs-prompt{grid-column:1/-1;font-size:clamp(19px,5vw,28px)}.jobs-pick{padding:2px;border-width:2px}.jobs-pick img{height:clamp(145px,41vw,260px)}}
+        @media(max-width:600px){
+            .main-content:has(#jobs-quiz-screen.active.jobs-choose-mode){padding-left:0;padding-right:0}
+            .container:has(#jobs-quiz-screen.active.jobs-choose-mode){padding:0;max-width:100vw}
+            #jobs-quiz-screen.jobs-choose-mode #jobs-quiz-grid{margin-left:0;margin-right:0;gap:10px}
+            #jobs-quiz-screen.jobs-choose-mode .jobs-choose-card{box-sizing:border-box;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:3px;row-gap:13px;padding:12px 5px 14px;border-width:2px;border-radius:12px}
+            #jobs-quiz-screen.jobs-choose-mode .jobs-pick{box-sizing:border-box;width:100%;padding:0;border-width:2px;border-radius:8px;overflow:hidden}
+            #jobs-quiz-screen.jobs-choose-mode .jobs-pick img{width:100%;height:clamp(145px,42vw,225px);object-fit:contain}
+        }
+
     </style>
 </head>
 <body class="login-mode">
@@ -4816,10 +4852,45 @@
                     <button class="topic-btn" type="button" onclick="playClickSound(); openFoodMenu()" aria-label="Food">
                         <img src="https://i.imgur.com/NXcCZky.jpeg" alt="Food">
                     </button>
-                    <button class="topic-btn module-locked" type="button" aria-disabled="true" title="New adventure coming">
+                    <button class="topic-btn" type="button" onclick="playClickSound(); openJobsMenu()" aria-label="Jobs & Profession">
                         <img src="https://i.imgur.com/Y9TvZHi.jpeg" alt="Jobs & Profession">
                     </button>
                 </div>
+            </div>
+
+
+            <div id="jobs-menu-screen" class="card">
+                <h2 class="jobs-heading" id="jobs-menu-title">Jobs & Profession 👩‍⚕️</h2>
+                <p id="jobs-menu-desc">Choose an activity!</p>
+                <div class="transport-menu-grid">
+                    <button class="transport-menu-btn" onclick="playClickSound(); startJobsLearn()" aria-label="Jobs"><img src="https://i.imgur.com/Wfb2jD6.jpeg" alt="Jobs"></button>
+                    <button class="transport-menu-btn" onclick="playClickSound(); startJobsQuiz('choose')" aria-label="Choose the correct job"><img src="https://i.imgur.com/HKVlnKW.jpeg" alt="Choose the correct job"></button>
+                    <button class="transport-menu-btn" onclick="playClickSound(); startJobsQuiz('who')" aria-label="Who am I?"><img src="https://i.imgur.com/uT8eBj3.jpeg" alt="Who am I?"></button>
+                </div>
+                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+            </div>
+            <div id="jobs-learn-screen" class="card">
+                <h2 class="jobs-heading" id="jobs-learn-title">Jobs</h2>
+                <p id="jobs-progress"></p>
+                <div class="flashcard-box">
+                    <div class="flashcard-img-container"><img id="jobs-image" src="" alt="Job"></div>
+                    <div class="flashcard-text" id="jobs-caption"></div>
+                    <button class="sound-btn" onclick="speakCurrentJob()">🔊 Listen / Dengar</button>
+                </div>
+                <div class="flashcard-nav">
+                    <button class="action-btn" id="jobs-prev" onclick="playClickSound(); moveJobsLearn(-1)">⬅ Prev</button>
+                    <button class="action-btn home-btn" onclick="playClickSound(); openJobsMenu()">Back ↩️</button>
+                    <button class="action-btn" id="jobs-next" onclick="playClickSound(); moveJobsLearn(1)">Next ➡</button>
+                </div>
+            </div>
+            <div id="jobs-quiz-screen" class="card">
+                <h2 class="jobs-heading" id="jobs-quiz-title"></h2>
+                <p id="jobs-quiz-status"></p>
+                <div class="transport-guess-grid" id="jobs-quiz-grid"></div>
+                <button class="action-btn home-btn" onclick="playClickSound(); openJobsMenu()">Back ↩️</button>
+            </div>
+            <div class="jobs-pop" id="jobs-pop" hidden role="status" aria-live="polite">
+                <div class="jobs-pop-inner"><img id="jobs-pop-image" alt=""><strong id="jobs-pop-name"></strong></div>
             </div>
 
             <!-- ABC MODULE MENU SCREEN -->
@@ -6397,7 +6468,7 @@
             if(typeof updateCompleteAnimalLanguage === 'function') updateCompleteAnimalLanguage();
             document.documentElement.lang = currentGlobalLang === 'ms' ? 'ms' : 'en';
             try { localStorage.setItem('kiddoraLanguage', currentGlobalLang); } catch(e) {}
-            setTimeout(()=>{ if(typeof updateColourLanguage === 'function') updateColourLanguage(); if(typeof updateBodyLanguage === 'function') updateBodyLanguage(); if(typeof updateShapeLanguage === 'function') updateShapeLanguage(); if(typeof updateTransportLanguage === 'function') updateTransportLanguage(); if(typeof updateFoodLanguage === 'function') updateFoodLanguage(); if(typeof updateInstallTutorialLanguage === 'function') updateInstallTutorialLanguage(); if(typeof updateBijakSukuKataLanguage === 'function') updateBijakSukuKataLanguage(); },0);
+            setTimeout(()=>{ if(typeof updateColourLanguage === 'function') updateColourLanguage(); if(typeof updateBodyLanguage === 'function') updateBodyLanguage(); if(typeof updateShapeLanguage === 'function') updateShapeLanguage(); if(typeof updateTransportLanguage === 'function') updateTransportLanguage(); if(typeof updateFoodLanguage === 'function') updateFoodLanguage(); if(typeof updateJobsLanguage === 'function') updateJobsLanguage(); if(typeof updateInstallTutorialLanguage === 'function') updateInstallTutorialLanguage(); if(typeof updateBijakSukuKataLanguage === 'function') updateBijakSukuKataLanguage(); },0);
             
             document.getElementById("lang-btn-en").classList.remove("active");
             document.getElementById("lang-btn-ms").classList.remove("active");
@@ -8940,6 +9011,7 @@
                 'match-me-screen',
                 'sort-transport-screen',
                 'guess-transport-screen',
+                'jobs-quiz-screen',
                 'sort-food-screen'
             ]);
             document.body.classList.toggle('activity-bg-blur', activityScreens.has(screenId));
@@ -11104,6 +11176,128 @@ document.addEventListener('DOMContentLoaded', () => {
             if(window.saveScoreToFirebase)window.saveScoreToFirebase(currentGlobalLang==='ms'?'Teka Pengangkutan':'Guess Transport',pct);
             alert(currentGlobalLang==='ms'?`🎉 Selesai! Skor anda: ${guessTransportScore}/20 (${pct}%)`:`🎉 Finished! Your score: ${guessTransportScore}/20 (${pct}%)`);
             openTransportMenu();
+        }
+
+
+        // Jobs & Profession
+        const jobsData=[
+            ['doctor','Doktor','Doctor','Fyv8CVf'],['police','Polis','Police Officer','Q0eLi14'],['teacher','Guru','Teacher','MJWlTbX'],
+            ['chef','Chef','Chef','aSfI5EK'],['soldier','Tentera','Soldier','7XnkHwG'],['architect','Arkitek','Architect','dkXcL1v'],
+            ['pilot','Juruterbang','Pilot','2dDABFA'],['firefighter','Ahli Bomba','Firefighter','ioV0A7D'],['artist','Pelukis','Artist','XueDbsm'],
+            ['reporter','Wartawan','Reporter','d1sERsG'],['farmer','Petani','Farmer','w9ljsfb'],['lawyer','Peguam','Lawyer','cgH6zbQ'],
+            ['barber','Tukang Gunting Rambut','Barber','zRQmoI0'],['cashier','Juruwang','Cashier','5LEgfaj']
+        ].map(([id,ms,en,img])=>({id,ms,en,img:'https://i.imgur.com/'+img+'.jpeg'}));
+        const jobsName=j=>currentGlobalLang==='ms'?j.ms:j.en;
+        const jobsShuffle=a=>[...a].sort(()=>Math.random()-.5);
+        let jobsLearnIndex=0,jobsQuizMode='',jobsQuizOrder=[],jobsSet=0,jobsAnswered=0,jobsQuizToken=0,jobsTimer=0;
+        function openJobsMenu(){jobsQuizToken++;clearTimeout(jobsTimer);document.getElementById('jobs-pop').hidden=true;showScreen('jobs-menu-screen');document.getElementById('jobs-menu-title').textContent=currentGlobalLang==='ms'?'Pekerjaan & Profesion 👩‍⚕️':'Jobs & Profession 👩‍⚕️';document.getElementById('jobs-menu-desc').textContent=currentGlobalLang==='ms'?'Pilih aktiviti pekerjaan!':'Choose an activity!'}
+        function updateJobsLanguage(){
+            const ms=currentGlobalLang==='ms';
+            const menu=document.getElementById('jobs-menu-screen');
+            document.getElementById('jobs-menu-title').textContent=ms?'Pekerjaan & Profesion 👩‍⚕️':'Jobs & Profession 👩‍⚕️';
+            document.getElementById('jobs-menu-desc').textContent=ms?'Pilih aktiviti pekerjaan!':'Choose an activity!';
+            const menuButtons=menu.querySelectorAll('.transport-menu-btn');
+            [ms?'Pekerjaan':'Jobs',ms?'Pilih Pekerjaan Yang Betul':'Choose the Correct Job',ms?'Siapakah Saya?':'Who Am I?'].forEach((name,i)=>{menuButtons[i].setAttribute('aria-label',name);menuButtons[i].querySelector('img').alt=name});
+            menu.querySelector('.home-btn').textContent=ms?'Kembali ke Utama 🏠':'Back to Home 🏠';
+            const learn=document.getElementById('jobs-learn-screen');
+            learn.querySelector('.sound-btn').textContent=ms?'🔊 Dengar':'🔊 Listen';
+            learn.querySelector('.home-btn').textContent=ms?'Kembali ↩️':'Back ↩️';
+            document.getElementById('jobs-prev').textContent=ms?'⬅ Sebelum':'⬅ Prev';
+            if(learn.classList.contains('active'))renderJobsLearn();
+            const quiz=document.getElementById('jobs-quiz-screen');
+            quiz.querySelector('.home-btn').textContent=ms?'Kembali ↩️':'Back ↩️';
+            if(quiz.classList.contains('active')){
+                document.getElementById('jobs-quiz-title').textContent=jobsQuizMode==='choose'?(ms?'Pilih Pekerjaan Yang Betul':'Choose the Correct Job'):(ms?'Siapakah Saya?':'Who Am I?');
+                const count=jobsQuizMode==='choose'?2:4;
+                document.getElementById('jobs-quiz-status').textContent='Set '+(jobsSet+1)+'/'+(jobsQuizMode==='choose'?5:3)+' · '+count+(ms?' soalan':' questions');
+                quiz.querySelectorAll('#jobs-quiz-grid .transport-guess-card').forEach(card=>{
+                    const target=jobsData.find(j=>j.id===card.dataset.jobId);
+                    if(!target)return;
+                    const prompt=card.querySelector('.jobs-prompt');
+                    if(prompt){prompt.querySelector('span').textContent=jobsName(target);prompt.querySelector('.jobs-audio-btn').setAttribute('aria-label',(ms?'Dengar ':'Listen to ')+jobsName(target))}
+                    const image=card.querySelector('.transport-guess-img');
+                    if(image)image.alt=ms?'Pekerjaan apakah ini?':'What job is this?';
+                    card.querySelectorAll('.jobs-pick, .transport-guess-option').forEach(button=>{
+                        const choice=jobsData.find(j=>j.id===button.dataset.jobId);
+                        if(!choice)return;
+                        if(button.classList.contains('jobs-pick')){button.setAttribute('aria-label',jobsName(choice));button.querySelector('img').alt=jobsName(choice)}
+                        else button.textContent='☐ '+jobsName(choice);
+                    });
+                });
+            }
+            const pop=document.getElementById('jobs-pop');
+            if(!pop.hidden){const target=jobsData.find(j=>j.id===pop.dataset.jobId);if(target)document.getElementById('jobs-pop-name').textContent=jobsName(target)}
+        }
+        function jobsSpeak(j, rate=.75){
+            if(!('speechSynthesis' in window))return;
+            speechSynthesis.cancel();
+            const u=new SpeechSynthesisUtterance(jobsName(j));u.lang=currentGlobalLang==='ms'?'ms-MY':'en-US';u.rate=rate;
+            speechSynthesis.speak(u);
+        }
+        function startJobsLearn(){jobsLearnIndex=0;showScreen('jobs-learn-screen');renderJobsLearn();speakCurrentJob()}
+        function renderJobsLearn(){
+            const j=jobsData[jobsLearnIndex];
+            document.getElementById('jobs-learn-title').textContent=currentGlobalLang==='ms'?'Kenali Pekerjaan':'Jobs';
+            document.getElementById('jobs-progress').textContent=(jobsLearnIndex+1)+' / '+jobsData.length;
+            document.getElementById('jobs-image').src=j.img;
+            document.getElementById('jobs-caption').textContent=jobsName(j);
+            document.getElementById('jobs-prev').style.display=jobsLearnIndex?'inline-block':'none';
+            document.getElementById('jobs-next').textContent=jobsLearnIndex===jobsData.length-1?(currentGlobalLang==='ms'?'Tamat 🏁':'Finish 🏁'):'Next ➡';
+        }
+        function speakCurrentJob(){jobsSpeak(jobsData[jobsLearnIndex])}
+        function moveJobsLearn(delta){if(delta>0&&jobsLearnIndex===jobsData.length-1){openJobsMenu();return}jobsLearnIndex=Math.max(0,jobsLearnIndex+delta);renderJobsLearn();speakCurrentJob()}
+        function startJobsQuiz(mode){
+            jobsQuizToken++;clearTimeout(jobsTimer);jobsQuizMode=mode;jobsQuizOrder=jobsShuffle(jobsData).slice(0,mode==='choose'?10:12);jobsSet=0;
+            document.getElementById('jobs-quiz-screen').classList.toggle('jobs-choose-mode',mode==='choose');
+            showScreen('jobs-quiz-screen');renderJobsSet();
+        }
+        function renderJobsSet(){
+            const token=jobsQuizToken; jobsAnswered=0;
+            const grid=document.getElementById('jobs-quiz-grid');grid.replaceChildren();
+            document.getElementById('jobs-quiz-title').textContent=jobsQuizMode==='choose'?(currentGlobalLang==='ms'?'Pilih Pekerjaan Yang Betul':'Choose the Correct Job'):(currentGlobalLang==='ms'?'Siapakah Saya?':'Who Am I?');
+            const questionsPerSet=jobsQuizMode==='choose'?2:4;
+            const totalSets=jobsQuizMode==='choose'?5:3;
+            document.getElementById('jobs-quiz-status').textContent='Set '+(jobsSet+1)+'/'+totalSets+' · '+(currentGlobalLang==='ms'?questionsPerSet+' soalan':questionsPerSet+' questions');
+            jobsQuizOrder.slice(jobsSet*questionsPerSet,(jobsSet+1)*questionsPerSet).forEach(target=>{
+                const card=document.createElement('div');card.className='transport-guess-card '+(jobsQuizMode==='choose'?'jobs-choose-card':'jobs-who-card');card.dataset.jobId=target.id;
+                const options=jobsShuffle([target,...jobsShuffle(jobsData.filter(x=>x.id!==target.id)).slice(0,2)]);
+                if(jobsQuizMode==='choose'){
+                    const prompt=document.createElement('div');prompt.className='jobs-prompt';
+                    const label=document.createElement('span');label.textContent=jobsName(target);prompt.appendChild(label);
+                    const listen=document.createElement('button');listen.type='button';listen.className='jobs-audio-btn';listen.textContent='🔊';listen.setAttribute('aria-label',(currentGlobalLang==='ms'?'Dengar ':'Listen to ')+jobsName(target));listen.title='Listen / Dengar';listen.onclick=()=>jobsSpeak(target, .4);prompt.appendChild(listen);card.appendChild(prompt);
+                    options.forEach(choice=>{
+                        const b=document.createElement('button');b.className='jobs-pick';b.dataset.jobId=choice.id;b.setAttribute('aria-label',jobsName(choice));
+                        const img=document.createElement('img');img.src=choice.img;img.alt=jobsName(choice);b.appendChild(img);
+                        b.onclick=()=>answerJobs(card,target,choice,b,token);card.appendChild(b);
+                    });
+                }else{
+                    const img=document.createElement('img');img.className='transport-guess-img';img.src=target.img;img.alt=currentGlobalLang==='ms'?'Pekerjaan apakah ini?':'What job is this?';card.appendChild(img);
+                    const opts=document.createElement('div');opts.className='transport-guess-options';
+                    options.forEach(choice=>{
+                        const b=document.createElement('button');b.className='transport-guess-option';b.dataset.jobId=choice.id;b.textContent='☐ '+jobsName(choice);
+                        b.onclick=()=>answerJobs(card,target,choice,b,token);opts.appendChild(b);
+                    });card.appendChild(opts);
+                }
+                grid.appendChild(card);
+            });
+        }
+        function answerJobs(card,target,choice,button,token){
+            if(token!==jobsQuizToken||card.classList.contains('answered'))return;
+            if(choice.id!==target.id){playWrongSound();button.classList.add('wrong');return}
+            card.classList.add('answered');button.classList.add('correct');playCorrectSound();jobsAnswered++;
+            const pop=document.getElementById('jobs-pop');pop.dataset.jobId=target.id;document.getElementById('jobs-pop-image').src=target.img;document.getElementById('jobs-pop-name').textContent=jobsName(target);pop.hidden=false;
+            jobsSpeak(target);
+            jobsTimer=setTimeout(()=>{
+                if(token!==jobsQuizToken)return;
+                pop.hidden=true;
+                if(jobsAnswered===(jobsQuizMode==='choose'?2:4)){
+                    if(jobsSet===(jobsQuizMode==='choose'?4:2)){alert(currentGlobalLang==='ms'?'🎉 Selesai!':'🎉 Well done!');openJobsMenu()}
+                    else{jobsSet++;renderJobsSet();window.scrollTo({top:0,behavior:'instant'})}
+                }else if(jobsQuizMode==='who'||window.innerWidth<=768){
+                    const next=[...document.querySelectorAll('#jobs-quiz-grid .transport-guess-card')].find(el=>!el.classList.contains('answered'));
+                    if(next)next.scrollIntoView({behavior:'smooth',block:'start'});
+                }
+            },2300);
         }
 
     </script>
