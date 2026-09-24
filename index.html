@@ -4784,6 +4784,16 @@
             #jobs-quiz-screen.jobs-choose-mode .jobs-pick img{width:100%;height:clamp(145px,42vw,225px);object-fit:contain}
         }
 
+        /* Column arithmetic */
+        .column-board{width:min(100%,350px);margin:16px auto;padding:16px 28px;background:#fffaf0;border:4px solid #b9a4f7;border-radius:24px;box-shadow:0 9px 0 #ded2fb;color:#272052;font-family:Arial,sans-serif;font-weight:900}
+        .column-row{display:grid;grid-template-columns:repeat(3,1fr);align-items:center;text-align:center;gap:6px;min-height:64px;font-size:clamp(2rem,10vw,3.6rem)}
+        .column-bottom{border-bottom:5px solid #272052}.column-answer{padding-top:10px}.column-digit{width:100%;height:62px;border:3px solid #8360d7;border-radius:13px;text-align:center;font-size:2rem;font-weight:900;color:#272052;background:white;cursor:pointer}
+        .column-digit:disabled{background:#f2edff;cursor:default}.column-digit.active{outline:4px solid #ffcb4b;outline-offset:2px}
+        .column-number-board{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;width:min(100%,360px);margin:12px auto 20px}
+        .column-number-board button{min-height:56px;border:0;border-radius:15px;background:#7049cf;color:#fff;font-size:1.65rem;font-weight:900;box-shadow:0 4px 0 #4b2c9b;cursor:pointer}.column-number-board button:active{transform:translateY(3px);box-shadow:0 1px 0 #4b2c9b}
+        .column-instruction,.column-hint{font-weight:800;color:#343051}.column-hint{min-height:28px}
+        .column-overlay[hidden]{display:none}.column-overlay{position:fixed;inset:0;background:rgba(28,19,55,.55);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;z-index:99999;padding:20px}
+        .column-dialog{width:min(100%,430px);padding:28px 20px;background:#fff8df;border:5px solid #ad83e5;border-radius:28px;text-align:center;box-shadow:0 16px 50px #22134266}.column-dialog h2{color:#572fa8;font-family:'Fredoka One',cursive}.column-dialog p{font-size:1.2rem;font-weight:800;color:#353052}.column-dialog .action-btn{margin:8px}
     </style>
 </head>
 <body class="login-mode">
@@ -5165,10 +5175,39 @@
                     <button class="num123-menu-btn" onclick="playClickSound(); openTakingAwayCountScreen()" aria-label="Taking Away">
                         <img src="https://i.imgur.com/JPautVP.jpeg" alt="Taking Away">
                     </button>
+                    <button class="num123-menu-btn" onclick="playClickSound(); openColumnMath('addition')" aria-label="Addition"><img src="https://i.imgur.com/CbOQujc.jpeg" alt="Addition"></button>
+                    <button class="num123-menu-btn" onclick="playClickSound(); openColumnMath('subtraction')" aria-label="Subtraction"><img src="https://i.imgur.com/HoZ9lCi.jpeg" alt="Subtraction"></button>
                 </div>
                 <button class="action-btn home-btn" id="num123-home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
             </div>
 
+            <!-- COLUMN ADDITION AND SUBTRACTION -->
+            <div id="column-count-screen" class="card">
+                <h2 id="column-count-title">Addition ➕</h2>
+                <p id="column-count-prompt" style="font-weight:900">Choose the number of questions</p>
+                <div class="question-count-grid">
+                    <button class="count-btn" onclick="startColumnMath(5)">5</button><button class="count-btn" onclick="startColumnMath(10)">10</button>
+                    <button class="count-btn" onclick="startColumnMath(15)">15</button><button class="count-btn" onclick="startColumnMath(20)">20</button>
+                </div>
+                <button class="action-btn home-btn" onclick="open123Menu()" id="column-count-back">Back ↩️</button>
+            </div>
+            <div id="column-math-screen" class="card">
+                <h2 id="column-math-title">Addition ➕</h2>
+                <div class="num-progress-pill" id="column-progress"></div>
+                <p id="column-instruction" class="column-instruction"></p>
+                <div class="column-board">
+                    <div class="column-row"><span></span><span id="column-top-ten"></span><span id="column-top-one"></span></div>
+                    <div class="column-row column-bottom"><span id="column-sign"></span><span id="column-bottom-ten"></span><span id="column-bottom-one"></span></div>
+                    <div class="column-row column-answer"><span>&nbsp;</span><button type="button" id="column-tens" class="column-digit" onclick="selectColumnDigit('tens')" aria-label="Tens" disabled></button><button type="button" id="column-ones" class="column-digit active" onclick="selectColumnDigit('ones')" aria-label="Ones"></button></div>
+                </div>
+                <p id="column-hint" class="column-hint"></p>
+                <div id="column-number-board" class="column-number-board" aria-label="Number board"></div>
+                <button id="column-check" class="action-btn" onclick="checkColumnMath()">Check ✅</button>
+                <button class="action-btn home-btn" id="column-back" onclick="open123Menu()">Back ↩️</button>
+            </div>
+            <div id="column-modal" class="column-overlay" role="dialog" aria-modal="true" aria-labelledby="column-modal-title" hidden>
+                <div class="column-dialog"><h2 id="column-modal-title"></h2><p id="column-modal-answer"></p><div id="column-modal-actions"></div></div>
+            </div>
             <!-- 123 TRACING SCREEN -->
             <div id="num123-tracing-screen" class="card">
                 <h2 style="color:#ffff00;font-family:'Fredoka One',cursive;text-shadow:2px 2px 0 #5E17EB;">123 Tracing ✏️</h2>
@@ -6469,6 +6508,33 @@
             if (!document.hidden && audioCtx) wakeAppSound();
         });
         window.addEventListener('pageshow', wakeAppSound);
+
+        function playCompletionApplause() {
+            return playAppSound((ctx) => {
+                const duration=0.16, sampleRate=ctx.sampleRate;
+                const buffer=ctx.createBuffer(1,Math.ceil(sampleRate*duration),sampleRate);
+                const samples=buffer.getChannelData(0);
+                for(let i=0;i<samples.length;i++)samples[i]=(Math.random()*2-1);
+                const now=ctx.currentTime;
+                for(const offset of [0,.11,.22,.34,.47,.60,.75,.91]){
+                    const source=ctx.createBufferSource(),filter=ctx.createBiquadFilter(),gain=ctx.createGain();
+                    source.buffer=buffer;filter.type='bandpass';filter.frequency.value=1100+(offset*420);
+                    gain.gain.setValueAtTime(.001,now+offset);
+                    gain.gain.exponentialRampToValueAtTime(.24,now+offset+.012);
+                    gain.gain.exponentialRampToValueAtTime(.001,now+offset+duration);
+                    source.connect(filter);filter.connect(gain);gain.connect(ctx.destination);
+                    source.start(now+offset);source.stop(now+offset+duration);
+                }
+            });
+        }
+        function announceAllDone() {
+            playCompletionApplause();
+            if(!('speechSynthesis' in window))return;
+            speechSynthesis.cancel();
+            const voice=new SpeechSynthesisUtterance('All done');
+            voice.lang='en-US';voice.rate=.8;voice.pitch=1.05;
+            speechSynthesis.speak(voice);
+        }
 
         function playClickSound() {
             return playAppSound((audioCtx) => {
@@ -8199,6 +8265,125 @@
         /* =========================================================
            JAVASCRIPT MODUL 123
         ========================================================== */
+
+        // Column arithmetic has its own session state; other Number activities are untouched.
+        let columnMode='addition', columnQuestions=[], columnIndex=0, columnScore=0, columnLocked=false, columnTimer=null;
+        const columnCopy={
+            en:{addition:'Addition ➕',subtraction:'Subtraction ➖',choose:'Choose the number of questions',back:'Back ↩️',question:'Question',instruction:'Start with the ones on the right, then answer the tens on the left.',carry:'Carry',ones:'Enter the ones result first.',tens:'Now enter the tens digit.',check:'Check ✅',fill:'Complete both answer boxes first.',well:'Correct! ✅',wrong:'The correct answer is',correct:'Make a correction 🔄',next:'Next ➡',done:'All done! 🎉',score:'Score',home:'Back to Home 🏠',backNumber:'Back to Number 🔢'},
+            ms:{addition:'Tambah ➕',subtraction:'Tolak ➖',choose:'Pilih bilangan soalan',back:'Kembali ↩️',question:'Soalan',instruction:'Jawab nilai sa di sebelah kanan dahulu, kemudian nilai puluh di sebelah kiri.',carry:'Bawa',ones:'Isi hasil nilai sa dahulu.',tens:'Sekarang isi digit nilai puluh.',check:'Semak ✅',fill:'Lengkapkan kedua-dua kotak jawapan dahulu.',well:'Correct! ✅',wrong:'Jawapan yang betul ialah',correct:'Buat pembetulan 🔄',next:'Seterusnya ➡',done:'Selesai! 🎉',score:'Skor',home:'Kembali ke Home 🏠',backNumber:'Kembali ke Number 🔢'}
+        };
+        const columnText=()=>columnCopy[getNum123Lang()];
+        function updateColumnLanguage(){
+            const t=columnText(), title=t[columnMode];
+            for(const id of ['column-count-title','column-math-title']) document.getElementById(id).textContent=title;
+            document.getElementById('column-count-prompt').textContent=t.choose;
+            document.getElementById('column-count-back').textContent=t.back;
+            document.getElementById('column-back').textContent=t.back;
+            document.getElementById('column-instruction').textContent=t.instruction;
+            document.getElementById('column-check').textContent=t.check;
+            if(columnQuestions.length) document.getElementById('column-progress').textContent=`${t.question} ${columnIndex+1} / ${columnQuestions.length} · ⭐ ${columnScore}`;
+        }
+        function openColumnMath(mode){
+            clearTimeout(columnTimer);document.getElementById('column-modal').hidden=true;
+            columnMode=mode;columnQuestions=[];updateColumnLanguage();showScreen('column-count-screen');
+        }
+        function startColumnMath(count){
+            const bank=[];
+            if(columnMode==='addition'){
+                for(let a=10;a<=99;a++)for(let b=10;b<=99;b++)if(a%10+b%10<=9 && Math.floor(a/10)+Math.floor(b/10)<=9)bank.push({a,b});
+            }else{
+                for(let a=10;a<=99;a++)for(let b=1;b<=9;b++)if(a%10>=b)bank.push({a,b});
+            }
+            for(let i=bank.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[bank[i],bank[j]]=[bank[j],bank[i]];}
+            columnQuestions=bank.slice(0,count);columnIndex=0;columnScore=0;
+            showScreen('column-math-screen');renderColumnMath();
+        }
+        function renderColumnMath(){
+            columnLocked=false;document.getElementById('column-modal').hidden=true;
+            const {a,b}=columnQuestions[columnIndex],t=columnText();
+            updateColumnLanguage();
+            document.getElementById('column-top-ten').textContent=Math.floor(a/10);
+            document.getElementById('column-top-one').textContent=a%10;
+            document.getElementById('column-bottom-ten').textContent=b>=10?Math.floor(b/10):'';
+            document.getElementById('column-bottom-one').textContent=b%10;
+            document.getElementById('column-sign').textContent=columnMode==='addition'?'+':'−';
+            const ones=document.getElementById('column-ones'),tens=document.getElementById('column-tens');
+            ones.textContent='';tens.textContent='';ones.disabled=false;tens.disabled=true;selectColumnDigit('ones');
+            document.getElementById('column-hint').textContent=t.ones;
+            document.getElementById('column-check').disabled=false;
+            document.getElementById('column-math-screen').scrollIntoView({block:'start'});
+        }
+        let columnActiveDigit='ones';
+        function selectColumnDigit(which){
+            const ones=document.getElementById('column-ones'),tens=document.getElementById('column-tens');
+            if(columnLocked || (which==='tens' && tens.disabled))return;
+            columnActiveDigit=which;
+            ones.classList.toggle('active',which==='ones');tens.classList.toggle('active',which==='tens');
+            document.getElementById('column-hint').textContent=which==='ones'?columnText().ones:columnText().tens;
+        }
+        function enterColumnDigit(n){
+            if(columnLocked)return;
+            const target=document.getElementById(columnActiveDigit==='ones'?'column-ones':'column-tens');
+            target.textContent=String(n);
+            if(columnActiveDigit==='ones'){
+                document.getElementById('column-tens').disabled=false;
+                selectColumnDigit('tens');
+            }
+        }
+        function setupColumnBoard(){
+            const board=document.getElementById('column-number-board');
+            for(let n=0;n<=9;n++){
+                const button=document.createElement('button');button.type='button';button.textContent=String(n);
+                button.onclick=()=>{if(typeof playClickSound==='function')playClickSound();enterColumnDigit(n)};
+                board.appendChild(button);
+            }
+        }
+        setupColumnBoard();
+        function checkColumnMath(){
+            if(columnLocked)return;
+            const t=columnText(),ones=document.getElementById('column-ones'),tens=document.getElementById('column-tens');
+            if(!/^\d$/.test(ones.textContent) || !/^\d$/.test(tens.textContent)){
+                document.getElementById('column-hint').textContent=t.fill;return;
+            }
+            const {a,b}=columnQuestions[columnIndex],expected=columnMode==='addition'?a+b:a-b;
+            const entered=Number(tens.textContent)*10+Number(ones.textContent);
+            const correct=entered===expected;
+            columnLocked=true;document.getElementById('column-check').disabled=true;
+            if(correct){columnScore++;showColumnModal(t.well,'',[]);columnTimer=setTimeout(nextColumnMath,1200);}
+            else showColumnModal('❌ '+t.wrong,`${a} ${columnMode==='addition'?'+':'−'} ${b} = ${expected}`,[[t.correct,retryColumnMath],[t.next,nextColumnMath]]);
+        }
+        function showColumnModal(title,answer,actions){
+            document.getElementById('column-modal-title').textContent=title;
+            document.getElementById('column-modal-answer').textContent=answer;
+            const box=document.getElementById('column-modal-actions');box.replaceChildren();
+            actions.forEach(([label,action])=>{const btn=document.createElement('button');btn.className='action-btn';btn.textContent=label;btn.onclick=action;box.appendChild(btn)});
+            document.getElementById('column-modal').hidden=false;
+            // Read the feedback aloud in the currently selected language.
+            if(title===columnText().done) announceAllDone();
+            else {
+                const spoken=answer ? `${title.replace(/[❌🎉]/g,'')}. ${answer}` : title.replace(/[🎉✅]/g,'');
+                speakText123(spoken,.8);
+            }
+        }
+        function retryColumnMath(){renderColumnMath();}
+        function returnFromColumnToNumber(){
+            clearTimeout(columnTimer);
+            document.getElementById('column-modal').hidden=true;
+            const universal=document.getElementById('universal-completion-pop');
+            if(universal){universal.classList.remove('show');universal.style.pointerEvents='none';universal.setAttribute('aria-hidden','true');}
+            if(window.speechSynthesis)window.speechSynthesis.cancel();
+            // Go straight to Number activities after the final question.
+            showScreen('num123-menu-screen');
+            updateNumberLanguage();
+        }
+        function nextColumnMath(){
+            if(window.speechSynthesis)window.speechSynthesis.cancel();
+            clearTimeout(columnTimer);document.getElementById('column-modal').hidden=true;
+            if(++columnIndex<columnQuestions.length){renderColumnMath();return;}
+            const t=columnText(),percent=Math.round(columnScore/columnQuestions.length*100);
+            if(window.saveScoreToFirebase)window.saveScoreToFirebase(columnMode==='addition'?'Addition':'Subtraction',percent);
+            showColumnModal(t.done,`${t.score}: ${columnScore}/${columnQuestions.length}`,[[t.backNumber,returnFromColumnToNumber]]);
+        }
         const numberWords123 = {
             en: ['Zero','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen','Twenty'],
             ms: ['Sifar','Satu','Dua','Tiga','Empat','Lima','Enam','Tujuh','Lapan','Sembilan','Sepuluh','Sebelas','Dua belas','Tiga belas','Empat belas','Lima belas','Enam belas','Tujuh belas','Lapan belas','Sembilan belas','Dua puluh']
@@ -8249,6 +8434,7 @@
             if(document.getElementById('taking-away-count-screen')?.classList.contains('active')) openTakingAwayCountScreen();
             if(document.getElementById('taking-away-screen')?.classList.contains('active') && takeAwaySession.length) renderTakeAwayQuestion();
             if(document.getElementById('find123-screen')?.classList.contains('active') && find123Questions.length) renderFind123();
+            if(document.getElementById('column-count-screen')?.classList.contains('active') || document.getElementById('column-math-screen')?.classList.contains('active')) updateColumnLanguage();
         }
 
         function open123Menu(){ window.speechSynthesis && window.speechSynthesis.cancel(); updateNumberLanguage(); showScreen('num123-menu-screen'); }
@@ -8669,7 +8855,7 @@
             if(matched===6&&!paintFinishing){
                 paintFinishing=true;paintScore=Math.round((paintSetIndex+1)*100/5);playCorrectSound();
                 document.getElementById('match-paint-feedback').textContent=currentGlobalLang==='ms'?'Bagus! Semua warna betul! 🌟':'Great! All colours match! 🌟';
-                const pop=document.createElement('div');pop.className='paint-success-pop';pop.setAttribute('role','status');pop.innerHTML='<span>Good Job! 🌟</span>';document.body.appendChild(pop);
+                const pop=document.createElement('div');pop.className='paint-success-pop';pop.setAttribute('role','status');pop.innerHTML='<span>Correct! 🌟</span>';document.body.appendChild(pop);speakText123('Correct',.8);
                 paintAdvanceTimer=setTimeout(()=>{pop.remove();if(!document.getElementById('match-paint-screen').classList.contains('active'))return;paintSetIndex++;if(paintSetIndex<5)renderPaintSet();else{if(window.saveScoreToFirebase)window.saveScoreToFirebase('Match the Paint',100);alert(currentGlobalLang==='ms'?'Tahniah! Semua cat berjaya disusun! 🎉':'Great job! All paint tubes are in order! 🎉');openColourMenu()}},1000);
             }
         }
@@ -9062,6 +9248,7 @@
                 'bijak-suku-kata-screen',
                 'bijak-suku-kata-2-screen',
                 'match123-screen',
+                'column-math-screen',
                 'lets-count-screen',
                 'find123-screen',
                 'pop-balloon-screen',
@@ -9445,11 +9632,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 feedback.style.color = '#5E17EB';
                 feedback.innerText = `🎉 Finished! Score: ${spellScore} / ${spellSessionWords.length}`;
                 document.getElementById('spell-next-btn').style.display = 'none';
-                document.getElementById('spell-learning-word').innerText = 'WELL DONE!';
+                document.getElementById('spell-learning-word').innerText = 'ALL DONE!';
                 document.getElementById('spell-instruction').innerText = 'You completed Spell it Right!';
                 document.getElementById('spell-letter-bank').innerHTML = '';
                 document.getElementById('spell-answer-slots').innerHTML = '';
-                speakWholeWord('Well done');
+                alert('Completed Spell it Right! 🎉');
             }
         }
 
@@ -10004,6 +10191,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <button class="action-btn home-btn" onclick="closeSukuCompletion()" style="font-size:1rem;">Close ✖️</button>`;
             pop.style.pointerEvents='auto';
             pop.classList.add('show');
+            announceAllDone();
         }
         function closeSukuCompletion(){
             const pop=document.getElementById('suku-pop');
@@ -10129,6 +10317,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const pop=document.getElementById('suku-pop'),inner=document.getElementById('suku-pop-inner'),ms=currentGlobalLang==='ms';
             inner.innerHTML=`<div style="font-size:clamp(2rem,7vw,3.6rem);margin-bottom:12px;">${ms?'🎉 DAH SELESAI! 🎉':'🎉 ALL DONE! 🎉'}</div><div style="font-family:'Quicksand',sans-serif;font-size:1.05rem;color:#2C3E50;margin-bottom:18px;font-weight:800;">${ms?'Skor':'Score'}: ${suku2Score} / 20</div><button class="action-btn home-btn" onclick="closeSuku2Completion()" style="font-size:1rem;">Close ✖️</button>`;
             pop.style.pointerEvents='auto';pop.classList.add('show');
+            announceAllDone();
         }
         function closeSuku2Completion(){const pop=document.getElementById('suku-pop');pop.classList.remove('show');pop.style.pointerEvents='none';openBijakSukuKataMenu()}
 
@@ -11416,7 +11605,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'bijak-suku-kata-screen':'abc','complete-abc-screen':'abc','spell-it-right-screen':'abc','abc-tracing-screen':'abc',
     'match-count-screen':'abc','match-game-screen':'abc','find-letter-screen':'abc','abc-flashcard-screen':'abc',
     'lesson-screen':'abc','count-selection-screen':'abc','quiz-screen':'abc','result-screen':'abc',
-    'num123-tracing-screen':'number','learn123-screen':'number','match123-screen':'number','lets-count-screen':'number','add-them-up-screen':'number','taking-away-count-screen':'number','taking-away-screen':'number','find123-screen':'number',
+    'column-math-screen':'number','column-count-screen':'number','num123-tracing-screen':'number','learn123-screen':'number','match123-screen':'number','lets-count-screen':'number','add-them-up-screen':'number','taking-away-count-screen':'number','taking-away-screen':'number','find123-screen':'number',
     'learn-colour-screen':'colour','pop-balloon-screen':'colour','match-colour-screen':'colour','match-paint-screen':'colour','find-colour-screen':'colour',
     'learn-body-screen':'body','choose-body-screen':'body','match-body-count-screen':'body','match-body-game-screen':'body','label-body-screen':'body',
     'learn-animal-cat-screen':'animal','learn-animal-flash-screen':'animal','match-animal-count-screen':'animal','match-animal-game-screen':'animal','complete-animal-screen':'animal','find-animal-count-screen':'animal','find-animal-game-screen':'animal',
@@ -11433,7 +11622,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function inferModule(){ return screenModule[activeScreenId()] || completionModule || 'abc'; }
   function isCompletionMessage(msg){
     const t=String(msg||'').toLowerCase();
-    return /completed|complete all|completing|finished|finish!|quiz finished|quiz tamat|tamat!|tamat belajar|tahniah|syabas|selesai|lengkapkan|melengkapkan|habiskan|menghabiskan|hebat!|amazing!|great job|well done/.test(t);
+    return /completed|complete all|completing|finished|finish!|quiz finished|quiz tamat|tamat!|tamat belajar|tahniah|syabas|selesai|lengkapkan|melengkapkan|habiskan|menghabiskan|hebat!|amazing!|great job|well done|excellent! all labels/.test(t);
   }
   function extractDetail(msg){
     const t=String(msg||'');
@@ -11444,10 +11633,11 @@ document.addEventListener('DOMContentLoaded', () => {
     completionModule=moduleKey || inferModule(); completionOpen=true;
     try{ window.speechSynthesis?.cancel(); }catch(e){}
     const pop=document.getElementById('universal-completion-pop');
-    document.getElementById('universal-completion-title').textContent = completionModule==='jobs' ? (currentGlobalLang==='ms'?'🎉 SYABAS! 🎉':'🎉 WELL DONE! 🎉') : (currentGlobalLang==='ms'?'🎉 DAH SELESAI! 🎉':'🎉 ALL DONE! 🎉');
+    document.getElementById('universal-completion-title').textContent = '🎉 ALL DONE! 🎉';
     const d=document.getElementById('universal-completion-detail'); d.textContent=detail||''; d.style.display=detail?'block':'none';
     document.getElementById('universal-completion-close').textContent=completionModule==='jobs' && currentGlobalLang==='ms'?'Tutup ✖️':'Close ✖️';
     pop.style.pointerEvents='auto'; pop.classList.add('show'); pop.setAttribute('aria-hidden','false');
+    announceAllDone();
   }
   function closeCompletion(){
     const pop=document.getElementById('universal-completion-pop'); pop.classList.remove('show'); pop.style.pointerEvents='none'; pop.setAttribute('aria-hidden','true');
@@ -11484,7 +11674,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const inner=document.getElementById('suku-pop-inner');
       if(inner){
         const title=inner.querySelector('div');
-        if(title) title.textContent=currentGlobalLang==='ms'?'🎉 DAH SELESAI! 🎉':'🎉 ALL DONE! 🎉';
+        if(title) title.textContent='🎉 ALL DONE! 🎉';
         const close=inner.querySelector('button'); if(close) close.textContent='Close ✖️';
       }
     };
