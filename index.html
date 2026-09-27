@@ -6997,7 +6997,6 @@
             if(typeof updateCompleteAnimalLanguage === 'function') updateCompleteAnimalLanguage();
             document.documentElement.lang = currentGlobalLang === 'ms' ? 'ms' : 'en';
             document.getElementById('forgot-password-btn').textContent = currentGlobalLang === 'ms' ? 'Lupa kata laluan?' : 'Forgot password?';
-            try { localStorage.setItem('kiddoraLanguage', currentGlobalLang); } catch(e) {}
             setTimeout(()=>{ if(typeof updateColourLanguage === 'function') updateColourLanguage(); if(typeof updateBodyLanguage === 'function') updateBodyLanguage(); if(typeof updateShapeLanguage === 'function') updateShapeLanguage(); if(typeof updateTransportLanguage === 'function') updateTransportLanguage(); if(typeof updateFoodLanguage === 'function') updateFoodLanguage(); if(typeof updateJobsLanguage === 'function') updateJobsLanguage(); if(typeof updateInstallTutorialLanguage === 'function') updateInstallTutorialLanguage(); if(typeof updateBijakSukuKataLanguage === 'function') updateBijakSukuKataLanguage(); },0);
             
             document.getElementById("lang-btn-en").classList.remove("active");
@@ -7264,9 +7263,8 @@
         const navLanguageObserver = new MutationObserver(() => enforceEnglishNavigationLabels());
         window.addEventListener('DOMContentLoaded', () => {
             try { navLanguageObserver.observe(document.body, {subtree:true, childList:true, characterData:true}); } catch(e) {}
-            const saved = (()=>{ try { return localStorage.getItem('kiddoraLanguage'); } catch(e) { return null; } })();
             setTimeout(() => {
-                try { setGlobalLanguage(saved === 'ms' ? 'ms' : 'en'); } catch(e) { console.error('Language init error:', e); }
+                try { setGlobalLanguage('en'); } catch(e) { console.error('Language init error:', e); }
             }, 0);
         });
 
