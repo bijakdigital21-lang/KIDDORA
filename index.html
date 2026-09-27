@@ -39,7 +39,7 @@
 
         body {
             font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('https://i.imgur.com/VGzFBw0.jpeg') no-repeat center center fixed;
+            background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('https://i.imgur.com/HWt89iS.jpeg') no-repeat center center fixed;
             background-size: cover;
             color: var(--text-dark);
             min-height: 100vh;
@@ -68,10 +68,32 @@
             pointer-events: none;
             background:
                 linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)),
-                url('https://i.imgur.com/VGzFBw0.jpeg') no-repeat center center;
+                url('https://i.imgur.com/HWt89iS.jpeg') no-repeat center center;
             background-size: cover;
             filter: blur(6px);
             transform: scale(1.04);
+        }
+
+        /* On tall phone screens, show the entire Home image in the viewport. */
+        @media (max-width: 768px) {
+            body.home-mobile-bg {
+                position: relative;
+                isolation: isolate;
+                background: transparent;
+            }
+            body.home-mobile-bg::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                height: 100lvh;
+                z-index: -1;
+                pointer-events: none;
+                background: linear-gradient(rgba(0, 0, 0, .2), rgba(0, 0, 0, .2)),
+                    url('https://i.imgur.com/HWt89iS.jpeg') center center / 100% 100% no-repeat;
+            }
         }
 
         .sidebar {
@@ -3103,6 +3125,19 @@
             border: 0;
             padding: 5px;
         }
+        #login-screen .forgot-password-row { text-align: center; margin: 12px 0 0; }
+        #login-screen .forgot-password-btn {
+            border: 2px solid #19afd5; border-radius: 15px;
+            background: #e5faff; color: #096d91;
+            font: 700 1rem 'Quicksand', sans-serif; cursor: pointer;
+            padding: 11px 18px; min-height: 44px;
+        }
+        #login-screen .forgot-password-btn:disabled { opacity: .6; cursor: wait; }
+        #login-screen .forgot-password-status {
+            min-height: 1.2em; margin: 4px 0 0; color: #31556d;
+            font-size: .88rem; font-weight: 700; line-height: 1.35;
+        }
+        #login-screen .forgot-password-status.error { color: #b42318; }
         #login-screen .login-submit {
             min-width: 210px;
             height: 60px;
@@ -5113,6 +5148,10 @@
                         <button type="button" class="login-field-icon password-toggle" aria-label="Show or hide password" onclick="toggleLoginPassword()">◉</button>
                     </div>
 
+                    <div class="forgot-password-row">
+                        <button type="button" id="forgot-password-btn" class="forgot-password-btn" onclick="playClickSound(); handleForgotPassword()">Forgot password?</button>
+                    </div>
+                    <p id="forgot-password-status" class="forgot-password-status" role="status" aria-live="polite"></p>
                     <button class="login-submit" onclick="playClickSound(); handleLogin()">Log in</button>
                 </div>
             </div>
@@ -6392,6 +6431,7 @@
         import { 
             getAuth, 
             signInWithEmailAndPassword, 
+            sendPasswordResetEmail,
             signOut, 
             onAuthStateChanged,
             EmailAuthProvider,
@@ -6474,6 +6514,37 @@
                 await signInWithEmailAndPassword(auth, email, password);
             } catch (error) {
                 alert("Login failed: " + error.message);
+            }
+        };
+
+        window.handleForgotPassword = async function() {
+            const emailInput = document.getElementById("login-email");
+            const email = emailInput.value.trim();
+            const status = document.getElementById("forgot-password-status");
+            const button = document.getElementById("forgot-password-btn");
+            const ms = document.documentElement.lang === "ms";
+            status.classList.remove("error");
+            if (!email || !emailInput.checkValidity()) {
+                status.textContent = ms ? "Masukkan alamat e-mel yang sah dahulu." : "Enter a valid email address first.";
+                status.classList.add("error");
+                emailInput.focus();
+                return;
+            }
+            button.disabled = true;
+            status.textContent = ms ? "Sedang menghantar pautan..." : "Sending reset link...";
+            try {
+                await sendPasswordResetEmail(auth, email);
+                status.textContent = ms
+                    ? "Jika e-mel ini berdaftar, pautan tetapan semula akan dihantar. Semak peti masuk dan spam."
+                    : "If this email is registered, a reset link will be sent. Check your inbox and spam folder.";
+            } catch (error) {
+                console.error("Password reset request failed:", error);
+                status.classList.add("error");
+                status.textContent = ms
+                    ? "Pautan tidak dapat dihantar sekarang. Semak sambungan internet dan cuba lagi."
+                    : "Could not send the reset link. Check your connection and try again.";
+            } finally {
+                button.disabled = false;
             }
         };
 
@@ -6917,6 +6988,7 @@
             currentGlobalLang = (lang === 'ms' ? 'ms' : 'en');
             if(typeof updateCompleteAnimalLanguage === 'function') updateCompleteAnimalLanguage();
             document.documentElement.lang = currentGlobalLang === 'ms' ? 'ms' : 'en';
+            document.getElementById('forgot-password-btn').textContent = currentGlobalLang === 'ms' ? 'Lupa kata laluan?' : 'Forgot password?';
             try { localStorage.setItem('kiddoraLanguage', currentGlobalLang); } catch(e) {}
             setTimeout(()=>{ if(typeof updateColourLanguage === 'function') updateColourLanguage(); if(typeof updateBodyLanguage === 'function') updateBodyLanguage(); if(typeof updateShapeLanguage === 'function') updateShapeLanguage(); if(typeof updateTransportLanguage === 'function') updateTransportLanguage(); if(typeof updateFoodLanguage === 'function') updateFoodLanguage(); if(typeof updateJobsLanguage === 'function') updateJobsLanguage(); if(typeof updateInstallTutorialLanguage === 'function') updateInstallTutorialLanguage(); if(typeof updateBijakSukuKataLanguage === 'function') updateBijakSukuKataLanguage(); },0);
             
@@ -9999,6 +10071,7 @@
             ]);
             document.body.classList.toggle('activity-bg-blur', activityScreens.has(screenId));
             document.body.classList.toggle('login-mode', screenId === 'login-screen');
+            document.body.classList.toggle('home-mobile-bg', screenId === 'home-screen');
 
             closeSidebar();
         }
