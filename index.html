@@ -4609,7 +4609,7 @@
         #pair-socks-instruction{font-weight:800;color:#334155;margin:7px auto}
         .socks-board{width:100%;margin:5px auto;padding:0;box-sizing:border-box;background:transparent;border:0;border-radius:0;box-shadow:none;overflow:visible}
         .socks-line{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(1px,1vw,8px);margin:4px 0 12px;padding:14px 2px 0;min-height:clamp(155px,26vw,240px);box-sizing:border-box}
-        .socks-line:before{content:'';position:absolute;left:-20px;right:-20px;top:14px;height:4px;background:#866345;box-shadow:0 2px 3px #65442d60;z-index:1}
+        .socks-line:before{content:'';position:absolute;left:-20px;right:-20px;top:24px;height:4px;background:#866345;box-shadow:0 2px 3px #65442d60;z-index:1}
         .sock-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));min-width:0;gap:0}
         .sock-place{position:relative;z-index:2;display:grid;place-items:start center;min-width:0;height:clamp(145px,24vw,220px);border:2px solid transparent;border-radius:16px;touch-action:none;cursor:grab}
         .sock-place:active{cursor:grabbing}
@@ -4636,16 +4636,16 @@
         #pair-socks-screen .socks-line{height:100%;min-height:0;margin:0;padding:12px 0 0;gap:0}
         #pair-socks-screen .sock-pair{height:100%;min-height:0}
         #pair-socks-screen .sock-place{height:100%;min-height:0;padding:0}
-        #pair-socks-screen .sock-place .sock-art{height:calc(100% - 22px);width:auto;max-width:125%;max-height:160px}
+        #pair-socks-screen .sock-place .sock-art{height:calc(100% - 12px);width:auto;max-width:155%;max-height:185px}
         #pair-socks-feedback{flex:none;min-height:1em;font-size:.78rem;line-height:1;margin:0}
         #pair-socks-screen > .home-btn{flex:none;align-self:center;margin:3px auto 5px;padding:8px 20px;font-size:.9rem}
         @media(max-width:600px){
             .main-content:has(#pair-socks-screen.active){padding-top:55px}
             #pair-socks-screen.card.active{padding:2px 0 max(7px,env(safe-area-inset-bottom))}
-            #pair-socks-screen .sock-place .sock-art{max-width:128%;max-height:142px}
+            #pair-socks-screen .sock-place .sock-art{max-width:158%;max-height:169px}
         }
         @media(max-height:680px){
-            #pair-socks-screen .sock-place .sock-art{max-height:120px}
+            #pair-socks-screen .sock-place .sock-art{max-height:142px}
             #pair-socks-screen > .home-btn{padding:6px 18px}
         }
 
