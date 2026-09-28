@@ -4618,8 +4618,8 @@
         .sock-place.paired .sock-art{filter:drop-shadow(0 0 6px #8bf090) drop-shadow(2px 6px 3px #594b416b)}
         .sock-place.wrong{animation:paintShake .28s}
         .sock-art{width:min(130%,150px);height:auto;max-height:210px;display:block;overflow:hidden;filter:drop-shadow(3px 7px 3px #594b416b);pointer-events:none;user-select:none}
-        .sock-place:nth-child(1) .sock-art{transform:translateX(12%) rotate(-3deg)}
-        .sock-place:nth-child(2) .sock-art{transform:translateX(-12%) rotate(3deg)}
+        .sock-place:nth-child(1) .sock-art{transform:none}
+        .sock-place:nth-child(2) .sock-art{transform:none}
         .sock-art.sock-ghost{position:fixed;z-index:99999;pointer-events:none;transform:translate(-50%,-38%);width:var(--sock-drag-width,88px);height:var(--sock-drag-height,140px);max-height:none;opacity:1;filter:drop-shadow(4px 8px 4px #594b4180)}
         #pair-socks-feedback{min-height:1.3em;color:#723d82;font-weight:900;margin:3px}
         @media(max-width:600px){.main-content:has(#pair-socks-screen.active){padding-top:55px}#pair-socks-screen{padding:5px 0 12px}.socks-board{padding:0}.socks-line{min-height:clamp(182px,50vw,230px);margin-bottom:4px;gap:0;padding-left:0;padding-right:0}.sock-place{height:clamp(174px,48vw,220px)}.sock-place .sock-art{width:165%;max-height:220px}}
@@ -4653,8 +4653,15 @@
         /* The line and pegs share the row coordinate system; peg centre crosses the line. */
         #pair-socks-screen .socks-line:before{top:24px}
         #pair-socks-screen .sock-place{isolation:isolate}
+        #pair-socks-screen .sock-visual{
+            position:relative;display:block;width:min(165%,16.5svh);aspect-ratio:361/440;
+            justify-self:center;align-self:start;flex:none;overflow:visible;
+        }
+        #pair-socks-screen .sock-place .sock-visual .sock-art{
+            display:block;width:100%;height:100%;max-width:none;max-height:none;transform:none;
+        }
         #pair-socks-screen .sock-peg{
-            position:absolute;top:-1px;left:50%;z-index:4;pointer-events:none;
+            position:absolute;top:-1px;left:var(--cuff-x);z-index:4;pointer-events:none;
             width:19px;height:43px;border-radius:4px 4px 3px 3px;
             transform:translateX(-50%) rotate(-3deg);
             background:linear-gradient(90deg,#604027 0%,#b7814d 13%,#e4b278 37%,#704b2f 49%,#b67d47 57%,#e3ac6d 78%,#68462a 100%);
@@ -9893,7 +9900,9 @@
                     if(sockSelected===i)place.classList.add('selected');
                     place.setAttribute('role','button');place.tabIndex=0;
                     place.setAttribute('aria-label',`${currentGlobalLang==='ms'?style.ms:style.name} ${currentGlobalLang==='ms'?'stokin':'sock'}, ${i+1}`);
-                    place.innerHTML=sockSvg(style,`${sockSet}-${i}`)+'<span class="sock-peg" aria-hidden="true"></span>';
+                    const cuffPositions=[46,41.3,36.8,46.8,41.8,36.6,46.8,42.1,37.9];
+                    const cuffX=cuffPositions[sockOrder[i]];
+                    place.innerHTML=`<span class="sock-visual" style="--cuff-x:${cuffX}%">${sockSvg(style,`${sockSet}-${i}`)}<span class="sock-peg" aria-hidden="true"></span></span>`;
                     place.addEventListener('pointerdown',e=>beginSockDrag(e,place));
                     place.addEventListener('click',()=>{if(Date.now()>=sockIgnoreClickUntil)chooseSock(i)});
                     place.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();chooseSock(i)}});
@@ -13069,3 +13078,5 @@ document.addEventListener('DOMContentLoaded', () => {
 </html>
 
     
+
+  
