@@ -4636,17 +4636,38 @@
         #pair-socks-screen .socks-line{height:100%;min-height:0;margin:0;padding:12px 0 0;gap:0}
         #pair-socks-screen .sock-pair{height:100%;min-height:0}
         #pair-socks-screen .sock-place{height:100%;min-height:0;padding:0}
-        #pair-socks-screen .sock-place .sock-art{height:calc(100% - 12px);width:auto;max-width:155%;max-height:185px}
+        #pair-socks-screen .sock-place .sock-art{height:calc(100% - 12px);width:auto;max-width:165%;max-height:195px}
         #pair-socks-feedback{flex:none;min-height:1em;font-size:.78rem;line-height:1;margin:0}
         #pair-socks-screen > .home-btn{flex:none;align-self:center;margin:3px auto 5px;padding:8px 20px;font-size:.9rem}
         @media(max-width:600px){
             .main-content:has(#pair-socks-screen.active){padding-top:55px}
             #pair-socks-screen.card.active{padding:2px 0 max(7px,env(safe-area-inset-bottom))}
-            #pair-socks-screen .sock-place .sock-art{max-width:158%;max-height:169px}
+            #pair-socks-screen .sock-place .sock-art{max-width:168%;max-height:180px}
         }
         @media(max-height:680px){
-            #pair-socks-screen .sock-place .sock-art{max-height:142px}
+            #pair-socks-screen .sock-place .sock-art{max-height:150px}
             #pair-socks-screen > .home-btn{padding:6px 18px}
+        }
+
+
+        /* The line and pegs share the row coordinate system; peg centre crosses the line. */
+        #pair-socks-screen .socks-line:before{top:24px}
+        #pair-socks-screen .sock-place{isolation:isolate}
+        #pair-socks-screen .sock-peg{
+            position:absolute;top:-1px;left:50%;z-index:4;pointer-events:none;
+            width:19px;height:43px;border-radius:4px 4px 3px 3px;
+            transform:translateX(-50%) rotate(-3deg);
+            background:linear-gradient(90deg,#604027 0%,#b7814d 13%,#e4b278 37%,#704b2f 49%,#b67d47 57%,#e3ac6d 78%,#68462a 100%);
+            border:1px solid #735131;box-shadow:2px 3px 3px #4d35266b,inset 1px 0 2px #f7d09b8c;
+        }
+        #pair-socks-screen .sock-peg:before{
+            content:'';position:absolute;left:1px;right:1px;top:12px;height:7px;
+            background:linear-gradient(#49443c,#938a77 45%,#45413b);
+            border-top:1px solid #382f29;border-bottom:1px solid #382f29;
+        }
+        #pair-socks-screen .sock-peg:after{
+            content:'';position:absolute;left:8px;top:2px;bottom:2px;width:2px;
+            background:#5b3b28a6;
         }
 
         /* Match the Crayon: close-fitting crayons behind the front of a paper box. */
@@ -9841,16 +9862,7 @@
         function sockSvg(style,unique){
             const positions={dots:0,stripes:1,diamonds:2,stars:3,hearts:4,checks:5,waves:6,crosses:7,chevrons:8};
             const photo=sockPhotos[positions[style.pattern]];
-            return `<svg class="sock-art" viewBox="0 0 361 440" aria-hidden="true">
-                <defs><linearGradient id="peg-${unique}" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#53351f"/><stop offset=".25" stop-color="#b77e48"/><stop offset=".58" stop-color="#e0ad69"/><stop offset="1" stop-color="#704b2b"/></linearGradient></defs>
-                <image href="${photo}" x="0" y="30" width="361" height="410"/>
-                <g transform="translate(153 1) rotate(-3 16 29)" filter="drop-shadow(2px 3px 2px #47332388)">
-                    <path d="M2 0 Q2 -3 6 -3 H14 Q17 -3 17 1 L17 56 Q17 60 14 61 H5 Q2 60 2 56Z" fill="url(#peg-${unique})" stroke="#654429" stroke-width="1"/>
-                    <path d="M16 0 Q17 -3 20 -3 H27 Q31 -3 31 1 L31 56 Q30 61 27 61 H20 Q17 60 16 56Z" fill="url(#peg-${unique})" stroke="#654429" stroke-width="1"/>
-                    <path d="M4 25 H29 V34 H4Z" fill="#795c42"/><path d="M5 26 H28" stroke="#e5bc7e" stroke-width="2"/>
-                    <path d="M15 27 Q9 21 6 29 Q9 36 16 33 Q23 36 27 29 Q23 21 17 27" fill="none" stroke="#4b4947" stroke-width="2.5"/>
-                </g>
-            </svg>`;
+            return `<svg class="sock-art" viewBox="0 0 361 440" aria-hidden="true"><image href="${photo}" x="0" y="30" width="361" height="410"/></svg>`;
         }
         function stopPairSocks(){if(sockTimer){clearTimeout(sockTimer);sockTimer=null}sockPop?.remove();sockPop=null;sockLocked=false}
         function refreshPairSocksLanguage(){document.getElementById('pair-socks-progress').textContent=`${currentGlobalLang==='ms'?'Set':'Set'} ${sockSet+1} / 3`}
@@ -9881,7 +9893,7 @@
                     if(sockSelected===i)place.classList.add('selected');
                     place.setAttribute('role','button');place.tabIndex=0;
                     place.setAttribute('aria-label',`${currentGlobalLang==='ms'?style.ms:style.name} ${currentGlobalLang==='ms'?'stokin':'sock'}, ${i+1}`);
-                    place.innerHTML=sockSvg(style,`${sockSet}-${i}`);
+                    place.innerHTML=sockSvg(style,`${sockSet}-${i}`)+'<span class="sock-peg" aria-hidden="true"></span>';
                     place.addEventListener('pointerdown',e=>beginSockDrag(e,place));
                     place.addEventListener('click',()=>{if(Date.now()>=sockIgnoreClickUntil)chooseSock(i)});
                     place.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();chooseSock(i)}});
