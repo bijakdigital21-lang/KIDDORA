@@ -9918,13 +9918,34 @@
         }
         function sockPairIsDone(index){const first=index-(index%2);return sockOrder[first]===sockOrder[first+1]}
         function chooseSock(index){
-            if(sockLocked||sockPairIsDone(index))return;
+            if(sockLocked)return;
             if(sockSelected<0){sockSelected=index;renderSocks();return}
             const from=sockSelected;sockSelected=-1;
             if(from!==index)swapSocks(from,index);else renderSocks();
         }
+        // Hit-test the visible sock, including portions outside its narrower grid slot.
+        function sockDropTargetAt(x,y){
+            const board=document.getElementById('pair-socks-board');
+            const candidates=[...board.querySelectorAll('.sock-place')].filter(place=>{
+                const r=place.querySelector('.sock-visual').getBoundingClientRect();
+                return x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom;
+            });
+            if(candidates.length){
+                candidates.sort((a,b)=>{
+                    const distance=place=>{
+                        const visual=place.querySelector('.sock-visual'),r=visual.getBoundingClientRect();
+                        const pegX=r.left+r.width*parseFloat(visual.style.getPropertyValue('--cuff-x'))/100;
+                        return (x-pegX)**2+(y-(r.top+r.height*.45))**2;
+                    };
+                    return distance(a)-distance(b);
+                });
+                return candidates[0];
+            }
+            const hit=document.elementFromPoint(x,y)?.closest('.sock-place');
+            return hit&&board.contains(hit)?hit:null;
+        }
         function beginSockDrag(e,place){
-            if(sockLocked||sockPairIsDone(+place.dataset.index)||e.button!==0)return;
+            if(sockLocked||e.button!==0)return;
             e.preventDefault();const startX=e.clientX,startY=e.clientY,from=+place.dataset.index;
             const original=place.querySelector('svg');
             const size=original.getBoundingClientRect();
@@ -9932,13 +9953,13 @@
             ghost.style.setProperty('--sock-drag-width',`${size.width}px`);
             ghost.style.setProperty('--sock-drag-height',`${size.height}px`);
             document.body.appendChild(ghost);original.style.visibility='hidden';
-            const move=ev=>{ghost.style.left=ev.clientX+'px';ghost.style.top=ev.clientY+'px';document.querySelectorAll('#pair-socks-board .sock-place').forEach(p=>p.classList.toggle('over',p===document.elementFromPoint(ev.clientX,ev.clientY)?.closest('.sock-place')))};
+            const move=ev=>{ghost.style.left=ev.clientX+'px';ghost.style.top=ev.clientY+'px';const target=sockDropTargetAt(ev.clientX,ev.clientY);document.querySelectorAll('#pair-socks-board .sock-place').forEach(p=>p.classList.toggle('over',p===target))};
             const clean=()=>{place.removeEventListener('pointermove',move);place.removeEventListener('pointerup',end);place.removeEventListener('pointercancel',cancel);original.style.visibility='';ghost.remove();document.querySelectorAll('#pair-socks-board .sock-place.over').forEach(p=>p.classList.remove('over'))};
-            const end=ev=>{const target=document.elementFromPoint(ev.clientX,ev.clientY)?.closest('#pair-socks-board .sock-place');const moved=Math.hypot(ev.clientX-startX,ev.clientY-startY)>10;clean();if(moved){sockIgnoreClickUntil=Date.now()+300;if(target)swapSocks(from,+target.dataset.index)}};
+            const end=ev=>{const target=sockDropTargetAt(ev.clientX,ev.clientY);const moved=Math.hypot(ev.clientX-startX,ev.clientY-startY)>10;clean();if(moved){sockIgnoreClickUntil=Date.now()+300;if(target)swapSocks(from,+target.dataset.index)}};
             const cancel=()=>clean();place.setPointerCapture(e.pointerId);place.addEventListener('pointermove',move);place.addEventListener('pointerup',end);place.addEventListener('pointercancel',cancel);move(e);
         }
         function swapSocks(from,to){
-            if(sockLocked||from===to||sockPairIsDone(from)||sockPairIsDone(to))return;
+            if(sockLocked||from===to)return;
             [sockOrder[from],sockOrder[to]]=[sockOrder[to],sockOrder[from]];playClickSound();renderSocks();
             if(Array.from({length:9},(_,i)=>sockOrder[2*i]===sockOrder[2*i+1]).every(Boolean))finishSockSet();
         }
