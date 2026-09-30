@@ -4386,7 +4386,7 @@
 
         /* Fruit or Vegetable: enlarged to match the Sort the Transport format */
         #sort-food-screen .transport-sort-bank {
-            grid-template-columns: repeat(4, minmax(92px, 1fr));
+            grid-template-columns: repeat(3, minmax(92px, 1fr));
             gap: 12px;
             padding: 16px;
         }
@@ -4417,7 +4417,7 @@
                 padding-right: 4px !important;
             }
             #sort-food-screen .transport-sort-bank {
-                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
                 gap: 10px !important;
                 padding: 11px !important;
             }
@@ -4459,7 +4459,7 @@
 
         @media (max-width: 430px) {
             #sort-food-screen .transport-sort-bank {
-                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
                 gap: 9px !important;
                 padding: 10px !important;
             }
@@ -6338,7 +6338,7 @@
                 <p id="sort-food-desc" style="color:#111;font-weight:800;margin:6px 0 8px;">Drag all 4 real pictures into the correct box.</p>
                 <div class="transport-sort-status">
                     <span><span id="sort-food-set-label">Set</span>: <span id="sort-food-set">1</span>/5</span>
-                    <span><span id="sort-food-left-label">Left</span>: <span id="sort-food-left">4</span></span>
+                    <span><span id="sort-food-left-label">Left</span>: <span id="sort-food-left">6</span></span>
                 </div>
                 <div class="transport-sort-bank" id="food-sort-bank"></div>
                 <div class="transport-sort-zones" style="grid-template-columns:repeat(2,minmax(0,1fr));">
@@ -12386,9 +12386,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let sortFoodSets=[],sortFoodSetIndex=0,selectedFoodSortId=null,foodSortDrag=null,foodSortFloat=null;
         function startSortFood(){
-            const fruits=foodShuffle(foodDatabase.filter(x=>x.cat==='fruit'));
-            const vegetables=foodShuffle(foodDatabase.filter(x=>x.cat==='vegetable'));
-            sortFoodSets=Array.from({length:5},(_,i)=>foodShuffle([fruits[i*2],fruits[i*2+1],vegetables[i*2],vegetables[i*2+1]]));
+            // Six pictures per set: three fruits and three vegetables, like Sort the Transport.
+            const pools=Object.fromEntries(['fruit','vegetable'].map(cat=>[cat,foodShuffle(foodDatabase.filter(item=>item.cat===cat))]));
+            sortFoodSets=Array.from({length:5},()=>foodShuffle(['fruit','vegetable'].flatMap(cat=>{
+                if(pools[cat].length<3)pools[cat]=foodShuffle(foodDatabase.filter(item=>item.cat===cat));
+                return pools[cat].splice(0,3);
+            })));
             sortFoodSetIndex=0;showScreen('sort-food-screen');updateFoodLanguage();setupFoodSortZones();renderFoodSortSet();
         }
         function setupFoodSortZones(){
